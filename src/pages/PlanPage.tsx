@@ -432,7 +432,7 @@ export const PlanPage: React.FC = () => {
 // are allowed to later add a Plan Entry against it.
 // ============================================================
 const NationalActivityFormModal: React.FC<{ onClose: () => void; onSaved: () => void }> = ({ onClose, onSaved }) => {
-  const { regions, projects, uomConfigs, addNationalActivity } = useApp();
+  const { nationalActivities, regions, projects, uomConfigs, addNationalActivity } = useApp();
   const [code, setCode] = useState('');
   const [name, setName] = useState('');
   const [description, setDescription] = useState('');
@@ -444,7 +444,13 @@ const NationalActivityFormModal: React.FC<{ onClose: () => void; onSaved: () => 
   const toggleRegion = (id: string) => setRegionIds(prev => prev.includes(id) ? prev.filter(r => r !== id) : [...prev, id]);
   const toggleProject = (id: string) => setProjectIds(prev => prev.includes(id) ? prev.filter(p => p !== id) : [...prev, id]);
 
-  const canSave = !!code.trim() && !!name.trim() && !!description.trim() && !!uom && (regionIds.length > 0 || projectIds.length > 0);
+  // Activity codes must be unique — check against every existing National
+  // Activity (case-insensitive, trimmed) before allowing a save.
+  const isDuplicateCode = !!code.trim() && nationalActivities.some(
+    na => na.code.trim().toLowerCase() === code.trim().toLowerCase()
+  );
+
+  const canSave = !!code.trim() && !!name.trim() && !!description.trim() && !!uom && !isDuplicateCode && (regionIds.length > 0 || projectIds.length > 0);
 
   const handleSave = () => {
     if (!canSave || savingRef.current) return;
@@ -467,7 +473,14 @@ const NationalActivityFormModal: React.FC<{ onClose: () => void; onSaved: () => 
   return (
     <ModalShell title="Add National Activity" onClose={onClose}>
       <div className="space-y-4">
-        <LabeledInput label="Activity Code" value={code} onChange={setCode} placeholder="e.g. 6.1.1" />
+        <div>
+          <LabeledInput label="Activity Code" value={code} onChange={setCode} placeholder="e.g. 6.1.1" />
+          {isDuplicateCode && (
+            <div className="mt-1.5 text-[10px] text-rose-700 bg-rose-50 border border-rose-200 rounded p-2 font-semibold">
+              A National Activity with code "{code.trim()}" already exists. Please change the code.
+            </div>
+          )}
+        </div>
         <LabeledInput label="Activity Name" value={name} onChange={setName} placeholder="e.g. Provide Cash Assistance to Flood-Affected Households" />
         <label className="block">
           <span className="block text-[10px] font-bold text-slate-500 mb-1">Description</span>
