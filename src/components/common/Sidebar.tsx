@@ -10,6 +10,7 @@ import {
   ChevronDown,
   ChevronRight,
   ShieldCheck,
+  LayoutDashboard,
 } from 'lucide-react';
 
 const BASE_NAV = [
@@ -20,11 +21,13 @@ const BASE_NAV = [
   { id: 'submissions', label: 'Submissions', sub: 'View all submitted entries', icon: BarChart3 },
 ];
 
-// The Monitor role's entire job is the Monitoring Register — it never sees
+// The Monitor role's entire job is the Monitoring module — it never sees
 // Annual Plan / Quarterly Plan / Quarterly Actual / Report / Submissions in
 // its own nav (App.tsx also hard-redirects it back to 'monitoring' if it
-// ever ends up on one of those routes some other way).
+// ever ends up on one of those routes some other way). It gets two items,
+// mirroring the Excel workbook's two Monitoring sheets.
 const MONITOR_NAV = [
+  { id: 'monitoring-dashboard', label: 'Monitoring Dashboard', sub: 'Coverage & findings overview', icon: LayoutDashboard },
   { id: 'monitoring', label: 'Monitoring Register', sub: 'Verify reported achievements', icon: ShieldCheck },
 ];
 

@@ -11,9 +11,15 @@ interface FilterBarProps {
    *  summary. Off by default, so every other page keeps its exact current
    *  behavior and never even renders the option. */
   allowNoneScope?: boolean;
+  /** When true, hides the Quarter select entirely. getFilteredPlanEntries
+   *  in AppContext never reads filters.quarterId, so on pages where a
+   *  quarter is chosen per-row instead (e.g. the Monitoring Register),
+   *  showing this filter implied it did something it doesn't. Off by
+   *  default, so every other page keeps rendering it exactly as before. */
+  hideQuarterFilter?: boolean;
 }
 
-export const FilterBar: React.FC<FilterBarProps> = ({ allowNoneScope = false }) => {
+export const FilterBar: React.FC<FilterBarProps> = ({ allowNoneScope = false, hideQuarterFilter = false }) => {
   const { filters, setFilters, resetFilters, currentRole, getNationalActivitiesForRole, regions, projects, quarters } = useApp();
 
   const isRegionalRole = currentRole.startsWith('Regional Coordinator — ');
@@ -101,13 +107,15 @@ export const FilterBar: React.FC<FilterBarProps> = ({ allowNoneScope = false }) 
             </select>
           </div>
         )}
-        <div>
-          <label className="block text-[10px] font-bold text-slate-500 mb-1">Quarter</label>
-          <select name="quarterId" value={filters.quarterId} onChange={handleChange} className="w-full text-xs font-medium border-slate-200 rounded-lg bg-slate-50 py-1.5">
-            <option value="ALL">All Quarters (Annual)</option>
-            {quarters.map(q => <option key={q.id} value={q.id}>{q.id}</option>)}
-          </select>
-        </div>
+        {!hideQuarterFilter && (
+          <div>
+            <label className="block text-[10px] font-bold text-slate-500 mb-1">Quarter</label>
+            <select name="quarterId" value={filters.quarterId} onChange={handleChange} className="w-full text-xs font-medium border-slate-200 rounded-lg bg-slate-50 py-1.5">
+              <option value="ALL">All Quarters (Annual)</option>
+              {quarters.map(q => <option key={q.id} value={q.id}>{q.id}</option>)}
+            </select>
+          </div>
+        )}
       </div>
     </div>
   );
