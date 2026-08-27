@@ -1,16 +1,19 @@
 // src/context/AppContext.tsx
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import {
-  StrategicPriority, NationalActivity, Region, Zone, Project, PlanEntry, Quarter, QuarterId, QuarterlyPlan, QuarterlyActual, UomFactorConfig, FilterState, UserRole, ScopeType,
+  StrategicPriority, NationalActivity, Region, Zone, Project, PlanEntry, Quarter, QuarterId, QuarterlyPlan, QuarterlyActual, UomFactorConfig, FilterState, UserRole, ScopeType, MonitoringRecord,
 } from '../types';
 import {
   INITIAL_STRATEGIC_PRIORITIES, INITIAL_NATIONAL_ACTIVITIES, INITIAL_REGIONS, INITIAL_ZONES, INITIAL_PROJECTS, INITIAL_PLAN_ENTRIES,
-  FISCAL_QUARTERS, INITIAL_QUARTERLY_PLANS, INITIAL_QUARTERLY_ACTUALS, INITIAL_UOM_CONFIGS,
+  FISCAL_QUARTERS, INITIAL_QUARTERLY_PLANS, INITIAL_QUARTERLY_ACTUALS, INITIAL_UOM_CONFIGS, INITIAL_MONITORING_RECORDS,
 } from '../data/seedData';
 
 // No approval workflow; all entries are automatically Approved.
 type QuarterlyPlanInput = Omit<QuarterlyPlan, 'approval_status' | 'submitted_at' | 'reviewed_at' | 'rejection_reason'>;
 type QuarterlyActualInput = Omit<QuarterlyActual, 'approval_status' | 'submitted_at' | 'reviewed_at' | 'rejection_reason'>;
+// Monitoring records have no approval workflow either — id is optional on the
+// way in so a first-time edit of a blank template row can create the record.
+type MonitoringRecordInput = Omit<MonitoringRecord, 'id'> & { id?: string };
 
 interface AppContextType {
   activeRoute: string; setActiveRoute: (r: string) => void;
@@ -59,6 +62,13 @@ interface AppContextType {
   quarterlyActuals: QuarterlyActual[];
   upsertQuarterlyActual: (qa: QuarterlyActualInput) => void;
 
+  // Monitoring Register — one record per Plan Entry, always linked back to
+  // that exact National-Activity-linked execution entry via plan_entry_id.
+  // Only the 'Monitor' role may create/edit these (enforced below).
+  monitoringRecords: MonitoringRecord[];
+  upsertMonitoringRecord: (mr: MonitoringRecordInput) => void;
+  getMonitoringRecordForPlanEntry: (planEntryId: string) => MonitoringRecord | undefined;
+
   // Fixed conversion table sourced from the Excel data — no editing UI;
   // read-only everywhere it's consumed (see convertToBeneficiaries).
   uomConfigs: UomFactorConfig[];
@@ -88,6 +98,11 @@ const parseRoleScope = (role: UserRole, regions: Region[], projects: Project[]):
     const project = projects.find(p => p.name === name);
     return project ? { kind: 'Project', projectId: project.id } : { kind: 'National' };
   }
+  // 'Monitor' (and any other unrecognized role) falls back to National
+  // scope for read purposes — it can see everything in the Monitoring
+  // Register's filter bar — but it is NEVER treated as the AOP for write
+  // permissions; see the explicit `currentRole === 'National Activity AOP'`
+  // checks below and the Monitor-only route gate in App.tsx.
   return { kind: 'National' };
 };
 
@@ -99,17 +114,16 @@ const roleOwnsPlanEntry = (role: UserRole, pe: PlanEntry, regions: Region[], pro
 };
 
 const normalizePersistedRole = (raw: UserRole, regions: Region[], projects: Project[]): UserRole => {
-  if (raw === 'National Activity AOP') return raw;
+  if (raw === 'National Activity AOP' || raw === 'Monitor') return raw;
   if (parseRoleScope(raw, regions, projects).kind !== 'National') return raw;
   return 'National Activity AOP';
 };
 
-// Bumped to v4: National Activities now carry eligible_region_ids/
-// eligible_project_ids and can be created/deleted by the AOP, so any stale
-// v3 localStorage (missing those fields, or containing National Activities
-// shaped the old way) should not be carried forward over the fixed
-// Excel-backed starter data.
-const PERSISTENCE_KEY = 'ercs-aop-bottom-up-v4';
+// Bumped to v5: added the Monitoring Register (monitoringRecords) and
+// seeded 3 Quarterly Actuals its worked examples depend on, so any stale
+// v4 localStorage (missing those) should not be carried forward over the
+// fixed Excel-backed starter data.
+const PERSISTENCE_KEY = 'ercs-aop-bottom-up-v5';
 
 const readPersisted = <T,>(key: string, fallback: T): T => {
   if (typeof window === 'undefined') return fallback;
@@ -140,6 +154,8 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   const [planEntries, setPlanEntries] = useState<PlanEntry[]>(() => readPersisted('planEntries', INITIAL_PLAN_ENTRIES));
   const [quarterlyPlans, setQuarterlyPlans] = useState<QuarterlyPlan[]>(() => readPersisted('quarterlyPlans', INITIAL_QUARTERLY_PLANS));
   const [quarterlyActuals, setQuarterlyActuals] = useState<QuarterlyActual[]>(() => readPersisted('quarterlyActuals', INITIAL_QUARTERLY_ACTUALS));
+  // Monitoring Register — same "fixed starter data, freely editable from there" pattern as everything else.
+  const [monitoringRecords, setMonitoringRecords] = useState<MonitoringRecord[]>(() => readPersisted('monitoringRecords', INITIAL_MONITORING_RECORDS));
   // Fixed reference data too — sourced from the Excel UOM table, no setter exposed.
   const [uomConfigs] = useState<UomFactorConfig[]>(() => readPersisted('uomConfigs', INITIAL_UOM_CONFIGS));
   const [filters, setFilters] = useState<FilterState>(() => ({ ...DEFAULT_FILTERS, ...readPersisted('filters', DEFAULT_FILTERS) }));
@@ -148,12 +164,12 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     if (typeof window === 'undefined') return;
     try {
       window.localStorage.setItem(PERSISTENCE_KEY, JSON.stringify({
-        activeRoute, currentRole, selectedNationalActivityId, nationalActivities, regions, zones, projects, planEntries, quarterlyPlans, quarterlyActuals, uomConfigs, filters,
+        activeRoute, currentRole, selectedNationalActivityId, nationalActivities, regions, zones, projects, planEntries, quarterlyPlans, quarterlyActuals, monitoringRecords, uomConfigs, filters,
       }));
     } catch {
       // localStorage may be unavailable; in-memory state still works for the session.
     }
-  }, [activeRoute, currentRole, selectedNationalActivityId, nationalActivities, regions, zones, projects, planEntries, quarterlyPlans, quarterlyActuals, uomConfigs, filters]);
+  }, [activeRoute, currentRole, selectedNationalActivityId, nationalActivities, regions, zones, projects, planEntries, quarterlyPlans, quarterlyActuals, monitoringRecords, uomConfigs, filters]);
 
   const showToast = (msg: string) => { setToastMessage(msg); setTimeout(() => setToastMessage(null), 3000); };
   const resetFilters = () => setFilters(DEFAULT_FILTERS);
@@ -191,10 +207,12 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   // ---------------------------------------------------------------------
   // NATIONAL ACTIVITY — create/delete. Only the National Activity AOP
   // manages these; Regional/Project Coordinators only ever add Plan
-  // Entries against an existing (eligible) one.
+  // Entries against an existing (eligible) one. Checked against the exact
+  // role string (not just RoleScope) so the Monitor role — which also
+  // resolves to a 'National' RoleScope for read purposes — is excluded too.
   // ---------------------------------------------------------------------
   const addNationalActivity = (na: NationalActivity) => {
-    if (parseRoleScope(currentRole, regions, projects).kind !== 'National') {
+    if (currentRole !== 'National Activity AOP') {
       showToast('Only National Activity AOP can create National Activities.');
       return;
     }
@@ -203,7 +221,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   };
 
   const deleteNationalActivity = (id: string) => {
-    if (parseRoleScope(currentRole, regions, projects).kind !== 'National') {
+    if (currentRole !== 'National Activity AOP') {
       showToast('Only National Activity AOP can delete National Activities.');
       return;
     }
@@ -275,7 +293,11 @@ const deletePlanEntry = (id: string) => {
   setPlanEntries(prev => prev.filter(x => x.id !== id));
   setQuarterlyPlans(prev => prev.filter(qp => qp.plan_entry_id !== id));
   setQuarterlyActuals(prev => prev.filter(a => a.plan_entry_id !== id));
-  showToast("Plan entry, its quarterly plan and its quarterly actuals deleted. The parent National Activity's aggregated Target/Budget updates automatically.");
+  // A Monitoring Record only ever exists in reference to its Plan Entry, so
+  // it's cascaded away too — otherwise it would become an orphan row with
+  // no National Activity/Region/Project to display.
+  setMonitoringRecords(prev => prev.filter(m => m.plan_entry_id !== id));
+  showToast("Plan entry, its quarterly plan, quarterly actuals and monitoring record deleted. The parent National Activity's aggregated Target/Budget updates automatically.");
 };
 
   // ---------------------------------------------------------------------
@@ -308,6 +330,28 @@ const deletePlanEntry = (id: string) => {
     });
   };
 
+  // ---------------------------------------------------------------------
+  // MONITORING RECORD — exclusively the 'Monitor' role's to create/edit.
+  // Keyed 1:1 by plan_entry_id (one row per Activity × Contributing
+  // Project/Region, exactly like the Excel Monitoring Register), so an
+  // edit to a not-yet-existing row (still showing its blank template
+  // state) creates the record; an edit to an existing row updates it.
+  // ---------------------------------------------------------------------
+  const getMonitoringRecordForPlanEntry = (planEntryId: string) =>
+    monitoringRecords.find(m => m.plan_entry_id === planEntryId);
+
+  const upsertMonitoringRecord = (input: MonitoringRecordInput) => {
+    if (currentRole !== 'Monitor') { showToast('Only the Monitor role can add or edit Monitoring Register entries.'); return; }
+    const parentEntry = planEntries.find(x => x.id === input.plan_entry_id);
+    if (!parentEntry) { showToast('Plan entry not found for this monitoring record.'); return; }
+    setMonitoringRecords(prev => {
+      const idx = prev.findIndex(m => m.plan_entry_id === input.plan_entry_id);
+      const merged: MonitoringRecord = { ...input, id: input.id || prev[idx]?.id || `mr-${input.plan_entry_id}` };
+      if (idx >= 0) { const copy = [...prev]; copy[idx] = merged; return copy; }
+      return [...prev, merged];
+    });
+  };
+
   return (
     <AppContext.Provider value={{
       activeRoute, setActiveRoute, currentRole, setCurrentRole, toastMessage, showToast,
@@ -320,6 +364,7 @@ const deletePlanEntry = (id: string) => {
       planEntries, addPlanEntry, updatePlanEntry, deletePlanEntry,
       quarterlyPlans, upsertQuarterlyPlan,
       quarterlyActuals, upsertQuarterlyActual,
+      monitoringRecords, upsertMonitoringRecord, getMonitoringRecordForPlanEntry,
       uomConfigs,
       filters, setFilters, resetFilters, getFilteredPlanEntries,
     }}>

@@ -1,5 +1,5 @@
 import {
-  StrategicPriority, NationalActivity, Region, Zone, Project, PlanEntry, Quarter, QuarterlyPlan, QuarterlyActual, UomFactorConfig,
+  StrategicPriority, NationalActivity, Region, Zone, Project, PlanEntry, Quarter, QuarterlyPlan, QuarterlyActual, UomFactorConfig, MonitoringRecord,
 } from '../types';
 
 // ---------------------------------------------------------------------------
@@ -232,7 +232,20 @@ export const INITIAL_QUARTERLY_PLANS: QuarterlyPlan[] = [
   { id: 'qp-r-so-311-q4', plan_entry_id: 'pe-r-so-311', quarter_id: 'Q4', target: 400, budget: 325000, approval_status: 'Approved' },
 ];
 
-export const INITIAL_QUARTERLY_ACTUALS: QuarterlyActual[] = [];
+// ---------------------------------------------------------------------------
+// Quarterly Actuals — seeded with the workbook's Q1 "Achieved" figures for
+// the 3 Plan Entries the Monitoring Register's worked examples check
+// (Project A / 1.2.2, Project A / 1.1.1, Project C / 3.2.1). This is what
+// makes those 3 rows' "Reported Achieved (period)" show a real, live number
+// pulled straight from Quarterly Actual Entry the moment the Monitoring
+// Register loads — exactly the dependency the Excel formulas describe
+// (E-column pulls each source sheet's Q1 Achieved column).
+// ---------------------------------------------------------------------------
+export const INITIAL_QUARTERLY_ACTUALS: QuarterlyActual[] = [
+  { id: 'qa-pa-122-q1', plan_entry_id: 'pe-pa-122', quarter_id: 'Q1', actual: 625, expenditure: 275000, comment: '', approval_status: 'Approved' },
+  { id: 'qa-pa-111-q1', plan_entry_id: 'pe-pa-111', quarter_id: 'Q1', actual: 300, expenditure: 237500, comment: '', approval_status: 'Approved' },
+  { id: 'qa-pc-321-q1', plan_entry_id: 'pe-pc-321', quarter_id: 'Q1', actual: 2.5, expenditure: 80000, comment: '', approval_status: 'Approved' },
+];
 
 export const INITIAL_UOM_CONFIGS: UomFactorConfig[] = [
   { uom: '# of households', factor: 5 },
@@ -245,4 +258,89 @@ export const INITIAL_UOM_CONFIGS: UomFactorConfig[] = [
   { uom: '# of events', factor: 1 },
   { uom: '# of water points', factor: 1 },
   { uom: '# of MHCP', factor: 1 },
+];
+
+// ---------------------------------------------------------------------------
+// Monitoring Register — the Excel workbook's 3 worked examples (fully
+// verified / partially verified / not verified) plus the 3 blank template
+// rows for each activity's second contributor, exactly as the sheet ships:
+// one row per Plan Entry (Activity Code × Contributing Project/Region).
+// plan_entry_id is what links each row straight back to its exact
+// National-Activity-linked execution entry — never a separately typed code.
+// ---------------------------------------------------------------------------
+export const INITIAL_MONITORING_RECORDS: MonitoringRecord[] = [
+  // 1.2.2 — Project A: fully verified, 100% match.
+  {
+    id: 'mr-pe-pa-122',
+    plan_entry_id: 'pe-pa-122',
+    quarter_id: 'Q1',
+    monitoring_date: '2026-01-18',
+    monitoring_method: 'Desk review',
+    verified_by: 'T. Alemu',
+    verified_achieved: 625,
+    verification_result: 'Fully verified',
+    data_quality_concern: 'None',
+    evidence_checked: 'Service register, attendance sheet, photos',
+    quality_rating: 'Good',
+    remarks: 'Service register matched site tally exactly.',
+  },
+  // 1.2.2 — Oromia Region: blank, ready to use.
+  {
+    id: 'mr-pe-r-or-122',
+    plan_entry_id: 'pe-r-or-122',
+    quarter_id: '',
+  },
+  // 1.1.1 — Project A: partially verified, 95% match, one open Integrity finding.
+  {
+    id: 'mr-pe-pa-111',
+    plan_entry_id: 'pe-pa-111',
+    quarter_id: 'Q1',
+    monitoring_date: '2026-01-20',
+    monitoring_method: 'Field visit',
+    verified_by: 'R. Bekele',
+    verified_achieved: 285,
+    verification_result: 'Partially verified',
+    data_quality_concern: 'Integrity',
+    evidence_checked: 'Distribution list, beneficiary ID cards, photos',
+    quality_rating: 'Satisfactory',
+    finding: '15 of reported 300 households for Q1 could not be matched to beneficiary ID records at 1 of 3 distribution sites',
+    severity: 'Medium',
+    recommendation: 'Reconcile beneficiary list with woreda ID registry',
+    responsible: 'Project A M&E Focal Point',
+    due_date: '2026-02-15',
+    status: 'Open',
+    remarks: 'Re-check scheduled for Q2 visit.',
+  },
+  // 1.1.1 — Amhara Region: blank, ready to use.
+  {
+    id: 'mr-pe-r-am-111',
+    plan_entry_id: 'pe-r-am-111',
+    quarter_id: '',
+  },
+  // 3.2.1 — Project C: not verified yet, flagged as a Validity concern, overdue action.
+  {
+    id: 'mr-pe-pc-321',
+    plan_entry_id: 'pe-pc-321',
+    quarter_id: 'Q1',
+    monitoring_date: '2026-01-22',
+    monitoring_method: 'Desk review',
+    verified_by: 'National M&E Unit',
+    verification_result: 'Not verified',
+    data_quality_concern: 'Validity',
+    evidence_checked: 'None received',
+    quality_rating: 'Needs improvement',
+    finding: '3 of 6 reported campaigns have no sign-in sheets or photos on file',
+    severity: 'High',
+    recommendation: 'Submit missing evidence within 10 working days or campaigns will be excluded from national total',
+    responsible: 'Project C Coordinator',
+    due_date: '2026-02-01',
+    status: 'Open',
+    remarks: 'Escalated to Project C management.',
+  },
+  // 3.2.1 — Oromia Region: blank, ready to use.
+  {
+    id: 'mr-pe-r-or-321',
+    plan_entry_id: 'pe-r-or-321',
+    quarter_id: '',
+  },
 ];

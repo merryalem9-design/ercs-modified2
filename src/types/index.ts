@@ -21,6 +21,13 @@
 //                                 against that quarter's Quarterly Plan. Goes
 //                                 through the SAME per-quarter approval cycle
 //                                 as Quarterly Plan, independently.)
+//             -> Monitoring Record (M&E data entry — verifies a Plan Entry's
+//                                    Reported Achieved figure for a chosen
+//                                    Quarter/Annual period against evidence.
+//                                    One record per Plan Entry, always linked
+//                                    back to that exact National-Activity-
+//                                    linked execution entry. Only the
+//                                    'Monitor' role may create/edit these.)
 //             -> Beneficiaries = Actual x UoM Conversion Factor   (conversion)
 //               -> Summed by Strategic Priority / National Activity / Region / Project (aggregation)
 //                 -> Report Page — the "Approved" view only counts Plan
@@ -103,7 +110,8 @@ export type ScopeType = 'Regional' | 'Project';
 export type UserRole =
   | 'National Activity AOP'
   | `Regional Coordinator — ${string}`
-  | `Project Coordinator — ${string}`;
+  | `Project Coordinator — ${string}`
+  | 'Monitor';
 
 /**
  * Shared approval lifecycle, reused by Plan Entry, Quarterly Plan and
@@ -184,6 +192,76 @@ export interface QuarterlyActual {
 export interface UomFactorConfig {
   uom: string;
   factor: number;
+}
+
+// ---------------------------------------------------------------------------
+// MONITORING REGISTER — mirrors the Excel "Monitoring Register" sheet.
+// One record per Plan Entry (Activity Code × Contributing Project/Region is
+// exactly what a Plan Entry already is), so a MonitoringRecord never repeats
+// the Activity Code/Name/Contributing Project/Region as its own stored
+// fields — those are always read live off the linked Plan Entry (plan_entry_id)
+// and, through it, its parent National Activity. This is what makes "Reported
+// Achieved (period)" a live figure pulled from Quarterly Actual Entry for
+// whichever Quarter (or 'Annual') this record's row is currently checking,
+// instead of a value that could silently drift out of sync with the source.
+// ---------------------------------------------------------------------------
+
+/** The Register's per-row period selector — Q1–Q4 for a single quarter's check, or 'Annual' for a cumulative check. */
+export type MonitoringQuarterSelection = 'Q1' | 'Q2' | 'Q3' | 'Q4' | 'Annual';
+
+export type MonitoringMethod = 'Field visit' | 'Desk review' | 'Remote' | 'Joint';
+
+export type VerificationResult = 'Fully verified' | 'Partially verified' | 'Not verified' | 'Unable to verify';
+
+/**
+ * The standard 5-part data-quality framework used by IFRC/USAID monitoring
+ * guidance — one dropdown instead of a 5-column checklist on every row.
+ */
+export type DataQualityConcern = 'None' | 'Validity' | 'Integrity' | 'Precision' | 'Reliability' | 'Timeliness';
+
+export type QualityRating = 'Good' | 'Satisfactory' | 'Needs improvement' | 'Poor' | 'N/A';
+
+export type FindingSeverity = 'Critical' | 'High' | 'Medium' | 'Low';
+
+export type MonitoringStatus = 'Open' | 'In Progress' | 'Closed';
+
+/**
+ * One Monitoring Register row, always tied to exactly one Plan Entry via
+ * plan_entry_id — which is itself already "a specific National Activity ×
+ * Region/Project" execution entry, so the link back to the National
+ * Activity is automatic and can never drift.
+ *
+ * "Reported Achieved (period)", "Verification %" and "Follow-up Required"
+ * are deliberately NOT stored here — exactly like a National Activity's
+ * Target/Budget elsewhere in this app, they are always computed live
+ * (see MonitoringPage): Reported Achieved from Quarterly Actuals for
+ * quarter_id, Verification % from verified_achieved ÷ that figure, and
+ * Follow-up Required from due_date/status.
+ *
+ * Only the 'Monitor' role may create/edit these records — enforced in
+ * AppContext's upsertMonitoringRecord, and every other role's UI never
+ * routes to the Monitoring Register page at all.
+ */
+export interface MonitoringRecord {
+  id: string;
+  plan_entry_id: string;
+  /** '' = this row hasn't been picked up for monitoring yet (blank template row). */
+  quarter_id: MonitoringQuarterSelection | '';
+  monitoring_date?: string;   // ISO date string (yyyy-mm-dd)
+  monitoring_method?: MonitoringMethod;
+  verified_by?: string;
+  verified_achieved?: number;
+  verification_result?: VerificationResult;
+  data_quality_concern?: DataQualityConcern;
+  evidence_checked?: string;
+  quality_rating?: QualityRating;
+  finding?: string;
+  severity?: FindingSeverity;
+  recommendation?: string;
+  responsible?: string;
+  due_date?: string;          // ISO date string (yyyy-mm-dd)
+  status?: MonitoringStatus;
+  remarks?: string;
 }
 
 export interface FilterState {

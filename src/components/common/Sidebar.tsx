@@ -9,6 +9,7 @@ import {
   MapPin,
   ChevronDown,
   ChevronRight,
+  ShieldCheck,
 } from 'lucide-react';
 
 const BASE_NAV = [
@@ -17,6 +18,14 @@ const BASE_NAV = [
   { id: 'quarterly', label: 'Quarterly Actual Entry', sub: 'Actuals vs quarterly plan', icon: CalendarCheck2 },
   { id: 'report', label: 'Report', sub: 'Aggregated results', icon: BarChart3 },
   { id: 'submissions', label: 'Submissions', sub: 'View all submitted entries', icon: BarChart3 },
+];
+
+// The Monitor role's entire job is the Monitoring Register — it never sees
+// Annual Plan / Quarterly Plan / Quarterly Actual / Report / Submissions in
+// its own nav (App.tsx also hard-redirects it back to 'monitoring' if it
+// ever ends up on one of those routes some other way).
+const MONITOR_NAV = [
+  { id: 'monitoring', label: 'Monitoring Register', sub: 'Verify reported achievements', icon: ShieldCheck },
 ];
 
 // National Activity AOP never creates Quarterly Plan/Actual entries — enforced
@@ -55,13 +64,20 @@ export const Sidebar: React.FC = () => {
   const [expandedActivities, setExpandedActivities] = useState<Record<string, boolean>>({});
 
   const isNationalAop = currentRole === 'National Activity AOP';
-  const nav = isNationalAop ? BASE_NAV.filter(item => !RESTRICTED_FOR_AOP.has(item.id)) : BASE_NAV;
+  const isMonitor = currentRole === 'Monitor';
+  const nav = isMonitor
+    ? MONITOR_NAV
+    : isNationalAop
+      ? BASE_NAV.filter(item => !RESTRICTED_FOR_AOP.has(item.id))
+      : BASE_NAV;
 
   const roleHint = currentRole === 'National Activity AOP'
     ? 'Create National Activities, review coordinator submissions, and approve or reject proposals.'
-    : currentRole.startsWith('Regional Coordinator')
-      ? 'Enter and manage the plan, quarterly plan, and actuals for the assigned region.'
-      : 'Enter and manage the plan, quarterly plan, and actuals for the assigned project.';
+    : currentRole === 'Monitor'
+      ? 'Verify reported achievements against evidence, log data-quality findings, and track corrective actions in the Monitoring Register.'
+      : currentRole.startsWith('Regional Coordinator')
+        ? 'Enter and manage the plan, quarterly plan, and actuals for the assigned region.'
+        : 'Enter and manage the plan, quarterly plan, and actuals for the assigned project.';
 
   const roleScope = getRoleScope(currentRole);
 
@@ -87,10 +103,9 @@ export const Sidebar: React.FC = () => {
   const visibleNationalActivities = getNationalActivitiesForRole();
 
   const activityChildren = useMemo(() => {
-    const byActivity = new Map<
-      string,
-      { projects: { id: string; name: string }[]; regions: { id: string; name: string }[] }
-    >();
+    type ProjectRef = { id: string; name: string };
+    type RegionRef = { id: string; name: string };
+    const byActivity = new Map<string, { projects: ProjectRef[]; regions: RegionRef[] }>();
 
     for (const na of visibleNationalActivities) {
       byActivity.set(na.id, { projects: [], regions: [] });
@@ -101,12 +116,12 @@ export const Sidebar: React.FC = () => {
       if (!bucket) continue;
 
       if (pe.scope_type === 'Project') {
-        const project = projects.find(p => p.id === pe.project_id);
+        const project = projects.find((p: ProjectRef) => p.id === pe.project_id);
         if (project && !bucket.projects.some(p => p.id === project.id)) {
           bucket.projects.push(project);
         }
       } else {
-        const region = regions.find(r => r.id === pe.region_id);
+        const region = regions.find((r: RegionRef) => r.id === pe.region_id);
         if (region && !bucket.regions.some(r => r.id === region.id)) {
           bucket.regions.push(region);
         }
