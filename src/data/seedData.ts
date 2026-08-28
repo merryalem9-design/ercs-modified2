@@ -1,5 +1,16 @@
 import {
-  StrategicPriority, NationalActivity, Region, Zone, Project, PlanEntry, Quarter, QuarterlyPlan, QuarterlyActual, UomFactorConfig, MonitoringRecord,
+  StrategicPriority,
+  NationalActivity,
+  Region,
+  Zone,
+  Project,
+  PlanEntry,
+  Quarter,
+  QuarterlyPlan,
+  QuarterlyActual,
+  UomFactorConfig,
+  MonitoringRecord,
+  RegionActivityLink,
 } from '../types';
 
 // ---------------------------------------------------------------------------
@@ -40,7 +51,47 @@ export const INITIAL_REGIONS: Region[] = [
   { id: 'reg-3', name: 'Somali Region' },
 ];
 
-export const INITIAL_ZONES: Zone[] = [];
+// ---------------------------------------------------------------------------
+// NEW — 31 Zones, per client's exact spellings.
+// ---------------------------------------------------------------------------
+export const INITIAL_ZONES: Zone[] = [
+  // Amhara Region (reg-1) — 10 zones
+  { id: 'zn-am-awi', region_id: 'reg-1', name: 'Awi Zone' },
+  { id: 'zn-am-egj', region_id: 'reg-1', name: 'East Gojjam Zone' },
+  { id: 'zn-am-wgj', region_id: 'reg-1', name: 'West Gojjam Zone' },
+  { id: 'zn-am-ngj', region_id: 'reg-1', name: 'North Gojjam Zone' },
+  { id: 'zn-am-ngd', region_id: 'reg-1', name: 'North Gondar Zone' },
+  { id: 'zn-am-cgd', region_id: 'reg-1', name: 'Central Gondar Zone' },
+  { id: 'zn-am-wgd', region_id: 'reg-1', name: 'West Gondar Zone' },
+  { id: 'zn-am-sgd', region_id: 'reg-1', name: 'South Gondar Zone' },
+  { id: 'zn-am-whm', region_id: 'reg-1', name: 'Wag Hemra Zone' },
+  { id: 'zn-am-nwo', region_id: 'reg-1', name: 'North Wollo Zone' },
+
+  // Oromia Region (reg-2) — 10 zones
+  { id: 'zn-or-ars', region_id: 'reg-2', name: 'Arsi Zone' },
+  { id: 'zn-or-bal', region_id: 'reg-2', name: 'Bale Zone' },
+  { id: 'zn-or-bor', region_id: 'reg-2', name: 'Borena Zone' },
+  { id: 'zn-or-bbe', region_id: 'reg-2', name: 'Buno Bedele Zone' },
+  { id: 'zn-or-ebo', region_id: 'reg-2', name: 'East Borena Zone' },
+  { id: 'zn-or-ehr', region_id: 'reg-2', name: 'East Hararghe Zone' },
+  { id: 'zn-or-esh', region_id: 'reg-2', name: 'East Shewa Zone' },
+  { id: 'zn-or-ewe', region_id: 'reg-2', name: 'East Welega Zone' },
+  { id: 'zn-or-guj', region_id: 'reg-2', name: 'Guji Zone' },
+  { id: 'zn-or-hgw', region_id: 'reg-2', name: 'Horo Guduru Welega Zone' },
+
+  // Somali Region (reg-3) — 11 zones
+  { id: 'zn-so-afd', region_id: 'reg-3', name: 'Afder Zone' },
+  { id: 'zn-so-dol', region_id: 'reg-3', name: 'Dollo Zone' },
+  { id: 'zn-so-ere', region_id: 'reg-3', name: 'Erer Zone' },
+  { id: 'zn-so-faf', region_id: 'reg-3', name: 'Fafan Zone' },
+  { id: 'zn-so-jar', region_id: 'reg-3', name: 'Jarar Zone' },
+  { id: 'zn-so-kor', region_id: 'reg-3', name: 'Korahe Zone' },
+  { id: 'zn-so-lib', region_id: 'reg-3', name: 'Liben Zone' },
+  { id: 'zn-so-dha', region_id: 'reg-3', name: 'Dhawa Zone' },
+  { id: 'zn-so-nog', region_id: 'reg-3', name: 'Nogob Zone' },
+  { id: 'zn-so-sha', region_id: 'reg-3', name: 'Shabelle Zone' },
+  { id: 'zn-so-sit', region_id: 'reg-3', name: 'Sitti Zone' },
+];
 
 export const INITIAL_PROJECTS: Project[] = [
   { id: 'proj-1', name: 'Project A' },
@@ -50,10 +101,38 @@ export const INITIAL_PROJECTS: Project[] = [
 ];
 
 // ---------------------------------------------------------------------------
+// NEW — RegionActivityLink for each migrated Region row.
+// Each carries the same national_activity_id/region_id/activity_name/
+// activity_description as the old regional PlanEntry, while eligible_zone_ids
+// defines which zone may create a plan entry for that regional activity.
+// ---------------------------------------------------------------------------
+export const INITIAL_REGION_ACTIVITY_LINKS: RegionActivityLink[] = [
+  { id: 'ral-am-111', national_activity_id: 'na-1-1-1', region_id: 'reg-1', activity_name: 'Provide Non-Food Items (NFI) to Disaster-Affected Households', activity_description: 'Distribution of core relief NFI kits (blankets, jerry cans, kitchen sets, etc.) to households affected by disaster.', eligible_zone_ids: ['zn-am-awi'] },
+  { id: 'ral-am-121', national_activity_id: 'na-1-2-1', region_id: 'reg-1', activity_name: 'Construct/Rehabilitate Community Water Points', activity_description: 'Construction or rehabilitation of water points (boreholes, wells, water schemes) for disaster-affected and host communities.', eligible_zone_ids: ['zn-am-egj'] },
+  { id: 'ral-am-211', national_activity_id: 'na-2-1-1', region_id: 'reg-1', activity_name: 'Conduct Community-Based Disaster Risk Reduction (CBDRR) Training', activity_description: 'Training of community members and volunteers on disaster risk reduction and preparedness.', eligible_zone_ids: ['zn-am-wgj'] },
+  { id: 'ral-am-311', national_activity_id: 'na-3-1-1', region_id: 'reg-1', activity_name: 'Provide Nutrition Support to Vulnerable Groups', activity_description: 'Provision of nutrition support/supplementary feeding to malnourished and vulnerable groups.', eligible_zone_ids: ['zn-am-ngj'] },
+  { id: 'ral-am-411', national_activity_id: 'na-4-1-1', region_id: 'reg-1', activity_name: 'Recruit and Train Community Volunteers', activity_description: 'Recruitment and training of new RCRC volunteers on core competencies and code of conduct.', eligible_zone_ids: ['zn-am-ngd'] },
+
+  { id: 'ral-or-111', national_activity_id: 'na-1-1-1', region_id: 'reg-2', activity_name: 'Provide Non-Food Items (NFI) to Disaster-Affected Households', activity_description: 'Distribution of core relief NFI kits (blankets, jerry cans, kitchen sets, etc.) to households affected by disaster.', eligible_zone_ids: ['zn-or-ars'] },
+  { id: 'ral-or-112', national_activity_id: 'na-1-1-2', region_id: 'reg-2', activity_name: 'Develop Multi-Hazard Contingency Plan (MHCP)', activity_description: 'Development/update of multi-hazard contingency plans at national and regional level.', eligible_zone_ids: ['zn-or-bal'] },
+  { id: 'ral-or-122', national_activity_id: 'na-1-2-2', region_id: 'reg-2', activity_name: 'Provide Emergency Health and First Aid Services', activity_description: 'Provision of emergency health services, first aid and referrals to disaster-affected populations.', eligible_zone_ids: ['zn-or-bor'] },
+  { id: 'ral-or-212', national_activity_id: 'na-2-1-2', region_id: 'reg-2', activity_name: 'Establish Community-Based Early Warning Systems', activity_description: 'Establishment/strengthening of early warning systems at community and woreda level.', eligible_zone_ids: ['zn-or-bbe'] },
+  { id: 'ral-or-321', national_activity_id: 'na-3-2-1', region_id: 'reg-2', activity_name: 'Conduct Health and Hygiene Awareness Campaigns', activity_description: 'Community-level awareness campaigns on health, hygiene and disease prevention.', eligible_zone_ids: ['zn-or-ebo'] },
+  { id: 'ral-or-411', national_activity_id: 'na-4-1-1', region_id: 'reg-2', activity_name: 'Recruit and Train Community Volunteers', activity_description: 'Recruitment and training of new RCRC volunteers on core competencies and code of conduct.', eligible_zone_ids: ['zn-or-ehr'] },
+
+  { id: 'ral-so-111', national_activity_id: 'na-1-1-1', region_id: 'reg-3', activity_name: 'Provide Non-Food Items (NFI) to Disaster-Affected Households', activity_description: 'Distribution of core relief NFI kits (blankets, jerry cans, kitchen sets, etc.) to households affected by disaster.', eligible_zone_ids: ['zn-so-afd'] },
+  { id: 'ral-so-121', national_activity_id: 'na-1-2-1', region_id: 'reg-3', activity_name: 'Construct/Rehabilitate Community Water Points', activity_description: 'Construction or rehabilitation of water points (boreholes, wells, water schemes) for disaster-affected and host communities.', eligible_zone_ids: ['zn-so-dol'] },
+  { id: 'ral-so-122', national_activity_id: 'na-1-2-2', region_id: 'reg-3', activity_name: 'Provide Emergency Health and First Aid Services', activity_description: 'Provision of emergency health services, first aid and referrals to disaster-affected populations.', eligible_zone_ids: ['zn-so-ere'] },
+  { id: 'ral-so-311', national_activity_id: 'na-3-1-1', region_id: 'reg-3', activity_name: 'Provide Nutrition Support to Vulnerable Groups', activity_description: 'Provision of nutrition support/supplementary feeding to malnourished and vulnerable groups.', eligible_zone_ids: ['zn-so-faf'] },
+];
+
+// ---------------------------------------------------------------------------
 // Plan Entries – one for every row in every Project/Region sheet.
 // activity_code is always the PARENT National Activity's own code — never
 // suffixed with the executing Region/Project. The "Executed By" column
 // already makes it clear who owns the entry.
+//
+// Regional entries now also carry zone_id and region_activity_link_id.
 // ---------------------------------------------------------------------------
 export const INITIAL_PLAN_ENTRIES: PlanEntry[] = [
   // Project A
@@ -76,26 +155,26 @@ export const INITIAL_PLAN_ENTRIES: PlanEntry[] = [
   { id: 'pe-pd-122', national_activity_id: 'na-1-2-2', scope_type: 'Project', project_id: 'proj-4', annual_target: 3000, annual_budget: 1_050_000, activity_code: '1.2.2', activity_name: 'Provide First Aid and Referral Services at Reception Centers', activity_description: 'First aid and referral services for migrants/returnees at reception centers.', approval_status: 'Approved' },
   { id: 'pe-pd-511', national_activity_id: 'na-5-1-1', scope_type: 'Project', project_id: 'proj-4', annual_target: 6, annual_budget: 400_000, activity_code: '5.1.1', activity_name: 'Organize Migration and Protection Advocacy Forums', activity_description: 'Advocacy forums on migration and protection with government and partners.', approval_status: 'Approved' },
 
-  // Amhara Region
-  { id: 'pe-r-am-111', national_activity_id: 'na-1-1-1', scope_type: 'Regional', region_id: 'reg-1', annual_target: 4500, annual_budget: 3_200_000, activity_code: '1.1.1', activity_name: 'Provide Non-Food Items (NFI) to Disaster-Affected Households', activity_description: 'Distribution of core relief NFI kits (blankets, jerry cans, kitchen sets, etc.) to households affected by disaster.', approval_status: 'Approved' },
-  { id: 'pe-r-am-121', national_activity_id: 'na-1-2-1', scope_type: 'Regional', region_id: 'reg-1', annual_target: 12, annual_budget: 5_400_000, activity_code: '1.2.1', activity_name: 'Construct/Rehabilitate Community Water Points', activity_description: 'Construction or rehabilitation of water points (boreholes, wells, water schemes) for disaster-affected and host communities.', approval_status: 'Approved' },
-  { id: 'pe-r-am-211', national_activity_id: 'na-2-1-1', scope_type: 'Regional', region_id: 'reg-1', annual_target: 800, annual_budget: 950_000, activity_code: '2.1.1', activity_name: 'Conduct Community-Based Disaster Risk Reduction (CBDRR) Training', activity_description: 'Training of community members and volunteers on disaster risk reduction and preparedness.', approval_status: 'Approved' },
-  { id: 'pe-r-am-311', national_activity_id: 'na-3-1-1', scope_type: 'Regional', region_id: 'reg-1', annual_target: 2200, annual_budget: 1_800_000, activity_code: '3.1.1', activity_name: 'Provide Nutrition Support to Vulnerable Groups', activity_description: 'Provision of nutrition support/supplementary feeding to malnourished and vulnerable groups.', approval_status: 'Approved' },
-  { id: 'pe-r-am-411', national_activity_id: 'na-4-1-1', scope_type: 'Regional', region_id: 'reg-1', annual_target: 300, annual_budget: 450_000, activity_code: '4.1.1', activity_name: 'Recruit and Train Community Volunteers', activity_description: 'Recruitment and training of new RCRC volunteers on core competencies and code of conduct.', approval_status: 'Approved' },
+  // Amhara Region — now zone-scoped
+  { id: 'pe-r-am-111', national_activity_id: 'na-1-1-1', scope_type: 'Regional', region_id: 'reg-1', zone_id: 'zn-am-awi', region_activity_link_id: 'ral-am-111', annual_target: 4500, annual_budget: 3_200_000, activity_code: '1.1.1', activity_name: 'Provide Non-Food Items (NFI) to Disaster-Affected Households', activity_description: 'Distribution of core relief NFI kits (blankets, jerry cans, kitchen sets, etc.) to households affected by disaster.', approval_status: 'Approved' },
+  { id: 'pe-r-am-121', national_activity_id: 'na-1-2-1', scope_type: 'Regional', region_id: 'reg-1', zone_id: 'zn-am-egj', region_activity_link_id: 'ral-am-121', annual_target: 12, annual_budget: 5_400_000, activity_code: '1.2.1', activity_name: 'Construct/Rehabilitate Community Water Points', activity_description: 'Construction or rehabilitation of water points (boreholes, wells, water schemes) for disaster-affected and host communities.', approval_status: 'Approved' },
+  { id: 'pe-r-am-211', national_activity_id: 'na-2-1-1', scope_type: 'Regional', region_id: 'reg-1', zone_id: 'zn-am-wgj', region_activity_link_id: 'ral-am-211', annual_target: 800, annual_budget: 950_000, activity_code: '2.1.1', activity_name: 'Conduct Community-Based Disaster Risk Reduction (CBDRR) Training', activity_description: 'Training of community members and volunteers on disaster risk reduction and preparedness.', approval_status: 'Approved' },
+  { id: 'pe-r-am-311', national_activity_id: 'na-3-1-1', scope_type: 'Regional', region_id: 'reg-1', zone_id: 'zn-am-ngj', region_activity_link_id: 'ral-am-311', annual_target: 2200, annual_budget: 1_800_000, activity_code: '3.1.1', activity_name: 'Provide Nutrition Support to Vulnerable Groups', activity_description: 'Provision of nutrition support/supplementary feeding to malnourished and vulnerable groups.', approval_status: 'Approved' },
+  { id: 'pe-r-am-411', national_activity_id: 'na-4-1-1', scope_type: 'Regional', region_id: 'reg-1', zone_id: 'zn-am-ngd', region_activity_link_id: 'ral-am-411', annual_target: 300, annual_budget: 450_000, activity_code: '4.1.1', activity_name: 'Recruit and Train Community Volunteers', activity_description: 'Recruitment and training of new RCRC volunteers on core competencies and code of conduct.', approval_status: 'Approved' },
 
-  // Oromia Region
-  { id: 'pe-r-or-111', national_activity_id: 'na-1-1-1', scope_type: 'Regional', region_id: 'reg-2', annual_target: 6000, annual_budget: 4_100_000, activity_code: '1.1.1', activity_name: 'Provide Non-Food Items (NFI) to Disaster-Affected Households', activity_description: 'Distribution of core relief NFI kits (blankets, jerry cans, kitchen sets, etc.) to households affected by disaster.', approval_status: 'Approved' },
-  { id: 'pe-r-or-112', national_activity_id: 'na-1-1-2', scope_type: 'Regional', region_id: 'reg-2', annual_target: 3, annual_budget: 600_000, activity_code: '1.1.2', activity_name: 'Develop Multi-Hazard Contingency Plan (MHCP)', activity_description: 'Development/update of multi-hazard contingency plans at national and regional level.', approval_status: 'Approved' },
-  { id: 'pe-r-or-122', national_activity_id: 'na-1-2-2', scope_type: 'Regional', region_id: 'reg-2', annual_target: 5000, annual_budget: 2_300_000, activity_code: '1.2.2', activity_name: 'Provide Emergency Health and First Aid Services', activity_description: 'Provision of emergency health services, first aid and referrals to disaster-affected populations.', approval_status: 'Approved' },
-  { id: 'pe-r-or-212', national_activity_id: 'na-2-1-2', scope_type: 'Regional', region_id: 'reg-2', annual_target: 8, annual_budget: 1_100_000, activity_code: '2.1.2', activity_name: 'Establish Community-Based Early Warning Systems', activity_description: 'Establishment/strengthening of early warning systems at community and woreda level.', approval_status: 'Approved' },
-  { id: 'pe-r-or-321', national_activity_id: 'na-3-2-1', scope_type: 'Regional', region_id: 'reg-2', annual_target: 15, annual_budget: 700_000, activity_code: '3.2.1', activity_name: 'Conduct Health and Hygiene Awareness Campaigns', activity_description: 'Community-level awareness campaigns on health, hygiene and disease prevention.', approval_status: 'Approved' },
-  { id: 'pe-r-or-411', national_activity_id: 'na-4-1-1', scope_type: 'Regional', region_id: 'reg-2', annual_target: 450, annual_budget: 620_000, activity_code: '4.1.1', activity_name: 'Recruit and Train Community Volunteers', activity_description: 'Recruitment and training of new RCRC volunteers on core competencies and code of conduct.', approval_status: 'Approved' },
+  // Oromia Region — now zone-scoped
+  { id: 'pe-r-or-111', national_activity_id: 'na-1-1-1', scope_type: 'Regional', region_id: 'reg-2', zone_id: 'zn-or-ars', region_activity_link_id: 'ral-or-111', annual_target: 6000, annual_budget: 4_100_000, activity_code: '1.1.1', activity_name: 'Provide Non-Food Items (NFI) to Disaster-Affected Households', activity_description: 'Distribution of core relief NFI kits (blankets, jerry cans, kitchen sets, etc.) to households affected by disaster.', approval_status: 'Approved' },
+  { id: 'pe-r-or-112', national_activity_id: 'na-1-1-2', scope_type: 'Regional', region_id: 'reg-2', zone_id: 'zn-or-bal', region_activity_link_id: 'ral-or-112', annual_target: 3, annual_budget: 600_000, activity_code: '1.1.2', activity_name: 'Develop Multi-Hazard Contingency Plan (MHCP)', activity_description: 'Development/update of multi-hazard contingency plans at national and regional level.', approval_status: 'Approved' },
+  { id: 'pe-r-or-122', national_activity_id: 'na-1-2-2', scope_type: 'Regional', region_id: 'reg-2', zone_id: 'zn-or-bor', region_activity_link_id: 'ral-or-122', annual_target: 5000, annual_budget: 2_300_000, activity_code: '1.2.2', activity_name: 'Provide Emergency Health and First Aid Services', activity_description: 'Provision of emergency health services, first aid and referrals to disaster-affected populations.', approval_status: 'Approved' },
+  { id: 'pe-r-or-212', national_activity_id: 'na-2-1-2', scope_type: 'Regional', region_id: 'reg-2', zone_id: 'zn-or-bbe', region_activity_link_id: 'ral-or-212', annual_target: 8, annual_budget: 1_100_000, activity_code: '2.1.2', activity_name: 'Establish Community-Based Early Warning Systems', activity_description: 'Establishment/strengthening of early warning systems at community and woreda level.', approval_status: 'Approved' },
+  { id: 'pe-r-or-321', national_activity_id: 'na-3-2-1', scope_type: 'Regional', region_id: 'reg-2', zone_id: 'zn-or-ebo', region_activity_link_id: 'ral-or-321', annual_target: 15, annual_budget: 700_000, activity_code: '3.2.1', activity_name: 'Conduct Health and Hygiene Awareness Campaigns', activity_description: 'Community-level awareness campaigns on health, hygiene and disease prevention.', approval_status: 'Approved' },
+  { id: 'pe-r-or-411', national_activity_id: 'na-4-1-1', scope_type: 'Regional', region_id: 'reg-2', zone_id: 'zn-or-ehr', region_activity_link_id: 'ral-or-411', annual_target: 450, annual_budget: 620_000, activity_code: '4.1.1', activity_name: 'Recruit and Train Community Volunteers', activity_description: 'Recruitment and training of new RCRC volunteers on core competencies and code of conduct.', approval_status: 'Approved' },
 
-  // Somali Region
-  { id: 'pe-r-so-111', national_activity_id: 'na-1-1-1', scope_type: 'Regional', region_id: 'reg-3', annual_target: 3800, annual_budget: 2_650_000, activity_code: '1.1.1', activity_name: 'Provide Non-Food Items (NFI) to Disaster-Affected Households', activity_description: 'Distribution of core relief NFI kits (blankets, jerry cans, kitchen sets, etc.) to households affected by disaster.', approval_status: 'Approved' },
-  { id: 'pe-r-so-121', national_activity_id: 'na-1-2-1', scope_type: 'Regional', region_id: 'reg-3', annual_target: 9, annual_budget: 4_000_000, activity_code: '1.2.1', activity_name: 'Construct/Rehabilitate Community Water Points', activity_description: 'Construction or rehabilitation of water points (boreholes, wells, water schemes) for disaster-affected and host communities.', approval_status: 'Approved' },
-  { id: 'pe-r-so-122', national_activity_id: 'na-1-2-2', scope_type: 'Regional', region_id: 'reg-3', annual_target: 4200, annual_budget: 1_950_000, activity_code: '1.2.2', activity_name: 'Provide Emergency Health and First Aid Services', activity_description: 'Provision of emergency health services, first aid and referrals to disaster-affected populations.', approval_status: 'Approved' },
-  { id: 'pe-r-so-311', national_activity_id: 'na-3-1-1', scope_type: 'Regional', region_id: 'reg-3', annual_target: 1600, annual_budget: 1_300_000, activity_code: '3.1.1', activity_name: 'Provide Nutrition Support to Vulnerable Groups', activity_description: 'Provision of nutrition support/supplementary feeding to malnourished and vulnerable groups.', approval_status: 'Approved' },
+  // Somali Region — now zone-scoped
+  { id: 'pe-r-so-111', national_activity_id: 'na-1-1-1', scope_type: 'Regional', region_id: 'reg-3', zone_id: 'zn-so-afd', region_activity_link_id: 'ral-so-111', annual_target: 3800, annual_budget: 2_650_000, activity_code: '1.1.1', activity_name: 'Provide Non-Food Items (NFI) to Disaster-Affected Households', activity_description: 'Distribution of core relief NFI kits (blankets, jerry cans, kitchen sets, etc.) to households affected by disaster.', approval_status: 'Approved' },
+  { id: 'pe-r-so-121', national_activity_id: 'na-1-2-1', scope_type: 'Regional', region_id: 'reg-3', zone_id: 'zn-so-dol', region_activity_link_id: 'ral-so-121', annual_target: 9, annual_budget: 4_000_000, activity_code: '1.2.1', activity_name: 'Construct/Rehabilitate Community Water Points', activity_description: 'Construction or rehabilitation of water points (boreholes, wells, water schemes) for disaster-affected and host communities.', approval_status: 'Approved' },
+  { id: 'pe-r-so-122', national_activity_id: 'na-1-2-2', scope_type: 'Regional', region_id: 'reg-3', zone_id: 'zn-so-ere', region_activity_link_id: 'ral-so-122', annual_target: 4200, annual_budget: 1_950_000, activity_code: '1.2.2', activity_name: 'Provide Emergency Health and First Aid Services', activity_description: 'Provision of emergency health services, first aid and referrals to disaster-affected populations.', approval_status: 'Approved' },
+  { id: 'pe-r-so-311', national_activity_id: 'na-3-1-1', scope_type: 'Regional', region_id: 'reg-3', zone_id: 'zn-so-faf', region_activity_link_id: 'ral-so-311', annual_target: 1600, annual_budget: 1_300_000, activity_code: '3.1.1', activity_name: 'Provide Nutrition Support to Vulnerable Groups', activity_description: 'Provision of nutrition support/supplementary feeding to malnourished and vulnerable groups.', approval_status: 'Approved' },
 ];
 
 export const FISCAL_QUARTERS: Quarter[] = [
@@ -284,12 +363,14 @@ export const INITIAL_MONITORING_RECORDS: MonitoringRecord[] = [
     quality_rating: 'Good',
     remarks: 'Service register matched site tally exactly.',
   },
+
   // 1.2.2 — Oromia Region: blank, ready to use.
   {
     id: 'mr-pe-r-or-122',
     plan_entry_id: 'pe-r-or-122',
     quarter_id: '',
   },
+
   // 1.1.1 — Project A: partially verified, 95% match, one open Integrity finding.
   {
     id: 'mr-pe-pa-111',
@@ -311,12 +392,14 @@ export const INITIAL_MONITORING_RECORDS: MonitoringRecord[] = [
     status: 'Open',
     remarks: 'Re-check scheduled for Q2 visit.',
   },
+
   // 1.1.1 — Amhara Region: blank, ready to use.
   {
     id: 'mr-pe-r-am-111',
     plan_entry_id: 'pe-r-am-111',
     quarter_id: '',
   },
+
   // 3.2.1 — Project C: not verified yet, flagged as a Validity concern, overdue action.
   {
     id: 'mr-pe-pc-321',
@@ -337,6 +420,7 @@ export const INITIAL_MONITORING_RECORDS: MonitoringRecord[] = [
     status: 'Open',
     remarks: 'Escalated to Project C management.',
   },
+
   // 3.2.1 — Oromia Region: blank, ready to use.
   {
     id: 'mr-pe-r-or-321',

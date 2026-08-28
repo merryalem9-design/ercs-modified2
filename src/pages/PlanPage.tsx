@@ -4,20 +4,13 @@ import { useApp } from '../context/AppContext';
 import { FilterBar } from '../components/common/FilterBar';
 import { StatusBadge } from '../components/common/StatusBadge';
 import {
-  sumTarget,
-  sumBudget,
-  sumPlannedTarget,
-  sumPlannedBudget,
-  sumActual,
-  sumExpenditure,
-  achievementPct,
-  budgetUtilizationPct,
-  convertToBeneficiaries,
+  sumTarget, sumBudget, sumPlannedTarget, sumPlannedBudget, sumActual, sumExpenditure,
+  achievementPct, budgetUtilizationPct, convertToBeneficiaries,
 } from '../utils/calculations';
-import { PlanEntry, ScopeType, Project, NationalActivity } from '../types';
+import { PlanEntry, ScopeType, Project, NationalActivity, RegionActivityLink } from '../types';
 import { ArrowLeft, ArrowUpRight, ChevronRight, Layers, Plus, Save, Trash2, X } from 'lucide-react';
 
-interface PeWizardFormState {
+export interface PeWizardFormState {
   id?: string;
   strategicPriorityId: string;
   national_activity_id: string;
@@ -28,15 +21,12 @@ interface PeWizardFormState {
   annual_budget: string;
   activity_name: string;
   activity_description: string;
-  /** True when the execution scope (Region/Project) is fixed by the user's
-   *  assigned role or by the active filter — the wizard locks scope
-   *  selection in that case instead of leaving it open. */
   lockScope?: boolean;
 }
 
 export const PlanPage: React.FC = () => {
   const {
-    nationalActivities, regions, projects, planEntries, deletePlanEntry,
+    nationalActivities, regions, zones, projects, planEntries, regionActivityLinks, deletePlanEntry,
     uomConfigs, quarterlyPlans, quarterlyActuals, filters, getFilteredPlanEntries,
     setSelectedNationalActivityId, setActiveRoute, currentRole,
     addNationalActivity, deleteNationalActivity, getNationalActivitiesForRole,
@@ -49,31 +39,19 @@ export const PlanPage: React.FC = () => {
 
   const filteredEntries = getFilteredPlanEntries();
   const q = filters.quarterId;
-  const isQuarterScoped = q !== 'ALL';
 
-  const isCoordinator = currentRole !== 'National Activity AOP';
-  const isAop = !isCoordinator;
-  // 'NONE' is a Report-page-only display toggle (see FilterBar's
-  // allowNoneScope) — it never restricts which Plan Entries are in scope
-  // (see AppContext's getFilteredPlanEntries), so it must be treated the
-  // same as 'ALL' here too. Otherwise a stale Region/Project = 'NONE' left
-  // over from a Report page visit would incorrectly flip this page out of
-  // its aggregated view.
+  const isAop = currentRole === 'National Activity AOP';
+  const isProjectCoordinator = currentRole.startsWith('Project Coordinator — ');
+  const isBranchHead = currentRole.startsWith('Branch Head — ');
+  const isZoneCoordinator = currentRole.endsWith(' coordinators');
+
   const hasRegionOrProjectFilter =
     (filters.regionId !== 'ALL' && filters.regionId !== 'NONE') ||
     (filters.projectId !== 'ALL' && filters.projectId !== 'NONE');
-  // Regional/Project coordinators are already scoped to their own entries by
-  // role, so they always see the flat execution-entries view. The AOP sees
-  // the rolled-up National-Aggregated view unless they've drilled into a
-  // specific Region/Project via the filters.
-  const showAggregatedView = !isCoordinator && !hasRegionOrProjectFilter;
 
-  const canAddPlanEntry = isCoordinator || hasRegionOrProjectFilter;
+  const showAggregatedView = isAop && !hasRegionOrProjectFilter;
+  const canAddPlanEntry = isProjectCoordinator || isZoneCoordinator || (isAop && hasRegionOrProjectFilter);
 
-  // Only the National Activities the current role is an eligible executor
-  // of (all of them for the AOP) — mirrors the Excel data's fixed
-  // Region/Project ↔ National Activity linkage. A Project/Region that was
-  // never originally linked to an activity simply never sees it here.
   const roleScopedNationalActivities = getNationalActivitiesForRole();
 
   const viewLinkMap = (naId: string) => {
@@ -81,42 +59,61 @@ export const PlanPage: React.FC = () => {
     setActiveRoute('national-detail');
   };
 
+  // ------------------------------------------------------------------
+  // BRANCH HEAD VIEW — one row per RegionActivityLink.
+  // ------------------------------------------------------------------
+  const currentRegion = isBranchHead ? regions.find(r => `Branch Head — ${r.name}` === currentRole) : undefined;
+  const branchHeadLinks = currentRegion ? regionActivityLinks.filter(l => l.region_id === currentRegion.id) : [];
+
+  const openZoneLinkWizard = () => {
+    if (!currentRegion) return;
+    setPeWizard({
+      initial: {
+        strategicPriorityId: '', national_activity_id: '', scope_type: 'Regional', region_id: currentRegion.id, project_id: '',
+        annual_target: '', annual_budget: '', activity_name: '', activity_description: '', lockScope: true,
+      },
+      startStep: 1,
+    });
+  };
+
+  // ------------------------------------------------------------------
+  // ZONE COORDINATOR VIEW — flat execution entries scoped to zone.
+  // ------------------------------------------------------------------
+  const currentZone = isZoneCoordinator ? zones.find(z => `${z.name} coordinators` === currentRole) : undefined;
+
+  const openZoneEntryWizard = () => {
+    if (!currentZone) return;
+    setPeWizard({
+      initial: {
+        strategicPriorityId: '', national_activity_id: '', scope_type: 'Regional', region_id: currentZone.region_id, project_id: '',
+        annual_target: '', annual_budget: '', activity_name: '', activity_description: '', lockScope: true,
+      },
+      startStep: 1,
+    });
+  };
+
+  // ------------------------------------------------------------------
+  // AOP: aggregated + Project drill-down (unchanged behavior).
+  // ------------------------------------------------------------------
   const openAddPlanWizard = () => {
     const naFilterActive = filters.nationalActivityId !== 'ALL';
     const naId = naFilterActive ? filters.nationalActivityId : (roleScopedNationalActivities[0]?.id || '');
     const na = nationalActivities.find(n => n.id === naId);
-
-    const regionalRole = currentRole.startsWith('Regional Coordinator — ');
-    const projectRole = currentRole.startsWith('Project Coordinator — ');
-    const assignedRegion = regionalRole ? regions.find(r => r.name === currentRole.slice('Regional Coordinator — '.length)) : undefined;
-    const assignedProject = projectRole ? projects.find(p => p.name === currentRole.slice('Project Coordinator — '.length)) : undefined;
-    const filterRegion = filters.regionId !== 'ALL' ? regions.find(r => r.id === filters.regionId) : undefined;
     const filterProject = filters.projectId !== 'ALL' ? projects.find(p => p.id === filters.projectId) : undefined;
 
-    const resolvedRegion = assignedRegion || filterRegion;
-    const resolvedProject = assignedProject || filterProject;
-    const scopeResolved = !!(resolvedRegion || resolvedProject);
-    const scopeType: ScopeType = resolvedRegion ? 'Regional' : resolvedProject ? 'Project' : (regionalRole ? 'Regional' : projectRole ? 'Project' : 'Regional');
-
-    // Only skip the "pick parent" step when we already know both which
-    // National Activity this belongs to (active NA filter) and which
-    // Region/Project will execute it (assigned role or active filter).
-    const startStep: 1 | 2 = naFilterActive && scopeResolved ? 2 : 1;
+    if (!filterProject) return; // AOP only adds Plan Entries when drilled into a Project (A7)
 
     setPeWizard({
       initial: {
         strategicPriorityId: na?.strategic_priority_id || '',
         national_activity_id: naId,
-        scope_type: scopeType,
-        region_id: resolvedRegion?.id || '',
-        project_id: resolvedProject?.id || '',
-        annual_target: '',
-        annual_budget: '',
-        activity_name: '',
-        activity_description: '',
-        lockScope: scopeResolved,
+        scope_type: 'Project',
+        region_id: '',
+        project_id: filterProject.id,
+        annual_target: '', annual_budget: '', activity_name: '', activity_description: '',
+        lockScope: true,
       },
-      startStep,
+      startStep: naFilterActive ? 2 : 1,
     });
   };
 
@@ -124,51 +121,32 @@ export const PlanPage: React.FC = () => {
     const na = nationalActivities.find(n => n.id === pe.national_activity_id);
     setPeWizard({
       initial: {
-        id: pe.id,
-        strategicPriorityId: na?.strategic_priority_id || '',
-        national_activity_id: pe.national_activity_id,
-        scope_type: pe.scope_type,
-        region_id: pe.region_id || '',
-        project_id: pe.project_id || '',
-        annual_target: String(pe.annual_target),
-        annual_budget: String(pe.annual_budget),
-        activity_name: pe.activity_name,
-        activity_description: pe.activity_description,
-        lockScope: true,
+        id: pe.id, strategicPriorityId: na?.strategic_priority_id || '', national_activity_id: pe.national_activity_id,
+        scope_type: pe.scope_type, region_id: pe.region_id || '', project_id: pe.project_id || '',
+        annual_target: String(pe.annual_target), annual_budget: String(pe.annual_budget),
+        activity_name: pe.activity_name, activity_description: pe.activity_description, lockScope: true,
       },
       startStep: 2,
     });
   };
 
-  // ---------------------------------------------------------------------
-  // National-Aggregated rows — one per National Activity in scope for this
-  // role, bottom-up summed from the Plan Entries in scope (never a stored
-  // NA-level figure).
-  // ---------------------------------------------------------------------
   const naInScope = roleScopedNationalActivities.filter(na =>
     filters.nationalActivityId === 'ALL' || na.id === filters.nationalActivityId
   );
 
   const aggregatedRows = naInScope.map(na => {
     const naEntries = filteredEntries.filter(pe => pe.national_activity_id === na.id);
-    // Deletion eligibility must look at EVERY Plan Entry linked to this
-    // National Activity, not just the ones matching the current filters —
-    // otherwise a stray Region/Project filter could make an activity look
-    // falsely deletable.
     const totalLinkedEntries = planEntries.filter(pe => pe.national_activity_id === na.id).length;
+    const hasLinkedRegionLinks = regionActivityLinks.some(l => l.national_activity_id === na.id);
     const target = sumPlannedTarget(naEntries, quarterlyPlans, q);
     const actual = sumActual(naEntries, quarterlyActuals, q);
     const budget = sumPlannedBudget(naEntries, quarterlyPlans, q);
     const spent = sumExpenditure(naEntries, quarterlyActuals, q);
     const utilization = budgetUtilizationPct(spent, budget);
     const factor = uomConfigs.find(c => c.uom.toLowerCase() === na.uom.toLowerCase())?.factor ?? 0;
-    // Total = planned reach (Target × factor); Actual = beneficiaries
-    // reached so far (Actual × factor) — showing both keeps this figure
-    // consistent with the Report/Scope pages instead of only ever showing
-    // the planned side here.
     const beneficiaries = convertToBeneficiaries(target, na.uom, uomConfigs);
     const actualBeneficiaries = convertToBeneficiaries(actual, na.uom, uomConfigs);
-    return { na, entryCount: naEntries.length, totalLinkedEntries, target, actual, budget, spent, utilization, beneficiaries, actualBeneficiaries, factor };
+    return { na, entryCount: naEntries.length, totalLinkedEntries, hasLinkedRegionLinks, target, actual, budget, spent, utilization, beneficiaries, actualBeneficiaries, factor };
   });
 
   const aggregatedTotalBudget = aggregatedRows.reduce((s, r) => s + r.budget, 0);
@@ -177,9 +155,6 @@ export const PlanPage: React.FC = () => {
   const aggregatedTotalActualBeneficiaries = aggregatedRows.reduce((s, r) => s + r.actualBeneficiaries, 0);
   const aggregatedTotalUtilization = budgetUtilizationPct(aggregatedTotalSpent, aggregatedTotalBudget);
 
-  // ---------------------------------------------------------------------
-  // Execution-entries rows — one per Plan Entry.
-  // ---------------------------------------------------------------------
   const executionRows = filteredEntries.map(pe => {
     const na = nationalActivities.find(n => n.id === pe.national_activity_id);
     const target = sumPlannedTarget([pe], quarterlyPlans, q);
@@ -191,7 +166,7 @@ export const PlanPage: React.FC = () => {
     const factor = na ? (uomConfigs.find(c => c.uom.toLowerCase() === na.uom.toLowerCase())?.factor ?? 0) : 0;
     const beneficiaries = convertToBeneficiaries(target, na?.uom || '', uomConfigs);
     const actualBeneficiaries = convertToBeneficiaries(actual, na?.uom || '', uomConfigs);
-    const scopeName = pe.scope_type === 'Regional' ? regions.find(r => r.id === pe.region_id)?.name : projects.find(p => p.id === pe.project_id)?.name;
+    const scopeName = pe.scope_type === 'Regional' ? zones.find(z => z.id === pe.zone_id)?.name : projects.find(p => p.id === pe.project_id)?.name;
     return { pe, na, target, budget, actual, spent, achievement, utilization, beneficiaries, actualBeneficiaries, factor, scopeName };
   });
 
@@ -201,235 +176,207 @@ export const PlanPage: React.FC = () => {
   const executionTotalActualBeneficiaries = executionRows.reduce((s, r) => s + r.actualBeneficiaries, 0);
   const executionTotalUtilization = budgetUtilizationPct(executionTotalSpent, executionTotalBudget);
 
+  const showFlatExecutionView = isProjectCoordinator || isZoneCoordinator || (isAop && hasRegionOrProjectFilter);
+
   return (
     <div className="space-y-6">
       <div>
-        <h2 className="text-xl font-black text-slate-800">Step 1 — Annual Plan Data Entry</h2>
-        <p className="text-xs text-slate-500 mt-1">
-          {showAggregatedView
-            ? "Every National Activity's Target, Budget and Beneficiaries below are always the live sum of the Plan Entries linked to it, bottom-up, nothing to set and nothing to reconcile. Filter to a Region or Project to see (and add) the execution entries behind these numbers."
-            : "Each row below is a Plan Entry — a Region or Project's contribution to a National Activity. Its Target and Budget roll up live into that National Activity's totals. Use the Quarter filter to switch these figures between the full annual plan and a single quarter's Quarterly Plan / Quarterly Actual."}
-        </p>
+        <h2 className="text-xl font-black text-slate-800">Annual Plan</h2>
       </div>
 
       <FilterBar />
 
-      <section className="bg-white rounded-xl border shadow-sm overflow-hidden">
-        <div className="p-4 border-b flex items-center justify-between bg-slate-50">
-          <div className="flex items-center gap-2 text-xs font-bold text-slate-800 uppercase tracking-wider">
-            <Layers className="w-4 h-4 text-ercs-red" />
-            <span>{showAggregatedView ? `National Activities (${aggregatedRows.length})` : `Execution Plan Entries (${executionRows.length})`}</span>
-            {isQuarterScoped && <span className="normal-case font-semibold text-slate-400">— {q} figures</span>}
+      {isBranchHead ? (
+        <section className="bg-white rounded-xl border shadow-sm overflow-hidden">
+          <div className="p-4 border-b flex items-center justify-between bg-slate-50">
+            <div className="flex items-center gap-2 text-xs font-bold text-slate-800 uppercase tracking-wider">
+              <Layers className="w-4 h-4 text-ercs-red" /> Region Activity Links ({branchHeadLinks.length})
+            </div>
+            <button onClick={openZoneLinkWizard} className="flex items-center gap-1.5 bg-ercs-red text-white px-3 py-1.5 rounded-lg text-xs font-bold">
+              <Plus className="w-3.5 h-3.5" /> Add Plan (Link to National Activity)
+            </button>
           </div>
-          <div className="flex items-center gap-2">
-            {showAggregatedView && isAop && (
-              <button onClick={() => setNaFormOpen(true)} className="flex items-center gap-1.5 bg-slate-800 text-white px-3 py-1.5 rounded-lg text-xs font-bold">
-                <Plus className="w-3.5 h-3.5" /> Add National Activity
-              </button>
-            )}
-            {canAddPlanEntry && (
-              <button onClick={openAddPlanWizard} className="flex items-center gap-1.5 bg-ercs-red text-white px-3 py-1.5 rounded-lg text-xs font-bold">
-                <Plus className="w-3.5 h-3.5" /> Add Plan Entry
-              </button>
-            )}
-          </div>
-        </div>
-
-        {showAggregatedView ? (
-          aggregatedRows.length === 0 ? (
-            <div className="p-8 text-center text-xs text-slate-500">No National Activities match this filter.</div>
+          {branchHeadLinks.length === 0 ? (
+            <div className="p-8 text-center text-xs text-slate-500">No National Activities linked yet.</div>
           ) : (
             <div className="overflow-x-auto">
               <table className="w-full text-left text-xs">
                 <thead className="bg-slate-50 text-slate-600 font-bold uppercase border-b">
-                  <tr>
-                    <th className="p-3">Code</th>
-                    <th className="p-3">Activity</th>
-                    <th className="p-3">Description</th>
-                    <th className="p-3">UOM</th>
-                    <th className="p-3 text-right">Target</th>
-                    <th className="p-3 text-right">Budget (ETB)</th>
-                    <th className="p-3 text-right">Total Beneficiaries</th>
-                    <th className="p-3 text-right">Actual Beneficiaries</th>
-                    <th className="p-3 text-right">% Utilization</th>
-                    <th className="p-3 text-center">Actions</th>
-                  </tr>
+                  <tr><th className="p-3">Code</th><th className="p-3">Activity</th><th className="p-3">UOM</th><th className="p-3 text-right">Target</th><th className="p-3 text-right">Budget</th><th className="p-3 text-right">% Util</th></tr>
                 </thead>
                 <tbody className="divide-y">
-                  {aggregatedRows.map(row => (
-                    <tr key={row.na.id} className="hover:bg-slate-50">
-                      <td className="p-3 font-bold text-ercs-red whitespace-nowrap">{row.na.code}</td>
-                      <td className="p-3 min-w-56">
-                        <div className="font-bold text-slate-800">{row.na.description}</div>
-                        <div className="text-[9px] text-slate-400 mt-0.5">{row.entryCount} linked plan {row.entryCount === 1 ? 'entry' : 'entries'} · {row.na.responsibility}</div>
-                      </td>
-                      <td className="p-3 min-w-64 text-slate-500">{row.na.activity_description}</td>
-                      <td className="p-3 whitespace-nowrap text-slate-500 font-semibold">{row.na.uom}</td>
-                      <td className="p-3 text-right font-bold whitespace-nowrap">{row.target.toLocaleString()}</td>
-                      <td className="p-3 text-right whitespace-nowrap">{row.budget.toLocaleString()}</td>
-                      <td className="p-3 text-right whitespace-nowrap">
-                        <div className="font-bold">{row.beneficiaries.toLocaleString()}</div>
-                        <div className="text-[9px] text-slate-400">Target × {row.factor}</div>
-                      </td>
-                      <td className="p-3 text-right whitespace-nowrap">
-                        <div className="font-bold text-blue-600">{row.actualBeneficiaries.toLocaleString()}</div>
-                        <div className="text-[9px] text-slate-400">Actual × {row.factor}</div>
-                      </td>
-                      <td className="p-3 text-right font-bold whitespace-nowrap">{row.utilization.toFixed(1)}%</td>
-                      <td className="p-3 text-center">
-                        <div className="flex items-center justify-center gap-3">
-                          <button onClick={() => viewLinkMap(row.na.id)} className="text-[10px] font-bold text-ercs-red inline-flex items-center gap-0.5">
-                            View <ArrowUpRight className="w-3 h-3" />
-                          </button>
-                          {isAop && row.totalLinkedEntries === 0 && (
-                            <button
-                              onClick={() => setDeleteNaTarget({ id: row.na.id, label: `${row.na.code} — ${row.na.description}` })}
-                              className="text-[10px] font-bold text-red-600 inline-flex items-center gap-0.5"
-                            >
-                              <Trash2 className="w-3 h-3" /> Delete
-                            </button>
-                          )}
-                        </div>
-                      </td>
-                    </tr>
-                  ))}
+                  {branchHeadLinks.map(link => {
+                    const na = nationalActivities.find(n => n.id === link.national_activity_id);
+                    const es = planEntries.filter(pe => pe.region_activity_link_id === link.id);
+                    const t = sumPlannedTarget(es, quarterlyPlans, q);
+                    const b = sumPlannedBudget(es, quarterlyPlans, q);
+                    const s = sumExpenditure(es, quarterlyActuals, q);
+                    return (
+                      <tr key={link.id} className="hover:bg-slate-50">
+                        <td className="p-3 font-bold text-ercs-red">{na?.code}</td>
+                        <td className="p-3 font-bold">{link.activity_name}</td>
+                        <td className="p-3">{na?.uom}</td>
+                        <td className="p-3 text-right">{t.toLocaleString()}</td>
+                        <td className="p-3 text-right">ETB {b.toLocaleString()}</td>
+                        <td className="p-3 text-right font-bold">{budgetUtilizationPct(s, b).toFixed(1)}%</td>
+                      </tr>
+                    );
+                  })}
                 </tbody>
-                <tfoot>
-                  <tr className="bg-slate-50 font-black border-t-2 border-slate-200">
-                    <td className="p-3" colSpan={4}>TOTAL</td>
-                    <td className="p-3 text-right text-slate-300" title="Targets use different units across activities and are not summable">—</td>
-                    <td className="p-3 text-right">{aggregatedTotalBudget.toLocaleString()}</td>
-                    <td className="p-3 text-right">{aggregatedTotalBeneficiaries.toLocaleString()}</td>
-                    <td className="p-3 text-right">{aggregatedTotalActualBeneficiaries.toLocaleString()}</td>
-                    <td className="p-3 text-right">{aggregatedTotalUtilization.toFixed(1)}%</td>
-                    <td className="p-3"></td>
-                  </tr>
-                </tfoot>
               </table>
             </div>
-          )
-        ) : (
-          executionRows.length === 0 ? (
-            <div className="p-8 text-center">
-              <p className="text-xs text-slate-500 mb-3">No Plan Entries are linked yet for this selection.</p>
-              {canAddPlanEntry && (
-                <button onClick={openAddPlanWizard} className="inline-flex items-center gap-1.5 bg-ercs-red text-white px-3 py-1.5 rounded-lg text-xs font-bold">
+          )}
+        </section>
+      ) : (
+        <section className="bg-white rounded-xl border shadow-sm overflow-hidden">
+          <div className="p-4 border-b flex items-center justify-between bg-slate-50">
+            <div className="flex items-center gap-2 text-xs font-bold text-slate-800 uppercase tracking-wider">
+              <Layers className="w-4 h-4 text-ercs-red" />
+              <span>{showAggregatedView ? `National Activities (${aggregatedRows.length})` : `Execution Plan Entries (${executionRows.length})`}</span>
+            </div>
+            <div className="flex items-center gap-2">
+              {showAggregatedView && isAop && (
+                <button onClick={() => setNaFormOpen(true)} className="flex items-center gap-1.5 bg-slate-800 text-white px-3 py-1.5 rounded-lg text-xs font-bold">
+                  <Plus className="w-3.5 h-3.5" /> Add National Activity
+                </button>
+              )}
+              {isZoneCoordinator && (
+                <button onClick={openZoneEntryWizard} className="flex items-center gap-1.5 bg-ercs-red text-white px-3 py-1.5 rounded-lg text-xs font-bold">
+                  <Plus className="w-3.5 h-3.5" /> Add Plan Entry
+                </button>
+              )}
+              {isProjectCoordinator && canAddPlanEntry && (
+                <button onClick={openAddPlanWizard} className="flex items-center gap-1.5 bg-ercs-red text-white px-3 py-1.5 rounded-lg text-xs font-bold">
                   <Plus className="w-3.5 h-3.5" /> Add Plan Entry
                 </button>
               )}
             </div>
-          ) : (
-            <div className="overflow-x-auto">
-              <table className="w-full text-left text-xs">
-                <thead className="bg-slate-50 text-slate-600 font-bold uppercase border-b">
-                  <tr>
-                    <th className="p-3">Code</th>
-                    <th className="p-3">Activity Name</th>
-                    <th className="p-3">Description</th>
-                    <th className="p-3">Executed By</th>
-                    <th className="p-3 text-right">Target</th>
-                    <th className="p-3 text-right">Budget (ETB)</th>
-                    <th className="p-3 text-right">Total Beneficiaries</th>
-                    <th className="p-3 text-right">Actual Beneficiaries</th>
-                    <th className="p-3 text-right">% Utilization</th>
-                    <th className="p-3 text-center">Status</th>
-                    {isCoordinator && <th className="p-3 text-center">Actions</th>}
-                  </tr>
-                </thead>
-                <tbody className="divide-y">
-                  {executionRows.map(row => (
-                    <tr key={row.pe.id} className="hover:bg-slate-50">
-                      <td className="p-3 font-bold text-ercs-red whitespace-nowrap">{row.na?.code}</td>
-                      <td className="p-3 min-w-40 font-bold text-slate-800">{row.pe.activity_name}</td>
-                      <td className="p-3 min-w-56 text-slate-500">{row.pe.activity_description}</td>
-                      <td className="p-3 whitespace-nowrap">
-                        <span className={`px-2 py-0.5 rounded-full text-[10px] font-bold ${row.pe.scope_type === 'Regional' ? 'bg-blue-50 text-blue-700' : 'bg-purple-50 text-purple-700'}`}>{row.pe.scope_type}</span>
-                        <span className="ml-2 font-semibold">{row.scopeName || '—'}</span>
-                      </td>
-                      <td className="p-3 text-right font-bold whitespace-nowrap">{row.target.toLocaleString()} {row.na?.uom}</td>
-                      <td className="p-3 text-right whitespace-nowrap">{row.budget.toLocaleString()}</td>
-                      <td className="p-3 text-right whitespace-nowrap">
-                        <div className="font-bold">{row.beneficiaries.toLocaleString()}</div>
-                        <div className="text-[9px] text-slate-400">Target × {row.factor}</div>
-                      </td>
-                      <td className="p-3 text-right whitespace-nowrap">
-                        <div className="font-bold text-blue-600">{row.actualBeneficiaries.toLocaleString()}</div>
-                        <div className="text-[9px] text-slate-400">Actual × {row.factor}</div>
-                      </td>
-                      <td className="p-3 text-right font-bold whitespace-nowrap">{row.utilization.toFixed(1)}%</td>
-                      <td className="p-3 text-center"><StatusBadge achievementPct={row.achievement} hasActuals={row.actual > 0} /></td>
-                      {isCoordinator && (
-                        <td className="p-3">
-                          <div className="flex items-center justify-center gap-2 flex-wrap">
-                            <button onClick={() => openEditPlanWizard(row.pe)} className="px-2.5 py-1 rounded bg-blue-50 text-blue-700 font-bold">Edit</button>
-                            <button onClick={() => setDeleteTarget({ id: row.pe.id, label: `${row.na?.code || ''} / ${row.scopeName || ''}` })} className="px-2.5 py-1 rounded bg-red-50 text-red-700 font-bold"><Trash2 className="w-3 h-3" /></button>
+          </div>
+
+          {showAggregatedView ? (
+            aggregatedRows.length === 0 ? (
+              <div className="p-8 text-center text-xs text-slate-500">No National Activities match this filter.</div>
+            ) : (
+              <div className="overflow-x-auto">
+                <table className="w-full text-left text-xs">
+                  <thead className="bg-slate-50 text-slate-600 font-bold uppercase border-b">
+                    <tr>
+                      <th className="p-3">Code</th><th className="p-3">Activity</th><th className="p-3">UOM</th>
+                      <th className="p-3 text-right">Target</th><th className="p-3 text-right">Budget (ETB)</th>
+                      <th className="p-3 text-right">Total Beneficiaries</th><th className="p-3 text-right">Actual Beneficiaries</th>
+                      <th className="p-3 text-right">% Utilization</th><th className="p-3 text-center">Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y">
+                    {aggregatedRows.map(row => (
+                      <tr key={row.na.id} className="hover:bg-slate-50">
+                        <td className="p-3 font-bold text-ercs-red whitespace-nowrap">{row.na.code}</td>
+                        <td className="p-3 min-w-56 font-bold text-slate-800">{row.na.description}</td>
+                        <td className="p-3 whitespace-nowrap text-slate-500 font-semibold">{row.na.uom}</td>
+                        <td className="p-3 text-right font-bold whitespace-nowrap">{row.target.toLocaleString()}</td>
+                        <td className="p-3 text-right whitespace-nowrap">{row.budget.toLocaleString()}</td>
+                        <td className="p-3 text-right whitespace-nowrap">{row.beneficiaries.toLocaleString()}</td>
+                        <td className="p-3 text-right whitespace-nowrap">{row.actualBeneficiaries.toLocaleString()}</td>
+                        <td className="p-3 text-right font-bold whitespace-nowrap">{row.utilization.toFixed(1)}%</td>
+                        <td className="p-3 text-center">
+                          <div className="flex items-center justify-center gap-3">
+                            <button onClick={() => viewLinkMap(row.na.id)} className="text-[10px] font-bold text-ercs-red inline-flex items-center gap-0.5">View <ArrowUpRight className="w-3 h-3" /></button>
+                            {isAop && row.totalLinkedEntries === 0 && !row.hasLinkedRegionLinks && (
+                              <button onClick={() => setDeleteNaTarget({ id: row.na.id, label: `${row.na.code} — ${row.na.description}` })} className="text-[10px] font-bold text-red-600 inline-flex items-center gap-0.5">
+                                <Trash2 className="w-3 h-3" /> Delete
+                              </button>
+                            )}
                           </div>
                         </td>
-                      )}
+                      </tr>
+                    ))}
+                  </tbody>
+                  <tfoot>
+                    <tr className="bg-slate-50 font-black border-t-2 border-slate-200">
+                      <td className="p-3" colSpan={3}>TOTAL</td>
+                      <td className="p-3 text-right text-slate-300">—</td>
+                      <td className="p-3 text-right">{aggregatedTotalBudget.toLocaleString()}</td>
+                      <td className="p-3 text-right">{aggregatedTotalBeneficiaries.toLocaleString()}</td>
+                      <td className="p-3 text-right">{aggregatedTotalActualBeneficiaries.toLocaleString()}</td>
+                      <td className="p-3 text-right">{aggregatedTotalUtilization.toFixed(1)}%</td>
+                      <td className="p-3"></td>
                     </tr>
-                  ))}
-                </tbody>
-                <tfoot>
-                  <tr className="bg-slate-50 font-black border-t-2 border-slate-200">
-                    <td className="p-3" colSpan={4}>TOTAL</td>
-                    <td className="p-3 text-right text-slate-300" title="Targets use different units across activities and are not summable">—</td>
-                    <td className="p-3 text-right">{executionTotalBudget.toLocaleString()}</td>
-                    <td className="p-3 text-right">{executionTotalBeneficiaries.toLocaleString()}</td>
-                    <td className="p-3 text-right">{executionTotalActualBeneficiaries.toLocaleString()}</td>
-                    <td className="p-3 text-right">{executionTotalUtilization.toFixed(1)}%</td>
-                    <td className="p-3" colSpan={isCoordinator ? 2 : 1}></td>
-                  </tr>
-                </tfoot>
-              </table>
-            </div>
-          )
-        )}
-      </section>
+                  </tfoot>
+                </table>
+              </div>
+            )
+          ) : (
+            executionRows.length === 0 ? (
+              <div className="p-8 text-center">
+                <p className="text-xs text-slate-500 mb-3">No Plan Entries are linked yet for this selection.</p>
+              </div>
+            ) : (
+              <div className="overflow-x-auto">
+                <table className="w-full text-left text-xs">
+                  <thead className="bg-slate-50 text-slate-600 font-bold uppercase border-b">
+                    <tr>
+                      <th className="p-3">Code</th><th className="p-3">Activity Name</th><th className="p-3">Executed By</th>
+                      <th className="p-3 text-right">Target</th><th className="p-3 text-right">Budget (ETB)</th>
+                      <th className="p-3 text-right">% Utilization</th><th className="p-3 text-center">Status</th>
+                      {(isProjectCoordinator || isZoneCoordinator) && <th className="p-3 text-center">Actions</th>}
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y">
+                    {executionRows.map(row => (
+                      <tr key={row.pe.id} className="hover:bg-slate-50">
+                        <td className="p-3 font-bold text-ercs-red whitespace-nowrap">{row.na?.code}</td>
+                        <td className="p-3 min-w-40 font-bold text-slate-800">{row.pe.activity_name}</td>
+                        <td className="p-3 whitespace-nowrap">
+                          <span className={`px-2 py-0.5 rounded-full text-[10px] font-bold ${row.pe.scope_type === 'Regional' ? 'bg-blue-50 text-blue-700' : 'bg-purple-50 text-purple-700'}`}>{row.pe.scope_type}</span>
+                          <span className="ml-2 font-semibold">{row.scopeName || '—'}</span>
+                        </td>
+                        <td className="p-3 text-right font-bold whitespace-nowrap">{row.target.toLocaleString()} {row.na?.uom}</td>
+                        <td className="p-3 text-right whitespace-nowrap">{row.budget.toLocaleString()}</td>
+                        <td className="p-3 text-right font-bold whitespace-nowrap">{row.utilization.toFixed(1)}%</td>
+                        <td className="p-3 text-center"><StatusBadge achievementPct={row.achievement} hasActuals={row.actual > 0} /></td>
+                        {(isProjectCoordinator || isZoneCoordinator) && (
+                          <td className="p-3">
+                            <div className="flex items-center justify-center gap-2 flex-wrap">
+                              <button onClick={() => openEditPlanWizard(row.pe)} className="px-2.5 py-1 rounded bg-blue-50 text-blue-700 font-bold">Edit</button>
+                              <button onClick={() => setDeleteTarget({ id: row.pe.id, label: `${row.na?.code || ''} / ${row.scopeName || ''}` })} className="px-2.5 py-1 rounded bg-red-50 text-red-700 font-bold"><Trash2 className="w-3 h-3" /></button>
+                            </div>
+                          </td>
+                        )}
+                      </tr>
+                    ))}
+                  </tbody>
+                  <tfoot>
+                    <tr className="bg-slate-50 font-black border-t-2 border-slate-200">
+                      <td className="p-3" colSpan={3}>TOTAL</td>
+                      <td className="p-3 text-right text-slate-300">—</td>
+                      <td className="p-3 text-right">{executionTotalBudget.toLocaleString()}</td>
+                      <td className="p-3 text-right">{executionTotalUtilization.toFixed(1)}%</td>
+                      <td className="p-3" colSpan={(isProjectCoordinator || isZoneCoordinator) ? 2 : 1}></td>
+                    </tr>
+                  </tfoot>
+                </table>
+              </div>
+            )
+          )}
+        </section>
+      )}
 
       {peWizard && (
-        <PlanEntryWizardModal
-          initial={peWizard.initial}
-          startStep={peWizard.startStep}
-          onClose={() => setPeWizard(null)}
-          onSaved={() => setPeWizard(null)}
-        />
+        <PlanEntryWizardModal initial={peWizard.initial} startStep={peWizard.startStep} onClose={() => setPeWizard(null)} onSaved={() => setPeWizard(null)} />
       )}
       {deleteTarget && (
-        <ConfirmDeleteModal
-          label={deleteTarget.label}
-          onCancel={() => setDeleteTarget(null)}
-          onConfirm={() => {
-            deletePlanEntry(deleteTarget.id);
-            setDeleteTarget(null);
-          }}
-        />
+        <ConfirmDeleteModal label={deleteTarget.label} onCancel={() => setDeleteTarget(null)} onConfirm={() => { deletePlanEntry(deleteTarget.id); setDeleteTarget(null); }} />
       )}
-      {naFormOpen && (
-        <NationalActivityFormModal
-          onClose={() => setNaFormOpen(false)}
-          onSaved={() => setNaFormOpen(false)}
-        />
-      )}
+      {naFormOpen && <NationalActivityFormModal onClose={() => setNaFormOpen(false)} onSaved={() => setNaFormOpen(false)} />}
       {deleteNaTarget && (
-        <ConfirmDeleteNAModal
-          label={deleteNaTarget.label}
-          onCancel={() => setDeleteNaTarget(null)}
-          onConfirm={() => {
-            deleteNationalActivity(deleteNaTarget.id);
-            setDeleteNaTarget(null);
-          }}
-        />
+        <ConfirmDeleteNAModal label={deleteNaTarget.label} onCancel={() => setDeleteNaTarget(null)} onConfirm={() => { deleteNationalActivity(deleteNaTarget.id); setDeleteNaTarget(null); }} />
       )}
     </div>
   );
 };
 
 // ============================================================
-// NationalActivityFormModal — National Activity AOP only. Creates a new,
-// fixed-reference-style National Activity with no Target/Budget of its own
-// (those are always entered bottom-up via Plan Entries). The only thing
-// captured here besides the identifying fields is WHICH Regions/Projects
-// are allowed to later add a Plan Entry against it.
+// NationalActivityFormModal — unchanged from original file.
 // ============================================================
 const NationalActivityFormModal: React.FC<{ onClose: () => void; onSaved: () => void }> = ({ onClose, onSaved }) => {
   const { nationalActivities, regions, projects, uomConfigs, addNationalActivity } = useApp();
@@ -443,28 +390,15 @@ const NationalActivityFormModal: React.FC<{ onClose: () => void; onSaved: () => 
 
   const toggleRegion = (id: string) => setRegionIds(prev => prev.includes(id) ? prev.filter(r => r !== id) : [...prev, id]);
   const toggleProject = (id: string) => setProjectIds(prev => prev.includes(id) ? prev.filter(p => p !== id) : [...prev, id]);
-
-  // Activity codes must be unique — check against every existing National
-  // Activity (case-insensitive, trimmed) before allowing a save.
-  const isDuplicateCode = !!code.trim() && nationalActivities.some(
-    na => na.code.trim().toLowerCase() === code.trim().toLowerCase()
-  );
-
+  const isDuplicateCode = !!code.trim() && nationalActivities.some(na => na.code.trim().toLowerCase() === code.trim().toLowerCase());
   const canSave = !!code.trim() && !!name.trim() && !!description.trim() && !!uom && !isDuplicateCode && (regionIds.length > 0 || projectIds.length > 0);
 
   const handleSave = () => {
     if (!canSave || savingRef.current) return;
     savingRef.current = true;
     const na: NationalActivity = {
-      id: `na-${Date.now()}`,
-      strategic_priority_id: 'sp-1',
-      code: code.trim(),
-      description: name.trim(),
-      uom,
-      responsibility: 'Both',
-      activity_description: description.trim(),
-      eligible_region_ids: regionIds,
-      eligible_project_ids: projectIds,
+      id: `na-${Date.now()}`, strategic_priority_id: 'sp-1', code: code.trim(), description: name.trim(), uom,
+      responsibility: 'Both', activity_description: description.trim(), eligible_region_ids: regionIds, eligible_project_ids: projectIds,
     };
     addNationalActivity(na);
     onSaved();
@@ -475,22 +409,12 @@ const NationalActivityFormModal: React.FC<{ onClose: () => void; onSaved: () => 
       <div className="space-y-4">
         <div>
           <LabeledInput label="Activity Code" value={code} onChange={setCode} placeholder="e.g. 6.1.1" />
-          {isDuplicateCode && (
-            <div className="mt-1.5 text-[10px] text-rose-700 bg-rose-50 border border-rose-200 rounded p-2 font-semibold">
-              A National Activity with code "{code.trim()}" already exists. Please change the code.
-            </div>
-          )}
+          {isDuplicateCode && <div className="mt-1.5 text-[10px] text-rose-700 bg-rose-50 border border-rose-200 rounded p-2 font-semibold">A National Activity with code "{code.trim()}" already exists.</div>}
         </div>
-        <LabeledInput label="Activity Name" value={name} onChange={setName} placeholder="e.g. Provide Cash Assistance to Flood-Affected Households" />
+        <LabeledInput label="Activity Name" value={name} onChange={setName} placeholder="e.g. Provide Cash Assistance" />
         <label className="block">
           <span className="block text-[10px] font-bold text-slate-500 mb-1">Description</span>
-          <textarea
-            value={description}
-            onChange={e => setDescription(e.target.value)}
-            rows={3}
-            placeholder="Describe what this National Activity covers"
-            className="w-full text-xs border border-slate-200 rounded p-2 bg-slate-50 focus:outline-none focus:ring-2 focus:ring-red-100"
-          />
+          <textarea value={description} onChange={e => setDescription(e.target.value)} rows={3} className="w-full text-xs border border-slate-200 rounded p-2 bg-slate-50" />
         </label>
         <div>
           <span className="block text-[10px] font-bold text-slate-500 mb-1">Unit of Measure</span>
@@ -499,46 +423,27 @@ const NationalActivityFormModal: React.FC<{ onClose: () => void; onSaved: () => 
             {uomConfigs.map(c => <option key={c.uom} value={c.uom}>{c.uom}</option>)}
           </select>
         </div>
-
         <div>
-          <span className="block text-[10px] font-bold text-slate-500 mb-2">
-            Executed By — select every Region and/or Project that should be able to submit a Plan Entry against this National Activity
-          </span>
+          <span className="block text-[10px] font-bold text-slate-500 mb-2">Executed By</span>
           <div className="grid grid-cols-2 gap-3">
             <div>
               <div className="text-[9px] uppercase font-extrabold text-slate-400 mb-1">Regions</div>
-              <div className="space-y-1">
-                {regions.map(r => (
-                  <label key={r.id} className="flex items-center gap-2 text-xs font-semibold text-slate-700 bg-slate-50 border rounded px-2 py-1.5 cursor-pointer">
-                    <input type="checkbox" checked={regionIds.includes(r.id)} onChange={() => toggleRegion(r.id)} />
-                    {r.name}
-                  </label>
-                ))}
-              </div>
+              {regions.map(r => (
+                <label key={r.id} className="flex items-center gap-2 text-xs font-semibold text-slate-700 bg-slate-50 border rounded px-2 py-1.5 cursor-pointer mb-1">
+                  <input type="checkbox" checked={regionIds.includes(r.id)} onChange={() => toggleRegion(r.id)} /> {r.name}
+                </label>
+              ))}
             </div>
             <div>
               <div className="text-[9px] uppercase font-extrabold text-slate-400 mb-1">Projects</div>
-              <div className="space-y-1">
-                {projects.map(p => (
-                  <label key={p.id} className="flex items-center gap-2 text-xs font-semibold text-slate-700 bg-slate-50 border rounded px-2 py-1.5 cursor-pointer">
-                    <input type="checkbox" checked={projectIds.includes(p.id)} onChange={() => toggleProject(p.id)} />
-                    {p.name}
-                  </label>
-                ))}
-              </div>
+              {projects.map(p => (
+                <label key={p.id} className="flex items-center gap-2 text-xs font-semibold text-slate-700 bg-slate-50 border rounded px-2 py-1.5 cursor-pointer mb-1">
+                  <input type="checkbox" checked={projectIds.includes(p.id)} onChange={() => toggleProject(p.id)} /> {p.name}
+                </label>
+              ))}
             </div>
           </div>
-          {regionIds.length === 0 && projectIds.length === 0 && (
-            <div className="mt-2 text-[10px] text-amber-700 bg-amber-50 border border-amber-200 rounded p-2 font-semibold">
-              Select at least one Region or Project — only they will be able to add a Plan Entry against this activity.
-            </div>
-          )}
         </div>
-
-        <div className="bg-blue-50 border border-blue-100 rounded-lg p-3 text-[11px] text-blue-800 font-semibold">
-          No Target or Budget is set here — those are entered bottom-up by each selected Region/Project when they add their own Plan Entry against this activity. Until they do, this activity will show "No linked execution entries yet." under Annual Plan.
-        </div>
-
         <div className="flex justify-end">
           <button disabled={!canSave} onClick={handleSave} className="bg-ercs-red text-white px-5 py-2.5 rounded-lg text-xs font-bold flex items-center gap-2 disabled:opacity-40">
             <Save className="w-3.5 h-3.5" /> Save National Activity
@@ -550,8 +455,9 @@ const NationalActivityFormModal: React.FC<{ onClose: () => void; onSaved: () => 
 };
 
 // ============================================================
-// PlanEntryWizardModal — exported so NationalActivityDetailPage and
-// ScopeDetailPage can reuse it for their own "Add Plan Entry" flows.
+// PlanEntryWizardModal — Project branch UNCHANGED. Regional branch is now
+// either a Branch Head's RegionActivityLink wizard, or a Zone Coordinator's
+// PlanEntry wizard, distinguished by currentRole.
 // ============================================================
 export const PlanEntryWizardModal: React.FC<{
   initial: PeWizardFormState;
@@ -559,298 +465,280 @@ export const PlanEntryWizardModal: React.FC<{
   onClose: () => void;
   onSaved: () => void;
 }> = ({ initial, startStep, onClose, onSaved }) => {
-  const { nationalActivities, regions, projects, addProject, addEligibleScope, planEntries, addPlanEntry, updatePlanEntry, currentRole } = useApp();
+  const { nationalActivities, regions, zones, projects, addProject, planEntries, addPlanEntry, updatePlanEntry, currentRole, regionActivityLinks, addRegionActivityLink } = useApp();
   const [step, setStep] = useState<1 | 2>(startStep);
   const [form, setForm] = useState<PeWizardFormState>(initial);
   const [addingProject, setAddingProject] = useState(false);
   const [newProjectName, setNewProjectName] = useState('');
-
   const savingRef = useRef(false);
 
   const isEditing = !!form.id;
-  const regionalRole = currentRole.startsWith('Regional Coordinator — ');
-  const projectRole = currentRole.startsWith('Project Coordinator — ');
-  const roleForcedScope: ScopeType | null = regionalRole ? 'Regional' : projectRole ? 'Project' : null;
-  const scopeLocked = !!roleForcedScope || !!initial.lockScope;
-  const assignedRegion = regionalRole ? regions.find(r => r.name === currentRole.slice('Regional Coordinator — '.length)) : undefined;
-  const assignedProject = projectRole ? projects.find(p => p.name === currentRole.slice('Project Coordinator — '.length)) : undefined;
-  const effectiveScope = form.scope_type;
+  const isProjectScope = form.scope_type === 'Project';
+  const isBranchHead = currentRole.startsWith('Branch Head — ');
+  const isZoneCoordinator = currentRole.endsWith(' coordinators');
+  const currentZone = isZoneCoordinator ? zones.find(z => `${z.name} coordinators` === currentRole) : undefined;
 
-  // When the execution scope is already fixed (by role or an active
-  // filter), only offer National Activities that actually list that exact
-  // Region/Project as an eligible executor — mirrors the Excel data's
-  // fixed Project/Region ↔ National Activity linkage instead of letting
-  // any scope attach to any activity.
-  const naOptions = scopeLocked
-    ? nationalActivities.filter(na => effectiveScope === 'Regional'
-        ? (!form.region_id || na.eligible_region_ids.includes(form.region_id))
-        : (!form.project_id || na.eligible_project_ids.includes(form.project_id)))
-    : nationalActivities;
-  const selectedNa = nationalActivities.find(na => na.id === form.national_activity_id);
+  // ---------------- PROJECT SCOPE: pixel-identical to before ----------------
+  if (isProjectScope) {
+    const selectedNa = nationalActivities.find(na => na.id === form.national_activity_id);
+    const eligibleProjects = selectedNa ? projects.filter(p => selectedNa.eligible_project_ids.includes(p.id)) : projects;
+    const isEligibleScope = !!selectedNa && !!form.project_id && selectedNa.eligible_project_ids.includes(form.project_id);
+    const siblingEntries = selectedNa ? planEntries.filter(pe => pe.national_activity_id === selectedNa.id && pe.id !== form.id) : [];
+    const siblingTarget = sumTarget(siblingEntries);
+    const siblingBudget = sumBudget(siblingEntries);
+    const thisTarget = Number(form.annual_target) || 0;
+    const thisBudget = Number(form.annual_budget) || 0;
+    const numbersValid = thisTarget >= 0 && thisBudget >= 0;
+    const isDuplicateLink = !!selectedNa && planEntries.some(pe => pe.id !== form.id && pe.national_activity_id === selectedNa.id && pe.scope_type === 'Project' && pe.project_id === form.project_id);
+    const canContinue = !!form.national_activity_id;
+    const canSave = !!form.national_activity_id && isEligibleScope && !!form.activity_name.trim() && !!form.activity_description.trim() && numbersValid && !isDuplicateLink;
+    const activityCode = selectedNa?.code || '';
 
-  // Once a National Activity is chosen, only its originally assigned
-  // Regions/Projects may be picked as the executing scope in Step 2.
-  const eligibleRegions = selectedNa ? regions.filter(r => selectedNa.eligible_region_ids.includes(r.id)) : regions;
-  const eligibleProjects = selectedNa ? projects.filter(p => selectedNa.eligible_project_ids.includes(p.id)) : projects;
-  const regionScopeAvailable = !selectedNa || selectedNa.eligible_region_ids.length > 0;
-  const projectScopeAvailable = !selectedNa || selectedNa.eligible_project_ids.length > 0;
-  const isEligibleScope = !!selectedNa && (
-    effectiveScope === 'Regional'
-      ? (!!form.region_id && selectedNa.eligible_region_ids.includes(form.region_id))
-      : (!!form.project_id && selectedNa.eligible_project_ids.includes(form.project_id))
-  );
+    React.useEffect(() => {
+      if (form.activity_name.trim()) return;
+      const label = projects.find(p => p.id === form.project_id)?.name;
+      if (label) setForm(f => ({ ...f, activity_name: label }));
+    }, [form.activity_name, form.project_id, projects]);
 
-  const siblingEntries = selectedNa ? planEntries.filter(pe => pe.national_activity_id === selectedNa.id && pe.id !== form.id) : [];
-  const siblingTarget = sumTarget(siblingEntries);
-  const siblingBudget = sumBudget(siblingEntries);
+    const handleAddProject = () => {
+      const name = newProjectName.trim();
+      if (!name) return;
+      const project: Project = { id: `proj-${Date.now()}`, name };
+      addProject(project);
+      setForm(f => ({ ...f, project_id: project.id }));
+      setNewProjectName('');
+      setAddingProject(false);
+    };
+
+    const handleSave = () => {
+      if (!canSave || savingRef.current) return;
+      savingRef.current = true;
+      const pe: PlanEntry = {
+        id: form.id || `pe-${Date.now()}`, national_activity_id: form.national_activity_id, scope_type: 'Project',
+        project_id: form.project_id, annual_target: thisTarget, annual_budget: thisBudget,
+        activity_code: selectedNa?.code || '', activity_name: form.activity_name.trim(), activity_description: form.activity_description.trim(),
+        approval_status: 'Approved',
+      };
+      if (isEditing) updatePlanEntry(pe); else addPlanEntry(pe);
+      onSaved();
+    };
+
+    return (
+      <ModalShell title={isEditing ? 'Edit Plan Entry' : 'Add Plan — Link to National Activity'} onClose={onClose}>
+        <div className="flex items-center gap-2 mb-4">
+          <StepPill num={1} label="Link to Parent" active={step === 1} done={step > 1} />
+          <div className="flex-1 h-px bg-slate-200" />
+          <StepPill num={2} label="Execution Details" active={step === 2} done={false} />
+        </div>
+        {step === 1 && (
+          <div className="space-y-4">
+            <div>
+              <span className="block text-[10px] font-bold text-slate-500 mb-1">National Activity (Parent)</span>
+              <select value={form.national_activity_id} onChange={e => setForm(f => ({ ...f, national_activity_id: e.target.value }))} disabled={isEditing} className="w-full text-xs border border-slate-200 rounded p-2 bg-slate-50 disabled:opacity-60">
+                <option value="">Select the National Activity this plan entry belongs to…</option>
+                {nationalActivities.map(na => <option key={na.id} value={na.id}>{na.code} — {na.description}</option>)}
+              </select>
+            </div>
+            <div className="flex justify-end">
+              <button disabled={!canContinue} onClick={() => setStep(2)} className="bg-ercs-red text-white px-4 py-2 rounded-lg text-xs font-bold disabled:opacity-40">Continue to Execution Details</button>
+            </div>
+          </div>
+        )}
+        {step === 2 && selectedNa && (
+          <div className="space-y-4">
+            <div>
+              <div className="flex items-center justify-between mb-1">
+                <span className="block text-[10px] font-bold text-slate-500">Project</span>
+                {!form.lockScope && <button type="button" onClick={() => setAddingProject(a => !a)} className="text-[10px] font-bold text-ercs-red">+ Add Project</button>}
+              </div>
+              <select value={form.project_id} onChange={e => setForm(f => ({ ...f, project_id: e.target.value }))} disabled={form.lockScope} className="w-full text-xs border rounded p-2 bg-slate-50 disabled:opacity-60">
+                <option value="">Select project…</option>
+                {eligibleProjects.map(p => <option key={p.id} value={p.id}>{p.name}</option>)}
+              </select>
+              {addingProject && (
+                <div className="mt-2 flex gap-1.5">
+                  <input value={newProjectName} onChange={e => setNewProjectName(e.target.value)} placeholder="New project name" className="flex-1 text-xs border border-slate-200 rounded p-1.5 bg-white" />
+                  <button type="button" onClick={handleAddProject} className="px-2.5 py-1 rounded bg-ercs-red text-white text-[10px] font-bold">Add</button>
+                </div>
+              )}
+            </div>
+            <div className="grid grid-cols-2 gap-3">
+              <div className="col-span-2 bg-slate-50 border rounded-lg p-3">
+                <div className="text-[10px] uppercase font-extrabold text-slate-400">Activity Code</div>
+                <div className="text-sm font-black text-ercs-red mt-1">{activityCode || '—'}</div>
+              </div>
+              <LabeledInput label="Activity Name" value={form.activity_name} onChange={v => setForm(f => ({ ...f, activity_name: v }))} />
+              <div className="col-span-2">
+                <label className="block">
+                  <span className="block text-[10px] font-bold text-slate-500 mb-1">Activity Description</span>
+                  <textarea value={form.activity_description} onChange={e => setForm(f => ({ ...f, activity_description: e.target.value }))} rows={3} className="w-full text-xs border border-slate-200 rounded p-2 bg-slate-50" />
+                </label>
+              </div>
+              <LabeledInput label={`Annual Target (${selectedNa.uom})`} type="number" value={form.annual_target} onChange={v => setForm(f => ({ ...f, annual_target: v === '' ? '' : String(Math.max(0, Number(v) || 0)) }))} />
+              <LabeledInput label="Annual Budget (ETB)" type="number" value={form.annual_budget} onChange={v => setForm(f => ({ ...f, annual_budget: v === '' ? '' : String(Math.max(0, Number(v) || 0)) }))} />
+            </div>
+            {isDuplicateLink && <div className="bg-rose-50 border border-rose-200 rounded-lg p-3 text-[11px] text-rose-700 font-semibold">This Project is already linked to {selectedNa.code}.</div>}
+            <div className="bg-blue-50 border border-blue-100 rounded-lg p-3 text-[11px] text-blue-800 font-semibold space-y-1">
+              <div>This entry will contribute <b>{thisTarget.toLocaleString()} {selectedNa.uom}</b> / <b>ETB {thisBudget.toLocaleString()}</b>, alongside <b>{siblingTarget.toLocaleString()}</b> / <b>ETB {siblingBudget.toLocaleString()}</b> already committed.</div>
+            </div>
+            <div className="flex justify-between">
+              <button onClick={() => setStep(1)} className="px-4 py-2 rounded-lg border text-xs font-bold">Back</button>
+              <button disabled={!canSave} onClick={handleSave} className="bg-ercs-red text-white px-5 py-2.5 rounded-lg text-xs font-bold flex items-center gap-2 disabled:opacity-40">
+                <Save className="w-3.5 h-3.5" /> {isEditing ? 'Update Plan Entry' : 'Save & Link'}
+              </button>
+            </div>
+          </div>
+        )}
+      </ModalShell>
+    );
+  }
+
+  // ---------------- REGIONAL SCOPE: Branch Head (link wizard) ----------------
+  if (isBranchHead && !isEditing) {
+    const region = regions.find(r => r.id === form.region_id);
+    const zonesInRegion = zones.filter(z => z.region_id === form.region_id);
+    const [selectedZoneIds, setSelectedZoneIds] = useState<string[]>([]);
+    const naOptions = nationalActivities.filter(na => na.eligible_region_ids.includes(form.region_id));
+    const selectedNa = nationalActivities.find(na => na.id === form.national_activity_id);
+    const isDuplicate = !!selectedNa && regionActivityLinks.some(l => l.national_activity_id === selectedNa.id && l.region_id === form.region_id);
+    const canContinue = !!form.national_activity_id && !isDuplicate;
+    const canSave = canContinue && !!form.activity_name.trim() && !!form.activity_description.trim() && selectedZoneIds.length > 0;
+
+    const toggleZone = (id: string) => setSelectedZoneIds(prev => prev.includes(id) ? prev.filter(z => z !== id) : [...prev, id]);
+
+    const handleSave = () => {
+      if (!canSave || savingRef.current) return;
+      savingRef.current = true;
+      addRegionActivityLink({
+        id: `ral-${Date.now()}`, national_activity_id: form.national_activity_id, region_id: form.region_id,
+        activity_name: form.activity_name.trim(), activity_description: form.activity_description.trim(), eligible_zone_ids: selectedZoneIds,
+      });
+      onSaved();
+    };
+
+    return (
+      <ModalShell title="Add Plan — Link to National Activity" onClose={onClose}>
+        <div className="flex items-center gap-2 mb-4">
+          <StepPill num={1} label="Link to Parent" active={step === 1} done={step > 1} />
+          <div className="flex-1 h-px bg-slate-200" />
+          <StepPill num={2} label="Zone Details" active={step === 2} done={false} />
+        </div>
+        {step === 1 && (
+          <div className="space-y-4">
+            <div>
+              <span className="block text-[10px] font-bold text-slate-500 mb-1">National Activity (Parent)</span>
+              <select value={form.national_activity_id} onChange={e => setForm(f => ({ ...f, national_activity_id: e.target.value }))} className="w-full text-xs border border-slate-200 rounded p-2 bg-slate-50">
+                <option value="">Select the National Activity this Region will execute…</option>
+                {naOptions.map(na => <option key={na.id} value={na.id}>{na.code} — {na.description}</option>)}
+              </select>
+              {isDuplicate && <div className="text-[10px] text-rose-700 mt-1 font-semibold">Already linked to {region?.name}.</div>}
+            </div>
+            <div className="flex justify-end">
+              <button disabled={!canContinue} onClick={() => setStep(2)} className="bg-ercs-red text-white px-4 py-2 rounded-lg text-xs font-bold disabled:opacity-40">Continue</button>
+            </div>
+          </div>
+        )}
+        {step === 2 && selectedNa && (
+          <div className="space-y-4">
+            <LabeledInput label="Activity Name" value={form.activity_name} onChange={v => setForm(f => ({ ...f, activity_name: v }))} />
+            <label className="block">
+              <span className="block text-[10px] font-bold text-slate-500 mb-1">Activity Description</span>
+              <textarea value={form.activity_description} onChange={e => setForm(f => ({ ...f, activity_description: e.target.value }))} rows={3} className="w-full text-xs border border-slate-200 rounded p-2 bg-slate-50" />
+            </label>
+            <div>
+              <span className="block text-[10px] font-bold text-slate-500 mb-2">Eligible Zones (multi-select) — no Target/Budget here, each Zone enters its own</span>
+              <div className="grid grid-cols-2 gap-1.5 max-h-56 overflow-y-auto">
+                {zonesInRegion.map(z => (
+                  <label key={z.id} className="flex items-center gap-2 text-xs font-semibold text-slate-700 bg-slate-50 border rounded px-2 py-1.5 cursor-pointer">
+                    <input type="checkbox" checked={selectedZoneIds.includes(z.id)} onChange={() => toggleZone(z.id)} /> {z.name}
+                  </label>
+                ))}
+              </div>
+            </div>
+            <div className="flex justify-between">
+              <button onClick={() => setStep(1)} className="px-4 py-2 rounded-lg border text-xs font-bold">Back</button>
+              <button disabled={!canSave} onClick={handleSave} className="bg-ercs-red text-white px-5 py-2.5 rounded-lg text-xs font-bold flex items-center gap-2 disabled:opacity-40">
+                <Save className="w-3.5 h-3.5" /> Save Region Link
+              </button>
+            </div>
+          </div>
+        )}
+      </ModalShell>
+    );
+  }
+
+  // ---------------- REGIONAL SCOPE: Zone Coordinator's own PlanEntry ----------------
+  const eligibleLinks = currentZone
+    ? regionActivityLinks.filter(l => l.region_id === currentZone.region_id && l.eligible_zone_ids.includes(currentZone.id))
+    : [];
+  const selectedLink = regionActivityLinks.find(l => l.id === form['region_activity_link_id' as keyof PeWizardFormState] as unknown as string)
+    || eligibleLinks.find(l => l.national_activity_id === form.national_activity_id);
+  const selectedNaZone = nationalActivities.find(na => na.id === form.national_activity_id);
   const thisTarget = Number(form.annual_target) || 0;
   const thisBudget = Number(form.annual_budget) || 0;
-
   const numbersValid = thisTarget >= 0 && thisBudget >= 0;
+  const isDuplicateZoneEntry = !!selectedLink && planEntries.some(pe => pe.id !== form.id && pe.region_activity_link_id === selectedLink.id && pe.zone_id === currentZone?.id);
+  const canContinueZ = !!form.national_activity_id;
+  const canSaveZ = canContinueZ && !!selectedLink && numbersValid && !isDuplicateZoneEntry;
 
-  const isDuplicateLink = !!selectedNa && !!form.scope_type && planEntries.some(pe =>
-    pe.id !== form.id &&
-    pe.national_activity_id === selectedNa.id &&
-    pe.scope_type === effectiveScope &&
-    (effectiveScope === 'Regional'
-      ? (!!form.region_id && pe.region_id === form.region_id)
-      : (!!form.project_id && pe.project_id === form.project_id))
-  );
-
-  const canContinue = !!form.national_activity_id;
-  const canSave =
-    !!form.national_activity_id &&
-    !!effectiveScope &&
-    isEligibleScope &&
-    !!form.activity_name.trim() &&
-    !!form.activity_description.trim() &&
-    numbersValid &&
-    !isDuplicateLink;
-
-  // The Plan Entry's activity code is always just its parent National
-  // Activity's own code — the "Executed By" column already makes clear
-  // who's running it, so there's no per-Region/Project suffix any more.
-  const activityCode = selectedNa?.code || '';
-
-  React.useEffect(() => {
-    if (form.activity_name.trim()) return;
-    const label = effectiveScope === 'Regional' ? regions.find(r => r.id === form.region_id)?.name : projects.find(p => p.id === form.project_id)?.name;
-    if (label) setForm(f => ({ ...f, activity_name: label }));
-  }, [form.activity_name, form.region_id, form.project_id, effectiveScope, regions, projects]);
-
-  const handleAddProject = () => {
-    const name = newProjectName.trim();
-    if (!name) return;
-    const project: Project = { id: `proj-${Date.now()}`, name };
-    addProject(project);
-    // The user is explicitly creating this Project to execute the currently
-    // selected National Activity, so link it as an eligible executor right
-    // away — otherwise it could never be saved on this entry.
-    if (selectedNa) addEligibleScope(selectedNa.id, 'Project', project.id);
-    setForm(f => ({ ...f, project_id: project.id }));
-    setNewProjectName('');
-    setAddingProject(false);
-  };
-
-  const handleSave = () => {
-    if (!canSave || savingRef.current) return;
+  const handleSaveZone = () => {
+    if (!canSaveZ || !currentZone || !selectedLink || savingRef.current) return;
     savingRef.current = true;
     const pe: PlanEntry = {
-      id: form.id || `pe-${Date.now()}`,
-      national_activity_id: form.national_activity_id,
-      scope_type: effectiveScope,
-      region_id: effectiveScope === 'Regional' ? form.region_id : undefined,
-      project_id: effectiveScope === 'Project' ? form.project_id : undefined,
-      annual_target: thisTarget,
-      annual_budget: thisBudget,
-      activity_code: selectedNa?.code || '',
-      activity_name: form.activity_name.trim(),
-      activity_description: form.activity_description.trim(),
-      approval_status: 'Approved',
+      id: form.id || `pe-zn-${Date.now()}`, national_activity_id: selectedLink.national_activity_id, scope_type: 'Regional',
+      region_id: currentZone.region_id, zone_id: currentZone.id, region_activity_link_id: selectedLink.id,
+      annual_target: thisTarget, annual_budget: thisBudget, activity_code: selectedNaZone?.code || '',
+      activity_name: selectedLink.activity_name, activity_description: selectedLink.activity_description, approval_status: 'Approved',
     };
     if (isEditing) updatePlanEntry(pe); else addPlanEntry(pe);
     onSaved();
   };
 
-  const scopeLabel = effectiveScope === 'Regional' ? regions.find(r => r.id === form.region_id)?.name : projects.find(p => p.id === form.project_id)?.name;
-
   return (
-    <ModalShell title={isEditing ? 'Edit Plan Entry' : 'Add Plan — Link to National Activity'} onClose={onClose}>
+    <ModalShell title={isEditing ? 'Edit Plan Entry' : 'Add Plan Entry'} onClose={onClose}>
       <div className="flex items-center gap-2 mb-4">
         <StepPill num={1} label="Link to Parent" active={step === 1} done={step > 1} />
         <div className="flex-1 h-px bg-slate-200" />
         <StepPill num={2} label="Execution Details" active={step === 2} done={false} />
       </div>
-
       {step === 1 && (
         <div className="space-y-4">
           <div>
             <span className="block text-[10px] font-bold text-slate-500 mb-1">National Activity (Parent)</span>
-            <select
-              value={form.national_activity_id}
-              onChange={e => setForm(f => ({ ...f, national_activity_id: e.target.value }))}
-              disabled={isEditing}
-              className="w-full text-xs border border-slate-200 rounded p-2 bg-slate-50 disabled:opacity-60"
-            >
-              <option value="">Select the National Activity this plan entry belongs to…</option>
-              {naOptions.map(na => <option key={na.id} value={na.id}>{na.code} — {na.description}</option>)}
+            <select value={form.national_activity_id} onChange={e => setForm(f => ({ ...f, national_activity_id: e.target.value }))} disabled={isEditing} className="w-full text-xs border border-slate-200 rounded p-2 bg-slate-50 disabled:opacity-60">
+              <option value="">Select…</option>
+              {eligibleLinks.map(l => {
+                const na = nationalActivities.find(n => n.id === l.national_activity_id);
+                return <option key={l.id} value={l.national_activity_id}>{na?.code} — {na?.description}</option>;
+              })}
             </select>
-            {isEditing && <div className="text-[10px] text-slate-400 mt-1">The parent link is fixed while editing an existing entry.</div>}
-            {!isEditing && scopeLocked && naOptions.length === 0 && (
-              <div className="text-[10px] text-amber-700 bg-amber-50 border border-amber-200 rounded p-2 mt-1 font-semibold">
-                No National Activity is currently assigned to this Region/Project. Ask the National Activity AOP to link it to one first.
-              </div>
-            )}
+            {eligibleLinks.length === 0 && <div className="text-[10px] text-amber-700 bg-amber-50 border border-amber-200 rounded p-2 mt-1 font-semibold">No National Activity is linked to your Zone yet. Ask your Branch Head.</div>}
           </div>
-
-          {selectedNa && (
-            <div className="bg-slate-50 border rounded-lg p-3 space-y-2">
-              <div className="text-[10px] uppercase font-extrabold text-slate-400">Link Preview</div>
-              <div className="flex flex-wrap items-center gap-2 text-xs font-bold">
-                <span className="bg-red-50 text-ercs-red border border-red-100 rounded px-2 py-1">{selectedNa.code}</span>
-                <ChevronRight className="w-3 h-3 text-slate-300" />
-                <span className="bg-blue-50 text-blue-700 rounded px-2 py-1">{isEditing ? 'This Plan Entry' : 'New Plan Entry'}</span>
-              </div>
-              <div className="text-[10px] text-slate-500">
-                Current Aggregated Target: <b>{sumTarget(planEntries.filter(pe => pe.national_activity_id === selectedNa.id)).toLocaleString()} {selectedNa.uom}</b> · Current Aggregated Budget: <b>ETB {sumBudget(planEntries.filter(pe => pe.national_activity_id === selectedNa.id)).toLocaleString()}</b> · Linked entries: <b>{planEntries.filter(pe => pe.national_activity_id === selectedNa.id).length}</b>
-              </div>
-            </div>
-          )}
-
           <div className="flex justify-end">
-            <button disabled={!canContinue} onClick={() => setStep(2)} className="bg-ercs-red text-white px-4 py-2 rounded-lg text-xs font-bold disabled:opacity-40">
-              Continue to Execution Details
-            </button>
+            <button disabled={!canContinueZ} onClick={() => setStep(2)} className="bg-ercs-red text-white px-4 py-2 rounded-lg text-xs font-bold disabled:opacity-40">Continue</button>
           </div>
         </div>
       )}
-
-      {step === 2 && selectedNa && (
+      {step === 2 && selectedLink && selectedNaZone && (
         <div className="space-y-4">
-          <div>
-            <span className="block text-[10px] font-bold text-slate-500 mb-1">Executed By</span>
-            {scopeLocked && (
-              <div className="mb-2 text-[10px] font-semibold text-slate-600 bg-blue-50 border border-blue-100 rounded p-2">
-                {assignedRegion || assignedProject
-                  ? <>Assigned user scope: <b>{assignedRegion?.name || assignedProject?.name}</b>. This plan entry will be saved under that exact {assignedRegion ? 'regional' : 'project'} scope.</>
-                  : <>Using the active filter: <b>{scopeLabel}</b>. This plan entry will be saved under that exact {effectiveScope === 'Regional' ? 'regional' : 'project'} scope — reset the filter first if you meant a different one.</>}
-              </div>
-            )}
-            <div className="flex gap-2">
-              {(['Regional', 'Project'] as ScopeType[]).map(st => (
-                <button
-                  key={st}
-                  type="button"
-                  onClick={() => scopeLocked ? undefined : setForm(f => ({ ...f, scope_type: st, region_id: '', project_id: '', activity_name: '' }))}
-                  disabled={(scopeLocked && effectiveScope !== st) || (st === 'Regional' && !regionScopeAvailable) || (st === 'Project' && !projectScopeAvailable)}
-                  className={`flex-1 py-2 rounded text-xs font-bold border ${effectiveScope === st ? 'bg-ercs-red text-white border-ercs-red' : 'bg-slate-50 text-slate-600'} disabled:opacity-40`}
-                >
-                  {st}
-                </button>
-              ))}
-            </div>
+          <div className="bg-slate-50 border rounded-lg p-3">
+            <div className="text-[10px] uppercase font-extrabold text-slate-400">Activity Code (inherited, read-only)</div>
+            <div className="text-sm font-black text-ercs-red mt-1">{selectedNaZone.code}</div>
+            <div className="text-[10px] uppercase font-extrabold text-slate-400 mt-2">Activity Name (inherited, read-only)</div>
+            <div className="text-xs font-bold text-slate-800 mt-0.5">{selectedLink.activity_name}</div>
+            <div className="text-[10px] uppercase font-extrabold text-slate-400 mt-2">Description (inherited, read-only)</div>
+            <div className="text-[11px] text-slate-600 mt-0.5">{selectedLink.activity_description}</div>
           </div>
-
-          {effectiveScope === 'Regional' && (
-            <div>
-              <span className="block text-[10px] font-bold text-slate-500 mb-1">Region</span>
-              <select value={form.region_id} onChange={e => setForm(f => ({ ...f, region_id: e.target.value }))} disabled={scopeLocked} className="w-full text-xs border rounded p-2 bg-slate-50 disabled:opacity-60">
-                <option value="">Select region…</option>
-                {eligibleRegions.map(r => <option key={r.id} value={r.id}>{r.name}</option>)}
-              </select>
-              {eligibleRegions.length === 0 && (
-                <div className="text-[10px] text-amber-700 mt-1 font-semibold">{selectedNa.code} has no Region assigned to execute it.</div>
-              )}
-            </div>
-          )}
-          {effectiveScope === 'Project' && (
-            <div>
-              <div className="flex items-center justify-between mb-1">
-                <span className="block text-[10px] font-bold text-slate-500">Project</span>
-                {!scopeLocked && <button type="button" onClick={() => setAddingProject(a => !a)} className="text-[10px] font-bold text-ercs-red">+ Add Project</button>}
-              </div>
-              <select value={form.project_id} onChange={e => setForm(f => ({ ...f, project_id: e.target.value }))} disabled={scopeLocked} className="w-full text-xs border rounded p-2 bg-slate-50 disabled:opacity-60">
-                <option value="">Select project…</option>
-                {eligibleProjects.map(p => <option key={p.id} value={p.id}>{p.name}</option>)}
-              </select>
-              {eligibleProjects.length === 0 && (
-                <div className="text-[10px] text-amber-700 mt-1 font-semibold">{selectedNa.code} has no Project assigned to execute it.</div>
-              )}
-              {addingProject && !scopeLocked && (
-                <div className="mt-2 flex gap-1.5">
-                  <input
-                    value={newProjectName}
-                    onChange={e => setNewProjectName(e.target.value)}
-                    placeholder="New project name"
-                    className="flex-1 text-xs border border-slate-200 rounded p-1.5 bg-white focus:outline-none focus:ring-2 focus:ring-red-100"
-                  />
-                  <button type="button" onClick={handleAddProject} className="px-2.5 py-1 rounded bg-ercs-red text-white text-[10px] font-bold">Add</button>
-                </div>
-              )}
-            </div>
-          )}
-
           <div className="grid grid-cols-2 gap-3">
-            <div className="col-span-2 bg-slate-50 border rounded-lg p-3">
-              <div className="text-[10px] uppercase font-extrabold text-slate-400">Activity Code</div>
-              <div className="text-sm font-black text-ercs-red mt-1">{activityCode || '—'}</div>
-              <div className="text-[10px] text-slate-400 mt-1">Always the parent National Activity's own code — the "Executed By" column already shows who's running it.</div>
-            </div>
-            <LabeledInput label="Activity Name" value={form.activity_name} onChange={v => setForm(f => ({ ...f, activity_name: v }))} placeholder="e.g. HNS, EAP, Amhara" />
-            <div className="col-span-2">
-              <label className="block">
-                <span className="block text-[10px] font-bold text-slate-500 mb-1">Activity Description</span>
-                <textarea value={form.activity_description} onChange={e => setForm(f => ({ ...f, activity_description: e.target.value }))} rows={3} placeholder="Describe what this Region/Project entry will deliver" className="w-full text-xs border border-slate-200 rounded p-2 bg-slate-50 focus:outline-none focus:ring-2 focus:ring-red-100" />
-              </label>
-            </div>
-            <LabeledInput
-              label={`Annual Target (${selectedNa.uom})`}
-              type="number"
-              value={form.annual_target}
-              onChange={v => {
-                if (v === '') { setForm(f => ({ ...f, annual_target: '' })); return; }
-                const value = Number(v);
-                setForm(f => ({ ...f, annual_target: String(Number.isFinite(value) ? Math.max(0, value) : 0) }));
-              }}
-            />
-            <LabeledInput
-              label="Annual Budget (ETB)"
-              type="number"
-              value={form.annual_budget}
-              onChange={v => {
-                if (v === '') { setForm(f => ({ ...f, annual_budget: '' })); return; }
-                const value = Number(v);
-                setForm(f => ({ ...f, annual_budget: String(Number.isFinite(value) ? Math.max(0, value) : 0) }));
-              }}
-            />
+            <LabeledInput label={`Annual Target (${selectedNaZone.uom})`} type="number" value={form.annual_target} onChange={v => setForm(f => ({ ...f, annual_target: v === '' ? '' : String(Math.max(0, Number(v) || 0)) }))} />
+            <LabeledInput label="Annual Budget (ETB)" type="number" value={form.annual_budget} onChange={v => setForm(f => ({ ...f, annual_budget: v === '' ? '' : String(Math.max(0, Number(v) || 0)) }))} />
           </div>
-
-          {isDuplicateLink && (
-            <div className="bg-rose-50 border border-rose-200 rounded-lg p-3 text-[11px] text-rose-700 font-semibold">
-              This {effectiveScope === 'Regional' ? 'Region' : 'Project'} is already linked to {selectedNa.code}. Pick a different {effectiveScope === 'Regional' ? 'Region' : 'Project'}, or close this wizard and edit the existing entry instead — two entries for the same {effectiveScope === 'Regional' ? 'Region' : 'Project'} would double-count its contribution.
-            </div>
-          )}
-          {!isDuplicateLink && !isEligibleScope && (!!form.region_id || !!form.project_id) && (
-            <div className="bg-rose-50 border border-rose-200 rounded-lg p-3 text-[11px] text-rose-700 font-semibold">
-              {selectedNa.code} is only executed by its originally assigned Regions/Projects. This {effectiveScope === 'Regional' ? 'Region' : 'Project'} isn't one of them, so a Plan Entry can't be linked here.
-            </div>
-          )}
-          {!numbersValid && (
-            <div className="bg-rose-50 border border-rose-200 rounded-lg p-3 text-[11px] text-rose-700 font-semibold">
-              Annual Target and Annual Budget must be zero or greater.
-            </div>
-          )}
-
-          <div className="bg-blue-50 border border-blue-100 rounded-lg p-3 text-[11px] text-blue-800 font-semibold space-y-1">
-            <div><b>{selectedNa.code}</b>'s Target and Budget are simply the sum of its linked Plan Entries — there's no fixed ceiling to reconcile against.</div>
-            <div>This entry will contribute <b>{thisTarget.toLocaleString()} {selectedNa.uom}</b> and <b>ETB {thisBudget.toLocaleString()}</b>, alongside <b>{siblingTarget.toLocaleString()} {selectedNa.uom}</b> / <b>ETB {siblingBudget.toLocaleString()}</b> already committed by {siblingEntries.length} other linked {siblingEntries.length === 1 ? 'entry' : 'entries'}.</div>
-            <div>After saving, split this entry's annual target and budget across Q1–Q4 on the Quarterly Plan page — Quarterly Actual Entry measures against that breakdown.</div>
-          </div>
-
+          {isDuplicateZoneEntry && <div className="bg-rose-50 border border-rose-200 rounded-lg p-3 text-[11px] text-rose-700 font-semibold">Your Zone already has a Plan Entry against this National Activity.</div>}
+          {!numbersValid && <div className="bg-rose-50 border border-rose-200 rounded-lg p-3 text-[11px] text-rose-700 font-semibold">Target and Budget must be zero or greater.</div>}
           <div className="flex justify-between">
             <button onClick={() => setStep(1)} className="px-4 py-2 rounded-lg border text-xs font-bold">Back</button>
-            <button disabled={!canSave} onClick={handleSave} className="bg-ercs-red text-white px-5 py-2.5 rounded-lg text-xs font-bold flex items-center gap-2 disabled:opacity-40">
-              <Save className="w-3.5 h-3.5" /> {isEditing ? 'Update Plan Entry' : 'Save & Link to National Activity'}
+            <button disabled={!canSaveZ} onClick={handleSaveZone} className="bg-ercs-red text-white px-5 py-2.5 rounded-lg text-xs font-bold flex items-center gap-2 disabled:opacity-40">
+              <Save className="w-3.5 h-3.5" /> {isEditing ? 'Update' : 'Save'} Plan Entry
             </button>
           </div>
         </div>
@@ -859,11 +747,6 @@ export const PlanEntryWizardModal: React.FC<{
   );
 };
 
-export type { PeWizardFormState };
-
-// ============================================================
-// Helper Components
-// ============================================================
 const StepPill: React.FC<{ num: number; label: string; active: boolean; done: boolean }> = ({ num, label, active, done }) => (
   <div className={`flex items-center gap-2 px-3 py-1.5 rounded-lg text-[11px] font-bold ${active ? 'bg-red-50 text-ercs-red' : done ? 'bg-emerald-50 text-emerald-700' : 'bg-slate-50 text-slate-400'}`}>
     <span className={`w-4 h-4 rounded-full flex items-center justify-center text-[9px] ${active ? 'bg-ercs-red text-white' : done ? 'bg-emerald-500 text-white' : 'bg-slate-300 text-white'}`}>{num}</span>
@@ -878,39 +761,24 @@ const LabeledInput: React.FC<{ label: string; value: string; onChange: (v: strin
   </label>
 );
 
-// ============================================================
-// ModalShell — capped at 90vh with only the body scrolling. The header
-// (with an explicit "Back" control plus the "X") is pinned outside the
-// scroll area, so there's always a way back out no matter how tall the
-// step content gets.
-// ============================================================
 const ModalShell: React.FC<{ title: string; onClose: () => void; children: React.ReactNode }> = ({ title, onClose, children }) => (
   <div className="fixed inset-0 bg-slate-900/40 flex items-center justify-center z-50 p-4">
     <div className="bg-white rounded-xl shadow-2xl w-full max-w-lg max-h-[90vh] flex flex-col">
       <div className="flex items-center justify-between gap-3 px-5 py-4 border-b shrink-0">
-        <button
-          onClick={onClose}
-          className="flex items-center gap-1.5 text-xs font-bold text-slate-600 hover:text-ercs-red shrink-0"
-        >
-          <ArrowLeft className="w-3.5 h-3.5" /> Back
-        </button>
+        <button onClick={onClose} className="flex items-center gap-1.5 text-xs font-bold text-slate-600 hover:text-ercs-red shrink-0"><ArrowLeft className="w-3.5 h-3.5" /> Back</button>
         <h3 className="text-sm font-black text-slate-800 text-center flex-1 truncate">{title}</h3>
-        <button onClick={onClose} className="text-slate-400 hover:text-slate-600 shrink-0" aria-label="Close">
-          <X className="w-4 h-4" />
-        </button>
+        <button onClick={onClose} className="text-slate-400 hover:text-slate-600 shrink-0" aria-label="Close"><X className="w-4 h-4" /></button>
       </div>
       <div className="p-5 overflow-y-auto">{children}</div>
     </div>
   </div>
 );
 
-// Exported so ScopeDetailPage (and any other page listing Plan Entries) can
-// reuse the exact same confirmation dialog instead of duplicating it.
 export const ConfirmDeleteModal: React.FC<{ label: string; onCancel: () => void; onConfirm: () => void }> = ({ label, onCancel, onConfirm }) => (
   <div className="fixed inset-0 z-50 bg-slate-900/40 flex items-center justify-center p-4">
     <div className="bg-white max-w-md w-full rounded-xl shadow-2xl p-5">
       <div className="flex items-center gap-2 text-red-700 font-black text-sm"><Trash2 className="w-5 h-5" /> Delete "{label}"?</div>
-      <p className="text-xs text-slate-600 mt-3">This also removes any linked Quarterly Plan and Quarterly Actual records. The parent National Activity's aggregated Target and Budget recalculate automatically — they're always the live sum of its linked Plan Entries.</p>
+      <p className="text-xs text-slate-600 mt-3">This also removes any linked Quarterly Plan and Quarterly Actual records.</p>
       <div className="mt-5 flex justify-end gap-2">
         <button onClick={onCancel} className="px-4 py-2 rounded-lg border text-xs font-bold">Cancel</button>
         <button onClick={onConfirm} className="px-4 py-2 rounded-lg bg-red-600 text-white text-xs font-bold">Delete</button>
@@ -919,14 +787,11 @@ export const ConfirmDeleteModal: React.FC<{ label: string; onCancel: () => void;
   </div>
 );
 
-// National Activity deletion is only ever offered when it has zero linked
-// Plan Entries (see the "Actions" column above), so this confirmation is
-// simpler than ConfirmDeleteModal — there's nothing cascading to warn about.
 const ConfirmDeleteNAModal: React.FC<{ label: string; onCancel: () => void; onConfirm: () => void }> = ({ label, onCancel, onConfirm }) => (
   <div className="fixed inset-0 z-50 bg-slate-900/40 flex items-center justify-center p-4">
     <div className="bg-white max-w-md w-full rounded-xl shadow-2xl p-5">
       <div className="flex items-center gap-2 text-red-700 font-black text-sm"><Trash2 className="w-5 h-5" /> Delete "{label}"?</div>
-      <p className="text-xs text-slate-600 mt-3">This National Activity has no linked Plan Entries, so it can be safely removed. This cannot be undone.</p>
+      <p className="text-xs text-slate-600 mt-3">This National Activity has no linked Plan Entries or Region links, so it can be safely removed.</p>
       <div className="mt-5 flex justify-end gap-2">
         <button onClick={onCancel} className="px-4 py-2 rounded-lg border text-xs font-bold">Cancel</button>
         <button onClick={onConfirm} className="px-4 py-2 rounded-lg bg-red-600 text-white text-xs font-bold">Delete</button>

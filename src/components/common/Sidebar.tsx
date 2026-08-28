@@ -1,172 +1,53 @@
-import React, { useMemo, useState } from 'react';
+import React from 'react';
 import { useApp } from '../../context/AppContext';
 import {
-  ClipboardList,
-  CalendarClock,
-  CalendarCheck2,
-  BarChart3,
-  FolderGit2,
-  MapPin,
-  ChevronDown,
-  ChevronRight,
-  ShieldCheck,
-  LayoutDashboard,
+  ClipboardList, CalendarClock, CalendarCheck2, BarChart3, ShieldCheck, LayoutDashboard, TrendingUp,
 } from 'lucide-react';
 
 const BASE_NAV = [
-  { id: 'plan', label: 'Annual Plan', sub: 'National → Project / Region', icon: ClipboardList },
+  { id: 'plan', label: 'Annual Plan', sub: 'National → Zone / Project', icon: ClipboardList },
   { id: 'quarterly-plan', label: 'Quarterly Plan', sub: 'Split targets into Q1–Q4', icon: CalendarClock },
   { id: 'quarterly', label: 'Quarterly Actual Entry', sub: 'Actuals vs quarterly plan', icon: CalendarCheck2 },
   { id: 'report', label: 'Report', sub: 'Aggregated results', icon: BarChart3 },
   { id: 'submissions', label: 'Submissions', sub: 'View all submitted entries', icon: BarChart3 },
 ];
 
-// The Monitor role's entire job is the Monitoring module — it never sees
-// Annual Plan / Quarterly Plan / Quarterly Actual / Report / Submissions in
-// its own nav (App.tsx also hard-redirects it back to 'monitoring' if it
-// ever ends up on one of those routes some other way). It gets two items,
-// mirroring the Excel workbook's two Monitoring sheets.
 const MONITOR_NAV = [
   { id: 'monitoring-dashboard', label: 'Monitoring Dashboard', sub: 'Coverage & findings overview', icon: LayoutDashboard },
   { id: 'monitoring', label: 'Monitoring Register', sub: 'Verify reported achievements', icon: ShieldCheck },
 ];
 
-// National Activity AOP never creates Quarterly Plan/Actual entries — enforced
-// in AppContext's upsertQuarterlyPlan/upsertQuarterlyActual — so those two
-// nav items are hidden for that role rather than left as dead-end links.
+const AOP_NAV = [
+  ...BASE_NAV,
+  { id: 'performance', label: 'Performance', sub: 'National KPIs & trends', icon: TrendingUp },
+  { id: 'monitoring-dashboard', label: 'Monitoring Dashboard', sub: 'Coverage & findings overview (view only)', icon: LayoutDashboard },
+];
+
 const RESTRICTED_FOR_AOP = new Set(['quarterly-plan', 'quarterly']);
 
-const isAssignedRole = (role: string) =>
-  role.startsWith('Regional Coordinator — ') || role.startsWith('Project Coordinator — ');
-
-const getRoleScope = (role: string) => {
-  if (role.startsWith('Regional Coordinator — ')) {
-    return { kind: 'Regional' as const, name: role.slice('Regional Coordinator — '.length) };
-  }
-  if (role.startsWith('Project Coordinator — ')) {
-    return { kind: 'Project' as const, name: role.slice('Project Coordinator — '.length) };
-  }
-  return { kind: 'National' as const, name: '' };
-};
-
 export const Sidebar: React.FC = () => {
-  const {
-    activeRoute,
-    setActiveRoute,
-    currentRole,
-    getNationalActivitiesForRole,
-    planEntries,
-    regions,
-    projects,
-    filters,
-    setSelectedNationalActivityId,
-    setFilters,
-  } = useApp();
-
-  const [planOpen, setPlanOpen] = useState(true);
-  const [expandedActivities, setExpandedActivities] = useState<Record<string, boolean>>({});
+  const { activeRoute, setActiveRoute, currentRole } = useApp();
 
   const isNationalAop = currentRole === 'National Activity AOP';
   const isMonitor = currentRole === 'Monitor';
   const nav = isMonitor
     ? MONITOR_NAV
     : isNationalAop
-      ? BASE_NAV.filter(item => !RESTRICTED_FOR_AOP.has(item.id))
+      ? AOP_NAV.filter(item => !RESTRICTED_FOR_AOP.has(item.id))
       : BASE_NAV;
 
-  const roleHint = currentRole === 'National Activity AOP'
-    ? 'Create National Activities, review coordinator submissions, and approve or reject proposals.'
-    : currentRole === 'Monitor'
-      ? 'Verify reported achievements against evidence, log data-quality findings, and track corrective actions in the Monitoring Register.'
-      : currentRole.startsWith('Regional Coordinator')
-        ? 'Enter and manage the plan, quarterly plan, and actuals for the assigned region.'
-        : 'Enter and manage the plan, quarterly plan, and actuals for the assigned project.';
+  const isBranchHead = currentRole.startsWith('Branch Head — ');
+  const isZoneCoordinator = currentRole.endsWith(' coordinators');
 
-  const roleScope = getRoleScope(currentRole);
-
-  const roleOwnedEntries = useMemo(() => {
-    if (!isAssignedRole(currentRole)) return planEntries;
-
-    if (roleScope.kind === 'Regional') {
-      const region = regions.find(r => r.name === roleScope.name);
-      return region
-        ? planEntries.filter(pe => pe.scope_type === 'Regional' && pe.region_id === region.id)
-        : [];
-    }
-
-    const project = projects.find(p => p.name === roleScope.name);
-    return project
-      ? planEntries.filter(pe => pe.scope_type === 'Project' && pe.project_id === project.id)
-      : [];
-  }, [currentRole, roleScope.kind, roleScope.name, planEntries, regions, projects]);
-
-  // Only the National Activities the current role is an eligible executor
-  // of (all of them for the AOP) — mirrors the Excel data's fixed
-  // Region/Project ↔ National Activity linkage.
-  const visibleNationalActivities = getNationalActivitiesForRole();
-
-  const activityChildren = useMemo(() => {
-    type ProjectRef = { id: string; name: string };
-    type RegionRef = { id: string; name: string };
-    const byActivity = new Map<string, { projects: ProjectRef[]; regions: RegionRef[] }>();
-
-    for (const na of visibleNationalActivities) {
-      byActivity.set(na.id, { projects: [], regions: [] });
-    }
-
-    for (const pe of roleOwnedEntries) {
-      const bucket = byActivity.get(pe.national_activity_id);
-      if (!bucket) continue;
-
-      if (pe.scope_type === 'Project') {
-        const project = projects.find((p: ProjectRef) => p.id === pe.project_id);
-        if (project && !bucket.projects.some(p => p.id === project.id)) {
-          bucket.projects.push(project);
-        }
-      } else {
-        const region = regions.find((r: RegionRef) => r.id === pe.region_id);
-        if (region && !bucket.regions.some(r => r.id === region.id)) {
-          bucket.regions.push(region);
-        }
-      }
-    }
-
-    return byActivity;
-  }, [visibleNationalActivities, roleOwnedEntries, regions, projects]);
-
-  const toggleActivity = (id: string) => {
-    setExpandedActivities(prev => ({
-      ...prev,
-      [id]: !prev[id],
-    }));
-  };
-
-  const openActivity = (id: string) => {
-    setSelectedNationalActivityId(id);
-    setFilters(prev => ({
-      ...prev,
-      strategicPriorityId: 'ALL',
-      nationalActivityId: id,
-      regionId: 'ALL',
-      projectId: 'ALL',
-    }));
-    setActiveRoute('national-detail');
-  };
-
-  // Clicking a Project/Region opens a scope-wide view of everything it
-  // executes — across every National Activity it's linked to, not just the
-  // one it happened to be expanded under. Mirrors the Excel workbook's own
-  // per-Project/Region sheet, which likewise lists every linked activity.
-  const openScope = (scopeType: 'Project' | 'Regional', scopeId: string) => {
-    setFilters(prev => ({
-      ...prev,
-      strategicPriorityId: 'ALL',
-      nationalActivityId: 'ALL',
-      projectId: scopeType === 'Project' ? scopeId : 'ALL',
-      regionId: scopeType === 'Regional' ? scopeId : 'ALL',
-    }));
-    setActiveRoute('scope-detail');
-  };
+  const roleHint = isNationalAop
+    ? 'Create National Activities, view Performance, and review submissions.'
+    : isMonitor
+      ? 'Verify reported achievements against evidence, log data-quality findings, and track corrective actions.'
+      : isBranchHead
+        ? 'Link National Activities to your Region, review and approve Zone Quarterly Plans.'
+        : isZoneCoordinator
+          ? 'Enter and manage the plan, quarterly plan, and actuals for your assigned zone.'
+          : 'Enter and manage the plan, quarterly plan, and actuals for the assigned project.';
 
   return (
     <aside className="w-72 bg-slate-900 text-slate-300 flex flex-col h-screen sticky top-0 shrink-0">
@@ -189,156 +70,21 @@ export const Sidebar: React.FC = () => {
 
       <nav className="flex-1 px-2 py-2 space-y-1 text-xs font-medium overflow-y-auto">
         {nav.map(({ id, label, sub, icon: Icon }) => (
-          <React.Fragment key={id}>
-            {id === 'plan' ? (
-              <div>
-                <button
-                  onClick={() => {
-                    setPlanOpen(v => !v);
-                    setActiveRoute('plan');
-                  }}
-                  className={`w-full flex items-center gap-3 px-3 py-3 rounded-lg transition-all text-left ${
-                    activeRoute === 'plan' || activeRoute === 'national-detail' || activeRoute === 'scope-detail'
-                      ? 'bg-ercs-red text-white font-bold'
-                      : 'text-slate-300 hover:bg-slate-800'
-                  }`}
-                >
-                  <Icon className="w-4 h-4 shrink-0" />
-                  <div className="flex-1">
-                    <div>{label}</div>
-                    <div
-                      className={`text-[10px] font-normal ${
-                        activeRoute === 'plan' || activeRoute === 'national-detail' || activeRoute === 'scope-detail'
-                          ? 'text-red-100'
-                          : 'text-slate-500'
-                      }`}
-                    >
-                      {sub}
-                    </div>
-                  </div>
-                  {planOpen ? (
-                    <ChevronDown className="w-4 h-4" />
-                  ) : (
-                    <ChevronRight className="w-4 h-4" />
-                  )}
-                </button>
-
-                {planOpen && (
-                  <div className="mt-1 ml-3 border-l border-slate-700 pl-2 space-y-1">
-                    {visibleNationalActivities.map(na => {
-                      const children = activityChildren.get(na.id) || {
-                        projects: [],
-                        regions: [],
-                      };
-                      const expanded = expandedActivities[na.id] ?? false;
-
-                      return (
-                        <div key={na.id}>
-                          <button
-                            onClick={() => {
-                              toggleActivity(na.id);
-                              openActivity(na.id);
-                            }}
-                            className="w-full flex items-center gap-1.5 px-2 py-1.5 rounded text-left text-slate-200 hover:bg-slate-800"
-                            title={na.description}
-                          >
-                            {expanded ? (
-                              <ChevronDown className="w-3 h-3 shrink-0" />
-                            ) : (
-                              <ChevronRight className="w-3 h-3 shrink-0" />
-                            )}
-                            <span className="font-bold">{na.code}</span>
-                            <span className="truncate text-slate-400">— {na.description}</span>
-                          </button>
-
-                          {expanded && (
-                            <div className="ml-5 mt-0.5 space-y-0.5">
-                              {children.projects.length > 0 && (
-                                <div className="text-[9px] uppercase tracking-wider text-slate-500 px-2 pt-1">
-                                  Projects
-                                </div>
-                              )}
-
-                              {children.projects.map(project => {
-                                const isSelected = activeRoute === 'scope-detail' && filters.projectId === project.id;
-                                return (
-                                  <button
-                                    key={project.id}
-                                    onClick={() => openScope('Project', project.id)}
-                                    className={`w-full flex items-center gap-1.5 px-2 py-1 rounded text-left ${
-                                      isSelected ? 'bg-slate-800 text-white' : 'text-slate-400 hover:text-white hover:bg-slate-800'
-                                    }`}
-                                  >
-                                    <FolderGit2 className="w-3 h-3 shrink-0 text-purple-300" />
-                                    <span className="truncate">{project.name}</span>
-                                  </button>
-                                );
-                              })}
-
-                              {children.regions.length > 0 && (
-                                <div className="text-[9px] uppercase tracking-wider text-slate-500 px-2 pt-1">
-                                  Regions
-                                </div>
-                              )}
-
-                              {children.regions.map(region => {
-                                const isSelected = activeRoute === 'scope-detail' && filters.regionId === region.id;
-                                return (
-                                  <button
-                                    key={region.id}
-                                    onClick={() => openScope('Regional', region.id)}
-                                    className={`w-full flex items-center gap-1.5 px-2 py-1 rounded text-left ${
-                                      isSelected ? 'bg-slate-800 text-white' : 'text-slate-400 hover:text-white hover:bg-slate-800'
-                                    }`}
-                                  >
-                                    <MapPin className="w-3 h-3 shrink-0 text-blue-300" />
-                                    <span className="truncate">{region.name}</span>
-                                  </button>
-                                );
-                              })}
-
-                              {children.projects.length === 0 && children.regions.length === 0 && (
-                                <div className="px-2 py-1 text-[10px] text-slate-600">
-                                  No linked execution entries yet.
-                                </div>
-                              )}
-                            </div>
-                          )}
-                        </div>
-                      );
-                    })}
-
-                    {visibleNationalActivities.length === 0 && (
-                      <div className="px-2 py-3 text-[10px] text-slate-500">
-                        No activities are assigned to this user yet.
-                      </div>
-                    )}
-                  </div>
-                )}
-              </div>
-            ) : (
-              <button
-                onClick={() => setActiveRoute(id)}
-                className={`w-full flex items-center gap-3 px-3 py-3 rounded-lg transition-all text-left ${
-                  activeRoute === id
-                    ? 'bg-ercs-red text-white font-bold'
-                    : 'text-slate-300 hover:bg-slate-800'
-                }`}
-              >
-                <Icon className="w-4 h-4 shrink-0" />
-                <div>
-                  <div>{label}</div>
-                  <div
-                    className={`text-[10px] font-normal ${
-                      activeRoute === id ? 'text-red-100' : 'text-slate-500'
-                    }`}
-                  >
-                    {sub}
-                  </div>
-                </div>
-              </button>
-            )}
-          </React.Fragment>
+          <button
+            key={id}
+            onClick={() => setActiveRoute(id)}
+            className={`w-full flex items-center gap-3 px-3 py-3 rounded-lg transition-all text-left ${
+              activeRoute === id || (id === 'plan' && (activeRoute === 'national-detail' || activeRoute === 'scope-detail' || activeRoute === 'region-detail'))
+                ? 'bg-ercs-red text-white font-bold'
+                : 'text-slate-300 hover:bg-slate-800'
+            }`}
+          >
+            <Icon className="w-4 h-4 shrink-0" />
+            <div>
+              <div>{label}</div>
+              <div className={`text-[10px] font-normal ${activeRoute === id ? 'text-red-100' : 'text-slate-500'}`}>{sub}</div>
+            </div>
+          </button>
         ))}
       </nav>
     </aside>

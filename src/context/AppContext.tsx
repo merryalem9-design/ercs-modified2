@@ -1,18 +1,15 @@
 // src/context/AppContext.tsx
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import {
-  StrategicPriority, NationalActivity, Region, Zone, Project, PlanEntry, Quarter, QuarterId, QuarterlyPlan, QuarterlyActual, UomFactorConfig, FilterState, UserRole, ScopeType, MonitoringRecord,
+  StrategicPriority, NationalActivity, Region, Zone, Project, PlanEntry, Quarter, QuarterId, QuarterlyPlan, QuarterlyActual, UomFactorConfig, FilterState, UserRole, ScopeType, MonitoringRecord, RegionActivityLink,
 } from '../types';
 import {
   INITIAL_STRATEGIC_PRIORITIES, INITIAL_NATIONAL_ACTIVITIES, INITIAL_REGIONS, INITIAL_ZONES, INITIAL_PROJECTS, INITIAL_PLAN_ENTRIES,
-  FISCAL_QUARTERS, INITIAL_QUARTERLY_PLANS, INITIAL_QUARTERLY_ACTUALS, INITIAL_UOM_CONFIGS, INITIAL_MONITORING_RECORDS,
+  FISCAL_QUARTERS, INITIAL_QUARTERLY_PLANS, INITIAL_QUARTERLY_ACTUALS, INITIAL_UOM_CONFIGS, INITIAL_MONITORING_RECORDS, INITIAL_REGION_ACTIVITY_LINKS,
 } from '../data/seedData';
 
-// No approval workflow; all entries are automatically Approved.
 type QuarterlyPlanInput = Omit<QuarterlyPlan, 'approval_status' | 'submitted_at' | 'reviewed_at' | 'rejection_reason'>;
 type QuarterlyActualInput = Omit<QuarterlyActual, 'approval_status' | 'submitted_at' | 'reviewed_at' | 'rejection_reason'>;
-// Monitoring records have no approval workflow either — id is optional on the
-// way in so a first-time edit of a blank template row can create the record.
 type MonitoringRecordInput = Omit<MonitoringRecord, 'id'> & { id?: string };
 
 interface AppContextType {
@@ -24,21 +21,10 @@ interface AppContextType {
 
   strategicPriorities: StrategicPriority[];
 
-  // National Activities. Target/Budget is always computed live from each
-  // one's linked Plan Entries wherever it's displayed (see sumTarget/
-  // sumBudget in utils/calculations) — never stored here. The National
-  // Activity AOP can create new ones (with the Regions/Projects allowed to
-  // execute them) and delete ones that have zero linked Plan Entries.
   nationalActivities: NationalActivity[];
   addNationalActivity: (na: NationalActivity) => void;
   deleteNationalActivity: (id: string) => void;
-  // Used by the Plan Entry wizard's "+ Add Project" flow: a brand-new
-  // Project/Region created on the fly is automatically linked as an
-  // eligible executor of the National Activity it was created under.
   addEligibleScope: (nationalActivityId: string, scopeType: ScopeType, scopeId: string) => void;
-  // Returns only the National Activities the current role is allowed to
-  // see/act on: every activity for the AOP, or only the ones the assigned
-  // Region/Project is an eligible executor of for a Coordinator.
   getNationalActivitiesForRole: () => NationalActivity[];
 
   regions: Region[];
@@ -51,6 +37,10 @@ interface AppContextType {
   addProject: (p: Project) => void;
   quarters: Quarter[];
 
+  regionActivityLinks: RegionActivityLink[];
+  addRegionActivityLink: (link: RegionActivityLink) => void;
+  deleteRegionActivityLink: (id: string) => void;
+
   planEntries: PlanEntry[];
   addPlanEntry: (pe: PlanEntry) => void;
   updatePlanEntry: (pe: PlanEntry) => void;
@@ -58,19 +48,17 @@ interface AppContextType {
 
   quarterlyPlans: QuarterlyPlan[];
   upsertQuarterlyPlan: (qp: QuarterlyPlanInput) => void;
+  submitQuarterlyPlanForApproval: (args: { plan_entry_id: string; quarter_id: QuarterId }) => void;
+  approveQuarterlyPlan: (args: { plan_entry_id: string; quarter_id: QuarterId }) => void;
+  rejectQuarterlyPlan: (args: { plan_entry_id: string; quarter_id: QuarterId; rejection_reason: string }) => void;
 
   quarterlyActuals: QuarterlyActual[];
   upsertQuarterlyActual: (qa: QuarterlyActualInput) => void;
 
-  // Monitoring Register — one record per Plan Entry, always linked back to
-  // that exact National-Activity-linked execution entry via plan_entry_id.
-  // Only the 'Monitor' role may create/edit these (enforced below).
   monitoringRecords: MonitoringRecord[];
   upsertMonitoringRecord: (mr: MonitoringRecordInput) => void;
   getMonitoringRecordForPlanEntry: (planEntryId: string) => MonitoringRecord | undefined;
 
-  // Fixed conversion table sourced from the Excel data — no editing UI;
-  // read-only everywhere it's consumed (see convertToBeneficiaries).
   uomConfigs: UomFactorConfig[];
 
   filters: FilterState; setFilters: React.Dispatch<React.SetStateAction<FilterState>>; resetFilters: () => void;
@@ -82,48 +70,63 @@ const DEFAULT_FILTERS: FilterState = { strategicPriorityId: 'ALL', nationalActiv
 type RoleScope =
   | { kind: 'National' }
   | { kind: 'Regional'; regionId: string }
+  | { kind: 'Zone'; zoneId: string; regionId: string }
   | { kind: 'Project'; projectId: string };
 
-const parseRoleScope = (role: UserRole, regions: Region[], projects: Project[]): RoleScope => {
+const BRANCH_HEAD_PREFIX = 'Branch Head — ';
+const PROJECT_PREFIX = 'Project Coordinator — ';
+const ZONE_SUFFIX = ' coordinators';
+
+const parseRoleScope = (role: UserRole, regions: Region[], projects: Project[], zones: Zone[]): RoleScope => {
   if (role === 'National Activity AOP') return { kind: 'National' };
-  const regionalPrefix = 'Regional Coordinator — ';
-  if (role.startsWith(regionalPrefix)) {
-    const name = role.slice(regionalPrefix.length);
+  if (role === 'Monitor') return { kind: 'National' };
+  if (role.startsWith(BRANCH_HEAD_PREFIX)) {
+    const name = role.slice(BRANCH_HEAD_PREFIX.length);
     const region = regions.find(r => r.name === name);
     return region ? { kind: 'Regional', regionId: region.id } : { kind: 'National' };
   }
-  const projectPrefix = 'Project Coordinator — ';
-  if (role.startsWith(projectPrefix)) {
-    const name = role.slice(projectPrefix.length);
+  if (role.startsWith(PROJECT_PREFIX)) {
+    const name = role.slice(PROJECT_PREFIX.length);
     const project = projects.find(p => p.name === name);
     return project ? { kind: 'Project', projectId: project.id } : { kind: 'National' };
   }
-  // 'Monitor' (and any other unrecognized role) falls back to National
-  // scope for read purposes — it can see everything in the Monitoring
-  // Register's filter bar — but it is NEVER treated as the AOP for write
-  // permissions; see the explicit `currentRole === 'National Activity AOP'`
-  // checks below and the Monitor-only route gate in App.tsx.
+  if (role.endsWith(ZONE_SUFFIX)) {
+    const zoneName = role.slice(0, -ZONE_SUFFIX.length);
+    const zone = zones.find(z => z.name === zoneName);
+    return zone ? { kind: 'Zone', zoneId: zone.id, regionId: zone.region_id } : { kind: 'National' };
+  }
   return { kind: 'National' };
 };
 
-const roleOwnsPlanEntry = (role: UserRole, pe: PlanEntry, regions: Region[], projects: Project[]): boolean => {
-  const scope = parseRoleScope(role, regions, projects);
+// READ scope: National sees all; Regional (Branch Head) sees every zone
+// under their region (needed for aggregation/approvals); Zone sees only its
+// own zone; Project sees only its own project.
+const roleOwnsPlanEntry = (role: UserRole, pe: PlanEntry, regions: Region[], projects: Project[], zones: Zone[]): boolean => {
+  const scope = parseRoleScope(role, regions, projects, zones);
   if (scope.kind === 'National') return true;
   if (scope.kind === 'Regional') return pe.scope_type === 'Regional' && pe.region_id === scope.regionId;
+  if (scope.kind === 'Zone') return pe.scope_type === 'Regional' && pe.zone_id === scope.zoneId;
   return pe.scope_type === 'Project' && pe.project_id === scope.projectId;
 };
 
-const normalizePersistedRole = (raw: UserRole, regions: Region[], projects: Project[]): UserRole => {
+// WRITE scope: only Zone (own zone) or Project (own project) may write a
+// PlanEntry/QuarterlyPlan/QuarterlyActual. Branch Head/AOP/Monitor never can.
+const roleCanWritePlanEntry = (role: UserRole, pe: PlanEntry, regions: Region[], projects: Project[], zones: Zone[]): boolean => {
+  const scope = parseRoleScope(role, regions, projects, zones);
+  if (scope.kind === 'Zone') return pe.scope_type === 'Regional' && pe.zone_id === scope.zoneId;
+  if (scope.kind === 'Project') return pe.scope_type === 'Project' && pe.project_id === scope.projectId;
+  return false;
+};
+
+const normalizePersistedRole = (raw: UserRole, regions: Region[], projects: Project[], zones: Zone[]): UserRole => {
   if (raw === 'National Activity AOP' || raw === 'Monitor') return raw;
-  if (parseRoleScope(raw, regions, projects).kind !== 'National') return raw;
+  if (parseRoleScope(raw, regions, projects, zones).kind !== 'National') return raw;
   return 'National Activity AOP';
 };
 
-// Bumped to v5: added the Monitoring Register (monitoringRecords) and
-// seeded 3 Quarterly Actuals its worked examples depend on, so any stale
-// v4 localStorage (missing those) should not be carried forward over the
-// fixed Excel-backed starter data.
-const PERSISTENCE_KEY = 'ercs-aop-bottom-up-v5';
+// Bumped to v6: PlanEntry shape changed (zone_id/region_activity_link_id),
+// new regionActivityLinks state, role strings renamed — v5 data must never leak in.
+const PERSISTENCE_KEY = 'ercs-aop-bottom-up-v6';
 
 const readPersisted = <T,>(key: string, fallback: T): T => {
   if (typeof window === 'undefined') return fallback;
@@ -141,22 +144,21 @@ const AppContext = createContext<AppContextType | undefined>(undefined);
 
 export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [activeRoute, setActiveRoute] = useState<string>(() => readPersisted('activeRoute', 'plan'));
-  const [currentRole, setCurrentRole] = useState<UserRole>(() => normalizePersistedRole(readPersisted('currentRole', 'National Activity AOP' as UserRole), INITIAL_REGIONS, INITIAL_PROJECTS));
+  const [zones, setZones] = useState<Zone[]>(() => readPersisted('zones', INITIAL_ZONES));
+  const [regions, setRegions] = useState<Region[]>(() => readPersisted('regions', INITIAL_REGIONS));
+  const [projects, setProjects] = useState<Project[]>(() => readPersisted('projects', INITIAL_PROJECTS));
+  const [currentRole, setCurrentRole] = useState<UserRole>(() => normalizePersistedRole(readPersisted('currentRole', 'National Activity AOP' as UserRole), INITIAL_REGIONS, INITIAL_PROJECTS, INITIAL_ZONES));
   const [toastMessage, setToastMessage] = useState<string | null>(null);
   const [selectedNationalActivityId, setSelectedNationalActivityId] = useState<string | null>(() => readPersisted('selectedNationalActivityId', null));
 
   const [strategicPriorities] = useState<StrategicPriority[]>(INITIAL_STRATEGIC_PRIORITIES);
   const [nationalActivities, setNationalActivities] = useState<NationalActivity[]>(() => readPersisted('nationalActivities', INITIAL_NATIONAL_ACTIVITIES));
-  const [regions, setRegions] = useState<Region[]>(() => readPersisted('regions', INITIAL_REGIONS));
-  const [zones, setZones] = useState<Zone[]>(() => readPersisted('zones', INITIAL_ZONES));
-  const [projects, setProjects] = useState<Project[]>(() => readPersisted('projects', INITIAL_PROJECTS));
+  const [regionActivityLinks, setRegionActivityLinks] = useState<RegionActivityLink[]>(() => readPersisted('regionActivityLinks', INITIAL_REGION_ACTIVITY_LINKS));
   const [quarters] = useState<Quarter[]>(FISCAL_QUARTERS);
   const [planEntries, setPlanEntries] = useState<PlanEntry[]>(() => readPersisted('planEntries', INITIAL_PLAN_ENTRIES));
   const [quarterlyPlans, setQuarterlyPlans] = useState<QuarterlyPlan[]>(() => readPersisted('quarterlyPlans', INITIAL_QUARTERLY_PLANS));
   const [quarterlyActuals, setQuarterlyActuals] = useState<QuarterlyActual[]>(() => readPersisted('quarterlyActuals', INITIAL_QUARTERLY_ACTUALS));
-  // Monitoring Register — same "fixed starter data, freely editable from there" pattern as everything else.
   const [monitoringRecords, setMonitoringRecords] = useState<MonitoringRecord[]>(() => readPersisted('monitoringRecords', INITIAL_MONITORING_RECORDS));
-  // Fixed reference data too — sourced from the Excel UOM table, no setter exposed.
   const [uomConfigs] = useState<UomFactorConfig[]>(() => readPersisted('uomConfigs', INITIAL_UOM_CONFIGS));
   const [filters, setFilters] = useState<FilterState>(() => ({ ...DEFAULT_FILTERS, ...readPersisted('filters', DEFAULT_FILTERS) }));
 
@@ -164,70 +166,54 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     if (typeof window === 'undefined') return;
     try {
       window.localStorage.setItem(PERSISTENCE_KEY, JSON.stringify({
-        activeRoute, currentRole, selectedNationalActivityId, nationalActivities, regions, zones, projects, planEntries, quarterlyPlans, quarterlyActuals, monitoringRecords, uomConfigs, filters,
+        activeRoute, currentRole, selectedNationalActivityId, nationalActivities, regions, zones, projects,
+        regionActivityLinks, planEntries, quarterlyPlans, quarterlyActuals, monitoringRecords, uomConfigs, filters,
       }));
     } catch {
       // localStorage may be unavailable; in-memory state still works for the session.
     }
-  }, [activeRoute, currentRole, selectedNationalActivityId, nationalActivities, regions, zones, projects, planEntries, quarterlyPlans, quarterlyActuals, monitoringRecords, uomConfigs, filters]);
+  }, [activeRoute, currentRole, selectedNationalActivityId, nationalActivities, regions, zones, projects, regionActivityLinks, planEntries, quarterlyPlans, quarterlyActuals, monitoringRecords, uomConfigs, filters]);
 
   const showToast = (msg: string) => { setToastMessage(msg); setTimeout(() => setToastMessage(null), 3000); };
   const resetFilters = () => setFilters(DEFAULT_FILTERS);
 
   const getFilteredPlanEntries = () => planEntries.filter(pe => {
-    if (!roleOwnsPlanEntry(currentRole, pe, regions, projects)) return false;
+    if (!roleOwnsPlanEntry(currentRole, pe, regions, projects, zones)) return false;
     if (filters.strategicPriorityId !== 'ALL') {
       const na = nationalActivities.find(n => n.id === pe.national_activity_id);
       if (!na || na.strategic_priority_id !== filters.strategicPriorityId) return false;
     }
     if (filters.nationalActivityId !== 'ALL' && pe.national_activity_id !== filters.nationalActivityId) return false;
-    // 'NONE' is a Report-page-only display toggle (see FilterBar's
-    // allowNoneScope / ReportPage's "By National Activity only" view) — it
-    // never removes a Plan Entry from scope, it's treated exactly like
-    // 'ALL' here. Only a real Region/Project id actually restricts entries.
     if (filters.regionId !== 'ALL' && filters.regionId !== 'NONE' && pe.region_id !== filters.regionId) return false;
     if (filters.projectId !== 'ALL' && filters.projectId !== 'NONE' && pe.project_id !== filters.projectId) return false;
     return true;
   });
 
-  // ---------------------------------------------------------------------
-  // NATIONAL ACTIVITY VISIBILITY — the AOP sees every National Activity.
-  // A Regional/Project Coordinator only sees the ones their exact Region/
-  // Project is an eligible executor of (per eligible_region_ids/
-  // eligible_project_ids) — mirroring the Excel data, where a Region/
-  // Project sheet only ever contained the activities it actually executed.
-  // ---------------------------------------------------------------------
   const getNationalActivitiesForRole = (): NationalActivity[] => {
-    const scope = parseRoleScope(currentRole, regions, projects);
+    const scope = parseRoleScope(currentRole, regions, projects, zones);
     if (scope.kind === 'National') return nationalActivities;
     if (scope.kind === 'Regional') return nationalActivities.filter(na => na.eligible_region_ids.includes(scope.regionId));
+    if (scope.kind === 'Zone') {
+      const linkedActivityIds = new Set(
+        regionActivityLinks.filter(l => l.region_id === scope.regionId && l.eligible_zone_ids.includes(scope.zoneId)).map(l => l.national_activity_id)
+      );
+      return nationalActivities.filter(na => linkedActivityIds.has(na.id));
+    }
     return nationalActivities.filter(na => na.eligible_project_ids.includes(scope.projectId));
   };
 
-  // ---------------------------------------------------------------------
-  // NATIONAL ACTIVITY — create/delete. Only the National Activity AOP
-  // manages these; Regional/Project Coordinators only ever add Plan
-  // Entries against an existing (eligible) one. Checked against the exact
-  // role string (not just RoleScope) so the Monitor role — which also
-  // resolves to a 'National' RoleScope for read purposes — is excluded too.
-  // ---------------------------------------------------------------------
   const addNationalActivity = (na: NationalActivity) => {
-    if (currentRole !== 'National Activity AOP') {
-      showToast('Only National Activity AOP can create National Activities.');
-      return;
-    }
+    if (currentRole !== 'National Activity AOP') { showToast('Only National Activity AOP can create National Activities.'); return; }
     setNationalActivities(prev => [...prev, na]);
-    showToast(`National Activity ${na.code} created. It will appear under "Annual Plan" for its assigned Regions/Projects to submit Plan Entries against.`);
+    showToast(`National Activity ${na.code} created.`);
   };
 
   const deleteNationalActivity = (id: string) => {
-    if (currentRole !== 'National Activity AOP') {
-      showToast('Only National Activity AOP can delete National Activities.');
-      return;
-    }
+    if (currentRole !== 'National Activity AOP') { showToast('Only National Activity AOP can delete National Activities.'); return; }
     const hasLinkedEntries = planEntries.some(pe => pe.national_activity_id === id);
-    if (hasLinkedEntries) {
-      showToast('This National Activity has linked Plan Entries (Regional or Project) and cannot be deleted.');
+    const hasLinkedRegionLinks = regionActivityLinks.some(l => l.national_activity_id === id);
+    if (hasLinkedEntries || hasLinkedRegionLinks) {
+      showToast('This National Activity has linked Plan Entries or Region links and cannot be deleted.');
       return;
     }
     const na = nationalActivities.find(n => n.id === id);
@@ -249,79 +235,150 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   const addZone = (z: Zone) => { setZones(prev => [...prev, z]); showToast(`Zone ${z.name} added.`); };
   const addProject = (p: Project) => { setProjects(prev => [...prev, p]); showToast(`Project ${p.name} added.`); };
 
-  // ---------------------------------------------------------------------
-  // PLAN ENTRY — a National Activity's Target/Budget is always the live sum
-  // of its linked Plan Entries, so there is no ceiling to validate against
-  // here any more: any non-negative target/budget is acceptable.
-  // A Plan Entry may only be added for a Region/Project that is actually
-  // listed as an eligible executor of the target National Activity
-  // (eligible_region_ids/eligible_project_ids) — mirroring the Excel data,
-  // where only certain Regions/Projects executed each activity.
-  // ---------------------------------------------------------------------
+  // -----------------------------------------------------------------------
+  // REGION ACTIVITY LINK — Branch Head only.
+  // -----------------------------------------------------------------------
+  const addRegionActivityLink = (link: RegionActivityLink) => {
+    const scope = parseRoleScope(currentRole, regions, projects, zones);
+    if (scope.kind !== 'Regional' || scope.regionId !== link.region_id) { showToast('Only this region\'s Branch Head can add a Region Activity Link here.'); return; }
+    const na = nationalActivities.find(n => n.id === link.national_activity_id);
+    if (!na || !na.eligible_region_ids.includes(link.region_id)) { showToast('This Region is not an eligible executor of that National Activity.'); return; }
+    const isDuplicate = regionActivityLinks.some(l => l.national_activity_id === link.national_activity_id && l.region_id === link.region_id);
+    if (isDuplicate) { showToast('This National Activity is already linked to this Region.'); return; }
+    setRegionActivityLinks(prev => [...prev, link]);
+    showToast(`${na.code} linked to this Region. Eligible Zones can now add their Plan Entries.`);
+  };
+
+  const deleteRegionActivityLink = (id: string) => {
+    const link = regionActivityLinks.find(l => l.id === id);
+    if (!link) return;
+    const scope = parseRoleScope(currentRole, regions, projects, zones);
+    if (scope.kind !== 'Regional' || scope.regionId !== link.region_id) { showToast('Only this region\'s Branch Head can delete this Region Activity Link.'); return; }
+    const hasLinkedZoneEntries = planEntries.some(pe => pe.region_activity_link_id === id);
+    if (hasLinkedZoneEntries) { showToast('This link has zone Plan Entries and cannot be deleted.'); return; }
+    setRegionActivityLinks(prev => prev.filter(l => l.id !== id));
+    showToast('Region Activity Link deleted.');
+  };
+
+  // -----------------------------------------------------------------------
+  // PLAN ENTRY
+  // -----------------------------------------------------------------------
   const addPlanEntry = (pe: PlanEntry) => {
-    if (!roleOwnsPlanEntry(currentRole, pe, regions, projects)) { showToast('This coordinator can only manage entries for their assigned project or region.'); return; }
+    if (!roleCanWritePlanEntry(currentRole, pe, regions, projects, zones)) { showToast('This coordinator can only manage entries for their assigned project or zone.'); return; }
 
     const na = nationalActivities.find(n => n.id === pe.national_activity_id);
     if (!na) { showToast('National Activity not found.'); return; }
 
-    const isEligible = pe.scope_type === 'Regional'
-      ? (!!pe.region_id && na.eligible_region_ids.includes(pe.region_id))
-      : (!!pe.project_id && na.eligible_project_ids.includes(pe.project_id));
-    if (!isEligible) {
-      showToast(`${na.code} is not executed by this ${pe.scope_type === 'Regional' ? 'Region' : 'Project'} — only its originally assigned Regions/Projects can add a Plan Entry here.`);
-      return;
+    if (pe.scope_type === 'Project') {
+      const isEligible = !!pe.project_id && na.eligible_project_ids.includes(pe.project_id);
+      if (!isEligible) { showToast(`${na.code} is not executed by this Project.`); return; }
+    } else {
+      const link = regionActivityLinks.find(l => l.id === pe.region_activity_link_id);
+      const isEligible = !!link && link.national_activity_id === na.id && !!pe.zone_id && link.eligible_zone_ids.includes(pe.zone_id);
+      if (!isEligible) { showToast(`${na.code} is not linked to this Zone by its Branch Head.`); return; }
     }
 
     setPlanEntries(prev => [...prev, pe]);
-    showToast(`Plan entry added and linked to ${na.code}. ${na.code}'s aggregated Target/Budget updates automatically.`);
+    showToast(`Plan entry added and linked to ${na.code}.`);
   };
 
-const updatePlanEntry = (pe: PlanEntry) => {
-  if (parseRoleScope(currentRole, regions, projects).kind === 'National') { showToast('National Activity AOP does not edit execution entries.'); return; }
-  if (!roleOwnsPlanEntry(currentRole, pe, regions, projects)) { showToast('This coordinator can only edit entries for their assigned project or region.'); return; }
+  const updatePlanEntry = (pe: PlanEntry) => {
+    if (!roleCanWritePlanEntry(currentRole, pe, regions, projects, zones)) { showToast('This coordinator can only edit entries for their assigned project or zone.'); return; }
+    setPlanEntries(prev => prev.map(x => (x.id === pe.id ? pe : x)));
+    const na = nationalActivities.find(n => n.id === pe.national_activity_id);
+    showToast(`Plan entry updated. ${na?.code || ''}'s aggregated Target/Budget recalculates automatically.`);
+  };
 
-  setPlanEntries(prev => prev.map(x => (x.id === pe.id ? pe : x)));
-  const na = nationalActivities.find(n => n.id === pe.national_activity_id);
-  showToast(`Plan entry updated. ${na?.code || ''}'s aggregated Target/Budget recalculates automatically.`);
-};
+  const deletePlanEntry = (id: string) => {
+    const old = planEntries.find(x => x.id === id);
+    if (!old) return;
+    if (!roleCanWritePlanEntry(currentRole, old, regions, projects, zones)) { showToast('This coordinator can only delete entries for their assigned project or zone.'); return; }
+    setPlanEntries(prev => prev.filter(x => x.id !== id));
+    setQuarterlyPlans(prev => prev.filter(qp => qp.plan_entry_id !== id));
+    setQuarterlyActuals(prev => prev.filter(a => a.plan_entry_id !== id));
+    setMonitoringRecords(prev => prev.filter(m => m.plan_entry_id !== id));
+    showToast("Plan entry and its linked records deleted.");
+  };
 
-const deletePlanEntry = (id: string) => {
-  if (parseRoleScope(currentRole, regions, projects).kind === 'National') { showToast('National Activity AOP does not delete execution entries.'); return; }
-  const old = planEntries.find(x => x.id === id);
-  if (!old) return;
-  if (!roleOwnsPlanEntry(currentRole, old, regions, projects)) { showToast('This coordinator can only delete entries for their assigned project or region.'); return; }
-  setPlanEntries(prev => prev.filter(x => x.id !== id));
-  setQuarterlyPlans(prev => prev.filter(qp => qp.plan_entry_id !== id));
-  setQuarterlyActuals(prev => prev.filter(a => a.plan_entry_id !== id));
-  // A Monitoring Record only ever exists in reference to its Plan Entry, so
-  // it's cascaded away too — otherwise it would become an orphan row with
-  // no National Activity/Region/Project to display.
-  setMonitoringRecords(prev => prev.filter(m => m.plan_entry_id !== id));
-  showToast("Plan entry, its quarterly plan, quarterly actuals and monitoring record deleted. The parent National Activity's aggregated Target/Budget updates automatically.");
-};
-
-  // ---------------------------------------------------------------------
-  // QUARTERLY PLAN – automatically Approved.
-  // ---------------------------------------------------------------------
+  // -----------------------------------------------------------------------
+  // QUARTERLY PLAN — Project rows stay auto-Approved. Zone rows: live edits
+  // keep it Draft; blocked once Pending/Approved (Rejected re-opens editing).
+  // -----------------------------------------------------------------------
   const upsertQuarterlyPlan = (qp: QuarterlyPlanInput) => {
-    if (parseRoleScope(currentRole, regions, projects).kind === 'National') { showToast('Quarterly Plan entries are created by assigned Regional and Project Coordinators.'); return; }
     const parentEntry = planEntries.find(x => x.id === qp.plan_entry_id);
-    if (!parentEntry || !roleOwnsPlanEntry(currentRole, parentEntry, regions, projects)) { showToast('You can only enter Quarterly Plan values for your assigned project or region.'); return; }
+    if (!parentEntry || !roleCanWritePlanEntry(currentRole, parentEntry, regions, projects, zones)) {
+      showToast('You can only enter Quarterly Plan values for your assigned project or zone.');
+      return;
+    }
+
     setQuarterlyPlans(prev => {
       const idx = prev.findIndex(x => x.plan_entry_id === qp.plan_entry_id && x.quarter_id === qp.quarter_id);
-      const merged: QuarterlyPlan = { ...qp, approval_status: 'Approved' };
+      const existing = idx >= 0 ? prev[idx] : undefined;
+
+      if (parentEntry.scope_type === 'Project') {
+        const merged: QuarterlyPlan = { ...qp, approval_status: 'Approved' };
+        if (idx >= 0) { const copy = [...prev]; copy[idx] = merged; return copy; }
+        return [...prev, merged];
+      }
+
+      // Zone-scoped: block edits once Pending/Approved.
+      if (existing && (existing.approval_status === 'Pending Approval' || existing.approval_status === 'Approved')) {
+        showToast('This Quarterly Plan is locked while Pending Approval or Approved.');
+        return prev;
+      }
+      const merged: QuarterlyPlan = { ...qp, approval_status: 'Draft' };
       if (idx >= 0) { const copy = [...prev]; copy[idx] = merged; return copy; }
       return [...prev, merged];
     });
   };
 
-  // ---------------------------------------------------------------------
-  // QUARTERLY ACTUAL – automatically Approved.
-  // ---------------------------------------------------------------------
+  const submitQuarterlyPlanForApproval = ({ plan_entry_id, quarter_id }: { plan_entry_id: string; quarter_id: QuarterId }) => {
+    const scope = parseRoleScope(currentRole, regions, projects, zones);
+    const parentEntry = planEntries.find(x => x.id === plan_entry_id);
+    if (scope.kind !== 'Zone' || !parentEntry || parentEntry.zone_id !== scope.zoneId) { showToast('Only the owning Zone Coordinator can submit this for approval.'); return; }
+    setQuarterlyPlans(prev => prev.map(qp => qp.plan_entry_id === plan_entry_id && qp.quarter_id === quarter_id
+      ? { ...qp, approval_status: 'Pending Approval', submitted_at: new Date().toISOString(), rejection_reason: undefined }
+      : qp));
+    showToast(`${quarter_id} Quarterly Plan submitted for Branch Head approval.`);
+  };
+
+  const approveQuarterlyPlan = ({ plan_entry_id, quarter_id }: { plan_entry_id: string; quarter_id: QuarterId }) => {
+    const scope = parseRoleScope(currentRole, regions, projects, zones);
+    const parentEntry = planEntries.find(x => x.id === plan_entry_id);
+    if (scope.kind !== 'Regional' || !parentEntry || parentEntry.region_id !== scope.regionId) { showToast('Only this region\'s Branch Head can approve this.'); return; }
+    setQuarterlyPlans(prev => prev.map(qp => qp.plan_entry_id === plan_entry_id && qp.quarter_id === quarter_id
+      ? { ...qp, approval_status: 'Approved', reviewed_at: new Date().toISOString() }
+      : qp));
+    showToast(`${quarter_id} Quarterly Plan approved.`);
+  };
+
+  const rejectQuarterlyPlan = ({ plan_entry_id, quarter_id, rejection_reason }: { plan_entry_id: string; quarter_id: QuarterId; rejection_reason: string }) => {
+    const scope = parseRoleScope(currentRole, regions, projects, zones);
+    const parentEntry = planEntries.find(x => x.id === plan_entry_id);
+    if (scope.kind !== 'Regional' || !parentEntry || parentEntry.region_id !== scope.regionId) { showToast('Only this region\'s Branch Head can reject this.'); return; }
+    setQuarterlyPlans(prev => prev.map(qp => qp.plan_entry_id === plan_entry_id && qp.quarter_id === quarter_id
+      ? { ...qp, approval_status: 'Rejected', reviewed_at: new Date().toISOString(), rejection_reason }
+      : qp));
+    showToast(`${quarter_id} Quarterly Plan rejected — zone can revise and resubmit.`);
+  };
+
+  // -----------------------------------------------------------------------
+  // QUARTERLY ACTUAL — Project rows unchanged (soft warning only, in the UI).
+  // Zone rows: hard-blocked unless the matching Quarterly Plan is Approved.
+  // -----------------------------------------------------------------------
   const upsertQuarterlyActual = (qa: QuarterlyActualInput) => {
-    if (parseRoleScope(currentRole, regions, projects).kind === 'National') { showToast('Quarterly Actual entries are created by assigned Regional and Project Coordinators.'); return; }
     const parentEntry = planEntries.find(x => x.id === qa.plan_entry_id);
-    if (!parentEntry || !roleOwnsPlanEntry(currentRole, parentEntry, regions, projects)) { showToast('You can only enter Quarterly Actual values for your assigned project or region.'); return; }
+    if (!parentEntry || !roleCanWritePlanEntry(currentRole, parentEntry, regions, projects, zones)) {
+      showToast('You can only enter Quarterly Actual values for your assigned project or zone.');
+      return;
+    }
+    if (parentEntry.scope_type === 'Regional') {
+      const plan = quarterlyPlans.find(qp => qp.plan_entry_id === qa.plan_entry_id && qp.quarter_id === qa.quarter_id);
+      if (!plan || plan.approval_status !== 'Approved') {
+        showToast('The Quarterly Plan for this quarter must be Approved by the Branch Head before entering Actuals.');
+        return;
+      }
+    }
     setQuarterlyActuals(prev => {
       const idx = prev.findIndex(a => a.plan_entry_id === qa.plan_entry_id && a.quarter_id === qa.quarter_id);
       const merged: QuarterlyActual = { ...qa, approval_status: 'Approved' };
@@ -330,13 +387,6 @@ const deletePlanEntry = (id: string) => {
     });
   };
 
-  // ---------------------------------------------------------------------
-  // MONITORING RECORD — exclusively the 'Monitor' role's to create/edit.
-  // Keyed 1:1 by plan_entry_id (one row per Activity × Contributing
-  // Project/Region, exactly like the Excel Monitoring Register), so an
-  // edit to a not-yet-existing row (still showing its blank template
-  // state) creates the record; an edit to an existing row updates it.
-  // ---------------------------------------------------------------------
   const getMonitoringRecordForPlanEntry = (planEntryId: string) =>
     monitoringRecords.find(m => m.plan_entry_id === planEntryId);
 
@@ -361,8 +411,9 @@ const deletePlanEntry = (id: string) => {
       regions, addRegion,
       zones, addZone,
       projects, addProject, quarters,
+      regionActivityLinks, addRegionActivityLink, deleteRegionActivityLink,
       planEntries, addPlanEntry, updatePlanEntry, deletePlanEntry,
-      quarterlyPlans, upsertQuarterlyPlan,
+      quarterlyPlans, upsertQuarterlyPlan, submitQuarterlyPlanForApproval, approveQuarterlyPlan, rejectQuarterlyPlan,
       quarterlyActuals, upsertQuarterlyActual,
       monitoringRecords, upsertMonitoringRecord, getMonitoringRecordForPlanEntry,
       uomConfigs,

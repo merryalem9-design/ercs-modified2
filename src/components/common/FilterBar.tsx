@@ -1,56 +1,36 @@
 import React from 'react';
 import { useApp } from '../../context/AppContext';
 import { Filter, RotateCcw } from 'lucide-react';
+import { QuarterFilterValue } from '../../types';
 
 interface FilterBarProps {
-  /** When true, adds a "None" option to the Region and Project selects.
-   *  Picking it doesn't remove any Plan Entries from scope — AppContext's
-   *  getFilteredPlanEntries treats 'NONE' exactly like 'ALL' — it's purely
-   *  a display signal a page can read off `filters` to hide its own
-   *  region/project-level breakdown and show just the National Activity
-   *  summary. Off by default, so every other page keeps its exact current
-   *  behavior and never even renders the option. */
   allowNoneScope?: boolean;
-  /** When true, hides the Quarter select entirely. getFilteredPlanEntries
-   *  in AppContext never reads filters.quarterId, so on pages where a
-   *  quarter is chosen per-row instead (e.g. the Monitoring Register),
-   *  showing this filter implied it did something it doesn't. Off by
-   *  default, so every other page keeps rendering it exactly as before. */
   hideQuarterFilter?: boolean;
 }
 
 export const FilterBar: React.FC<FilterBarProps> = ({ allowNoneScope = false, hideQuarterFilter = false }) => {
   const { filters, setFilters, resetFilters, currentRole, getNationalActivitiesForRole, regions, projects, quarters } = useApp();
 
-  const isRegionalRole = currentRole.startsWith('Regional Coordinator — ');
+  const isBranchHead = currentRole.startsWith('Branch Head — ');
+  const isZoneCoordinator = currentRole.endsWith(' coordinators');
+  const isRegionScoped = isBranchHead || isZoneCoordinator;
   const isProjectRole = currentRole.startsWith('Project Coordinator — ');
-  const assignedRegionName = isRegionalRole ? currentRole.slice('Regional Coordinator — '.length) : '';
-  const assignedProjectName = isProjectRole ? currentRole.slice('Project Coordinator — '.length) : '';
-  const visibleRegions = isRegionalRole ? regions.filter(r => r.name === assignedRegionName) : regions;
-  const visibleProjects = isProjectRole ? projects.filter(p => p.name === assignedProjectName) : projects;
-  // Only the National Activities the current role is an eligible executor
-  // of (all of them for the AOP) — mirrors the Excel data's fixed
-  // Region/Project ↔ National Activity linkage.
+
+  const assignedRegionName = isBranchHead ? currentRole.slice('Branch Head — '.length) : '';
+  const visibleRegions = isBranchHead ? regions.filter(r => r.name === assignedRegionName) : regions;
+  const visibleProjects = isProjectRole ? projects.filter(p => p.name === currentRole.slice('Project Coordinator — '.length)) : projects;
   const nationalActivitiesInScope = getNationalActivitiesForRole();
 
   const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const { name, value } = e.target;
-    // Only a real, specific Region/Project id should force the other
-    // dimension back to 'ALL'. 'ALL' and 'NONE' both mean "not a specific
-    // scope", so either can be picked on both sides at once — e.g.
-    // Region=NONE and Project=NONE together, to ask for "no breakdown".
+    if (name === 'quarterId') {
+      setFilters(prev => ({ ...prev, quarterId: value as QuarterFilterValue }));
+      return;
+    }
     const isSpecificSelection = value !== 'ALL' && value !== 'NONE';
     setFilters(prev => {
       if (name === 'regionId' && isSpecificSelection) return { ...prev, regionId: value, projectId: 'ALL' };
       if (name === 'projectId' && isSpecificSelection) return { ...prev, projectId: value, regionId: 'ALL' };
-      // Picking 'NONE' means "collapse to the National Activity summary
-      // only" — it must never silently coexist with the OTHER side still
-      // pinned to one specific Region/Project (that would keep narrowing
-      // the totals underneath while the UI implies a full, unscoped view).
-      // So if the other side currently holds a specific id, clear it back
-      // to 'ALL' too. Two 'NONE's together (the "no breakdown at all" case)
-      // is unaffected by this, since 'NONE' itself is never the thing being
-      // cleared here.
       if (name === 'regionId' && value === 'NONE' && prev.projectId !== 'ALL' && prev.projectId !== 'NONE') {
         return { ...prev, regionId: value, projectId: 'ALL' };
       }
@@ -61,10 +41,6 @@ export const FilterBar: React.FC<FilterBarProps> = ({ allowNoneScope = false, hi
     });
   };
 
-  // If a 'NONE' value leaked in from a page that allows it (e.g. Report)
-  // and the user navigated to a page that doesn't render that option,
-  // show the select as 'All' instead of a value with no matching <option>.
-  // The underlying filters.regionId/projectId state is left untouched.
   const regionSelectValue = filters.regionId === 'NONE' && !allowNoneScope ? 'ALL' : filters.regionId;
   const projectSelectValue = filters.projectId === 'NONE' && !allowNoneScope ? 'ALL' : filters.projectId;
 
@@ -90,14 +66,14 @@ export const FilterBar: React.FC<FilterBarProps> = ({ allowNoneScope = false, hi
         {(!isProjectRole) && (
           <div>
             <label className="block text-[10px] font-bold text-slate-500 mb-1">Region</label>
-            <select name="regionId" value={regionSelectValue} onChange={handleChange} className="w-full text-xs font-medium border-slate-200 rounded-lg bg-slate-50 py-1.5">
+            <select name="regionId" value={regionSelectValue} onChange={handleChange} disabled={isRegionScoped} className="w-full text-xs font-medium border-slate-200 rounded-lg bg-slate-50 py-1.5 disabled:opacity-60">
               <option value="ALL">All Regions</option>
               {allowNoneScope && <option value="NONE">None (National Activity Only)</option>}
               {visibleRegions.map(r => <option key={r.id} value={r.id}>{r.name}</option>)}
             </select>
           </div>
         )}
-        {(!isRegionalRole) && (
+        {(!isRegionScoped) && (
           <div>
             <label className="block text-[10px] font-bold text-slate-500 mb-1">Project</label>
             <select name="projectId" value={projectSelectValue} onChange={handleChange} className="w-full text-xs font-medium border-slate-200 rounded-lg bg-slate-50 py-1.5">
@@ -112,6 +88,8 @@ export const FilterBar: React.FC<FilterBarProps> = ({ allowNoneScope = false, hi
             <label className="block text-[10px] font-bold text-slate-500 mb-1">Quarter</label>
             <select name="quarterId" value={filters.quarterId} onChange={handleChange} className="w-full text-xs font-medium border-slate-200 rounded-lg bg-slate-50 py-1.5">
               <option value="ALL">All Quarters (Annual)</option>
+              <option value="SEMI">Semi-Annual (Q1+Q2)</option>
+              <option value="NINE_MONTH">9-Month (Q1–Q3)</option>
               {quarters.map(q => <option key={q.id} value={q.id}>{q.id}</option>)}
             </select>
           </div>
