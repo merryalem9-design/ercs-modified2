@@ -149,5 +149,7 @@ export interface FilterState {
   nationalActivityId: string;
   regionId: string;
   projectId: string;
+  /** NEW — filters PlanEntries/QuarterlyPlans down to a single Zone. 'ALL' means no zone restriction. */
+  zoneId: string;
   quarterId: QuarterFilterValue;
 }

@@ -65,7 +65,7 @@ interface AppContextType {
   getFilteredPlanEntries: () => PlanEntry[];
 }
 
-const DEFAULT_FILTERS: FilterState = { strategicPriorityId: 'ALL', nationalActivityId: 'ALL', regionId: 'ALL', projectId: 'ALL', quarterId: 'ALL' };
+const DEFAULT_FILTERS: FilterState = { strategicPriorityId: 'ALL', nationalActivityId: 'ALL', regionId: 'ALL', projectId: 'ALL', zoneId: 'ALL', quarterId: 'ALL' };
 
 type RoleScope =
   | { kind: 'National' }
@@ -124,9 +124,9 @@ const normalizePersistedRole = (raw: UserRole, regions: Region[], projects: Proj
   return 'National Activity AOP';
 };
 
-// Bumped to v6: PlanEntry shape changed (zone_id/region_activity_link_id),
-// new regionActivityLinks state, role strings renamed — v5 data must never leak in.
-const PERSISTENCE_KEY = 'ercs-aop-bottom-up-v6';
+// Bumped to v7: FilterState gained zoneId — v6 persisted filters must not
+// leak a stale shape in without it.
+const PERSISTENCE_KEY = 'ercs-aop-bottom-up-v7';
 
 const readPersisted = <T,>(key: string, fallback: T): T => {
   if (typeof window === 'undefined') return fallback;
@@ -186,6 +186,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     if (filters.nationalActivityId !== 'ALL' && pe.national_activity_id !== filters.nationalActivityId) return false;
     if (filters.regionId !== 'ALL' && filters.regionId !== 'NONE' && pe.region_id !== filters.regionId) return false;
     if (filters.projectId !== 'ALL' && filters.projectId !== 'NONE' && pe.project_id !== filters.projectId) return false;
+    if (filters.zoneId && filters.zoneId !== 'ALL' && pe.zone_id !== filters.zoneId) return false;
     return true;
   });
 

@@ -9,7 +9,7 @@ interface FilterBarProps {
 }
 
 export const FilterBar: React.FC<FilterBarProps> = ({ allowNoneScope = false, hideQuarterFilter = false }) => {
-  const { filters, setFilters, resetFilters, currentRole, getNationalActivitiesForRole, regions, projects, quarters } = useApp();
+  const { filters, setFilters, resetFilters, currentRole, getNationalActivitiesForRole, regions, zones, projects, quarters } = useApp();
 
   const isBranchHead = currentRole.startsWith('Branch Head — ');
   const isZoneCoordinator = currentRole.endsWith(' coordinators');
@@ -20,6 +20,12 @@ export const FilterBar: React.FC<FilterBarProps> = ({ allowNoneScope = false, hi
   const visibleRegions = isBranchHead ? regions.filter(r => r.name === assignedRegionName) : regions;
   const visibleProjects = isProjectRole ? projects.filter(p => p.name === currentRole.slice('Project Coordinator — '.length)) : projects;
   const nationalActivitiesInScope = getNationalActivitiesForRole();
+
+  // NEW — Branch Head gets a Zone filter, scoped to the zones in their own
+  // Region, so they can narrow Quarterly Plan Submissions / Report down to
+  // one zone instead of always seeing the whole region aggregated.
+  const assignedRegion = isBranchHead ? regions.find(r => r.name === assignedRegionName) : undefined;
+  const zonesInAssignedRegion = assignedRegion ? zones.filter(z => z.region_id === assignedRegion.id) : [];
 
   const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const { name, value } = e.target;
@@ -43,6 +49,19 @@ export const FilterBar: React.FC<FilterBarProps> = ({ allowNoneScope = false, hi
 
   const regionSelectValue = filters.regionId === 'NONE' && !allowNoneScope ? 'ALL' : filters.regionId;
   const projectSelectValue = filters.projectId === 'NONE' && !allowNoneScope ? 'ALL' : filters.projectId;
+
+  // Period (multi-quarter view) vs. a single Quarter are now two separate
+  // controls, both driving the same underlying filters.quarterId value.
+  const periodSelectValue: QuarterFilterValue = (['ALL', 'SEMI', 'NINE_MONTH'] as QuarterFilterValue[]).includes(filters.quarterId)
+    ? filters.quarterId
+    : 'ALL';
+  const singleQuarterSelectValue = quarters.some(q => q.id === filters.quarterId) ? filters.quarterId : '';
+
+  const handleQuarterSelect = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const { value } = e.target;
+    if (!value) return; // "Select Quarter…" placeholder — don't clear the active period selection
+    setFilters(prev => ({ ...prev, quarterId: value as QuarterFilterValue }));
+  };
 
   return (
     <div className="bg-white p-4 rounded-xl border border-slate-200 shadow-sm mb-6">
@@ -83,16 +102,33 @@ export const FilterBar: React.FC<FilterBarProps> = ({ allowNoneScope = false, hi
             </select>
           </div>
         )}
-        {!hideQuarterFilter && (
+        {isBranchHead && assignedRegion && (
           <div>
-            <label className="block text-[10px] font-bold text-slate-500 mb-1">Quarter</label>
-            <select name="quarterId" value={filters.quarterId} onChange={handleChange} className="w-full text-xs font-medium border-slate-200 rounded-lg bg-slate-50 py-1.5">
-              <option value="ALL">All Quarters (Annual)</option>
-              <option value="SEMI">Semi-Annual (Q1+Q2)</option>
-              <option value="NINE_MONTH">9-Month (Q1–Q3)</option>
-              {quarters.map(q => <option key={q.id} value={q.id}>{q.id}</option>)}
+            <label className="block text-[10px] font-bold text-slate-500 mb-1">Zone</label>
+            <select name="zoneId" value={filters.zoneId} onChange={handleChange} className="w-full text-xs font-medium border-slate-200 rounded-lg bg-slate-50 py-1.5">
+              <option value="ALL">All Zones</option>
+              {zonesInAssignedRegion.map(z => <option key={z.id} value={z.id}>{z.name}</option>)}
             </select>
           </div>
+        )}
+        {!hideQuarterFilter && (
+          <>
+            <div>
+              <label className="block text-[10px] font-bold text-slate-500 mb-1">Period</label>
+              <select name="quarterId" value={periodSelectValue} onChange={handleChange} className="w-full text-xs font-medium border-slate-200 rounded-lg bg-slate-50 py-1.5">
+                <option value="ALL">All Quarters (Annual)</option>
+                <option value="SEMI">Semi-Annual (Q1+Q2)</option>
+                <option value="NINE_MONTH">9-Month (Q1–Q3)</option>
+              </select>
+            </div>
+            <div>
+              <label className="block text-[10px] font-bold text-slate-500 mb-1">Quarter</label>
+              <select name="quarterId" value={singleQuarterSelectValue} onChange={handleQuarterSelect} className="w-full text-xs font-medium border-slate-200 rounded-lg bg-slate-50 py-1.5">
+                <option value="">Select Quarter…</option>
+                {quarters.map(q => <option key={q.id} value={q.id}>{q.id}</option>)}
+              </select>
+            </div>
+          </>
         )}
       </div>
     </div>

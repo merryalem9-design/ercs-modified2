@@ -23,6 +23,16 @@ const AOP_NAV = [
   { id: 'monitoring-dashboard', label: 'Monitoring Dashboard', sub: 'Coverage & findings overview (view only)', icon: LayoutDashboard },
 ];
 
+// Branch Head no longer plans/enters quarterly figures directly — they link
+// National Activities to their Region, review/approve what the Zones
+// submit, and read the aggregated Report. Quarterly Actual Entry and
+// Submissions have no use for this role.
+const BRANCH_HEAD_NAV = [
+  { id: 'plan', label: 'Annual Plan', sub: 'Link National Activities to your Region', icon: ClipboardList },
+  { id: 'quarterly-plan-submissions', label: 'Quarterly Plan Submissions', sub: 'Review & approve Zone submissions', icon: CalendarCheck2 },
+  { id: 'report', label: 'Report', sub: 'Zone performance & aggregation', icon: BarChart3 },
+];
+
 const RESTRICTED_FOR_AOP = new Set(['quarterly-plan', 'quarterly']);
 
 export const Sidebar: React.FC = () => {
@@ -30,21 +40,23 @@ export const Sidebar: React.FC = () => {
 
   const isNationalAop = currentRole === 'National Activity AOP';
   const isMonitor = currentRole === 'Monitor';
+  const isBranchHead = currentRole.startsWith('Branch Head — ');
+  const isZoneCoordinator = currentRole.endsWith(' coordinators');
+
   const nav = isMonitor
     ? MONITOR_NAV
     : isNationalAop
       ? AOP_NAV.filter(item => !RESTRICTED_FOR_AOP.has(item.id))
-      : BASE_NAV;
-
-  const isBranchHead = currentRole.startsWith('Branch Head — ');
-  const isZoneCoordinator = currentRole.endsWith(' coordinators');
+      : isBranchHead
+        ? BRANCH_HEAD_NAV
+        : BASE_NAV;
 
   const roleHint = isNationalAop
     ? 'Create National Activities, view Performance, and review submissions.'
     : isMonitor
       ? 'Verify reported achievements against evidence, log data-quality findings, and track corrective actions.'
       : isBranchHead
-        ? 'Link National Activities to your Region, review and approve Zone Quarterly Plans.'
+        ? 'Link National Activities to your Region, and review/approve Zone Quarterly Plan submissions.'
         : isZoneCoordinator
           ? 'Enter and manage the plan, quarterly plan, and actuals for your assigned zone.'
           : 'Enter and manage the plan, quarterly plan, and actuals for the assigned project.';

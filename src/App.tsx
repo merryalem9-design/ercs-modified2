@@ -15,12 +15,16 @@ import { SubmissionsPage } from './pages/SubmissionsPage';
 import { MonitoringRegisterPage } from './pages/MonitoringRegisterPage';
 import { MonitoringDashboardPage } from './pages/MonitoringDashboardPage';
 import { PerformancePage } from './pages/PerformancePage';
+import { QuarterlyPlanSubmissionsPage } from './pages/QuarterlyPlanSubmissionsPage';
 
 const RESTRICTED_FOR_AOP = new Set(['quarterly-plan', 'quarterly']);
 // AOP is now allowed into 'monitoring-dashboard' (read-only) but still
 // blocked from 'monitoring' (the Register) and 'performance' is AOP-only.
 const MONITOR_ONLY_ROUTES = new Set(['monitoring']);
 const AOP_ONLY_ROUTES = new Set(['performance']);
+// Branch Head no longer plans/enters quarterly figures or uses the generic
+// Submissions list — they use 'quarterly-plan-submissions' instead.
+const RESTRICTED_FOR_BRANCH_HEAD = new Set(['quarterly-plan', 'quarterly', 'submissions']);
 
 const MainLayout: React.FC = () => {
   const { activeRoute, setActiveRoute, currentRole, filters } = useApp();
@@ -32,19 +36,21 @@ const MainLayout: React.FC = () => {
   const onRestrictedRoute = isNationalAop && RESTRICTED_FOR_AOP.has(activeRoute);
   const onMonitorOnlyRouteAsOther = !isMonitor && MONITOR_ONLY_ROUTES.has(activeRoute);
   const onAopOnlyRouteAsOther = !isNationalAop && AOP_ONLY_ROUTES.has(activeRoute);
+  const onRestrictedRouteForBranchHead = isBranchHead && RESTRICTED_FOR_BRANCH_HEAD.has(activeRoute);
   const monitorOffItsOwnRoutes = isMonitor && !['monitoring', 'monitoring-dashboard'].includes(activeRoute);
 
   React.useEffect(() => {
-    if (onRestrictedRoute || onMonitorOnlyRouteAsOther || onAopOnlyRouteAsOther) setActiveRoute('plan');
+    if (onRestrictedRoute || onMonitorOnlyRouteAsOther || onAopOnlyRouteAsOther || onRestrictedRouteForBranchHead) setActiveRoute('plan');
     else if (monitorOffItsOwnRoutes) setActiveRoute('monitoring');
-  }, [onRestrictedRoute, onMonitorOnlyRouteAsOther, onAopOnlyRouteAsOther, monitorOffItsOwnRoutes, setActiveRoute]);
+  }, [onRestrictedRoute, onMonitorOnlyRouteAsOther, onAopOnlyRouteAsOther, onRestrictedRouteForBranchHead, monitorOffItsOwnRoutes, setActiveRoute]);
 
   const renderContent = () => {
-    if (onRestrictedRoute || onMonitorOnlyRouteAsOther || onAopOnlyRouteAsOther) return <PlanPage />;
+    if (onRestrictedRoute || onMonitorOnlyRouteAsOther || onAopOnlyRouteAsOther || onRestrictedRouteForBranchHead) return <PlanPage />;
     if (monitorOffItsOwnRoutes) return <MonitoringRegisterPage />;
     switch (activeRoute) {
       case 'plan': return <PlanPage />;
       case 'quarterly-plan': return <QuarterlyPlanPage />;
+      case 'quarterly-plan-submissions': return <QuarterlyPlanSubmissionsPage />;
       case 'quarterly': return <QuarterlyEntryPage />;
       case 'report': return <ReportPage />;
       case 'national-detail': return <NationalActivityDetailPage />;
@@ -57,7 +63,7 @@ const MainLayout: React.FC = () => {
       default: return <PlanPage />;
     }
   };
-  void isBranchHead; void isZoneCoordinator; void filters;
+  void isZoneCoordinator; void filters;
 
   return (
     <div className="flex h-screen bg-slate-50 overflow-hidden font-sans">

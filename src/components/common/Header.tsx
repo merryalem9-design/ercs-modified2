@@ -20,6 +20,7 @@ export const Header: React.FC = () => {
       nationalActivityId: 'ALL',
       regionId: 'ALL',
       projectId: 'ALL',
+      zoneId: 'ALL',
     }));
     setActiveRoute('plan');
   };
