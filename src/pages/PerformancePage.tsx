@@ -1,18 +1,28 @@
 // src/pages/PerformancePage.tsx
-import React from 'react';
+import React, { useState } from 'react';
 import { useApp } from '../context/AppContext';
 import { FilterBar } from '../components/common/FilterBar';
 import {
   sumPlannedTarget, sumActual, sumExpenditure, sumPlannedBudget, achievementPct, budgetUtilizationPct, convertToBeneficiaries, getStatusBadge,
 } from '../utils/calculations';
-import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, LineChart, Line, CartesianGrid, Legend } from 'recharts';
+import {
+  BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, LineChart, Line, CartesianGrid, Legend,
+  PieChart, Pie, Cell,
+} from 'recharts';
 import { Target, Wallet, Users, MapPin, FolderGit2 } from 'lucide-react';
 
 const OVER_BUDGET_BADGE = { label: 'Over Budget', color: 'bg-rose-100 text-rose-800 border-rose-300' };
 
+// Vivid, distinct palette for the new chart types — never a single flat color.
+const PIE_COLORS = ['#C8102E', '#1E293B', '#0EA5E9', '#F59E0B', '#10B981', '#8B5CF6', '#EC4899', '#14B8A6'];
+const TARGET_COLOR = '#1E293B'; // dark slate
+const ACTUAL_COLOR = '#C8102E'; // ercs red
+const ACHIEVEMENT_ACCENT = '#0D9488'; // teal/emerald accent
+
 export const PerformancePage: React.FC = () => {
   const { nationalActivities, regions, projects, quarterlyPlans, quarterlyActuals, uomConfigs, getFilteredPlanEntries } = useApp();
   const entries = getFilteredPlanEntries();
+  const [groupBy, setGroupBy] = useState<'region' | 'project'>('region');
 
   const regionalEntries = entries.filter(e => e.scope_type === 'Regional');
   const projectEntries = entries.filter(e => e.scope_type === 'Project');
@@ -40,16 +50,28 @@ export const PerformancePage: React.FC = () => {
   }, 0);
   const totalBeneficiaries = beneficiariesFor(entries);
 
-  const byRegionData = regions.map(r => {
+  // Panel 1 — Target vs Actual, toggleable between Region and Project grouping.
+  const targetActualByRegion = regions.map(r => {
     const es = regionalEntries.filter(e => e.region_id === r.id);
-    return { name: r.name, achievement: Number(achievementPct(sumActual(es, quarterlyActuals, 'ALL'), sumPlannedTarget(es, quarterlyPlans, 'ALL')).toFixed(1)) };
+    return { name: r.name, Target: sumPlannedTarget(es, quarterlyPlans, 'ALL'), Actual: sumActual(es, quarterlyActuals, 'ALL') };
   });
-  const byProjectData = projects.map(p => {
+  const targetActualByProject = projects.map(p => {
     const es = projectEntries.filter(e => e.project_id === p.id);
-    return { name: p.name, achievement: Number(achievementPct(sumActual(es, quarterlyActuals, 'ALL'), sumPlannedTarget(es, quarterlyPlans, 'ALL')).toFixed(1)) };
+    return { name: p.name, Target: sumPlannedTarget(es, quarterlyPlans, 'ALL'), Actual: sumActual(es, quarterlyActuals, 'ALL') };
   });
+  const targetActualData = groupBy === 'region' ? targetActualByRegion : targetActualByProject;
 
-  // A8: current reporting quarter = highest QuarterId with any QuarterlyActual row.
+  // Panel 2 — Budget distribution by National Activity, top 8 by aggregated Budget.
+  const budgetByActivity = nationalActivities
+    .map(na => {
+      const es = entries.filter(e => e.national_activity_id === na.id);
+      return { code: na.code, name: na.description, value: sumPlannedBudget(es, quarterlyPlans, 'ALL') };
+    })
+    .filter(row => row.value > 0)
+    .sort((a, b) => b.value - a.value)
+    .slice(0, 8);
+
+  // Panel 3 — Quarterly trend, unchanged computation from before.
   const QUARTER_ORDER = ['Q1', 'Q2', 'Q3', 'Q4'] as const;
   const reportedQuarters = new Set(quarterlyActuals.map(a => a.quarter_id));
   let currentQuarterIdx = 0;
@@ -61,13 +83,31 @@ export const PerformancePage: React.FC = () => {
     return { quarter: q, Planned: planned, Actual: actual };
   });
 
+  // Panel 4 — Achievement % across every Region and Project, sorted descending.
+  const achievementComparisonData = [
+    ...regions.map(r => {
+      const es = regionalEntries.filter(e => e.region_id === r.id);
+      return {
+        name: r.name,
+        achievement: Number(achievementPct(sumActual(es, quarterlyActuals, 'ALL'), sumPlannedTarget(es, quarterlyPlans, 'ALL')).toFixed(1)),
+      };
+    }),
+    ...projects.map(p => {
+      const es = projectEntries.filter(e => e.project_id === p.id);
+      return {
+        name: p.name,
+        achievement: Number(achievementPct(sumActual(es, quarterlyActuals, 'ALL'), sumPlannedTarget(es, quarterlyPlans, 'ALL')).toFixed(1)),
+      };
+    }),
+  ].sort((a, b) => b.achievement - a.achievement);
+
   const beneficiariesByRegion = regions.map(r => ({ name: r.name, value: beneficiariesFor(regionalEntries.filter(e => e.region_id === r.id)) }));
   const beneficiariesByProject = projects.map(p => ({ name: p.name, value: beneficiariesFor(projectEntries.filter(e => e.project_id === p.id)) }));
 
   return (
     <div className="space-y-6">
       <div>
-        <h2 className="text-xl font-black text-slate-800">Performance</h2>
+        <h2 className="text-xl font-black text-slate-800">Dashboard</h2>
         <p className="text-xs text-slate-500 mt-1">National-level KPIs, regional/project breakdowns, and planned vs. actual trend — computed live from the same bottom-up data as every other page.</p>
       </div>
 
@@ -82,43 +122,81 @@ export const PerformancePage: React.FC = () => {
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-        <ChartCard title="Performance by Region">
+        {/* Panel 1 — Target vs Actual, toggleable */}
+        <div className="bg-white rounded-xl border shadow-sm p-4">
+          <div className="flex items-center justify-between mb-3 flex-wrap gap-2">
+            <div className="text-xs font-bold text-slate-800 uppercase tracking-wider">Target vs Actual by {groupBy === 'region' ? 'Region' : 'Project'}</div>
+            <div className="bg-slate-50 p-1 rounded-lg border inline-flex gap-1">
+              <button onClick={() => setGroupBy('region')} className={`px-3 py-1 rounded text-[10px] font-bold ${groupBy === 'region' ? 'bg-ercs-red text-white' : 'text-slate-600 hover:bg-white'}`}>Region</button>
+              <button onClick={() => setGroupBy('project')} className={`px-3 py-1 rounded text-[10px] font-bold ${groupBy === 'project' ? 'bg-ercs-red text-white' : 'text-slate-600 hover:bg-white'}`}>Project</button>
+            </div>
+          </div>
           <ResponsiveContainer width="100%" height={260}>
-            <BarChart data={byRegionData}>
+            <BarChart data={targetActualData}>
               <CartesianGrid strokeDasharray="3 3" />
               <XAxis dataKey="name" tick={{ fontSize: 10 }} />
               <YAxis tick={{ fontSize: 10 }} />
               <Tooltip />
-              <Bar dataKey="achievement" fill="#C8102E" name="Achievement %" />
+              <Legend />
+              <Bar dataKey="Target" fill={TARGET_COLOR} name="Target" radius={[4, 4, 0, 0]} />
+              <Bar dataKey="Actual" fill={ACTUAL_COLOR} name="Actual" radius={[4, 4, 0, 0]} />
             </BarChart>
           </ResponsiveContainer>
-        </ChartCard>
-        <ChartCard title="Performance by Project">
+        </div>
+
+        {/* Panel 2 — Budget distribution donut */}
+        <ChartCard title="Budget Distribution by National Activity (Top 8)">
           <ResponsiveContainer width="100%" height={260}>
-            <BarChart data={byProjectData}>
+            <PieChart>
+              <Pie
+                data={budgetByActivity}
+                dataKey="value"
+                nameKey="code"
+                innerRadius={55}
+                outerRadius={90}
+                paddingAngle={2}
+              >
+                {budgetByActivity.map((entry, idx) => (
+                  <Cell key={entry.code} fill={PIE_COLORS[idx % PIE_COLORS.length]} />
+                ))}
+              </Pie>
+              <Tooltip formatter={(value: number, _name, ctx: any) => [`ETB ${Number(value).toLocaleString()}`, ctx?.payload?.name || '']} />
+              <Legend
+                formatter={(_value, entry: any) => `${entry?.payload?.code} — ETB ${Number(entry?.payload?.value).toLocaleString()}`}
+                wrapperStyle={{ fontSize: 10 }}
+              />
+            </PieChart>
+          </ResponsiveContainer>
+        </ChartCard>
+
+        {/* Panel 3 — Quarterly trend */}
+        <ChartCard title="Quarterly Trend — Planned vs Actual (Q1–Q4)">
+          <ResponsiveContainer width="100%" height={260}>
+            <LineChart data={lineData}>
               <CartesianGrid strokeDasharray="3 3" />
-              <XAxis dataKey="name" tick={{ fontSize: 10 }} />
+              <XAxis dataKey="quarter" tick={{ fontSize: 10 }} />
               <YAxis tick={{ fontSize: 10 }} />
               <Tooltip />
-              <Bar dataKey="achievement" fill="#1E293B" name="Achievement %" />
+              <Legend />
+              <Line type="monotone" dataKey="Planned" stroke={TARGET_COLOR} strokeWidth={2} dot />
+              <Line type="monotone" dataKey="Actual" stroke={ACTUAL_COLOR} strokeWidth={2} dot connectNulls={false} />
+            </LineChart>
+          </ResponsiveContainer>
+        </ChartCard>
+
+        {/* Panel 4 — Achievement % comparison, horizontal */}
+        <ChartCard title="Achievement % — Regions & Projects Compared">
+          <ResponsiveContainer width="100%" height={260}>
+            <BarChart data={achievementComparisonData} layout="vertical" margin={{ left: 24 }}>
+              <CartesianGrid strokeDasharray="3 3" />
+              <XAxis type="number" tick={{ fontSize: 10 }} tickFormatter={(v: number) => `${v}%`} />
+              <YAxis type="category" dataKey="name" tick={{ fontSize: 10 }} width={110} />
+              <Tooltip formatter={(value: number) => [`${value}%`, 'Achievement']} />
+              <Bar dataKey="achievement" fill={ACHIEVEMENT_ACCENT} name="Achievement %" radius={[0, 4, 4, 0]} />
             </BarChart>
           </ResponsiveContainer>
         </ChartCard>
       </div>
-
-      <ChartCard title="Quarterly Performance — Planned vs Actual">
-        <ResponsiveContainer width="100%" height={280}>
-          <LineChart data={lineData}>
-            <CartesianGrid strokeDasharray="3 3" />
-            <XAxis dataKey="quarter" tick={{ fontSize: 10 }} />
-            <YAxis tick={{ fontSize: 10 }} />
-            <Tooltip />
-            <Legend />
-            <Line type="monotone" dataKey="Planned" stroke="#1E293B" strokeWidth={2} dot />
-            <Line type="monotone" dataKey="Actual" stroke="#C8102E" strokeWidth={2} dot connectNulls={false} />
-          </LineChart>
-        </ResponsiveContainer>
-      </ChartCard>
 
       <div className="bg-white rounded-xl border shadow-sm p-5">
         <div className="text-xs font-bold text-slate-800 uppercase tracking-wider mb-3">Beneficiaries Reached</div>

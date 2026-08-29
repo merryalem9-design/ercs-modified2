@@ -63,7 +63,7 @@ export const MonitoringRegisterPage: React.FC = () => {
     getMonitoringRecordForPlanEntry,
   } = useApp();
 
-  const isMonitor = currentRole === 'Monitor';
+  const isMonitor = currentRole === 'PMER Officer';
   const entries = getFilteredPlanEntries();
 
   return (
@@ -74,7 +74,7 @@ export const MonitoringRegisterPage: React.FC = () => {
           One row per Activity × Contributing Project/Region, always linked straight back to that exact Plan
           Entry — pick a Quarter (or Annual) per row to pull that period's Reported Achieved live from Quarterly
           Actual Entry, then log the verification, data-quality and follow-up findings against it.
-          {!isMonitor && ' Only the Monitor role can add or edit entries here.'}
+          {!isMonitor && ' Only the PMER Officer role can add or edit entries here.'}
         </p>
       </div>
 

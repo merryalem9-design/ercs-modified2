@@ -9,7 +9,7 @@ export const Header: React.FC = () => {
     'National Activity AOP',
     ...regions.map(region => `Branch Head — ${region.name}` as UserRole),
     ...projects.map(project => `Project Coordinator — ${project.name}` as UserRole),
-    'Monitor',
+    'PMER Officer',
   ];
 
   const handleRoleChange = (role: UserRole) => {
@@ -17,6 +17,7 @@ export const Header: React.FC = () => {
     setFilters(prev => ({
       ...prev,
       strategicPriorityId: 'ALL',
+      strategicObjectiveId: 'ALL',
       nationalActivityId: 'ALL',
       regionId: 'ALL',
       projectId: 'ALL',

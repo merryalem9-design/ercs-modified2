@@ -9,7 +9,10 @@ interface FilterBarProps {
 }
 
 export const FilterBar: React.FC<FilterBarProps> = ({ allowNoneScope = false, hideQuarterFilter = false }) => {
-  const { filters, setFilters, resetFilters, currentRole, getNationalActivitiesForRole, regions, zones, projects, quarters } = useApp();
+  const {
+    filters, setFilters, resetFilters, currentRole, getNationalActivitiesForRole, regions, zones, projects, quarters,
+    strategicPriorities, strategicObjectives,
+  } = useApp();
 
   const isBranchHead = currentRole.startsWith('Branch Head — ');
   const isZoneCoordinator = currentRole.endsWith(' coordinators');
@@ -21,6 +24,13 @@ export const FilterBar: React.FC<FilterBarProps> = ({ allowNoneScope = false, hi
   const visibleProjects = isProjectRole ? projects.filter(p => p.name === currentRole.slice('Project Coordinator — '.length)) : projects;
   const nationalActivitiesInScope = getNationalActivitiesForRole();
 
+  // Strategic Objective dropdown cascades off the selected Strategic
+  // Priority — same "narrow the child list based on the parent selection"
+  // UX pattern already used below for Region/Project mutual exclusivity.
+  const objectivesInScope = filters.strategicPriorityId === 'ALL'
+    ? strategicObjectives
+    : strategicObjectives.filter(so => so.strategic_priority_id === filters.strategicPriorityId);
+
   // NEW — Branch Head gets a Zone filter, scoped to the zones in their own
   // Region, so they can narrow Quarterly Plan Submissions / Report down to
   // one zone instead of always seeing the whole region aggregated.
@@ -31,6 +41,13 @@ export const FilterBar: React.FC<FilterBarProps> = ({ allowNoneScope = false, hi
     const { name, value } = e.target;
     if (name === 'quarterId') {
       setFilters(prev => ({ ...prev, quarterId: value as QuarterFilterValue }));
+      return;
+    }
+    if (name === 'strategicPriorityId') {
+      // Selecting a Strategic Priority resets strategicObjectiveId — same
+      // reset pattern used elsewhere in this file when a parent selection
+      // changes (see Region/Project below).
+      setFilters(prev => ({ ...prev, strategicPriorityId: value, strategicObjectiveId: 'ALL' }));
       return;
     }
     const isSpecificSelection = value !== 'ALL' && value !== 'NONE';
@@ -75,6 +92,20 @@ export const FilterBar: React.FC<FilterBarProps> = ({ allowNoneScope = false, hi
         </button>
       </div>
       <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-3">
+        <div>
+          <label className="block text-[10px] font-bold text-slate-500 mb-1">Strategic Priority</label>
+          <select name="strategicPriorityId" value={filters.strategicPriorityId} onChange={handleChange} className="w-full text-xs font-medium border-slate-200 rounded-lg bg-slate-50 py-1.5">
+            <option value="ALL">All Strategic Priorities</option>
+            {strategicPriorities.map(sp => <option key={sp.id} value={sp.id}>{sp.code} — {sp.name}</option>)}
+          </select>
+        </div>
+        <div>
+          <label className="block text-[10px] font-bold text-slate-500 mb-1">Strategic Objective</label>
+          <select name="strategicObjectiveId" value={filters.strategicObjectiveId} onChange={handleChange} className="w-full text-xs font-medium border-slate-200 rounded-lg bg-slate-50 py-1.5">
+            <option value="ALL">All Strategic Objectives</option>
+            {objectivesInScope.map(so => <option key={so.id} value={so.id}>{so.code} — {so.name}</option>)}
+          </select>
+        </div>
         <div>
           <label className="block text-[10px] font-bold text-slate-500 mb-1">National Activity</label>
           <select name="nationalActivityId" value={filters.nationalActivityId} onChange={handleChange} className="w-full text-xs font-medium border-slate-200 rounded-lg bg-slate-50 py-1.5">

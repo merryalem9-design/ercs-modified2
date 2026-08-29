@@ -1,10 +1,10 @@
 // src/context/AppContext.tsx
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import {
-  StrategicPriority, NationalActivity, Region, Zone, Project, PlanEntry, Quarter, QuarterId, QuarterlyPlan, QuarterlyActual, UomFactorConfig, FilterState, UserRole, ScopeType, MonitoringRecord, RegionActivityLink,
+  StrategicPriority, StrategicObjective, NationalActivity, Region, Zone, Project, PlanEntry, Quarter, QuarterId, QuarterlyPlan, QuarterlyActual, UomFactorConfig, FilterState, UserRole, ScopeType, MonitoringRecord, RegionActivityLink,
 } from '../types';
 import {
-  INITIAL_STRATEGIC_PRIORITIES, INITIAL_NATIONAL_ACTIVITIES, INITIAL_REGIONS, INITIAL_ZONES, INITIAL_PROJECTS, INITIAL_PLAN_ENTRIES,
+  INITIAL_STRATEGIC_PRIORITIES, INITIAL_STRATEGIC_OBJECTIVES, INITIAL_NATIONAL_ACTIVITIES, INITIAL_REGIONS, INITIAL_ZONES, INITIAL_PROJECTS, INITIAL_PLAN_ENTRIES,
   FISCAL_QUARTERS, INITIAL_QUARTERLY_PLANS, INITIAL_QUARTERLY_ACTUALS, INITIAL_UOM_CONFIGS, INITIAL_MONITORING_RECORDS, INITIAL_REGION_ACTIVITY_LINKS,
 } from '../data/seedData';
 
@@ -20,6 +20,7 @@ interface AppContextType {
   selectedNationalActivityId: string | null; setSelectedNationalActivityId: (id: string | null) => void;
 
   strategicPriorities: StrategicPriority[];
+  strategicObjectives: StrategicObjective[];
 
   nationalActivities: NationalActivity[];
   addNationalActivity: (na: NationalActivity) => void;
@@ -65,7 +66,7 @@ interface AppContextType {
   getFilteredPlanEntries: () => PlanEntry[];
 }
 
-const DEFAULT_FILTERS: FilterState = { strategicPriorityId: 'ALL', nationalActivityId: 'ALL', regionId: 'ALL', projectId: 'ALL', zoneId: 'ALL', quarterId: 'ALL' };
+const DEFAULT_FILTERS: FilterState = { strategicPriorityId: 'ALL', strategicObjectiveId: 'ALL', nationalActivityId: 'ALL', regionId: 'ALL', projectId: 'ALL', zoneId: 'ALL', quarterId: 'ALL' };
 
 type RoleScope =
   | { kind: 'National' }
@@ -79,7 +80,7 @@ const ZONE_SUFFIX = ' coordinators';
 
 const parseRoleScope = (role: UserRole, regions: Region[], projects: Project[], zones: Zone[]): RoleScope => {
   if (role === 'National Activity AOP') return { kind: 'National' };
-  if (role === 'Monitor') return { kind: 'National' };
+  if (role === 'PMER Officer') return { kind: 'National' };
   if (role.startsWith(BRANCH_HEAD_PREFIX)) {
     const name = role.slice(BRANCH_HEAD_PREFIX.length);
     const region = regions.find(r => r.name === name);
@@ -110,7 +111,7 @@ const roleOwnsPlanEntry = (role: UserRole, pe: PlanEntry, regions: Region[], pro
 };
 
 // WRITE scope: only Zone (own zone) or Project (own project) may write a
-// PlanEntry/QuarterlyPlan/QuarterlyActual. Branch Head/AOP/Monitor never can.
+// PlanEntry/QuarterlyPlan/QuarterlyActual. Branch Head/AOP/PMER Officer never can.
 const roleCanWritePlanEntry = (role: UserRole, pe: PlanEntry, regions: Region[], projects: Project[], zones: Zone[]): boolean => {
   const scope = parseRoleScope(role, regions, projects, zones);
   if (scope.kind === 'Zone') return pe.scope_type === 'Regional' && pe.zone_id === scope.zoneId;
@@ -119,14 +120,15 @@ const roleCanWritePlanEntry = (role: UserRole, pe: PlanEntry, regions: Region[],
 };
 
 const normalizePersistedRole = (raw: UserRole, regions: Region[], projects: Project[], zones: Zone[]): UserRole => {
-  if (raw === 'National Activity AOP' || raw === 'Monitor') return raw;
+  if (raw === 'National Activity AOP' || raw === 'PMER Officer') return raw;
   if (parseRoleScope(raw, regions, projects, zones).kind !== 'National') return raw;
   return 'National Activity AOP';
 };
 
-// Bumped to v7: FilterState gained zoneId — v6 persisted filters must not
-// leak a stale shape in without it.
-const PERSISTENCE_KEY = 'ercs-aop-bottom-up-v7';
+// Bumped to v8: FilterState gained strategicObjectiveId, and
+// NationalActivity gained strategic_objective_id — v7 persisted data must
+// not leak a stale shape in without these fields.
+const PERSISTENCE_KEY = 'ercs-aop-bottom-up-v8';
 
 const readPersisted = <T,>(key: string, fallback: T): T => {
   if (typeof window === 'undefined') return fallback;
@@ -152,6 +154,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   const [selectedNationalActivityId, setSelectedNationalActivityId] = useState<string | null>(() => readPersisted('selectedNationalActivityId', null));
 
   const [strategicPriorities] = useState<StrategicPriority[]>(INITIAL_STRATEGIC_PRIORITIES);
+  const [strategicObjectives] = useState<StrategicObjective[]>(INITIAL_STRATEGIC_OBJECTIVES);
   const [nationalActivities, setNationalActivities] = useState<NationalActivity[]>(() => readPersisted('nationalActivities', INITIAL_NATIONAL_ACTIVITIES));
   const [regionActivityLinks, setRegionActivityLinks] = useState<RegionActivityLink[]>(() => readPersisted('regionActivityLinks', INITIAL_REGION_ACTIVITY_LINKS));
   const [quarters] = useState<Quarter[]>(FISCAL_QUARTERS);
@@ -182,6 +185,10 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     if (filters.strategicPriorityId !== 'ALL') {
       const na = nationalActivities.find(n => n.id === pe.national_activity_id);
       if (!na || na.strategic_priority_id !== filters.strategicPriorityId) return false;
+    }
+    if (filters.strategicObjectiveId !== 'ALL') {
+      const na = nationalActivities.find(n => n.id === pe.national_activity_id);
+      if (!na || na.strategic_objective_id !== filters.strategicObjectiveId) return false;
     }
     if (filters.nationalActivityId !== 'ALL' && pe.national_activity_id !== filters.nationalActivityId) return false;
     if (filters.regionId !== 'ALL' && filters.regionId !== 'NONE' && pe.region_id !== filters.regionId) return false;
@@ -392,7 +399,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     monitoringRecords.find(m => m.plan_entry_id === planEntryId);
 
   const upsertMonitoringRecord = (input: MonitoringRecordInput) => {
-    if (currentRole !== 'Monitor') { showToast('Only the Monitor role can add or edit Monitoring Register entries.'); return; }
+    if (currentRole !== 'PMER Officer') { showToast('Only the PMER Officer role can add or edit Monitoring Register entries.'); return; }
     const parentEntry = planEntries.find(x => x.id === input.plan_entry_id);
     if (!parentEntry) { showToast('Plan entry not found for this monitoring record.'); return; }
     setMonitoringRecords(prev => {
@@ -407,7 +414,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     <AppContext.Provider value={{
       activeRoute, setActiveRoute, currentRole, setCurrentRole, toastMessage, showToast,
       selectedNationalActivityId, setSelectedNationalActivityId,
-      strategicPriorities,
+      strategicPriorities, strategicObjectives,
       nationalActivities, addNationalActivity, deleteNationalActivity, addEligibleScope, getNationalActivitiesForRole,
       regions, addRegion,
       zones, addZone,

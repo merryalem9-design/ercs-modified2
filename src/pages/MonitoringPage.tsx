@@ -55,7 +55,7 @@ export const MonitoringPage: React.FC = () => {
     getMonitoringRecordForPlanEntry,
   } = useApp();
 
-  const isMonitor = currentRole === 'Monitor';
+  const isMonitor = currentRole === 'PMER Officer';
   const entries = getFilteredPlanEntries();
 
   // -------------------------------------------------------------------
@@ -130,7 +130,7 @@ export const MonitoringPage: React.FC = () => {
           Entry — pick a Quarter (or Annual) per row to pull that period's Reported Achieved live from Quarterly
           Actual Entry, then log the verification, data-quality and follow-up findings against it. The Quarter
           filter in the bar below only narrows which rows are listed here; it doesn't set each row's own Quarter
-          selector. {!isMonitor && 'Only the Monitor role can add or edit entries here.'}
+          selector. {!isMonitor && 'Only the PMER Officer role can add or edit entries here.'}
         </p>
       </div>
 

@@ -15,13 +15,15 @@ import { SubmissionsPage } from './pages/SubmissionsPage';
 import { MonitoringRegisterPage } from './pages/MonitoringRegisterPage';
 import { MonitoringDashboardPage } from './pages/MonitoringDashboardPage';
 import { PerformancePage } from './pages/PerformancePage';
+import { StrategicPlanPage } from './pages/StrategicPlanPage';
 import { QuarterlyPlanSubmissionsPage } from './pages/QuarterlyPlanSubmissionsPage';
 
 const RESTRICTED_FOR_AOP = new Set(['quarterly-plan', 'quarterly']);
 // AOP is now allowed into 'monitoring-dashboard' (read-only) but still
-// blocked from 'monitoring' (the Register) and 'performance' is AOP-only.
+// blocked from 'monitoring' (the Register). 'performance' (Dashboard) and
+// 'strategic-plan' are AOP-only.
 const MONITOR_ONLY_ROUTES = new Set(['monitoring']);
-const AOP_ONLY_ROUTES = new Set(['performance']);
+const AOP_ONLY_ROUTES = new Set(['performance', 'strategic-plan']);
 // Branch Head no longer plans/enters quarterly figures or uses the generic
 // Submissions list — they use 'quarterly-plan-submissions' instead.
 const RESTRICTED_FOR_BRANCH_HEAD = new Set(['quarterly-plan', 'quarterly', 'submissions']);
@@ -29,7 +31,7 @@ const RESTRICTED_FOR_BRANCH_HEAD = new Set(['quarterly-plan', 'quarterly', 'subm
 const MainLayout: React.FC = () => {
   const { activeRoute, setActiveRoute, currentRole, filters } = useApp();
   const isNationalAop = currentRole === 'National Activity AOP';
-  const isMonitor = currentRole === 'Monitor';
+  const isMonitor = currentRole === 'PMER Officer';
   const isBranchHead = currentRole.startsWith('Branch Head — ');
   const isZoneCoordinator = currentRole.endsWith(' coordinators');
 
@@ -60,6 +62,7 @@ const MainLayout: React.FC = () => {
       case 'monitoring': return <MonitoringRegisterPage />;
       case 'monitoring-dashboard': return <MonitoringDashboardPage />;
       case 'performance': return <PerformancePage />;
+      case 'strategic-plan': return <StrategicPlanPage />;
       default: return <PlanPage />;
     }
   };

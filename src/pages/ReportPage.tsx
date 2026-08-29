@@ -35,6 +35,8 @@ const OVER_BUDGET_BADGE: KpiBadge = { label: 'Over Budget', color: 'bg-rose-100 
 export const ReportPage: React.FC = () => {
   const {
     nationalActivities,
+    strategicPriorities,
+    strategicObjectives,
     regions,
     projects,
     quarterlyPlans,
@@ -139,7 +141,8 @@ export const ReportPage: React.FC = () => {
     .filter((r): r is NationalActivityRow => r !== null);
 
   // ---------------------------------------------------------------------------
-  // BREAKDOWN BY REGION / BY PROJECT
+  // BREAKDOWN BY REGION / BY PROJECT / BY STRATEGIC PRIORITY / BY STRATEGIC
+  // OBJECTIVE — all built the same way via buildScopeRows.
   // ---------------------------------------------------------------------------
   const buildScopeRows = (
     scopes: { id: string; name: string }[],
@@ -176,6 +179,22 @@ export const ReportPage: React.FC = () => {
 
   const byRegion = buildScopeRows(regions, (e, id) => e.region_id === id);
   const byProject = buildScopeRows(projects, (e, id) => e.project_id === id);
+
+  const byStrategicPriority = buildScopeRows(
+    strategicPriorities.map(sp => ({ id: sp.id, name: `${sp.code} — ${sp.name}` })),
+    (e, id) => {
+      const na = nationalActivities.find(n => n.id === e.national_activity_id);
+      return na?.strategic_priority_id === id;
+    }
+  );
+
+  const byStrategicObjective = buildScopeRows(
+    strategicObjectives.map(so => ({ id: so.id, name: `${so.code} — ${so.name}` })),
+    (e, id) => {
+      const na = nationalActivities.find(n => n.id === e.national_activity_id);
+      return na?.strategic_objective_id === id;
+    }
+  );
 
   return (
     <div className="space-y-6">
@@ -233,8 +252,8 @@ export const ReportPage: React.FC = () => {
           <Layers className="w-4 h-4 shrink-0 mt-0.5" />
           <span>
             Showing the National Activity summary only. Set Region and Project back to "All" in the
-            filters above to see the full Execution Plan Entries, By Region and By Project breakdowns
-            again.
+            filters above to see the full Execution Plan Entries, By Strategic Priority/Objective,
+            By Region and By Project breakdowns again.
           </span>
         </div>
       ) : (
@@ -251,6 +270,8 @@ export const ReportPage: React.FC = () => {
             quarterId={q}
           />
 
+          <ScopeReportTable title="By Strategic Priority" rows={byStrategicPriority} />
+          <ScopeReportTable title="By Strategic Objective" rows={byStrategicObjective} />
           <ScopeReportTable title="By Region" rows={byRegion} />
           <ScopeReportTable title="By Project" rows={byProject} />
         </>
@@ -466,7 +487,7 @@ const NationalActivityReportTable: React.FC<{ rows: NationalActivityRow[] }> = (
 );
 
 // ===========================================================================
-// BY REGION / BY PROJECT TABLE
+// BY REGION / BY PROJECT / BY STRATEGIC PRIORITY / BY STRATEGIC OBJECTIVE TABLE
 // ===========================================================================
 interface ScopeRow {
   key: string;

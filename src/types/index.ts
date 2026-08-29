@@ -6,6 +6,13 @@ export interface StrategicPriority {
   objective: string;
 }
 
+export interface StrategicObjective {
+  id: string;
+  strategic_priority_id: string;
+  code: string;   // e.g. "1.1"
+  name: string;
+}
+
 export type Responsibility = 'HQ' | 'Branch' | 'Both';
 
 export interface Region { id: string; name: string; }
@@ -19,6 +26,7 @@ export interface Zone {
 export interface NationalActivity {
   id: string;
   strategic_priority_id: string;
+  strategic_objective_id: string;
   code: string;
   description: string;
   uom: string;
@@ -53,7 +61,7 @@ export type UserRole =
   | 'National Activity AOP'
   | `Branch Head — ${string}`
   | `Project Coordinator — ${string}`
-  | 'Monitor'
+  | 'PMER Officer'
   | `${string} coordinators`;
 
 export type ApprovalStatus = 'Draft' | 'Pending Approval' | 'Approved' | 'Rejected';
@@ -146,6 +154,7 @@ export interface MonitoringRecord {
 
 export interface FilterState {
   strategicPriorityId: string;
+  strategicObjectiveId: string;
   nationalActivityId: string;
   regionId: string;
   projectId: string;

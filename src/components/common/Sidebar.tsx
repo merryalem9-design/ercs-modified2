@@ -1,7 +1,7 @@
 import React from 'react';
 import { useApp } from '../../context/AppContext';
 import {
-  ClipboardList, CalendarClock, CalendarCheck2, BarChart3, ShieldCheck, LayoutDashboard, TrendingUp,
+  ClipboardList, CalendarClock, CalendarCheck2, BarChart3, ShieldCheck, LayoutDashboard, TrendingUp, Compass,
 } from 'lucide-react';
 
 const BASE_NAV = [
@@ -17,9 +17,13 @@ const MONITOR_NAV = [
   { id: 'monitoring', label: 'Monitoring Register', sub: 'Verify reported achievements', icon: ShieldCheck },
 ];
 
+// "Dashboard" (route id 'performance') is now the FIRST item, followed by
+// "Strategic Plan", then the rest of the base plan/report flow, then the
+// existing (unchanged) Monitoring Dashboard read-only entry.
 const AOP_NAV = [
+  { id: 'performance', label: 'Dashboard', sub: 'National KPIs & trends', icon: TrendingUp },
+  { id: 'strategic-plan', label: 'Strategic Plan', sub: 'Priorities & Objectives overview', icon: Compass },
   ...BASE_NAV,
-  { id: 'performance', label: 'Performance', sub: 'National KPIs & trends', icon: TrendingUp },
   { id: 'monitoring-dashboard', label: 'Monitoring Dashboard', sub: 'Coverage & findings overview (view only)', icon: LayoutDashboard },
 ];
 
@@ -39,7 +43,7 @@ export const Sidebar: React.FC = () => {
   const { activeRoute, setActiveRoute, currentRole } = useApp();
 
   const isNationalAop = currentRole === 'National Activity AOP';
-  const isMonitor = currentRole === 'Monitor';
+  const isMonitor = currentRole === 'PMER Officer';
   const isBranchHead = currentRole.startsWith('Branch Head — ');
   const isZoneCoordinator = currentRole.endsWith(' coordinators');
 

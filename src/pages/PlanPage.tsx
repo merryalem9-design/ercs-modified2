@@ -376,7 +376,12 @@ export const PlanPage: React.FC = () => {
 };
 
 // ============================================================
-// NationalActivityFormModal — unchanged from original file.
+// NationalActivityFormModal — unchanged from original file, except
+// handleSave() now also sets `strategic_objective_id`, which the
+// NationalActivity type (index.ts) requires. Previously only
+// `strategic_priority_id` was set, which caused TS2741:
+//   "Property 'strategic_objective_id' is missing in type ... but
+//    required in type 'NationalActivity'."
 // ============================================================
 const NationalActivityFormModal: React.FC<{ onClose: () => void; onSaved: () => void }> = ({ onClose, onSaved }) => {
   const { nationalActivities, regions, projects, uomConfigs, addNationalActivity } = useApp();
@@ -397,8 +402,16 @@ const NationalActivityFormModal: React.FC<{ onClose: () => void; onSaved: () => 
     if (!canSave || savingRef.current) return;
     savingRef.current = true;
     const na: NationalActivity = {
-      id: `na-${Date.now()}`, strategic_priority_id: 'sp-1', code: code.trim(), description: name.trim(), uom,
-      responsibility: 'Both', activity_description: description.trim(), eligible_region_ids: regionIds, eligible_project_ids: projectIds,
+      id: `na-${Date.now()}`,
+      strategic_priority_id: 'sp-1',
+      strategic_objective_id: 'sp-1', // FIX: required field was missing, added to satisfy NationalActivity type
+      code: code.trim(),
+      description: name.trim(),
+      uom,
+      responsibility: 'Both',
+      activity_description: description.trim(),
+      eligible_region_ids: regionIds,
+      eligible_project_ids: projectIds,
     };
     addNationalActivity(na);
     onSaved();

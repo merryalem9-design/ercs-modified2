@@ -1,5 +1,6 @@
 import {
   StrategicPriority,
+  StrategicObjective,
   NationalActivity,
   Region,
   Zone,
@@ -19,12 +20,55 @@ import {
 // ---------------------------------------------------------------------------
 
 export const INITIAL_STRATEGIC_PRIORITIES: StrategicPriority[] = [
-  {
-    id: 'sp-1',
-    code: 'SP1',
-    name: 'ERCS Annual Operational Plan',
-    objective: 'Excel-backed national, project and regional activity plan.',
-  },
+  { id: 'sp-1', code: 'SP1', name: 'Disaster Preparedness and Response', objective: 'Disaster Preparedness and Response' },
+  { id: 'sp-2', code: 'SP2', name: 'Disaster Risk Reduction and Community Resilience', objective: 'Disaster Risk Reduction and Community Resilience' },
+  { id: 'sp-3', code: 'SP3', name: 'Health and Well-being', objective: 'Health and Well-being' },
+  { id: 'sp-4', code: 'SP4', name: 'Members, Volunteer and Youth engagement and management', objective: 'Members, Volunteer and Youth engagement and management' },
+  { id: 'sp-5', code: 'SP5', name: 'Humanitarian diplomacy and Communication', objective: 'Humanitarian diplomacy and Communication' },
+  { id: 'sp-6', code: 'SP6', name: 'Partnership Development and Management', objective: 'Partnership Development and Management' },
+  { id: 'sp-7', code: 'SP7', name: 'Institutional and Leadership Transformation', objective: 'Institutional and Leadership Transformation' },
+  { id: 'sp-8', code: 'SP8', name: 'Resource Development, Mobilization & Utilization', objective: 'Resource Development, Mobilization & Utilization' },
+];
+
+export const INITIAL_STRATEGIC_OBJECTIVES: StrategicObjective[] = [
+  // SP1
+  { id: 'so-1-1', strategic_priority_id: 'sp-1', code: '1.1', name: 'Enhance disaster preparedness measures' },
+  { id: 'so-1-2', strategic_priority_id: 'sp-1', code: '1.2', name: 'Strengthen anticipatory action initiatives' },
+  { id: 'so-1-3', strategic_priority_id: 'sp-1', code: '1.3', name: 'Deliver humanitarian responses to affected communities timely' },
+  { id: 'so-1-4', strategic_priority_id: 'sp-1', code: '1.4', name: 'Strengthen early recovery in disaster-affected communities' },
+  // SP2
+  { id: 'so-2-1', strategic_priority_id: 'sp-2', code: '2.1', name: 'Mitigate climate change impacts and reduce socio-economic risks' },
+  { id: 'so-2-2', strategic_priority_id: 'sp-2', code: '2.2', name: 'Enhance livelihoods & economic opportunities for vulnerable communities including youth' },
+  { id: 'so-2-3', strategic_priority_id: 'sp-2', code: '2.3', name: 'Strengthen migration services & RFL' },
+  { id: 'so-2-4', strategic_priority_id: 'sp-2', code: '2.4', name: 'Promote peace and advance a culture of non-violence' },
+  // SP3
+  { id: 'so-3-1', strategic_priority_id: 'sp-3', code: '3.1', name: 'Address public health concerns' },
+  { id: 'so-3-2', strategic_priority_id: 'sp-3', code: '3.2', name: 'Promote Health and WASH in emergencies' },
+  { id: 'so-3-3', strategic_priority_id: 'sp-3', code: '3.3', name: 'Improve access to safe water and sanitation services' },
+  { id: 'so-3-4', strategic_priority_id: 'sp-3', code: '3.4', name: 'Strengthen Emergency Medical Services' },
+  // SP4
+  { id: 'so-4-1', strategic_priority_id: 'sp-4', code: '4.1', name: 'Improve Membership Engagement, and Management' },
+  { id: 'so-4-2', strategic_priority_id: 'sp-4', code: '4.2', name: 'Enhance Volunteer Engagement and Management' },
+  { id: 'so-4-3', strategic_priority_id: 'sp-4', code: '4.3', name: 'Strengthen the Empowerment and Engagement of Youth' },
+  // SP5
+  { id: 'so-5-1', strategic_priority_id: 'sp-5', code: '5.1', name: 'Strengthen humanitarian diplomacy within ERCS operations' },
+  { id: 'so-5-2', strategic_priority_id: 'sp-5', code: '5.2', name: "Enhance Strategic Communication and Visibility of ERCS's Humanitarian Impact" },
+  { id: 'so-5-3', strategic_priority_id: 'sp-5', code: '5.3', name: 'Disseminate and Advocate to Influence Humanitarian Policy and Practice' },
+  // SP6
+  { id: 'so-6-1', strategic_priority_id: 'sp-6', code: '6.1', name: 'Enhance and expand collaborative and coordinated partnerships to drive mutual growth and innovation' },
+  { id: 'so-6-2', strategic_priority_id: 'sp-6', code: '6.2', name: 'Establish a robust framework to effectively engage the private sector and drive strategic partnerships' },
+  { id: 'so-6-3', strategic_priority_id: 'sp-6', code: '6.3', name: 'Strengthen support and collaboration with the government to effectively contribute to policy implementation and national development' },
+  // SP7
+  { id: 'so-7-1', strategic_priority_id: 'sp-7', code: '7.1', name: 'Strengthen governance, management and staff capacity at all levels of the organization' },
+  { id: 'so-7-2', strategic_priority_id: 'sp-7', code: '7.2', name: 'Enhance branch capacity and optimize localization through local structures' },
+  { id: 'so-7-3', strategic_priority_id: 'sp-7', code: '7.3', name: 'Strengthen Monitoring, Evaluation, Accountability, and Learning (MEAL) Systems' },
+  { id: 'so-7-4', strategic_priority_id: 'sp-7', code: '7.4', name: 'Improve risk management capacity' },
+  { id: 'so-7-5', strategic_priority_id: 'sp-7', code: '7.5', name: 'Strengthen and Digitalize Operational systems to drive operational efficiency, transparency and accountability' },
+  // SP8
+  { id: 'so-8-1', strategic_priority_id: 'sp-8', code: '8.1', name: 'Maximize local resource Mobilization' },
+  { id: 'so-8-2', strategic_priority_id: 'sp-8', code: '8.2', name: 'Maximize Grant funding Through Strengthening system & Capacity' },
+  { id: 'so-8-3', strategic_priority_id: 'sp-8', code: '8.3', name: 'Strengthen Resources Development and Diversifying IGAs schemes' },
+  { id: 'so-8-4', strategic_priority_id: 'sp-8', code: '8.4', name: 'Maximize operational efficiency through enhanced resource management' },
 ];
 
 // National Activities with totals computed from the sheets. `activity_description`
@@ -33,16 +77,16 @@ export const INITIAL_STRATEGIC_PRIORITIES: StrategicPriority[] = [
 // derived from exactly which Region/Project sheets contained a row for that
 // activity — i.e. only those Regions/Projects may add a Plan Entry against it.
 export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
-  { id: 'na-1-1-1', strategic_priority_id: 'sp-1', code: '1.1.1', description: 'Distribute NFI Kits to IDP Households', uom: '# of households', responsibility: 'Both', activity_description: "Distribution of NFI kits to internally displaced households under the project's emergency response component.", eligible_region_ids: ['reg-1', 'reg-2', 'reg-3'], eligible_project_ids: ['proj-1', 'proj-3'] },
-  { id: 'na-1-1-2', strategic_priority_id: 'sp-1', code: '1.1.2', description: 'Update Woreda-Level Emergency Response Plans', uom: '# of MHCP', responsibility: 'Both', activity_description: 'Development/update of woreda-level emergency response and contingency plans.', eligible_region_ids: ['reg-2'], eligible_project_ids: ['proj-4'] },
-  { id: 'na-1-2-1', strategic_priority_id: 'sp-1', code: '1.2.1', description: 'Rehabilitate Boreholes in Project Woredas', uom: '# of water points', responsibility: 'Both', activity_description: "Rehabilitation of non-functional boreholes in the project's target woredas.", eligible_region_ids: ['reg-1', 'reg-3'], eligible_project_ids: ['proj-2'] },
-  { id: 'na-1-2-2', strategic_priority_id: 'sp-1', code: '1.2.2', description: 'Provide Emergency Health and First Aid Services', uom: '# of people reached', responsibility: 'Both', activity_description: 'Provision of emergency health services, first aid and referrals to disaster-affected populations.', eligible_region_ids: ['reg-2', 'reg-3'], eligible_project_ids: ['proj-1', 'proj-4'] },
-  { id: 'na-2-1-1', strategic_priority_id: 'sp-1', code: '2.1.1', description: 'Conduct Community-Based Disaster Risk Reduction (CBDRR) Training', uom: '# of people trained', responsibility: 'Both', activity_description: 'Training of community members and volunteers on disaster risk reduction and preparedness.', eligible_region_ids: ['reg-1'], eligible_project_ids: ['proj-1'] },
-  { id: 'na-2-1-2', strategic_priority_id: 'sp-1', code: '2.1.2', description: 'Establish Community-Based Early Warning Systems', uom: '# of systems established', responsibility: 'Both', activity_description: 'Establishment/strengthening of early warning systems at community and woreda level.', eligible_region_ids: ['reg-2'], eligible_project_ids: ['proj-3'] },
-  { id: 'na-3-1-1', strategic_priority_id: 'sp-1', code: '3.1.1', description: 'Provide Nutrition Support to Vulnerable Groups', uom: '# of beneficiaries', responsibility: 'Both', activity_description: 'Provision of nutrition support/supplementary feeding to malnourished and vulnerable groups.', eligible_region_ids: ['reg-1', 'reg-3'], eligible_project_ids: ['proj-2'] },
-  { id: 'na-3-2-1', strategic_priority_id: 'sp-1', code: '3.2.1', description: 'Conduct Health and Hygiene Awareness Campaigns', uom: '# of campaigns', responsibility: 'Both', activity_description: 'Community-level awareness campaigns on health, hygiene and disease prevention.', eligible_region_ids: ['reg-2'], eligible_project_ids: ['proj-3'] },
-  { id: 'na-4-1-1', strategic_priority_id: 'sp-1', code: '4.1.1', description: 'Recruit and Train Community Volunteers', uom: '# of volunteers trained', responsibility: 'Both', activity_description: 'Recruitment and training of new RCRC volunteers on core competencies and code of conduct.', eligible_region_ids: ['reg-1', 'reg-2'], eligible_project_ids: ['proj-2'] },
-  { id: 'na-5-1-1', strategic_priority_id: 'sp-1', code: '5.1.1', description: 'Organize Migration and Protection Advocacy Forums', uom: '# of events', responsibility: 'Both', activity_description: 'Advocacy forums on migration and protection with government and partners.', eligible_region_ids: [], eligible_project_ids: ['proj-4'] },
+  { id: 'na-1-1-1', strategic_priority_id: 'sp-1', strategic_objective_id: 'so-1-1', code: '1.1.1', description: 'Distribute NFI Kits to IDP Households', uom: '# of households', responsibility: 'Both', activity_description: "Distribution of NFI kits to internally displaced households under the project's emergency response component.", eligible_region_ids: ['reg-1', 'reg-2', 'reg-3'], eligible_project_ids: ['proj-1', 'proj-3'] },
+  { id: 'na-1-1-2', strategic_priority_id: 'sp-1', strategic_objective_id: 'so-1-1', code: '1.1.2', description: 'Update Woreda-Level Emergency Response Plans', uom: '# of MHCP', responsibility: 'Both', activity_description: 'Development/update of woreda-level emergency response and contingency plans.', eligible_region_ids: ['reg-2'], eligible_project_ids: ['proj-4'] },
+  { id: 'na-1-2-1', strategic_priority_id: 'sp-1', strategic_objective_id: 'so-1-2', code: '1.2.1', description: 'Rehabilitate Boreholes in Project Woredas', uom: '# of water points', responsibility: 'Both', activity_description: "Rehabilitation of non-functional boreholes in the project's target woredas.", eligible_region_ids: ['reg-1', 'reg-3'], eligible_project_ids: ['proj-2'] },
+  { id: 'na-1-2-2', strategic_priority_id: 'sp-1', strategic_objective_id: 'so-1-2', code: '1.2.2', description: 'Provide Emergency Health and First Aid Services', uom: '# of people reached', responsibility: 'Both', activity_description: 'Provision of emergency health services, first aid and referrals to disaster-affected populations.', eligible_region_ids: ['reg-2', 'reg-3'], eligible_project_ids: ['proj-1', 'proj-4'] },
+  { id: 'na-2-1-1', strategic_priority_id: 'sp-2', strategic_objective_id: 'so-2-1', code: '2.1.1', description: 'Conduct Community-Based Disaster Risk Reduction (CBDRR) Training', uom: '# of people trained', responsibility: 'Both', activity_description: 'Training of community members and volunteers on disaster risk reduction and preparedness.', eligible_region_ids: ['reg-1'], eligible_project_ids: ['proj-1'] },
+  { id: 'na-2-1-2', strategic_priority_id: 'sp-2', strategic_objective_id: 'so-2-1', code: '2.1.2', description: 'Establish Community-Based Early Warning Systems', uom: '# of systems established', responsibility: 'Both', activity_description: 'Establishment/strengthening of early warning systems at community and woreda level.', eligible_region_ids: ['reg-2'], eligible_project_ids: ['proj-3'] },
+  { id: 'na-3-1-1', strategic_priority_id: 'sp-3', strategic_objective_id: 'so-3-1', code: '3.1.1', description: 'Provide Nutrition Support to Vulnerable Groups', uom: '# of beneficiaries', responsibility: 'Both', activity_description: 'Provision of nutrition support/supplementary feeding to malnourished and vulnerable groups.', eligible_region_ids: ['reg-1', 'reg-3'], eligible_project_ids: ['proj-2'] },
+  { id: 'na-3-2-1', strategic_priority_id: 'sp-3', strategic_objective_id: 'so-3-2', code: '3.2.1', description: 'Conduct Health and Hygiene Awareness Campaigns', uom: '# of campaigns', responsibility: 'Both', activity_description: 'Community-level awareness campaigns on health, hygiene and disease prevention.', eligible_region_ids: ['reg-2'], eligible_project_ids: ['proj-3'] },
+  { id: 'na-4-1-1', strategic_priority_id: 'sp-4', strategic_objective_id: 'so-4-1', code: '4.1.1', description: 'Recruit and Train Community Volunteers', uom: '# of volunteers trained', responsibility: 'Both', activity_description: 'Recruitment and training of new RCRC volunteers on core competencies and code of conduct.', eligible_region_ids: ['reg-1', 'reg-2'], eligible_project_ids: ['proj-2'] },
+  { id: 'na-5-1-1', strategic_priority_id: 'sp-5', strategic_objective_id: 'so-5-1', code: '5.1.1', description: 'Organize Migration and Protection Advocacy Forums', uom: '# of events', responsibility: 'Both', activity_description: 'Advocacy forums on migration and protection with government and partners.', eligible_region_ids: [], eligible_project_ids: ['proj-4'] },
 ];
 
 export const INITIAL_REGIONS: Region[] = [
