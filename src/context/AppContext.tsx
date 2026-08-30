@@ -1,16 +1,17 @@
 // src/context/AppContext.tsx
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import {
-  StrategicPriority, StrategicObjective, NationalActivity, Region, Zone, Project, PlanEntry, Quarter, QuarterId, QuarterlyPlan, QuarterlyActual, UomFactorConfig, FilterState, UserRole, ScopeType, MonitoringRecord, RegionActivityLink,
+  StrategicPriority, StrategicObjective, NationalActivity, Region, Zone, Project, PlanEntry, Quarter, QuarterId, QuarterlyPlan, QuarterlyActual, UomFactorConfig, FilterState, UserRole, ScopeType, MonitoringRecord, RegionActivityLink, StrategicKpi, KpiProgressEntry,
 } from '../types';
 import {
   INITIAL_STRATEGIC_PRIORITIES, INITIAL_STRATEGIC_OBJECTIVES, INITIAL_NATIONAL_ACTIVITIES, INITIAL_REGIONS, INITIAL_ZONES, INITIAL_PROJECTS, INITIAL_PLAN_ENTRIES,
-  FISCAL_QUARTERS, INITIAL_QUARTERLY_PLANS, INITIAL_QUARTERLY_ACTUALS, INITIAL_UOM_CONFIGS, INITIAL_MONITORING_RECORDS, INITIAL_REGION_ACTIVITY_LINKS,
+  FISCAL_QUARTERS, INITIAL_QUARTERLY_PLANS, INITIAL_QUARTERLY_ACTUALS, INITIAL_UOM_CONFIGS, INITIAL_MONITORING_RECORDS, INITIAL_REGION_ACTIVITY_LINKS, INITIAL_STRATEGIC_KPIS, INITIAL_KPI_PROGRESS_ENTRIES,
 } from '../data/seedData';
 
 type QuarterlyPlanInput = Omit<QuarterlyPlan, 'approval_status' | 'submitted_at' | 'reviewed_at' | 'rejection_reason'>;
 type QuarterlyActualInput = Omit<QuarterlyActual, 'approval_status' | 'submitted_at' | 'reviewed_at' | 'rejection_reason'>;
 type MonitoringRecordInput = Omit<MonitoringRecord, 'id'> & { id?: string };
+type KpiProgressEntryInput = Omit<KpiProgressEntry, 'id'>;
 
 interface AppContextType {
   activeRoute: string; setActiveRoute: (r: string) => void;
@@ -64,6 +65,11 @@ interface AppContextType {
 
   filters: FilterState; setFilters: React.Dispatch<React.SetStateAction<FilterState>>; resetFilters: () => void;
   getFilteredPlanEntries: () => PlanEntry[];
+
+  strategicKpis: StrategicKpi[];
+  kpiProgressEntries: KpiProgressEntry[];
+  addKpiProgressEntry: (entry: KpiProgressEntryInput) => void;
+  getLatestKpiProgress: (strategicKpiId: string) => KpiProgressEntry | undefined;
 }
 
 const DEFAULT_FILTERS: FilterState = { strategicPriorityId: 'ALL', strategicObjectiveId: 'ALL', nationalActivityId: 'ALL', regionId: 'ALL', projectId: 'ALL', zoneId: 'ALL', quarterId: 'ALL' };
@@ -155,6 +161,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
 
   const [strategicPriorities] = useState<StrategicPriority[]>(INITIAL_STRATEGIC_PRIORITIES);
   const [strategicObjectives] = useState<StrategicObjective[]>(INITIAL_STRATEGIC_OBJECTIVES);
+  const [strategicKpis] = useState<StrategicKpi[]>(INITIAL_STRATEGIC_KPIS);
   const [nationalActivities, setNationalActivities] = useState<NationalActivity[]>(() => readPersisted('nationalActivities', INITIAL_NATIONAL_ACTIVITIES));
   const [regionActivityLinks, setRegionActivityLinks] = useState<RegionActivityLink[]>(() => readPersisted('regionActivityLinks', INITIAL_REGION_ACTIVITY_LINKS));
   const [quarters] = useState<Quarter[]>(FISCAL_QUARTERS);
@@ -162,6 +169,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   const [quarterlyPlans, setQuarterlyPlans] = useState<QuarterlyPlan[]>(() => readPersisted('quarterlyPlans', INITIAL_QUARTERLY_PLANS));
   const [quarterlyActuals, setQuarterlyActuals] = useState<QuarterlyActual[]>(() => readPersisted('quarterlyActuals', INITIAL_QUARTERLY_ACTUALS));
   const [monitoringRecords, setMonitoringRecords] = useState<MonitoringRecord[]>(() => readPersisted('monitoringRecords', INITIAL_MONITORING_RECORDS));
+  const [kpiProgressEntries, setKpiProgressEntries] = useState<KpiProgressEntry[]>(() => readPersisted('kpiProgressEntries', INITIAL_KPI_PROGRESS_ENTRIES));
   const [uomConfigs] = useState<UomFactorConfig[]>(() => readPersisted('uomConfigs', INITIAL_UOM_CONFIGS));
   const [filters, setFilters] = useState<FilterState>(() => ({ ...DEFAULT_FILTERS, ...readPersisted('filters', DEFAULT_FILTERS) }));
 
@@ -170,12 +178,12 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     try {
       window.localStorage.setItem(PERSISTENCE_KEY, JSON.stringify({
         activeRoute, currentRole, selectedNationalActivityId, nationalActivities, regions, zones, projects,
-        regionActivityLinks, planEntries, quarterlyPlans, quarterlyActuals, monitoringRecords, uomConfigs, filters,
+        regionActivityLinks, planEntries, quarterlyPlans, quarterlyActuals, monitoringRecords, uomConfigs, filters, kpiProgressEntries,
       }));
     } catch {
       // localStorage may be unavailable; in-memory state still works for the session.
     }
-  }, [activeRoute, currentRole, selectedNationalActivityId, nationalActivities, regions, zones, projects, regionActivityLinks, planEntries, quarterlyPlans, quarterlyActuals, monitoringRecords, uomConfigs, filters]);
+  }, [activeRoute, currentRole, selectedNationalActivityId, nationalActivities, regions, zones, projects, regionActivityLinks, planEntries, quarterlyPlans, quarterlyActuals, monitoringRecords, uomConfigs, filters, kpiProgressEntries]);
 
   const showToast = (msg: string) => { setToastMessage(msg); setTimeout(() => setToastMessage(null), 3000); };
   const resetFilters = () => setFilters(DEFAULT_FILTERS);
@@ -410,6 +418,23 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     });
   };
 
+  // -----------------------------------------------------------------------
+  // STRATEGIC KPI TRACKING — additive, independent feature. Reads only from
+  // strategicKpis (static) and kpiProgressEntries (manually logged); never
+  // computed from monitoringRecords or planEntries.
+  // -----------------------------------------------------------------------
+  const addKpiProgressEntry = (entry: KpiProgressEntryInput) => {
+    if (currentRole !== 'PMER Officer') { showToast('Only the PMER Officer role can log Strategic KPI progress.'); return; }
+    const newEntry: KpiProgressEntry = { ...entry, id: `kpi-progress-${Date.now()}` };
+    setKpiProgressEntries(prev => [...prev, newEntry]);
+  };
+
+  const getLatestKpiProgress = (strategicKpiId: string): KpiProgressEntry | undefined => {
+    const entriesForKpi = kpiProgressEntries.filter(e => e.strategic_kpi_id === strategicKpiId);
+    if (entriesForKpi.length === 0) return undefined;
+    return entriesForKpi.reduce((latest, e) => (e.date > latest.date ? e : latest), entriesForKpi[0]);
+  };
+
   return (
     <AppContext.Provider value={{
       activeRoute, setActiveRoute, currentRole, setCurrentRole, toastMessage, showToast,
@@ -426,6 +451,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       monitoringRecords, upsertMonitoringRecord, getMonitoringRecordForPlanEntry,
       uomConfigs,
       filters, setFilters, resetFilters, getFilteredPlanEntries,
+      strategicKpis, kpiProgressEntries, addKpiProgressEntry, getLatestKpiProgress,
     }}>
       {children}
     </AppContext.Provider>

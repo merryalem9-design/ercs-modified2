@@ -1,7 +1,7 @@
 import React from 'react';
 import { useApp } from '../../context/AppContext';
 import {
-  ClipboardList, CalendarClock, CalendarCheck2, BarChart3, ShieldCheck, LayoutDashboard, TrendingUp, Compass,
+  ClipboardList, CalendarClock, CalendarCheck2, BarChart3, ShieldCheck, LayoutDashboard, TrendingUp, Compass, Target,
 } from 'lucide-react';
 
 const BASE_NAV = [
@@ -15,6 +15,7 @@ const BASE_NAV = [
 const MONITOR_NAV = [
   { id: 'monitoring-dashboard', label: 'Monitoring Dashboard', sub: 'Coverage & findings overview', icon: LayoutDashboard },
   { id: 'monitoring', label: 'Monitoring Register', sub: 'Verify reported achievements', icon: ShieldCheck },
+  { id: 'strategic-kpi', label: 'Strategic KPI Tracking', sub: 'Baseline, target & progress vs the Five-Year Plan', icon: Target },
 ];
 
 // "Dashboard" (route id 'performance') is now the FIRST item, followed by
@@ -25,6 +26,7 @@ const AOP_NAV = [
   { id: 'strategic-plan', label: 'Strategic Plan', sub: 'Priorities & Objectives overview', icon: Compass },
   ...BASE_NAV,
   { id: 'monitoring-dashboard', label: 'Monitoring Dashboard', sub: 'Coverage & findings overview (view only)', icon: LayoutDashboard },
+  { id: 'strategic-kpi', label: 'Strategic KPI Tracking', sub: 'Five-Year Plan indicators (view only)', icon: Target },
 ];
 
 // Branch Head no longer plans/enters quarterly figures directly — they link

@@ -162,3 +162,37 @@ export interface FilterState {
   zoneId: string;
   quarterId: QuarterFilterValue;
 }
+
+// ---------------------------------------------------------------------------
+// STRATEGIC KPI TRACKING — additive, independent feature. Tracks outcome-
+// level KPIs against the ERCS Five-Year Strategic Plan (2025–2030), keyed to
+// the existing StrategicObjective hierarchy above. Deliberately NOT linked
+// to PlanEntry/MonitoringRecord — there is no reliable per-activity mapping
+// to individual KPIs in the source data.
+// ---------------------------------------------------------------------------
+export interface StrategicKpi {
+  id: string;
+  strategic_priority_id: string;
+  strategic_objective_id: string;
+  description: string;
+  notes: string;
+  /** Free text, not a number — source values mix numbers, "TBD", "NA", and descriptive strings. */
+  baseline: string;
+  /** Free text — same reasoning as baseline. */
+  target_2030: string;
+  means_of_verification: string;
+  frequency: string;
+}
+
+export interface KpiProgressEntry {
+  id: string;
+  strategic_kpi_id: string;
+  /** Free text, e.g. "FY2026 Annual", "Mid-Term 2027" — not the fiscal QuarterId type. */
+  period: string;
+  /** Free text — may include units/commentary. */
+  value: string;
+  recorded_by: string;
+  /** ISO format YYYY-MM-DD. */
+  date: string;
+  note?: string;
+}
