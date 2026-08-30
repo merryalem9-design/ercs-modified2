@@ -4,20 +4,31 @@ import { useApp } from '../context/AppContext';
 import { FileText } from 'lucide-react';
 
 export const SubmissionsPage: React.FC = () => {
-  const { planEntries, nationalActivities, regions, projects } = useApp();
+  const { nationalActivities, regions, projects, currentRole, getFilteredPlanEntries } = useApp();
+
+  // Only the National Activity AOP is a truly national/all-scope role here —
+  // Zone Coordinators and Project Coordinators must only ever see their own
+  // submissions, never anyone else's. getFilteredPlanEntries() already
+  // enforces this (roleOwnsPlanEntry), same as every other page in the app;
+  // this page was the one outlier still reading the raw, unfiltered
+  // planEntries list.
+  const isAop = currentRole === 'National Activity AOP';
+  const entries = getFilteredPlanEntries();
 
   return (
     <div className="space-y-6">
       <div>
         <h2 className="text-xl font-black text-slate-800">Submissions</h2>
         <p className="text-xs text-slate-500 mt-1">
-          All submitted plan entries are listed below. In this prototype, all entries are automatically approved and immediately included in aggregates.
+          {isAop
+            ? 'All submitted plan entries are listed below. In this prototype, all entries are automatically approved and immediately included in aggregates.'
+            : 'Plan entries submitted for your assigned project or zone are listed below. In this prototype, all entries are automatically approved and immediately included in aggregates.'}
         </p>
       </div>
 
       <section className="bg-white rounded-xl border shadow-sm overflow-hidden">
         <div className="p-4 border-b flex items-center gap-2 text-xs font-bold text-slate-800 uppercase tracking-wider">
-          <FileText className="w-4 h-4 text-ercs-red" /> All Plan Entries ({planEntries.length})
+          <FileText className="w-4 h-4 text-ercs-red" /> {isAop ? 'All Plan Entries' : 'Your Plan Entries'} ({entries.length})
         </div>
         <div className="overflow-x-auto">
           <table className="w-full text-left text-xs">
@@ -32,7 +43,7 @@ export const SubmissionsPage: React.FC = () => {
               </tr>
             </thead>
             <tbody className="divide-y">
-              {planEntries.map(pe => {
+              {entries.map(pe => {
                 const na = nationalActivities.find(n => n.id === pe.national_activity_id);
                 const scopeName = pe.scope_type === 'Regional'
                   ? regions.find(r => r.id === pe.region_id)?.name
@@ -51,7 +62,13 @@ export const SubmissionsPage: React.FC = () => {
                   </tr>
                 );
               })}
-              {planEntries.length === 0 && <tr><td colSpan={6} className="p-8 text-center text-slate-500">No submissions found.</td></tr>}
+              {entries.length === 0 && (
+                <tr>
+                  <td colSpan={6} className="p-8 text-center text-slate-500">
+                    {isAop ? 'No submissions found.' : 'No submissions found for your assigned project or zone.'}
+                  </td>
+                </tr>
+              )}
             </tbody>
           </table>
         </div>
