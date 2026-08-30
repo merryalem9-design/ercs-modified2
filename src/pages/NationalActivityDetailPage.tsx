@@ -10,7 +10,7 @@ import {
   budgetUtilizationPct,
   convertToBeneficiaries,
 } from '../utils/calculations';
-import { PlanEntry, ScopeType } from '../types';
+import { PlanEntry } from '../types';
 import { QuarterFilterValue } from '../types';
 import { StatusBadge } from '../components/common/StatusBadge';
 import { BudgetStatusBadge } from '../components/common/BudgetStatusBadge';
@@ -40,10 +40,10 @@ export const NationalActivityDetailPage: React.FC = () => {
     regions,
     zones,
     projects,
-    quarters,
     quarterlyPlans,
     quarterlyActuals,
     uomConfigs,
+    regionActivityLinks,
     getFilteredPlanEntries,
   } = useApp();
 
@@ -75,42 +75,65 @@ export const NationalActivityDetailPage: React.FC = () => {
   const util = budgetUtilizationPct(spent, budget);
   const factor = uomConfigs.find(c => c.uom.toLowerCase() === na.uom.toLowerCase())?.factor ?? 0;
 
-  // Total = planned reach (Target × factor); Actual = beneficiaries reached
-  // so far (Actual × factor) — both shown together so "Beneficiaries" means
-  // the same thing here as it does on the Report and Scope pages, instead
-  // of silently being Actual-only on this page while Plan Page shows
-  // Target-only under the same column name.
   const totalBeneficiaries = convertToBeneficiaries(target, na.uom, uomConfigs);
   const actualBeneficiaries = convertToBeneficiaries(actual, na.uom, uomConfigs);
 
-  // National Activity AOP has no assigned Region/Project of their own, so
-  // they neither create Plan Entries in isolation from a Region/Project
-  // scope nor create Quarterly Plan / Quarterly Actual entries at all —
-  // upsertQuarterlyPlan / upsertQuarterlyActual in AppContext both refuse
-  // that role outright. Those two actions are hidden here accordingly.
-  const roleIsCoordinator = currentRole !== 'National Activity AOP';
-  const regionalRole = currentRole.startsWith('Regional Coordinator — ');
-  const projectRole = currentRole.startsWith('Project Coordinator — ');
-  const assignedRegion = regionalRole
-    ? regions.find(r => r.name === currentRole.slice('Regional Coordinator — '.length))
-    : undefined;
-  const assignedProject = projectRole
-    ? projects.find(p => p.name === currentRole.slice('Project Coordinator — '.length))
-    : undefined;
-  const filterRegion = filters.regionId !== 'ALL'
-    ? regions.find(r => r.id === filters.regionId)
-    : undefined;
-  const filterProject = filters.projectId !== 'ALL'
+  // ------------------------------------------------------------------
+  // Role resolution — matches the ACTUAL role-naming scheme used
+  // everywhere else in the app ('Branch Head — X', 'X coordinators',
+  // 'Project Coordinator — X'). The previous version of this page checked
+  // for a 'Regional Coordinator — ' prefix that no role ever has, which
+  // silently broke "Add Plan Entry" here for Branch Heads: the wizard
+  // opened with no Region resolved, no National Activity options, and
+  // nothing they could actually save.
+  // ------------------------------------------------------------------
+  const isAop = currentRole === 'National Activity AOP';
+  const isMonitor = currentRole === 'PMER Officer';
+  const isBranchHead = currentRole.startsWith('Branch Head — ');
+  const isProjectCoordinator = currentRole.startsWith('Project Coordinator — ');
+  const isZoneCoordinator = currentRole.endsWith(' coordinators');
+  const roleIsCoordinator = !isAop && !isMonitor;
+
+  const assignedRegion = isBranchHead ? regions.find(r => `Branch Head — ${r.name}` === currentRole) : undefined;
+  const assignedProject = isProjectCoordinator ? projects.find(p => p.name === currentRole.slice('Project Coordinator — '.length)) : undefined;
+  const currentZone = isZoneCoordinator ? zones.find(z => `${z.name} coordinators` === currentRole) : undefined;
+
+  const filterProject = (filters.projectId !== 'ALL' && filters.projectId !== 'NONE')
     ? projects.find(p => p.id === filters.projectId)
     : undefined;
 
+  // Each of these is true only when: (a) this exact National Activity is
+  // eligible for that scope, and (b) nothing is linked/entered there yet
+  // — once something exists, the button disappears rather than opening a
+  // wizard that just shows a "duplicate" error.
+  const branchHeadEligible = isBranchHead && !!assignedRegion
+    && na.eligible_region_ids.includes(assignedRegion.id)
+    && !regionActivityLinks.some(l => l.national_activity_id === na.id && l.region_id === assignedRegion.id);
+
+  const zoneAlreadyHasEntry = isZoneCoordinator && !!currentZone
+    && children.some(pe => pe.scope_type === 'Regional' && pe.zone_id === currentZone.id);
+  const zoneEligibleLink = (isZoneCoordinator && currentZone && !zoneAlreadyHasEntry)
+    ? regionActivityLinks.find(l => l.national_activity_id === na.id && l.region_id === currentZone.region_id && l.eligible_zone_ids.includes(currentZone.id))
+    : undefined;
+
+  const projectAlreadyHasEntry = isProjectCoordinator && !!assignedProject
+    && children.some(pe => pe.scope_type === 'Project' && pe.project_id === assignedProject.id);
+  const projectEligible = isProjectCoordinator && !!assignedProject
+    && na.eligible_project_ids.includes(assignedProject.id) && !projectAlreadyHasEntry;
+
+  const aopAlreadyHasEntry = isAop && !!filterProject
+    && children.some(pe => pe.scope_type === 'Project' && pe.project_id === filterProject.id);
   // AOP only adds Plan Entries when drilled into a PROJECT — never a Region.
-  const canAddPlanEntry = roleIsCoordinator ? true : !!filterProject;
+  const aopEligible = isAop && !!filterProject
+    && na.eligible_project_ids.includes(filterProject.id) && !aopAlreadyHasEntry;
+
+  const canAddPlanEntry = branchHeadEligible || !!zoneEligibleLink || projectEligible || aopEligible;
 
   const setParentFilter = (scopeType: 'Regional' | 'Project' | null = null, scopeId?: string) => {
     setFilters(prev => ({
       ...prev,
       strategicPriorityId: 'ALL',
+      strategicObjectiveId: 'ALL',
       nationalActivityId: na.id,
       regionId: scopeType === 'Regional' && scopeId ? scopeId : 'ALL',
       projectId: scopeType === 'Project' && scopeId ? scopeId : 'ALL',
@@ -128,32 +151,65 @@ export const NationalActivityDetailPage: React.FC = () => {
   };
 
   const openAddPlanWizard = () => {
-    const resolvedRegion = assignedRegion || filterRegion;
-    const resolvedProject = assignedProject || filterProject;
-    const scopeResolved = !!(resolvedRegion || resolvedProject);
-    const scopeType: ScopeType = resolvedRegion
-      ? 'Regional'
-      : resolvedProject
-        ? 'Project'
-        : (regionalRole ? 'Regional' : projectRole ? 'Project' : 'Regional');
-
-    setPeWizard({
-      initial: {
-        strategicPriorityId: na.strategic_priority_id,
-        national_activity_id: na.id,
-        scope_type: scopeType,
-        region_id: resolvedRegion?.id || '',
-        project_id: resolvedProject?.id || '',
-        annual_target: '',
-        annual_budget: '',
-        activity_name: '',
-        activity_description: '',
-        lockScope: scopeResolved,
-      },
-      // The National Activity is already known here (this page), so we only
-      // need a resolved Region/Project to skip straight to step 2.
-      startStep: scopeResolved ? 2 : 1,
-    });
+    if (branchHeadEligible && assignedRegion) {
+      setPeWizard({
+        initial: {
+          strategicPriorityId: na.strategic_priority_id,
+          national_activity_id: na.id,
+          scope_type: 'Regional',
+          region_id: assignedRegion.id,
+          project_id: '',
+          annual_target: '', annual_budget: '', activity_name: '', activity_description: '',
+          lockScope: true,
+        },
+        startStep: 2,
+      });
+      return;
+    }
+    if (zoneEligibleLink && currentZone) {
+      setPeWizard({
+        initial: {
+          strategicPriorityId: na.strategic_priority_id,
+          national_activity_id: na.id,
+          scope_type: 'Regional',
+          region_id: currentZone.region_id,
+          project_id: '',
+          annual_target: '', annual_budget: '', activity_name: '', activity_description: '',
+          lockScope: true,
+        },
+        startStep: 2,
+      });
+      return;
+    }
+    if (projectEligible && assignedProject) {
+      setPeWizard({
+        initial: {
+          strategicPriorityId: na.strategic_priority_id,
+          national_activity_id: na.id,
+          scope_type: 'Project',
+          region_id: '',
+          project_id: assignedProject.id,
+          annual_target: '', annual_budget: '', activity_name: '', activity_description: '',
+          lockScope: true,
+        },
+        startStep: 2,
+      });
+      return;
+    }
+    if (aopEligible && filterProject) {
+      setPeWizard({
+        initial: {
+          strategicPriorityId: na.strategic_priority_id,
+          national_activity_id: na.id,
+          scope_type: 'Project',
+          region_id: '',
+          project_id: filterProject.id,
+          annual_target: '', annual_budget: '', activity_name: '', activity_description: '',
+          lockScope: true,
+        },
+        startStep: 2,
+      });
+    }
   };
 
   const goToQuarterlyPlan = () => {

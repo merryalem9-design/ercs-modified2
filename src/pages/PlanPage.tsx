@@ -8,7 +8,7 @@ import {
   achievementPct, budgetUtilizationPct, convertToBeneficiaries,
 } from '../utils/calculations';
 import { PlanEntry, ScopeType, Project, NationalActivity, RegionActivityLink } from '../types';
-import { ArrowLeft, ArrowUpRight, ChevronRight, Layers, Plus, Save, Trash2, X } from 'lucide-react';
+import { ArrowLeft, ArrowUpRight, Layers, Plus, Save, Trash2, X } from 'lucide-react';
 
 export interface PeWizardFormState {
   id?: string;
@@ -29,7 +29,7 @@ export const PlanPage: React.FC = () => {
     nationalActivities, regions, zones, projects, planEntries, regionActivityLinks, deletePlanEntry,
     uomConfigs, quarterlyPlans, quarterlyActuals, filters, getFilteredPlanEntries,
     setSelectedNationalActivityId, setActiveRoute, currentRole,
-    addNationalActivity, deleteNationalActivity, getNationalActivitiesForRole,
+    deleteNationalActivity, getNationalActivitiesForRole,
   } = useApp();
 
   const [peWizard, setPeWizard] = useState<null | { initial: PeWizardFormState; startStep: 1 | 2 }>(null);
@@ -49,8 +49,27 @@ export const PlanPage: React.FC = () => {
     (filters.regionId !== 'ALL' && filters.regionId !== 'NONE') ||
     (filters.projectId !== 'ALL' && filters.projectId !== 'NONE');
 
+  // A Project Coordinator has exactly one Project — resolve it directly
+  // from their role (like Zone Coordinator resolves their own zone below),
+  // rather than depending on the Project *filter* dropdown, which starts
+  // on "All Projects" every time the role changes and has no reason to
+  // ever be touched since there's only one real option in it. Previously
+  // the "Add Plan Entry" button silently did nothing until that filter was
+  // manually set.
+  const assignedProject = isProjectCoordinator
+    ? projects.find(p => p.name === currentRole.slice('Project Coordinator — '.length))
+    : undefined;
+
+  // AOP can only add a Plan Entry directly once drilled all the way into a
+  // specific Project (Regional entries are the Branch Head's Region
+  // Activity Link flow instead) — so this resolves the actual Project
+  // object from the filter, not just "some region-or-project filter".
+  const filterProject = (filters.projectId !== 'ALL' && filters.projectId !== 'NONE')
+    ? projects.find(p => p.id === filters.projectId)
+    : undefined;
+
   const showAggregatedView = isAop && !hasRegionOrProjectFilter;
-  const canAddPlanEntry = isProjectCoordinator || isZoneCoordinator || (isAop && hasRegionOrProjectFilter);
+  const canAddPlanEntry = isProjectCoordinator || isZoneCoordinator || (isAop && !!filterProject);
 
   const roleScopedNationalActivities = getNationalActivitiesForRole();
 
@@ -93,15 +112,15 @@ export const PlanPage: React.FC = () => {
   };
 
   // ------------------------------------------------------------------
-  // AOP: aggregated + Project drill-down (unchanged behavior).
+  // PROJECT COORDINATOR / AOP: add a Project-scope Plan Entry.
   // ------------------------------------------------------------------
   const openAddPlanWizard = () => {
-    const naFilterActive = filters.nationalActivityId !== 'ALL';
-    const naId = naFilterActive ? filters.nationalActivityId : (roleScopedNationalActivities[0]?.id || '');
-    const na = nationalActivities.find(n => n.id === naId);
-    const filterProject = filters.projectId !== 'ALL' ? projects.find(p => p.id === filters.projectId) : undefined;
+    const targetProject = assignedProject || filterProject;
+    if (!targetProject) return; // AOP only adds Plan Entries once drilled into a Project
 
-    if (!filterProject) return; // AOP only adds Plan Entries when drilled into a Project (A7)
+    const naFilterActive = filters.nationalActivityId !== 'ALL';
+    const naId = naFilterActive ? filters.nationalActivityId : '';
+    const na = naId ? nationalActivities.find(n => n.id === naId) : undefined;
 
     setPeWizard({
       initial: {
@@ -109,12 +128,19 @@ export const PlanPage: React.FC = () => {
         national_activity_id: naId,
         scope_type: 'Project',
         region_id: '',
-        project_id: filterProject.id,
+        project_id: targetProject.id,
         annual_target: '', annual_budget: '', activity_name: '', activity_description: '',
         lockScope: true,
       },
-      startStep: naFilterActive ? 2 : 1,
+      startStep: naFilterActive && na ? 2 : 1,
     });
+  };
+
+  // Unified "Add Plan Entry" handler for whichever role/scope is currently
+  // eligible — used by every empty-state prompt on this page.
+  const handleAddExecutionEntry = () => {
+    if (isZoneCoordinator) openZoneEntryWizard();
+    else openAddPlanWizard();
   };
 
   const openEditPlanWizard = (pe: PlanEntry) => {
@@ -172,11 +198,7 @@ export const PlanPage: React.FC = () => {
 
   const executionTotalBudget = executionRows.reduce((s, r) => s + r.budget, 0);
   const executionTotalSpent = executionRows.reduce((s, r) => s + r.spent, 0);
-  const executionTotalBeneficiaries = executionRows.reduce((s, r) => s + r.beneficiaries, 0);
-  const executionTotalActualBeneficiaries = executionRows.reduce((s, r) => s + r.actualBeneficiaries, 0);
   const executionTotalUtilization = budgetUtilizationPct(executionTotalSpent, executionTotalBudget);
-
-  const showFlatExecutionView = isProjectCoordinator || isZoneCoordinator || (isAop && hasRegionOrProjectFilter);
 
   return (
     <div className="space-y-6">
@@ -197,7 +219,12 @@ export const PlanPage: React.FC = () => {
             </button>
           </div>
           {branchHeadLinks.length === 0 ? (
-            <div className="p-8 text-center text-xs text-slate-500">No National Activities linked yet.</div>
+            <div className="p-8 text-center">
+              <p className="text-xs text-slate-500 mb-3">No National Activities linked yet.</p>
+              <button onClick={openZoneLinkWizard} className="inline-flex items-center gap-1.5 bg-ercs-red text-white px-3 py-1.5 rounded-lg text-xs font-bold">
+                <Plus className="w-3.5 h-3.5" /> Add Plan (Link to National Activity)
+              </button>
+            </div>
           ) : (
             <div className="overflow-x-auto">
               <table className="w-full text-left text-xs">
@@ -245,7 +272,7 @@ export const PlanPage: React.FC = () => {
                   <Plus className="w-3.5 h-3.5" /> Add Plan Entry
                 </button>
               )}
-              {isProjectCoordinator && canAddPlanEntry && (
+              {(isProjectCoordinator || isAop) && canAddPlanEntry && (
                 <button onClick={openAddPlanWizard} className="flex items-center gap-1.5 bg-ercs-red text-white px-3 py-1.5 rounded-lg text-xs font-bold">
                   <Plus className="w-3.5 h-3.5" /> Add Plan Entry
                 </button>
@@ -255,7 +282,14 @@ export const PlanPage: React.FC = () => {
 
           {showAggregatedView ? (
             aggregatedRows.length === 0 ? (
-              <div className="p-8 text-center text-xs text-slate-500">No National Activities match this filter.</div>
+              <div className="p-8 text-center">
+                <p className="text-xs text-slate-500 mb-3">No National Activities match this filter.</p>
+                {isAop && (
+                  <button onClick={() => setNaFormOpen(true)} className="inline-flex items-center gap-1.5 bg-slate-800 text-white px-3 py-1.5 rounded-lg text-xs font-bold">
+                    <Plus className="w-3.5 h-3.5" /> Add National Activity
+                  </button>
+                )}
+              </div>
             ) : (
               <div className="overflow-x-auto">
                 <table className="w-full text-left text-xs">
@@ -309,6 +343,17 @@ export const PlanPage: React.FC = () => {
             executionRows.length === 0 ? (
               <div className="p-8 text-center">
                 <p className="text-xs text-slate-500 mb-3">No Plan Entries are linked yet for this selection.</p>
+                {canAddPlanEntry ? (
+                  <button onClick={handleAddExecutionEntry} className="inline-flex items-center gap-1.5 bg-ercs-red text-white px-3 py-1.5 rounded-lg text-xs font-bold">
+                    <Plus className="w-3.5 h-3.5" /> Add Plan Entry
+                  </button>
+                ) : (
+                  isAop && hasRegionOrProjectFilter && (
+                    <p className="text-[10px] text-slate-400 max-w-sm mx-auto">
+                      Drill into a Project (not just a Region) to add a Plan Entry here — Regional entries are created by that Region's Branch Head instead.
+                    </p>
+                  )
+                )}
               </div>
             ) : (
               <div className="overflow-x-auto">
@@ -367,7 +412,16 @@ export const PlanPage: React.FC = () => {
       {deleteTarget && (
         <ConfirmDeleteModal label={deleteTarget.label} onCancel={() => setDeleteTarget(null)} onConfirm={() => { deletePlanEntry(deleteTarget.id); setDeleteTarget(null); }} />
       )}
-      {naFormOpen && <NationalActivityFormModal onClose={() => setNaFormOpen(false)} onSaved={() => setNaFormOpen(false)} />}
+      {naFormOpen && (
+        <NationalActivityFormModal
+          initialStrategicPriorityId={filters.strategicPriorityId !== 'ALL' ? filters.strategicPriorityId : undefined}
+          initialStrategicObjectiveId={filters.strategicObjectiveId !== 'ALL' ? filters.strategicObjectiveId : undefined}
+          initialRegionId={filters.regionId !== 'ALL' && filters.regionId !== 'NONE' ? filters.regionId : undefined}
+          initialProjectId={filters.projectId !== 'ALL' && filters.projectId !== 'NONE' ? filters.projectId : undefined}
+          onClose={() => setNaFormOpen(false)}
+          onSaved={() => setNaFormOpen(false)}
+        />
+      )}
       {deleteNaTarget && (
         <ConfirmDeleteNAModal label={deleteNaTarget.label} onCancel={() => setDeleteNaTarget(null)} onConfirm={() => { deleteNationalActivity(deleteNaTarget.id); setDeleteNaTarget(null); }} />
       )}
@@ -376,35 +430,62 @@ export const PlanPage: React.FC = () => {
 };
 
 // ============================================================
-// NationalActivityFormModal — unchanged from original file, except
-// handleSave() now also sets `strategic_objective_id`, which the
-// NationalActivity type (index.ts) requires. Previously only
-// `strategic_priority_id` was set, which caused TS2741:
-//   "Property 'strategic_objective_id' is missing in type ... but
-//    required in type 'NationalActivity'."
+// NationalActivityFormModal — now lets you choose the Strategic Priority
+// AND the Strategic Objective it belongs to (Objective cascades off
+// Priority, same pattern as the FilterBar). Previously both were
+// hardcoded to 'sp-1' — and strategic_objective_id was set to a
+// *Priority* id, which matched no real Strategic Objective, silently
+// breaking every "by Strategic Objective" grouping for any activity
+// created this way. Also accepts optional initial values so it can be
+// pre-filled from whatever Priority/Objective/Region/Project you're
+// already filtered to when you click "Add National Activity".
 // ============================================================
-const NationalActivityFormModal: React.FC<{ onClose: () => void; onSaved: () => void }> = ({ onClose, onSaved }) => {
-  const { nationalActivities, regions, projects, uomConfigs, addNationalActivity } = useApp();
+interface NationalActivityFormModalProps {
+  onClose: () => void;
+  onSaved: () => void;
+  initialStrategicPriorityId?: string;
+  initialStrategicObjectiveId?: string;
+  initialRegionId?: string;
+  initialProjectId?: string;
+}
+
+const NationalActivityFormModal: React.FC<NationalActivityFormModalProps> = ({
+  onClose, onSaved, initialStrategicPriorityId, initialStrategicObjectiveId, initialRegionId, initialProjectId,
+}) => {
+  const { nationalActivities, strategicPriorities, strategicObjectives, regions, projects, uomConfigs, addNationalActivity } = useApp();
+  const [strategicPriorityId, setStrategicPriorityId] = useState(initialStrategicPriorityId || '');
+  const [strategicObjectiveId, setStrategicObjectiveId] = useState(initialStrategicObjectiveId || '');
   const [code, setCode] = useState('');
   const [name, setName] = useState('');
   const [description, setDescription] = useState('');
   const [uom, setUom] = useState('');
-  const [regionIds, setRegionIds] = useState<string[]>([]);
-  const [projectIds, setProjectIds] = useState<string[]>([]);
+  const [regionIds, setRegionIds] = useState<string[]>(initialRegionId ? [initialRegionId] : []);
+  const [projectIds, setProjectIds] = useState<string[]>(initialProjectId ? [initialProjectId] : []);
   const savingRef = useRef(false);
+
+  const objectivesForPriority = strategicPriorityId
+    ? strategicObjectives.filter(so => so.strategic_priority_id === strategicPriorityId)
+    : [];
+
+  const handlePriorityChange = (value: string) => {
+    setStrategicPriorityId(value);
+    // Whatever Objective was picked almost certainly doesn't belong to the
+    // new Priority, so it's cleared and must be re-selected.
+    setStrategicObjectiveId('');
+  };
 
   const toggleRegion = (id: string) => setRegionIds(prev => prev.includes(id) ? prev.filter(r => r !== id) : [...prev, id]);
   const toggleProject = (id: string) => setProjectIds(prev => prev.includes(id) ? prev.filter(p => p !== id) : [...prev, id]);
   const isDuplicateCode = !!code.trim() && nationalActivities.some(na => na.code.trim().toLowerCase() === code.trim().toLowerCase());
-  const canSave = !!code.trim() && !!name.trim() && !!description.trim() && !!uom && !isDuplicateCode && (regionIds.length > 0 || projectIds.length > 0);
+  const canSave = !!strategicPriorityId && !!strategicObjectiveId && !!code.trim() && !!name.trim() && !!description.trim() && !!uom && !isDuplicateCode && (regionIds.length > 0 || projectIds.length > 0);
 
   const handleSave = () => {
     if (!canSave || savingRef.current) return;
     savingRef.current = true;
     const na: NationalActivity = {
       id: `na-${Date.now()}`,
-      strategic_priority_id: 'sp-1',
-      strategic_objective_id: 'sp-1', // FIX: required field was missing, added to satisfy NationalActivity type
+      strategic_priority_id: strategicPriorityId,
+      strategic_objective_id: strategicObjectiveId,
       code: code.trim(),
       description: name.trim(),
       uom,
@@ -420,6 +501,22 @@ const NationalActivityFormModal: React.FC<{ onClose: () => void; onSaved: () => 
   return (
     <ModalShell title="Add National Activity" onClose={onClose}>
       <div className="space-y-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+          <div>
+            <span className="block text-[10px] font-bold text-slate-500 mb-1">Strategic Priority</span>
+            <select value={strategicPriorityId} onChange={e => handlePriorityChange(e.target.value)} className="w-full text-xs border border-slate-200 rounded p-2 bg-slate-50">
+              <option value="">Select Strategic Priority…</option>
+              {strategicPriorities.map(sp => <option key={sp.id} value={sp.id}>{sp.code} — {sp.name}</option>)}
+            </select>
+          </div>
+          <div>
+            <span className="block text-[10px] font-bold text-slate-500 mb-1">Strategic Objective</span>
+            <select value={strategicObjectiveId} onChange={e => setStrategicObjectiveId(e.target.value)} disabled={!strategicPriorityId} className="w-full text-xs border border-slate-200 rounded p-2 bg-slate-50 disabled:opacity-60">
+              <option value="">{strategicPriorityId ? 'Select Strategic Objective…' : 'Select a Strategic Priority first'}</option>
+              {objectivesForPriority.map(so => <option key={so.id} value={so.id}>{so.code} — {so.name}</option>)}
+            </select>
+          </div>
+        </div>
         <div>
           <LabeledInput label="Activity Code" value={code} onChange={setCode} placeholder="e.g. 6.1.1" />
           {isDuplicateCode && <div className="mt-1.5 text-[10px] text-rose-700 bg-rose-50 border border-rose-200 rounded p-2 font-semibold">A National Activity with code "{code.trim()}" already exists.</div>}
@@ -468,9 +565,11 @@ const NationalActivityFormModal: React.FC<{ onClose: () => void; onSaved: () => 
 };
 
 // ============================================================
-// PlanEntryWizardModal — Project branch UNCHANGED. Regional branch is now
-// either a Branch Head's RegionActivityLink wizard, or a Zone Coordinator's
-// PlanEntry wizard, distinguished by currentRole.
+// PlanEntryWizardModal — unchanged. Project branch stays exactly as
+// before; Regional branch is either a Branch Head's RegionActivityLink
+// wizard, or a Zone Coordinator's PlanEntry wizard, distinguished by
+// currentRole (computed fresh inside this component, independent of
+// whatever the caller thought the scope was).
 // ============================================================
 export const PlanEntryWizardModal: React.FC<{
   initial: PeWizardFormState;
@@ -491,7 +590,7 @@ export const PlanEntryWizardModal: React.FC<{
   const isZoneCoordinator = currentRole.endsWith(' coordinators');
   const currentZone = isZoneCoordinator ? zones.find(z => `${z.name} coordinators` === currentRole) : undefined;
 
-  // ---------------- PROJECT SCOPE: pixel-identical to before ----------------
+  // ---------------- PROJECT SCOPE ----------------
   if (isProjectScope) {
     const selectedNa = nationalActivities.find(na => na.id === form.national_activity_id);
     const eligibleProjects = selectedNa ? projects.filter(p => selectedNa.eligible_project_ids.includes(p.id)) : projects;
@@ -812,3 +911,4 @@ const ConfirmDeleteNAModal: React.FC<{ label: string; onCancel: () => void; onCo
     </div>
   </div>
 );
+  

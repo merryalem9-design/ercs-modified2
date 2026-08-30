@@ -22,43 +22,84 @@ export const FilterBar: React.FC<FilterBarProps> = ({ allowNoneScope = false, hi
   const assignedRegionName = isBranchHead ? currentRole.slice('Branch Head — '.length) : '';
   const visibleRegions = isBranchHead ? regions.filter(r => r.name === assignedRegionName) : regions;
   const visibleProjects = isProjectRole ? projects.filter(p => p.name === currentRole.slice('Project Coordinator — '.length)) : projects;
-  const nationalActivitiesInScope = getNationalActivitiesForRole();
+  const nationalActivitiesInRoleScope = getNationalActivitiesForRole();
 
   // Strategic Objective dropdown cascades off the selected Strategic
-  // Priority — same "narrow the child list based on the parent selection"
-  // UX pattern already used below for Region/Project mutual exclusivity.
+  // Priority — narrows the child list based on the parent selection.
   const objectivesInScope = filters.strategicPriorityId === 'ALL'
     ? strategicObjectives
     : strategicObjectives.filter(so => so.strategic_priority_id === filters.strategicPriorityId);
 
-  // NEW — Branch Head gets a Zone filter, scoped to the zones in their own
-  // Region, so they can narrow Quarterly Plan Submissions / Report down to
-  // one zone instead of always seeing the whole region aggregated.
+  // National Activity dropdown now cascades off EVERY higher-level filter
+  // that's currently active — Strategic Priority, Strategic Objective, and
+  // whichever of Region/Project is selected — so it only ever lists
+  // activities that could actually produce a result under the current
+  // filter combination, instead of listing ones filtering would zero out.
+  const nationalActivitiesInScope = nationalActivitiesInRoleScope.filter(na => {
+    if (filters.strategicPriorityId !== 'ALL' && na.strategic_priority_id !== filters.strategicPriorityId) return false;
+    if (filters.strategicObjectiveId !== 'ALL' && na.strategic_objective_id !== filters.strategicObjectiveId) return false;
+    if (filters.regionId !== 'ALL' && filters.regionId !== 'NONE' && !na.eligible_region_ids.includes(filters.regionId)) return false;
+    if (filters.projectId !== 'ALL' && filters.projectId !== 'NONE' && !na.eligible_project_ids.includes(filters.projectId)) return false;
+    return true;
+  });
+
+  // Zone filter — available whenever a single Region is in view, whether
+  // that's because the role is pinned to one Region (Branch Head) or
+  // because Region has been filtered down to one specific Region by anyone
+  // else (AOP, PMER Officer).
   const assignedRegion = isBranchHead ? regions.find(r => r.name === assignedRegionName) : undefined;
-  const zonesInAssignedRegion = assignedRegion ? zones.filter(z => z.region_id === assignedRegion.id) : [];
+  const filterSelectedRegion = (!isBranchHead && filters.regionId !== 'ALL' && filters.regionId !== 'NONE')
+    ? regions.find(r => r.id === filters.regionId)
+    : undefined;
+  const zoneFilterRegion = assignedRegion || filterSelectedRegion;
+  const zonesInZoneFilterRegion = zoneFilterRegion ? zones.filter(z => z.region_id === zoneFilterRegion.id) : [];
 
   const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const { name, value } = e.target;
+
     if (name === 'quarterId') {
       setFilters(prev => ({ ...prev, quarterId: value as QuarterFilterValue }));
       return;
     }
+
     if (name === 'strategicPriorityId') {
-      // Selecting a Strategic Priority resets strategicObjectiveId — same
-      // reset pattern used elsewhere in this file when a parent selection
-      // changes (see Region/Project below).
-      setFilters(prev => ({ ...prev, strategicPriorityId: value, strategicObjectiveId: 'ALL' }));
+      // Selecting a Strategic Priority resets Strategic Objective and
+      // National Activity, since either may no longer belong to it.
+      setFilters(prev => ({ ...prev, strategicPriorityId: value, strategicObjectiveId: 'ALL', nationalActivityId: 'ALL' }));
       return;
     }
+
+    if (name === 'strategicObjectiveId') {
+      // Keep the Strategic Priority filter aligned to whichever Objective
+      // is picked, so the two never silently disagree about scope (this
+      // matters because the Objective list itself is not always narrowed
+      // to one Priority — it isn't when "All Strategic Priorities" is
+      // still selected).
+      setFilters(prev => {
+        const parentPriorityId = value === 'ALL'
+          ? prev.strategicPriorityId
+          : (strategicObjectives.find(so => so.id === value)?.strategic_priority_id || prev.strategicPriorityId);
+        return { ...prev, strategicObjectiveId: value, strategicPriorityId: parentPriorityId, nationalActivityId: 'ALL' };
+      });
+      return;
+    }
+
     const isSpecificSelection = value !== 'ALL' && value !== 'NONE';
+
     setFilters(prev => {
-      if (name === 'regionId' && isSpecificSelection) return { ...prev, regionId: value, projectId: 'ALL' };
-      if (name === 'projectId' && isSpecificSelection) return { ...prev, projectId: value, regionId: 'ALL' };
-      if (name === 'regionId' && value === 'NONE' && prev.projectId !== 'ALL' && prev.projectId !== 'NONE') {
-        return { ...prev, regionId: value, projectId: 'ALL' };
+      if (name === 'regionId') {
+        // Any change to Region invalidates whatever Zone was selected
+        // under the old Region.
+        const next = { ...prev, regionId: value, zoneId: 'ALL' };
+        if (isSpecificSelection) { next.projectId = 'ALL'; next.nationalActivityId = 'ALL'; }
+        else if (value === 'NONE' && prev.projectId !== 'ALL' && prev.projectId !== 'NONE') { next.projectId = 'ALL'; }
+        return next;
       }
-      if (name === 'projectId' && value === 'NONE' && prev.regionId !== 'ALL' && prev.regionId !== 'NONE') {
-        return { ...prev, projectId: value, regionId: 'ALL' };
+      if (name === 'projectId') {
+        const next = { ...prev, projectId: value };
+        if (isSpecificSelection) { next.regionId = 'ALL'; next.nationalActivityId = 'ALL'; next.zoneId = 'ALL'; }
+        else if (value === 'NONE' && prev.regionId !== 'ALL' && prev.regionId !== 'NONE') { next.regionId = 'ALL'; next.zoneId = 'ALL'; }
+        return next;
       }
       return { ...prev, [name]: value };
     });
@@ -67,7 +108,7 @@ export const FilterBar: React.FC<FilterBarProps> = ({ allowNoneScope = false, hi
   const regionSelectValue = filters.regionId === 'NONE' && !allowNoneScope ? 'ALL' : filters.regionId;
   const projectSelectValue = filters.projectId === 'NONE' && !allowNoneScope ? 'ALL' : filters.projectId;
 
-  // Period (multi-quarter view) vs. a single Quarter are now two separate
+  // Period (multi-quarter view) vs. a single Quarter are two separate
   // controls, both driving the same underlying filters.quarterId value.
   const periodSelectValue: QuarterFilterValue = (['ALL', 'SEMI', 'NINE_MONTH'] as QuarterFilterValue[]).includes(filters.quarterId)
     ? filters.quarterId
@@ -133,12 +174,12 @@ export const FilterBar: React.FC<FilterBarProps> = ({ allowNoneScope = false, hi
             </select>
           </div>
         )}
-        {isBranchHead && assignedRegion && (
+        {zoneFilterRegion && (
           <div>
             <label className="block text-[10px] font-bold text-slate-500 mb-1">Zone</label>
             <select name="zoneId" value={filters.zoneId} onChange={handleChange} className="w-full text-xs font-medium border-slate-200 rounded-lg bg-slate-50 py-1.5">
               <option value="ALL">All Zones</option>
-              {zonesInAssignedRegion.map(z => <option key={z.id} value={z.id}>{z.name}</option>)}
+              {zonesInZoneFilterRegion.map(z => <option key={z.id} value={z.id}>{z.name}</option>)}
             </select>
           </div>
         )}
