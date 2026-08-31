@@ -31,11 +31,13 @@ const AOP_NAV = [
 
 // Branch Head no longer plans/enters quarterly figures directly — they link
 // National Activities to their Region, review/approve what the Zones
-// submit, and read the aggregated Report. Quarterly Actual Entry and
-// Submissions have no use for this role.
+// submit (both Quarterly Plans and Quarterly Actuals), and read the
+// aggregated Report. Quarterly Actual Entry and Submissions have no use
+// for this role.
 const BRANCH_HEAD_NAV = [
   { id: 'plan', label: 'Annual Plan', sub: 'Link National Activities to your Region', icon: ClipboardList },
   { id: 'quarterly-plan-submissions', label: 'Quarterly Plan Submissions', sub: 'Review & approve Zone submissions', icon: CalendarCheck2 },
+  { id: 'quarterly-actual-submissions', label: 'Quarterly Actual Submissions', sub: 'Review & approve Zone actuals', icon: CalendarCheck2 },
   { id: 'report', label: 'Report', sub: 'Zone performance & aggregation', icon: BarChart3 },
 ];
 
@@ -62,7 +64,7 @@ export const Sidebar: React.FC = () => {
     : isMonitor
       ? 'Verify reported achievements against evidence, log data-quality findings, and track corrective actions.'
       : isBranchHead
-        ? 'Link National Activities to your Region, and review/approve Zone Quarterly Plan submissions.'
+        ? 'Link National Activities to your Region, and review/approve Zone Quarterly Plan and Quarterly Actual submissions.'
         : isZoneCoordinator
           ? 'Enter and manage the plan, quarterly plan, and actuals for your assigned zone.'
           : 'Enter and manage the plan, quarterly plan, and actuals for the assigned project.';

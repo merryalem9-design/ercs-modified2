@@ -17,6 +17,7 @@ import { MonitoringDashboardPage } from './pages/MonitoringDashboardPage';
 import { PerformancePage } from './pages/PerformancePage';
 import { StrategicPlanPage } from './pages/StrategicPlanPage';
 import { QuarterlyPlanSubmissionsPage } from './pages/QuarterlyPlanSubmissionsPage';
+import { QuarterlyActualSubmissionsPage } from './pages/QuarterlyActualSubmissionsPage';
 import { StrategicKpiPage } from './pages/StrategicKpiPage';
 
 const RESTRICTED_FOR_AOP = new Set(['quarterly-plan', 'quarterly']);
@@ -26,7 +27,8 @@ const RESTRICTED_FOR_AOP = new Set(['quarterly-plan', 'quarterly']);
 const MONITOR_ONLY_ROUTES = new Set(['monitoring']);
 const AOP_ONLY_ROUTES = new Set(['performance', 'strategic-plan']);
 // Branch Head no longer plans/enters quarterly figures or uses the generic
-// Submissions list — they use 'quarterly-plan-submissions' instead.
+// Submissions list — they use 'quarterly-plan-submissions' and
+// 'quarterly-actual-submissions' instead.
 const RESTRICTED_FOR_BRANCH_HEAD = new Set(['quarterly-plan', 'quarterly', 'submissions']);
 
 const MainLayout: React.FC = () => {
@@ -54,6 +56,7 @@ const MainLayout: React.FC = () => {
       case 'plan': return <PlanPage />;
       case 'quarterly-plan': return <QuarterlyPlanPage />;
       case 'quarterly-plan-submissions': return <QuarterlyPlanSubmissionsPage />;
+      case 'quarterly-actual-submissions': return <QuarterlyActualSubmissionsPage />;
       case 'quarterly': return <QuarterlyEntryPage />;
       case 'report': return <ReportPage />;
       case 'national-detail': return <NationalActivityDetailPage />;

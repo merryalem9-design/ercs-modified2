@@ -56,6 +56,9 @@ interface AppContextType {
 
   quarterlyActuals: QuarterlyActual[];
   upsertQuarterlyActual: (qa: QuarterlyActualInput) => void;
+  submitQuarterlyActualForApproval: (args: { plan_entry_id: string; quarter_id: QuarterId }) => void;
+  approveQuarterlyActual: (args: { plan_entry_id: string; quarter_id: QuarterId }) => void;
+  rejectQuarterlyActual: (args: { plan_entry_id: string; quarter_id: QuarterId; rejection_reason: string }) => void;
 
   monitoringRecords: MonitoringRecord[];
   upsertMonitoringRecord: (mr: MonitoringRecordInput) => void;
@@ -379,8 +382,12 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   };
 
   // -----------------------------------------------------------------------
-  // QUARTERLY ACTUAL — Project rows unchanged (soft warning only, in the UI).
-  // Zone rows: hard-blocked unless the matching Quarterly Plan is Approved.
+  // QUARTERLY ACTUAL — Project rows unchanged (always auto-Approved, soft
+  // budget warning only, in the UI). Zone rows: hard-blocked unless the
+  // matching Quarterly Plan is Approved, and now go through their own
+  // Draft → Pending Approval → Approved/Rejected cycle with the Branch
+  // Head, exactly like the Quarterly Plan does — live edits keep it Draft;
+  // blocked once Pending/Approved (Rejected re-opens editing).
   // -----------------------------------------------------------------------
   const upsertQuarterlyActual = (qa: QuarterlyActualInput) => {
     const parentEntry = planEntries.find(x => x.id === qa.plan_entry_id);
@@ -395,12 +402,56 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
         return;
       }
     }
+
     setQuarterlyActuals(prev => {
       const idx = prev.findIndex(a => a.plan_entry_id === qa.plan_entry_id && a.quarter_id === qa.quarter_id);
-      const merged: QuarterlyActual = { ...qa, approval_status: 'Approved' };
+      const existing = idx >= 0 ? prev[idx] : undefined;
+
+      if (parentEntry.scope_type === 'Project') {
+        const merged: QuarterlyActual = { ...qa, approval_status: 'Approved' };
+        if (idx >= 0) { const copy = [...prev]; copy[idx] = merged; return copy; }
+        return [...prev, merged];
+      }
+
+      // Zone-scoped: block edits once Pending/Approved.
+      if (existing && (existing.approval_status === 'Pending Approval' || existing.approval_status === 'Approved')) {
+        showToast('This Quarterly Actual is locked while Pending Approval or Approved.');
+        return prev;
+      }
+      const merged: QuarterlyActual = { ...qa, approval_status: 'Draft' };
       if (idx >= 0) { const copy = [...prev]; copy[idx] = merged; return copy; }
       return [...prev, merged];
     });
+  };
+
+  const submitQuarterlyActualForApproval = ({ plan_entry_id, quarter_id }: { plan_entry_id: string; quarter_id: QuarterId }) => {
+    const scope = parseRoleScope(currentRole, regions, projects, zones);
+    const parentEntry = planEntries.find(x => x.id === plan_entry_id);
+    if (scope.kind !== 'Zone' || !parentEntry || parentEntry.zone_id !== scope.zoneId) { showToast('Only the owning Zone Coordinator can submit this for approval.'); return; }
+    setQuarterlyActuals(prev => prev.map(qa => qa.plan_entry_id === plan_entry_id && qa.quarter_id === quarter_id
+      ? { ...qa, approval_status: 'Pending Approval', submitted_at: new Date().toISOString(), rejection_reason: undefined }
+      : qa));
+    showToast(`${quarter_id} Quarterly Actual submitted for Branch Head approval.`);
+  };
+
+  const approveQuarterlyActual = ({ plan_entry_id, quarter_id }: { plan_entry_id: string; quarter_id: QuarterId }) => {
+    const scope = parseRoleScope(currentRole, regions, projects, zones);
+    const parentEntry = planEntries.find(x => x.id === plan_entry_id);
+    if (scope.kind !== 'Regional' || !parentEntry || parentEntry.region_id !== scope.regionId) { showToast('Only this region\'s Branch Head can approve this.'); return; }
+    setQuarterlyActuals(prev => prev.map(qa => qa.plan_entry_id === plan_entry_id && qa.quarter_id === quarter_id
+      ? { ...qa, approval_status: 'Approved', reviewed_at: new Date().toISOString() }
+      : qa));
+    showToast(`${quarter_id} Quarterly Actual approved.`);
+  };
+
+  const rejectQuarterlyActual = ({ plan_entry_id, quarter_id, rejection_reason }: { plan_entry_id: string; quarter_id: QuarterId; rejection_reason: string }) => {
+    const scope = parseRoleScope(currentRole, regions, projects, zones);
+    const parentEntry = planEntries.find(x => x.id === plan_entry_id);
+    if (scope.kind !== 'Regional' || !parentEntry || parentEntry.region_id !== scope.regionId) { showToast('Only this region\'s Branch Head can reject this.'); return; }
+    setQuarterlyActuals(prev => prev.map(qa => qa.plan_entry_id === plan_entry_id && qa.quarter_id === quarter_id
+      ? { ...qa, approval_status: 'Rejected', reviewed_at: new Date().toISOString(), rejection_reason }
+      : qa));
+    showToast(`${quarter_id} Quarterly Actual rejected — zone can revise and resubmit.`);
   };
 
   const getMonitoringRecordForPlanEntry = (planEntryId: string) =>
@@ -447,7 +498,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       regionActivityLinks, addRegionActivityLink, deleteRegionActivityLink,
       planEntries, addPlanEntry, updatePlanEntry, deletePlanEntry,
       quarterlyPlans, upsertQuarterlyPlan, submitQuarterlyPlanForApproval, approveQuarterlyPlan, rejectQuarterlyPlan,
-      quarterlyActuals, upsertQuarterlyActual,
+      quarterlyActuals, upsertQuarterlyActual, submitQuarterlyActualForApproval, approveQuarterlyActual, rejectQuarterlyActual,
       monitoringRecords, upsertMonitoringRecord, getMonitoringRecordForPlanEntry,
       uomConfigs,
       filters, setFilters, resetFilters, getFilteredPlanEntries,

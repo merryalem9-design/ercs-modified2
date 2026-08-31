@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import { useApp } from '../context/AppContext';
 import { FilterBar } from '../components/common/FilterBar';
-import { achievementPct, budgetUtilizationPct, convertToBeneficiaries, sumActual } from '../utils/calculations';
+import { achievementPct, budgetUtilizationPct, convertToBeneficiaries, sumActual, getApprovalBadge } from '../utils/calculations';
 import { PlanEntry, QuarterId } from '../types';
 import { AlertTriangle, ArrowRight } from 'lucide-react';
 
@@ -15,7 +15,7 @@ export const QuarterlyEntryPage: React.FC = () => {
     <div className="space-y-6">
       <div>
         <h2 className="text-xl font-black text-slate-800">Step 3 — Quarterly Actual Entry</h2>
-        <p className="text-xs text-slate-500 mt-1">Zone rows require an Approved Quarterly Plan for that quarter before Actuals can be entered. Project rows are unchanged.</p>
+        <p className="text-xs text-slate-500 mt-1">Zone rows require an Approved Quarterly Plan for that quarter before Actuals can be entered, and now go through their own Draft → Pending Approval → Approved/Rejected cycle with the Branch Head. Project rows are unchanged.</p>
       </div>
       <FilterBar />
       <div className="bg-white p-1.5 rounded-lg border inline-flex gap-1">
@@ -40,7 +40,7 @@ export const QuarterlyEntryPage: React.FC = () => {
 const clampNonNegative = (raw: string): number => { const p = Number(raw); return Number.isFinite(p) ? Math.max(0, p) : 0; };
 
 const EntryRow: React.FC<{ entry: PlanEntry; quarter: QuarterId; nationalActivityCode: string; uom: string; scopeLabel?: string; }> = ({ entry, quarter, nationalActivityCode, uom, scopeLabel }) => {
-  const { quarterlyActuals, upsertQuarterlyActual, quarterlyPlans, uomConfigs, setFilters, setActiveRoute } = useApp();
+  const { quarterlyActuals, upsertQuarterlyActual, submitQuarterlyActualForApproval, quarterlyPlans, uomConfigs, setFilters, setActiveRoute, currentRole } = useApp();
   const existing = quarterlyActuals.find(a => a.plan_entry_id === entry.id && a.quarter_id === quarter);
   const [actualVal, setActualVal] = useState<number>(existing?.actual ?? 0);
   const [expVal, setExpVal] = useState<number>(existing?.expenditure ?? 0);
@@ -62,8 +62,18 @@ const EntryRow: React.FC<{ entry: PlanEntry; quarter: QuarterId; nationalActivit
     planStatus === 'Rejected' ? 'This Quarterly Plan was rejected — resubmit it.' :
     'No Quarterly Plan submitted yet for this quarter.';
 
+  // Zone Actuals now go through their own Draft → Pending Approval →
+  // Approved/Rejected cycle with the Branch Head, same as the Quarterly
+  // Plan. Locked once Pending/Approved; Rejected re-opens editing so the
+  // zone can revise and resubmit.
+  const actualStatus = existing?.approval_status || 'Draft';
+  const actualLocked = isZoneEntry && (actualStatus === 'Pending Approval' || actualStatus === 'Approved');
+  const inputsDisabled = zoneBlocked || actualLocked;
+  const isOwningZoneCoordinator = isZoneEntry && currentRole === `${scopeLabel} coordinators`;
+  const actualBadge = getApprovalBadge(actualStatus);
+
   const sync = (nextActual: number, nextExp: number, nextComment = commentVal) => {
-    if (zoneBlocked) return;
+    if (inputsDisabled) return;
     upsertQuarterlyActual({ id: existing?.id || `qa-${entry.id}-${quarter}`, plan_entry_id: entry.id, quarter_id: quarter, actual: nextActual, expenditure: nextExp, comment: nextComment });
   };
   const handleActualChange = (raw: string) => { const v = clampNonNegative(raw); setActualVal(v); sync(v, expVal); };
@@ -91,6 +101,9 @@ const EntryRow: React.FC<{ entry: PlanEntry; quarter: QuarterId; nationalActivit
           <span className="ml-2 text-xs font-bold text-slate-800">{scopeLabel}</span>
         </div>
         <div className="flex items-center gap-2 flex-wrap justify-end">
+          {isZoneEntry && !zoneBlocked && (
+            <span className={`inline-flex px-2 py-0.5 rounded-full text-[10px] font-bold border ${actualBadge.color}`}>{actualBadge.label}</span>
+          )}
           <div className="text-[10px] bg-slate-100 px-2 py-1 rounded font-semibold whitespace-nowrap">Annual Target: {entry.annual_target.toLocaleString()} {uom}</div>
           <div className="text-[10px] bg-blue-50 text-blue-700 px-2 py-1 rounded font-semibold whitespace-nowrap">Planned {quarter}: {plannedTarget.toLocaleString()} {uom} · ETB {plannedBudget.toLocaleString()}</div>
         </div>
@@ -100,6 +113,17 @@ const EntryRow: React.FC<{ entry: PlanEntry; quarter: QuarterId; nationalActivit
         <div className="flex items-center justify-between gap-3 bg-rose-50 border border-rose-200 rounded-lg px-3 py-2 text-[11px] text-rose-800 font-semibold">
           <span className="flex items-center gap-1.5"><AlertTriangle className="w-3.5 h-3.5 shrink-0" /> {zoneBlockMessage}</span>
           <button onClick={goToQuarterlyPlan} className="shrink-0 bg-rose-600 text-white px-2.5 py-1 rounded text-[10px] font-bold whitespace-nowrap">Go to Quarterly Plan</button>
+        </div>
+      )}
+      {isZoneEntry && !zoneBlocked && actualStatus === 'Pending Approval' && (
+        <div className="flex items-center gap-1.5 bg-amber-50 border border-amber-200 rounded-lg px-3 py-2 text-[11px] text-amber-800 font-semibold">
+          <AlertTriangle className="w-3.5 h-3.5 shrink-0" /> Awaiting Branch Head approval for this quarter's Actual.
+        </div>
+      )}
+      {isZoneEntry && !zoneBlocked && actualStatus === 'Rejected' && (
+        <div className="bg-rose-50 border border-rose-200 rounded-lg px-3 py-2 text-[11px] text-rose-800 font-semibold space-y-0.5">
+          <div className="flex items-center gap-1.5"><AlertTriangle className="w-3.5 h-3.5 shrink-0" /> This Quarterly Actual was rejected — revise and resubmit.</div>
+          {existing?.rejection_reason && <div className="text-rose-700 font-normal">{existing.rejection_reason}</div>}
         </div>
       )}
       {!isZoneEntry && !hasQuarterlyPlanForThisQuarter && (
@@ -117,15 +141,15 @@ const EntryRow: React.FC<{ entry: PlanEntry; quarter: QuarterId; nationalActivit
       <div className="flex flex-wrap items-end gap-4">
         <div>
           <label className="block text-[10px] font-bold text-slate-500 mb-1">Actual this quarter ({uom})</label>
-          <input type="number" min="0" disabled={zoneBlocked} value={actualVal} onChange={e => handleActualChange(e.target.value)} className="w-32 text-xs p-2 border rounded disabled:opacity-50 disabled:bg-slate-50" />
+          <input type="number" min="0" disabled={inputsDisabled} value={actualVal} onChange={e => handleActualChange(e.target.value)} className="w-32 text-xs p-2 border rounded disabled:opacity-50 disabled:bg-slate-50" />
         </div>
         <div>
           <label className="block text-[10px] font-bold text-slate-500 mb-1">Expenditure this quarter (ETB)</label>
-          <input type="number" min="0" disabled={zoneBlocked} value={expVal} onChange={e => handleExpChange(e.target.value)} className={`w-36 text-xs p-2 border rounded disabled:opacity-50 disabled:bg-slate-50 ${isOverBudget ? 'border-rose-300 bg-rose-50' : ''}`} />
+          <input type="number" min="0" disabled={inputsDisabled} value={expVal} onChange={e => handleExpChange(e.target.value)} className={`w-36 text-xs p-2 border rounded disabled:opacity-50 disabled:bg-slate-50 ${isOverBudget ? 'border-rose-300 bg-rose-50' : ''}`} />
         </div>
         <div className="min-w-64 flex-1">
           <label className="block text-[10px] font-bold text-slate-500 mb-1">Comment</label>
-          <textarea rows={2} disabled={zoneBlocked} value={commentVal} onChange={e => { setCommentVal(e.target.value); sync(actualVal, expVal, e.target.value); }} className="w-full text-xs p-2 border rounded resize-y bg-white disabled:opacity-50 disabled:bg-slate-50" />
+          <textarea rows={2} disabled={inputsDisabled} value={commentVal} onChange={e => { setCommentVal(e.target.value); sync(actualVal, expVal, e.target.value); }} className="w-full text-xs p-2 border rounded resize-y bg-white disabled:opacity-50 disabled:bg-slate-50" />
         </div>
         <div className="flex items-center gap-2 ml-auto flex-wrap">
           <div className="rounded-lg bg-blue-50 border border-blue-100 px-3 py-2 text-center"><div className="text-[9px] font-black uppercase text-blue-700">Conversion</div><div className="text-xs font-bold text-blue-900">{actualVal} {uom} × factor</div></div>
@@ -135,6 +159,12 @@ const EntryRow: React.FC<{ entry: PlanEntry; quarter: QuarterId; nationalActivit
           <div className="rounded-lg bg-slate-50 border px-3 py-2 text-center min-w-24"><div className="text-[9px] font-black uppercase text-slate-500">Cumulative Ach.</div><div className="text-sm font-black text-slate-800">{cumulativeAchievement.toFixed(1)}%</div></div>
         </div>
       </div>
+
+      {isZoneEntry && !zoneBlocked && isOwningZoneCoordinator && (actualStatus === 'Draft' || actualStatus === 'Rejected') && (
+        <div className="flex justify-end">
+          <button onClick={() => submitQuarterlyActualForApproval({ plan_entry_id: entry.id, quarter_id: quarter })} className="bg-blue-600 text-white px-3 py-1.5 rounded-lg text-[10px] font-bold">Submit for Approval</button>
+        </div>
+      )}
     </div>
   );
 };
