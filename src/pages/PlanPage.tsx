@@ -40,6 +40,27 @@ export const PlanPage: React.FC = () => {
   const filteredEntries = getFilteredPlanEntries();
   const q = filters.quarterId;
 
+  // Per-quarter column resolution — same logic as ReportPage.tsx.
+  type QuarterId = 'Q1' | 'Q2' | 'Q3' | 'Q4';
+  const ALL_QS: QuarterId[] = ['Q1', 'Q2', 'Q3', 'Q4'];
+  const visibleQuarters: QuarterId[] =
+    q === 'SEMI'       ? ['Q1', 'Q2'] :
+    q === 'NINE_MONTH' ? ['Q1', 'Q2', 'Q3'] :
+    (q === 'Q1' || q === 'Q2' || q === 'Q3' || q === 'Q4') ? [q as QuarterId] :
+    ALL_QS;
+
+  // Sum quarterly target/budget across a set of plan entries for the aggregated table.
+  const qDataForEntries = (es: PlanEntry[], qId: QuarterId) => ({
+    target: es.reduce((s, e) => s + (quarterlyPlans.find(qp => qp.plan_entry_id === e.id && qp.quarter_id === qId)?.target ?? 0), 0),
+    budget: es.reduce((s, e) => s + (quarterlyPlans.find(qp => qp.plan_entry_id === e.id && qp.quarter_id === qId)?.budget ?? 0), 0),
+  });
+
+  // Single-entry quarterly lookup for the execution entries table.
+  const qDataForEntry = (peId: string, qId: QuarterId) => {
+    const qp = quarterlyPlans.find(p => p.plan_entry_id === peId && p.quarter_id === qId);
+    return { target: qp?.target ?? 0, budget: qp?.budget ?? 0 };
+  };
+
   const isAop = currentRole === 'National Activity AOP';
   const isProjectCoordinator = currentRole.startsWith('Project Coordinator — ');
   const isBranchHead = currentRole.startsWith('Branch Head — ');
@@ -300,31 +321,49 @@ export const PlanPage: React.FC = () => {
                       <th className="p-3 text-right">Target</th><th className="p-3 text-right">Budget (ETB)</th>
                       <th className="p-3 text-right">Total Beneficiaries</th><th className="p-3 text-right">Actual Beneficiaries</th>
                       <th className="p-3 text-right">% Utilization</th><th className="p-3 text-center">Actions</th>
+                      {visibleQuarters.map(qId => (
+                        <th key={qId} className="p-2 text-center bg-blue-50 border-l whitespace-nowrap" colSpan={2}>
+                          {qId} Target / Budget
+                        </th>
+                      ))}
                     </tr>
                   </thead>
                   <tbody className="divide-y">
-                    {aggregatedRows.map(row => (
-                      <tr key={row.na.id} className="hover:bg-slate-50">
-                        <td className="p-3 font-bold text-ercs-red whitespace-nowrap">{row.na.code}</td>
-                        <td className="p-3 min-w-56 font-bold text-slate-800">{row.na.description}</td>
-                        <td className="p-3 whitespace-nowrap text-slate-500 font-semibold">{row.na.uom}</td>
-                        <td className="p-3 text-right font-bold whitespace-nowrap">{row.target.toLocaleString()}</td>
-                        <td className="p-3 text-right whitespace-nowrap">{row.budget.toLocaleString()}</td>
-                        <td className="p-3 text-right whitespace-nowrap">{row.beneficiaries.toLocaleString()}</td>
-                        <td className="p-3 text-right whitespace-nowrap">{row.actualBeneficiaries.toLocaleString()}</td>
-                        <td className="p-3 text-right font-bold whitespace-nowrap">{row.utilization.toFixed(1)}%</td>
-                        <td className="p-3 text-center">
-                          <div className="flex items-center justify-center gap-3">
-                            <button onClick={() => viewLinkMap(row.na.id)} className="text-[10px] font-bold text-ercs-red inline-flex items-center gap-0.5">View <ArrowUpRight className="w-3 h-3" /></button>
-                            {isAop && row.totalLinkedEntries === 0 && !row.hasLinkedRegionLinks && (
-                              <button onClick={() => setDeleteNaTarget({ id: row.na.id, label: `${row.na.code} — ${row.na.description}` })} className="text-[10px] font-bold text-red-600 inline-flex items-center gap-0.5">
-                                <Trash2 className="w-3 h-3" /> Delete
-                              </button>
-                            )}
-                          </div>
-                        </td>
-                      </tr>
-                    ))}
+                    {aggregatedRows.map(row => {
+                      const naEntries = filteredEntries.filter(pe => pe.national_activity_id === row.na.id);
+                      return (
+                        <tr key={row.na.id} className="hover:bg-slate-50">
+                          <td className="p-3 font-bold text-ercs-red whitespace-nowrap">{row.na.code}</td>
+                          <td className="p-3 min-w-56 font-bold text-slate-800">{row.na.description}</td>
+                          <td className="p-3 whitespace-nowrap text-slate-500 font-semibold">{row.na.uom}</td>
+                          <td className="p-3 text-right font-bold whitespace-nowrap">{row.target.toLocaleString()}</td>
+                          <td className="p-3 text-right whitespace-nowrap">{row.budget.toLocaleString()}</td>
+                          <td className="p-3 text-right whitespace-nowrap">{row.beneficiaries.toLocaleString()}</td>
+                          <td className="p-3 text-right whitespace-nowrap">{row.actualBeneficiaries.toLocaleString()}</td>
+                          <td className="p-3 text-right font-bold whitespace-nowrap">{row.utilization.toFixed(1)}%</td>
+                          <td className="p-3 text-center">
+                            <div className="flex items-center justify-center gap-3">
+                              <button onClick={() => viewLinkMap(row.na.id)} className="text-[10px] font-bold text-ercs-red inline-flex items-center gap-0.5">View <ArrowUpRight className="w-3 h-3" /></button>
+                              {isAop && row.totalLinkedEntries === 0 && !row.hasLinkedRegionLinks && (
+                                <button onClick={() => setDeleteNaTarget({ id: row.na.id, label: `${row.na.code} — ${row.na.description}` })} className="text-[10px] font-bold text-red-600 inline-flex items-center gap-0.5">
+                                  <Trash2 className="w-3 h-3" /> Delete
+                                </button>
+                              )}
+                            </div>
+                          </td>
+                          {/* Per-quarter Target / Budget columns */}
+                          {visibleQuarters.map(qId => {
+                            const qd = qDataForEntries(naEntries, qId);
+                            return (
+                              <React.Fragment key={qId}>
+                                <td className="p-2 text-right whitespace-nowrap bg-blue-50 border-l text-[11px]">{qd.target.toLocaleString()}</td>
+                                <td className="p-2 text-right whitespace-nowrap bg-blue-50 text-[11px]">{qd.budget.toLocaleString()}</td>
+                              </React.Fragment>
+                            );
+                          })}
+                        </tr>
+                      );
+                    })}
                   </tbody>
                   <tfoot>
                     <tr className="bg-slate-50 font-black border-t-2 border-slate-200">
@@ -335,6 +374,13 @@ export const PlanPage: React.FC = () => {
                       <td className="p-3 text-right">{aggregatedTotalActualBeneficiaries.toLocaleString()}</td>
                       <td className="p-3 text-right">{aggregatedTotalUtilization.toFixed(1)}%</td>
                       <td className="p-3"></td>
+                      {/* Quarter footer — one empty pair per visible quarter */}
+                      {visibleQuarters.map(qId => (
+                        <React.Fragment key={qId}>
+                          <td className="bg-blue-50 border-l" />
+                          <td className="bg-blue-50" />
+                        </React.Fragment>
+                      ))}
                     </tr>
                   </tfoot>
                 </table>
@@ -365,6 +411,11 @@ export const PlanPage: React.FC = () => {
                       <th className="p-3 text-right">Target</th><th className="p-3 text-right">Budget (ETB)</th>
                       <th className="p-3 text-right">% Utilization</th><th className="p-3 text-center">Status</th>
                       {(isProjectCoordinator || isZoneCoordinator) && <th className="p-3 text-center">Actions</th>}
+                      {visibleQuarters.map(qId => (
+                        <th key={qId} className="p-2 text-center bg-blue-50 border-l whitespace-nowrap" colSpan={2}>
+                          {qId} Target / Budget
+                        </th>
+                      ))}
                     </tr>
                   </thead>
                   <tbody className="divide-y">
@@ -388,6 +439,16 @@ export const PlanPage: React.FC = () => {
                             </div>
                           </td>
                         )}
+                        {/* Per-quarter Target / Budget columns */}
+                        {visibleQuarters.map(qId => {
+                          const qd = qDataForEntry(row.pe.id, qId);
+                          return (
+                            <React.Fragment key={qId}>
+                              <td className="p-2 text-right whitespace-nowrap bg-blue-50 border-l text-[11px]">{qd.target.toLocaleString()}</td>
+                              <td className="p-2 text-right whitespace-nowrap bg-blue-50 text-[11px]">{qd.budget.toLocaleString()}</td>
+                            </React.Fragment>
+                          );
+                        })}
                       </tr>
                     ))}
                   </tbody>
@@ -398,6 +459,13 @@ export const PlanPage: React.FC = () => {
                       <td className="p-3 text-right">{executionTotalBudget.toLocaleString()}</td>
                       <td className="p-3 text-right">{executionTotalUtilization.toFixed(1)}%</td>
                       <td className="p-3" colSpan={(isProjectCoordinator || isZoneCoordinator) ? 2 : 1}></td>
+                      {/* Quarter footer — one empty pair per visible quarter */}
+                      {visibleQuarters.map(qId => (
+                        <React.Fragment key={qId}>
+                          <td className="bg-blue-50 border-l" />
+                          <td className="bg-blue-50" />
+                        </React.Fragment>
+                      ))}
                     </tr>
                   </tfoot>
                 </table>
