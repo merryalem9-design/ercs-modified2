@@ -19,7 +19,7 @@ const ACTUAL_COLOR = '#C8102E';
 const ACHIEVEMENT_ACCENT = '#0D9488';
 
 export const PerformancePage: React.FC = () => {
-  const { nationalActivities, regions, projects, quarterlyPlans, quarterlyActuals, uomConfigs, getFilteredPlanEntries } = useApp();
+  const { nationalActivities, regions, projects, quarterlyPlans, quarterlyActuals, uomConfigs, getFilteredPlanEntries, setReportFocusSection, setActiveRoute } = useApp();
   const entries = getFilteredPlanEntries();
   const [groupBy, setGroupBy] = useState<'region' | 'project'>('region');
 
@@ -135,10 +135,18 @@ export const PerformancePage: React.FC = () => {
       <FilterBar />
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
-        <KPICard icon={Target} title="National Achievement" val={`${nationalAchievement.toFixed(1)}%`} sub={`${nationalActual.toLocaleString()} / ${nationalTarget.toLocaleString()}`} badge={getStatusBadge(nationalAchievement, nationalActual > 0)} />
-        <KPICard icon={MapPin} title="Regional Achievement" val={`${regionalAchievement.toFixed(1)}%`} sub={`${regionalActual.toLocaleString()} / ${regionalTarget.toLocaleString()}`} />
-        <KPICard icon={FolderGit2} title="HQ/Project Achievement" val={`${projectAchievement.toFixed(1)}%`} sub={`${projectActual.toLocaleString()} / ${projectTarget.toLocaleString()}`} />
-        <KPICard icon={Wallet} title="Budget Utilization" val={`${utilization.toFixed(1)}%`} sub={`ETB ${spent.toLocaleString()} / ${budget.toLocaleString()}`} badge={utilization > 100 ? OVER_BUDGET_BADGE : undefined} />
+        <KPICard icon={Target} title="National Achievement" val={`${nationalAchievement.toFixed(1)}%`} sub={`${nationalActual.toLocaleString()} / ${nationalTarget.toLocaleString()}`} badge={getStatusBadge(nationalAchievement, nationalActual > 0)}
+          onClick={() => { setReportFocusSection('national'); setActiveRoute('report'); }}
+        />
+        <KPICard icon={MapPin} title="Regional Achievement" val={`${regionalAchievement.toFixed(1)}%`} sub={`${regionalActual.toLocaleString()} / ${regionalTarget.toLocaleString()}`}
+          onClick={() => { setReportFocusSection('region'); setActiveRoute('report'); }}
+        />
+        <KPICard icon={FolderGit2} title="HQ/Project Achievement" val={`${projectAchievement.toFixed(1)}%`} sub={`${projectActual.toLocaleString()} / ${projectTarget.toLocaleString()}`}
+          onClick={() => { setReportFocusSection('project'); setActiveRoute('report'); }}
+        />
+        <KPICard icon={Wallet} title="Budget Utilization" val={`${utilization.toFixed(1)}%`} sub={`ETB ${spent.toLocaleString()} / ${budget.toLocaleString()}`} badge={utilization > 100 ? OVER_BUDGET_BADGE : undefined}
+          onClick={() => { setReportFocusSection('top'); setActiveRoute('report'); }}
+        />
         <KPICard icon={Users} title="Total Beneficiaries" val={totalBeneficiaries.toLocaleString()} sub="Actual × UOM Conversion Factor" />
       </div>
 
@@ -255,14 +263,24 @@ export const PerformancePage: React.FC = () => {
   );
 };
 
-const KPICard: React.FC<{ icon: any; title: string; val: React.ReactNode; sub?: React.ReactNode; badge?: { label: string; color: string } }> = ({ icon: Icon, title, val, sub, badge }) => (
-  <div className="bg-white p-4 rounded-xl border shadow-sm">
+const KPICard: React.FC<{ icon: any; title: string; val: React.ReactNode; sub?: React.ReactNode; badge?: { label: string; color: string }; onClick?: () => void }> = ({ icon: Icon, title, val, sub, badge, onClick }) => (
+  <div
+    className={`bg-white p-4 rounded-xl border shadow-sm transition-all ${
+      onClick ? 'cursor-pointer hover:border-ercs-red hover:shadow-md ring-0 hover:ring-1 hover:ring-ercs-red/40 select-none' : ''
+    }`}
+    onClick={onClick}
+    role={onClick ? 'button' : undefined}
+    tabIndex={onClick ? 0 : undefined}
+    onKeyDown={onClick ? (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); onClick(); } } : undefined}
+    title={onClick ? 'Click to view on Report page' : undefined}
+  >
     <div className="flex justify-between mb-2 text-xs font-bold text-slate-500"><span>{title}</span><Icon className="w-4 h-4" /></div>
     <div className="flex items-center gap-2 flex-wrap">
       <div className="text-xl font-black text-slate-800">{val}</div>
       {badge && <span className={`inline-flex items-center px-2 py-0.5 rounded-full text-[9px] font-bold border ${badge.color}`}>{badge.label}</span>}
     </div>
     {sub && <div className="text-[10px] mt-1 text-slate-500">{sub}</div>}
+    {onClick && <div className="text-[9px] mt-2 text-ercs-red font-semibold opacity-0 group-hover:opacity-100">View on Report →</div>}
   </div>
 );
 

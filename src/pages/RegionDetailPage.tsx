@@ -17,11 +17,14 @@ export const RegionDetailPage: React.FC = () => {
   const [rejecting, setRejecting] = useState<null | { plan_entry_id: string; quarter_id: 'Q1' | 'Q2' | 'Q3' | 'Q4' }>(null);
   const [rejectReason, setRejectReason] = useState('');
 
-  const region = filters.regionId !== 'ALL' ? regions.find(r => r.id === filters.regionId) : undefined;
+  // Requires exactly one specific region id in the filter (not ALL/NONE, not 2+).
+  const region = (filters.regionId.length === 1 && !filters.regionId.includes('ALL') && !filters.regionId.includes('NONE'))
+    ? regions.find(r => r.id === filters.regionId[0])
+    : undefined;
   const isBranchHead = currentRole === `Branch Head — ${region?.name}`;
 
   const goBackToPlan = () => {
-    setFilters(prev => ({ ...prev, strategicPriorityId: 'ALL', nationalActivityId: 'ALL', regionId: 'ALL', projectId: 'ALL' }));
+    setFilters(prev => ({ ...prev, strategicPriorityId: 'ALL', nationalActivityId: 'ALL', regionId: ['ALL'], projectId: ['ALL'] }));
     setActiveRoute('plan');
   };
 

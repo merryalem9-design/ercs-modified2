@@ -156,8 +156,10 @@ export interface FilterState {
   strategicPriorityId: string;
   strategicObjectiveId: string;
   nationalActivityId: string;
-  regionId: string;
-  projectId: string;
+  /** Multi-select: 'ALL' and 'NONE' live in a single-element array; real IDs are combined with OR. */
+  regionId: string[];
+  /** Multi-select: 'ALL' and 'NONE' live in a single-element array; real IDs are combined with OR. */
+  projectId: string[];
   /** NEW — filters PlanEntries/QuarterlyPlans down to a single Zone. 'ALL' means no zone restriction. */
   zoneId: string;
   quarterId: QuarterFilterValue;

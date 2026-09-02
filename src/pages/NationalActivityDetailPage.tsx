@@ -98,8 +98,10 @@ export const NationalActivityDetailPage: React.FC = () => {
   const assignedProject = isProjectCoordinator ? projects.find(p => p.name === currentRole.slice('Project Coordinator — '.length)) : undefined;
   const currentZone = isZoneCoordinator ? zones.find(z => `${z.name} coordinators` === currentRole) : undefined;
 
-  const filterProject = (filters.projectId !== 'ALL' && filters.projectId !== 'NONE')
-    ? projects.find(p => p.id === filters.projectId)
+  // filterProject: only resolves when exactly one specific project is selected
+  // (not ALL/NONE, not 2+ projects).
+  const filterProject = (filters.projectId.length === 1 && !filters.projectId.includes('ALL') && !filters.projectId.includes('NONE'))
+    ? projects.find(p => p.id === filters.projectId[0])
     : undefined;
 
   // Each of these is true only when: (a) this exact National Activity is
@@ -135,8 +137,9 @@ export const NationalActivityDetailPage: React.FC = () => {
       strategicPriorityId: 'ALL',
       strategicObjectiveId: 'ALL',
       nationalActivityId: na.id,
-      regionId: scopeType === 'Regional' && scopeId ? scopeId : 'ALL',
-      projectId: scopeType === 'Project' && scopeId ? scopeId : 'ALL',
+      // Collapse to single-element array (or ['ALL'] to reset).
+      regionId: scopeType === 'Regional' && scopeId ? [scopeId] : ['ALL'],
+      projectId: scopeType === 'Project' && scopeId ? [scopeId] : ['ALL'],
     }));
   };
 

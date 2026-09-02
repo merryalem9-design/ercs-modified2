@@ -46,8 +46,8 @@ export const PlanPage: React.FC = () => {
   const isZoneCoordinator = currentRole.endsWith(' coordinators');
 
   const hasRegionOrProjectFilter =
-    (filters.regionId !== 'ALL' && filters.regionId !== 'NONE') ||
-    (filters.projectId !== 'ALL' && filters.projectId !== 'NONE');
+    (!filters.regionId.includes('ALL') && !filters.regionId.includes('NONE')) ||
+    (!filters.projectId.includes('ALL') && !filters.projectId.includes('NONE'));
 
   // A Project Coordinator has exactly one Project — resolve it directly
   // from their role (like Zone Coordinator resolves their own zone below),
@@ -64,8 +64,9 @@ export const PlanPage: React.FC = () => {
   // specific Project (Regional entries are the Branch Head's Region
   // Activity Link flow instead) — so this resolves the actual Project
   // object from the filter, not just "some region-or-project filter".
-  const filterProject = (filters.projectId !== 'ALL' && filters.projectId !== 'NONE')
-    ? projects.find(p => p.id === filters.projectId)
+  // Requires exactly one specific project id (not ALL/NONE, not 2+).
+  const filterProject = (filters.projectId.length === 1 && !filters.projectId.includes('ALL') && !filters.projectId.includes('NONE'))
+    ? projects.find(p => p.id === filters.projectId[0])
     : undefined;
 
   const showAggregatedView = isAop && !hasRegionOrProjectFilter;
@@ -416,8 +417,8 @@ export const PlanPage: React.FC = () => {
         <NationalActivityFormModal
           initialStrategicPriorityId={filters.strategicPriorityId !== 'ALL' ? filters.strategicPriorityId : undefined}
           initialStrategicObjectiveId={filters.strategicObjectiveId !== 'ALL' ? filters.strategicObjectiveId : undefined}
-          initialRegionId={filters.regionId !== 'ALL' && filters.regionId !== 'NONE' ? filters.regionId : undefined}
-          initialProjectId={filters.projectId !== 'ALL' && filters.projectId !== 'NONE' ? filters.projectId : undefined}
+          initialRegionId={(filters.regionId.length === 1 && !filters.regionId.includes('ALL') && !filters.regionId.includes('NONE')) ? filters.regionId[0] : undefined}
+          initialProjectId={(filters.projectId.length === 1 && !filters.projectId.includes('ALL') && !filters.projectId.includes('NONE')) ? filters.projectId[0] : undefined}
           onClose={() => setNaFormOpen(false)}
           onSaved={() => setNaFormOpen(false)}
         />

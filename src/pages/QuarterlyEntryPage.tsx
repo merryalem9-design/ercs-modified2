@@ -88,7 +88,7 @@ const EntryRow: React.FC<{ entry: PlanEntry; quarter: QuarterId; nationalActivit
   const beneficiariesThisQuarter = convertToBeneficiaries(actualVal, uom, uomConfigs);
 
   const goToQuarterlyPlan = () => {
-    setFilters(prev => ({ ...prev, nationalActivityId: entry.national_activity_id, regionId: entry.scope_type === 'Regional' ? (entry.region_id || 'ALL') : 'ALL', projectId: entry.scope_type === 'Project' ? (entry.project_id || 'ALL') : 'ALL' }));
+    setFilters(prev => ({ ...prev, nationalActivityId: entry.national_activity_id, regionId: entry.scope_type === 'Regional' ? (entry.region_id ? [entry.region_id] : ['ALL']) : ['ALL'], projectId: entry.scope_type === 'Project' ? (entry.project_id ? [entry.project_id] : ['ALL']) : ['ALL'] }));
     setActiveRoute('quarterly-plan');
   };
 

@@ -18,6 +18,10 @@ interface AppContextType {
   currentRole: UserRole; setCurrentRole: (role: UserRole) => void;
   toastMessage: string | null; showToast: (msg: string) => void;
 
+  /** Signals which Report-page section to scroll to after navigation. null = no auto-scroll. */
+  reportFocusSection: 'national' | 'region' | 'project' | 'top' | null;
+  setReportFocusSection: (s: 'national' | 'region' | 'project' | 'top' | null) => void;
+
   selectedNationalActivityId: string | null; setSelectedNationalActivityId: (id: string | null) => void;
 
   strategicPriorities: StrategicPriority[];
@@ -75,7 +79,7 @@ interface AppContextType {
   getLatestKpiProgress: (strategicKpiId: string) => KpiProgressEntry | undefined;
 }
 
-const DEFAULT_FILTERS: FilterState = { strategicPriorityId: 'ALL', strategicObjectiveId: 'ALL', nationalActivityId: 'ALL', regionId: 'ALL', projectId: 'ALL', zoneId: 'ALL', quarterId: 'ALL' };
+const DEFAULT_FILTERS: FilterState = { strategicPriorityId: 'ALL', strategicObjectiveId: 'ALL', nationalActivityId: 'ALL', regionId: ['ALL'], projectId: ['ALL'], zoneId: 'ALL', quarterId: 'ALL' };
 
 type RoleScope =
   | { kind: 'National' }
@@ -134,10 +138,9 @@ const normalizePersistedRole = (raw: UserRole, regions: Region[], projects: Proj
   return 'National Activity AOP';
 };
 
-// Bumped to v8: FilterState gained strategicObjectiveId, and
-// NationalActivity gained strategic_objective_id — v7 persisted data must
-// not leak a stale shape in without these fields.
-const PERSISTENCE_KEY = 'ercs-aop-bottom-up-v8';
+// Bumped to v9: FilterState.regionId/projectId became string[] for multi-select
+// (v8 had regionId: string, projectId: string).
+const PERSISTENCE_KEY = 'ercs-aop-bottom-up-v9';
 
 const readPersisted = <T,>(key: string, fallback: T): T => {
   if (typeof window === 'undefined') return fallback;
@@ -161,6 +164,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   const [currentRole, setCurrentRole] = useState<UserRole>(() => normalizePersistedRole(readPersisted('currentRole', 'National Activity AOP' as UserRole), INITIAL_REGIONS, INITIAL_PROJECTS, INITIAL_ZONES));
   const [toastMessage, setToastMessage] = useState<string | null>(null);
   const [selectedNationalActivityId, setSelectedNationalActivityId] = useState<string | null>(() => readPersisted('selectedNationalActivityId', null));
+  const [reportFocusSection, setReportFocusSection] = useState<'national' | 'region' | 'project' | 'top' | null>(null);
 
   const [strategicPriorities] = useState<StrategicPriority[]>(INITIAL_STRATEGIC_PRIORITIES);
   const [strategicObjectives] = useState<StrategicObjective[]>(INITIAL_STRATEGIC_OBJECTIVES);
@@ -202,8 +206,12 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       if (!na || na.strategic_objective_id !== filters.strategicObjectiveId) return false;
     }
     if (filters.nationalActivityId !== 'ALL' && pe.national_activity_id !== filters.nationalActivityId) return false;
-    if (filters.regionId !== 'ALL' && filters.regionId !== 'NONE' && pe.region_id !== filters.regionId) return false;
-    if (filters.projectId !== 'ALL' && filters.projectId !== 'NONE' && pe.project_id !== filters.projectId) return false;
+    // Region: pass if ALL selected, or pe.region_id is in the selected array (OR across selected ids).
+    // NONE is treated the same as ALL for filtering — the hideDetailBreakdown flag handles the UI.
+    const rIds = filters.regionId;
+    if (!rIds.includes('ALL') && !rIds.includes('NONE') && (!pe.region_id || !rIds.includes(pe.region_id))) return false;
+    const pIds = filters.projectId;
+    if (!pIds.includes('ALL') && !pIds.includes('NONE') && (!pe.project_id || !pIds.includes(pe.project_id))) return false;
     if (filters.zoneId && filters.zoneId !== 'ALL' && pe.zone_id !== filters.zoneId) return false;
     return true;
   });
@@ -489,6 +497,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   return (
     <AppContext.Provider value={{
       activeRoute, setActiveRoute, currentRole, setCurrentRole, toastMessage, showToast,
+      reportFocusSection, setReportFocusSection,
       selectedNationalActivityId, setSelectedNationalActivityId,
       strategicPriorities, strategicObjectives,
       nationalActivities, addNationalActivity, deleteNationalActivity, addEligibleScope, getNationalActivitiesForRole,

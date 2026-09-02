@@ -20,10 +20,13 @@ export const ScopeDetailPage: React.FC = () => {
   const [peWizard, setPeWizard] = useState<null | { initial: PeWizardFormState; startStep: 1 | 2 }>(null);
   const [deleteTarget, setDeleteTarget] = useState<null | { id: string; label: string }>(null);
 
-  const project = filters.projectId !== 'ALL' ? projects.find(p => p.id === filters.projectId) : undefined;
+  // Requires exactly one specific project id in the filter (not ALL/NONE, not 2+).
+  const project = (filters.projectId.length === 1 && !filters.projectId.includes('ALL') && !filters.projectId.includes('NONE'))
+    ? projects.find(p => p.id === filters.projectId[0])
+    : undefined;
 
   const goBackToPlan = () => {
-    setFilters(prev => ({ ...prev, strategicPriorityId: 'ALL', nationalActivityId: 'ALL', regionId: 'ALL', projectId: 'ALL' }));
+    setFilters(prev => ({ ...prev, strategicPriorityId: 'ALL', nationalActivityId: 'ALL', regionId: ['ALL'], projectId: ['ALL'] }));
     setActiveRoute('plan');
   };
 

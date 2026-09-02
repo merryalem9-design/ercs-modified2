@@ -1,5 +1,5 @@
 // src/pages/ReportPage.tsx
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useApp } from '../context/AppContext';
 import { FilterBar } from '../components/common/FilterBar';
 import {
@@ -19,6 +19,7 @@ import {
   QuarterlyPlan,
   QuarterlyActual,
   UomFactorConfig,
+  QuarterId,
 } from '../types';
 import { Target, Wallet, Users, TrendingUp, Layers } from 'lucide-react';
 
@@ -32,6 +33,30 @@ type KpiBadge = { label: string; color: string };
 const OVERACHIEVED_BADGE: KpiBadge = { label: 'Overachieved', color: 'bg-indigo-100 text-indigo-800 border-indigo-300' };
 const OVER_BUDGET_BADGE: KpiBadge = { label: 'Over Budget', color: 'bg-rose-100 text-rose-800 border-rose-300' };
 
+/** All fiscal quarter ids in order — used for visibleQuarters resolution. */
+const ALL_QUARTER_IDS: QuarterId[] = ['Q1', 'Q2', 'Q3', 'Q4'];
+
+/** Per-quarter Target + Budget pair stored on each aggregated row. */
+interface QuarterlyBreakdown {
+  qId: QuarterId;
+  target: number;
+  budget: number;
+}
+
+/** Compute quarterly target/budget sums across a set of plan entries. */
+const buildQuarterlyData = (es: PlanEntry[], quarterlyPlans: QuarterlyPlan[]): QuarterlyBreakdown[] =>
+  ALL_QUARTER_IDS.map(qId => ({
+    qId,
+    target: es.reduce(
+      (s, e) => s + (quarterlyPlans.find(qp => qp.plan_entry_id === e.id && qp.quarter_id === qId)?.target ?? 0),
+      0
+    ),
+    budget: es.reduce(
+      (s, e) => s + (quarterlyPlans.find(qp => qp.plan_entry_id === e.id && qp.quarter_id === qId)?.budget ?? 0),
+      0
+    ),
+  }));
+
 export const ReportPage: React.FC = () => {
   const {
     nationalActivities,
@@ -44,17 +69,40 @@ export const ReportPage: React.FC = () => {
     uomConfigs,
     filters,
     getFilteredPlanEntries,
+    activeRoute,
+    reportFocusSection,
+    setReportFocusSection,
   } = useApp();
 
   const entries = getFilteredPlanEntries();
   const q = filters.quarterId;
+
+  // Resolve which quarter columns to render based on the Period/Quarter filter.
+  const visibleQuarters: QuarterId[] =
+    q === 'SEMI' ? ['Q1', 'Q2'] :
+    q === 'NINE_MONTH' ? ['Q1', 'Q2', 'Q3'] :
+    (q === 'Q1' || q === 'Q2' || q === 'Q3' || q === 'Q4') ? [q as QuarterId] :
+    ALL_QUARTER_IDS; // 'ALL'
+
+  // ---------------------------------------------------------------------------
+  // Item 1 — Scroll to the focused section when navigated from the Dashboard.
+  // ---------------------------------------------------------------------------
+  useEffect(() => {
+    if (activeRoute !== 'report' || !reportFocusSection) return;
+    const id = `report-section-${reportFocusSection}`;
+    const timer = setTimeout(() => {
+      document.getElementById(id)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      setReportFocusSection(null);
+    }, 80);
+    return () => clearTimeout(timer);
+  }, [reportFocusSection, activeRoute, setReportFocusSection]);
 
   // 'NONE' on either select means "skip the Region/Project-level detail,
   // just show me the National Activity summary" — see FilterBar's
   // allowNoneScope. It never restricts `entries` itself (AppContext treats
   // it the same as 'ALL'), so the KPI cards and the National Activity table
   // below are always the full totals for whatever else is filtered.
-  const hideDetailBreakdown = filters.regionId === 'NONE' || filters.projectId === 'NONE';
+  const hideDetailBreakdown = filters.regionId.includes('NONE') || filters.projectId.includes('NONE');
 
   const uomsFor = (es: PlanEntry[]) =>
     Array.from(
@@ -109,6 +157,7 @@ export const ReportPage: React.FC = () => {
 
   // ---------------------------------------------------------------------------
   // BREAKDOWN BY NATIONAL ACTIVITY — mirrors the Excel "Report" sheet columns.
+  // Item 2: each row now carries per-quarter target/budget for the column display.
   // ---------------------------------------------------------------------------
   const byNational: NationalActivityRow[] = nationalActivities
     .map(na => {
@@ -136,6 +185,8 @@ export const ReportPage: React.FC = () => {
         totalBeneficiaries: tb,
         actualBeneficiaries: ab,
         beneficiaryPct: beneficiaryPct(ab, tb),
+        // Item 2: pre-computed per-quarter sums
+        quarterlyData: buildQuarterlyData(es, quarterlyPlans),
       };
     })
     .filter((r): r is NationalActivityRow => r !== null);
@@ -143,6 +194,7 @@ export const ReportPage: React.FC = () => {
   // ---------------------------------------------------------------------------
   // BREAKDOWN BY REGION / BY PROJECT / BY STRATEGIC PRIORITY / BY STRATEGIC
   // OBJECTIVE — all built the same way via buildScopeRows.
+  // Item 2: each row now carries per-quarter target/budget.
   // ---------------------------------------------------------------------------
   const buildScopeRows = (
     scopes: { id: string; name: string }[],
@@ -173,6 +225,8 @@ export const ReportPage: React.FC = () => {
           actualBeneficiaries: ab,
           beneficiaryPct: beneficiaryPct(ab, tb),
           uoms: uomsFor(es),
+          // Item 2: pre-computed per-quarter sums
+          quarterlyData: buildQuarterlyData(es, quarterlyPlans),
         };
       })
       .filter((r): r is ScopeRow => r !== null);
@@ -213,8 +267,8 @@ export const ReportPage: React.FC = () => {
 
       <FilterBar allowNoneScope />
 
-      {/* KPI CARDS */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+      {/* KPI CARDS — Item 1: wrapped with id="report-section-top" for scroll targeting. */}
+      <div id="report-section-top" className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
         <KPICard
           title="Achievement"
           val={`${achievement.toFixed(1)}%`}
@@ -244,8 +298,10 @@ export const ReportPage: React.FC = () => {
         />
       </div>
 
-      {/* BREAKDOWN BY NATIONAL ACTIVITY — always shown first/top-level. */}
-      <NationalActivityReportTable rows={byNational} />
+      {/* BREAKDOWN BY NATIONAL ACTIVITY — Item 1: id for scroll. Item 2: visibleQuarters. */}
+      <div id="report-section-national">
+        <NationalActivityReportTable rows={byNational} visibleQuarters={visibleQuarters} />
+      </div>
 
       {hideDetailBreakdown ? (
         <div className="bg-blue-50 border border-blue-100 rounded-xl p-4 flex items-start gap-2.5 text-xs text-blue-800 font-semibold">
@@ -268,12 +324,18 @@ export const ReportPage: React.FC = () => {
             quarterlyActuals={quarterlyActuals}
             uomConfigs={uomConfigs}
             quarterId={q}
+            visibleQuarters={visibleQuarters}
           />
 
-          <ScopeReportTable title="By Strategic Priority" rows={byStrategicPriority} />
-          <ScopeReportTable title="By Strategic Objective" rows={byStrategicObjective} />
-          <ScopeReportTable title="By Region" rows={byRegion} />
-          <ScopeReportTable title="By Project" rows={byProject} />
+          <ScopeReportTable title="By Strategic Priority" rows={byStrategicPriority} visibleQuarters={visibleQuarters} />
+          <ScopeReportTable title="By Strategic Objective" rows={byStrategicObjective} visibleQuarters={visibleQuarters} />
+          {/* Item 1: ids for scroll-to targeting. */}
+          <div id="report-section-region">
+            <ScopeReportTable title="By Region" rows={byRegion} visibleQuarters={visibleQuarters} />
+          </div>
+          <div id="report-section-project">
+            <ScopeReportTable title="By Project" rows={byProject} visibleQuarters={visibleQuarters} />
+          </div>
         </>
       )}
     </div>
@@ -317,6 +379,7 @@ const KPICard: React.FC<{
 
 // ===========================================================================
 // EXECUTION ENTRIES TABLE — one row per Plan Entry, full Excel "Report" column set.
+// Item 2: visibleQuarters prop adds per-quarter Target/Budget columns.
 // ===========================================================================
 const ExecutionEntriesTable: React.FC<{
   entries: PlanEntry[];
@@ -327,7 +390,8 @@ const ExecutionEntriesTable: React.FC<{
   quarterlyActuals: QuarterlyActual[];
   uomConfigs: UomFactorConfig[];
   quarterId: string;
-}> = ({ entries, nationalActivities, regions, projects, quarterlyPlans, quarterlyActuals, uomConfigs, quarterId }) => (
+  visibleQuarters: QuarterId[];
+}> = ({ entries, nationalActivities, regions, projects, quarterlyPlans, quarterlyActuals, uomConfigs, quarterId, visibleQuarters }) => (
   <div className="bg-white rounded-xl border shadow-sm overflow-hidden">
     <div className="p-4 border-b bg-slate-50 text-xs font-bold text-slate-800 uppercase tracking-wider">
       Execution Plan Entries ({entries.length})
@@ -350,6 +414,12 @@ const ExecutionEntriesTable: React.FC<{
             <th className="p-3 text-right">Total Beneficiaries</th>
             <th className="p-3 text-right">Actual Beneficiaries</th>
             <th className="p-3 text-right">Beneficiary %</th>
+            {/* Item 2: per-quarter columns */}
+            {visibleQuarters.map(qId => (
+              <th key={qId} className="p-2 text-center bg-blue-50 border-l whitespace-nowrap" colSpan={2}>
+                {qId} Target / Budget
+              </th>
+            ))}
           </tr>
         </thead>
         <tbody className="divide-y">
@@ -398,12 +468,26 @@ const ExecutionEntriesTable: React.FC<{
                 <td className="p-3 text-right whitespace-nowrap">{totalBen.toLocaleString()}</td>
                 <td className="p-3 text-right whitespace-nowrap">{actualBen.toLocaleString()}</td>
                 <td className="p-3 text-right whitespace-nowrap">{benPct.toFixed(1)}%</td>
+                {/* Item 2: per-quarter Target / Budget cells */}
+                {visibleQuarters.map(qId => {
+                  const qp = quarterlyPlans.find(p => p.plan_entry_id === pe.id && p.quarter_id === qId);
+                  return (
+                    <React.Fragment key={qId}>
+                      <td className="p-2 text-right whitespace-nowrap bg-blue-50 border-l text-[11px]">
+                        {(qp?.target ?? 0).toLocaleString()}
+                      </td>
+                      <td className="p-2 text-right whitespace-nowrap bg-blue-50 text-[11px]">
+                        {(qp?.budget ?? 0).toLocaleString()}
+                      </td>
+                    </React.Fragment>
+                  );
+                })}
               </tr>
             );
           })}
           {entries.length === 0 && (
             <tr>
-              <td colSpan={14} className="p-6 text-center text-slate-500">
+              <td colSpan={14 + visibleQuarters.length * 2} className="p-6 text-center text-slate-500">
                 No execution entries are available for this filter.
               </td>
             </tr>
@@ -416,6 +500,7 @@ const ExecutionEntriesTable: React.FC<{
 
 // ===========================================================================
 // BY NATIONAL ACTIVITY TABLE
+// Item 2: quarterlyData + visibleQuarters render per-quarter Target/Budget cols.
 // ===========================================================================
 interface NationalActivityRow {
   key: string;
@@ -431,9 +516,10 @@ interface NationalActivityRow {
   totalBeneficiaries: number;
   actualBeneficiaries: number;
   beneficiaryPct: number;
+  quarterlyData: QuarterlyBreakdown[];
 }
 
-const NationalActivityReportTable: React.FC<{ rows: NationalActivityRow[] }> = ({ rows }) => (
+const NationalActivityReportTable: React.FC<{ rows: NationalActivityRow[]; visibleQuarters: QuarterId[] }> = ({ rows, visibleQuarters }) => (
   <div className="bg-white rounded-xl border shadow-sm overflow-hidden">
     <div className="p-4 border-b bg-slate-50 text-xs font-bold text-slate-800 uppercase tracking-wider">
       By National Activity ({rows.length})
@@ -454,6 +540,12 @@ const NationalActivityReportTable: React.FC<{ rows: NationalActivityRow[] }> = (
             <th className="p-3 text-right">Total Beneficiaries</th>
             <th className="p-3 text-right">Actual Beneficiaries</th>
             <th className="p-3 text-right">Beneficiary %</th>
+            {/* Item 2: per-quarter column headers */}
+            {visibleQuarters.map(qId => (
+              <th key={qId} className="p-2 text-center bg-blue-50 border-l whitespace-nowrap" colSpan={2}>
+                {qId} Target / Budget
+              </th>
+            ))}
           </tr>
         </thead>
         <tbody className="divide-y">
@@ -471,11 +563,25 @@ const NationalActivityReportTable: React.FC<{ rows: NationalActivityRow[] }> = (
               <td className="p-3 text-right">{r.totalBeneficiaries.toLocaleString()}</td>
               <td className="p-3 text-right font-black text-blue-600">{r.actualBeneficiaries.toLocaleString()}</td>
               <td className="p-3 text-right">{r.beneficiaryPct.toFixed(1)}%</td>
+              {/* Item 2: per-quarter data cells */}
+              {visibleQuarters.map(qId => {
+                const qd = r.quarterlyData.find(d => d.qId === qId);
+                return (
+                  <React.Fragment key={qId}>
+                    <td className="p-2 text-right whitespace-nowrap bg-blue-50 border-l text-[11px]">
+                      {(qd?.target ?? 0).toLocaleString()}
+                    </td>
+                    <td className="p-2 text-right whitespace-nowrap bg-blue-50 text-[11px]">
+                      {(qd?.budget ?? 0).toLocaleString()}
+                    </td>
+                  </React.Fragment>
+                );
+              })}
             </tr>
           ))}
           {rows.length === 0 && (
             <tr>
-              <td colSpan={12} className="p-6 text-center text-slate-500">
+              <td colSpan={12 + visibleQuarters.length * 2} className="p-6 text-center text-slate-500">
                 No data for this filter yet.
               </td>
             </tr>
@@ -488,6 +594,7 @@ const NationalActivityReportTable: React.FC<{ rows: NationalActivityRow[] }> = (
 
 // ===========================================================================
 // BY REGION / BY PROJECT / BY STRATEGIC PRIORITY / BY STRATEGIC OBJECTIVE TABLE
+// Item 2: quarterlyData + visibleQuarters render per-quarter Target/Budget cols.
 // ===========================================================================
 interface ScopeRow {
   key: string;
@@ -502,9 +609,10 @@ interface ScopeRow {
   actualBeneficiaries: number;
   beneficiaryPct: number;
   uoms: string[];
+  quarterlyData: QuarterlyBreakdown[];
 }
 
-const ScopeReportTable: React.FC<{ title: string; rows: ScopeRow[] }> = ({ title, rows }) => (
+const ScopeReportTable: React.FC<{ title: string; rows: ScopeRow[]; visibleQuarters: QuarterId[] }> = ({ title, rows, visibleQuarters }) => (
   <div className="bg-white rounded-xl border shadow-sm overflow-hidden">
     <div className="p-4 border-b bg-slate-50 text-xs font-bold text-slate-800 uppercase tracking-wider">
       {title} ({rows.length})
@@ -523,6 +631,12 @@ const ScopeReportTable: React.FC<{ title: string; rows: ScopeRow[] }> = ({ title
             <th className="p-3 text-right">Total Beneficiaries</th>
             <th className="p-3 text-right">Actual Beneficiaries</th>
             <th className="p-3 text-right">Beneficiary %</th>
+            {/* Item 2: per-quarter column headers */}
+            {visibleQuarters.map(qId => (
+              <th key={qId} className="p-2 text-center bg-blue-50 border-l whitespace-nowrap" colSpan={2}>
+                {qId} Target / Budget
+              </th>
+            ))}
           </tr>
         </thead>
         <tbody className="divide-y">
@@ -547,12 +661,26 @@ const ScopeReportTable: React.FC<{ title: string; rows: ScopeRow[] }> = ({ title
                 <td className="p-3 text-right">{r.totalBeneficiaries.toLocaleString()}</td>
                 <td className="p-3 text-right font-black text-blue-600">{r.actualBeneficiaries.toLocaleString()}</td>
                 <td className="p-3 text-right">{r.beneficiaryPct.toFixed(1)}%</td>
+                {/* Item 2: per-quarter data cells */}
+                {visibleQuarters.map(qId => {
+                  const qd = r.quarterlyData.find(d => d.qId === qId);
+                  return (
+                    <React.Fragment key={qId}>
+                      <td className="p-2 text-right whitespace-nowrap bg-blue-50 border-l text-[11px]">
+                        {(qd?.target ?? 0).toLocaleString()}
+                      </td>
+                      <td className="p-2 text-right whitespace-nowrap bg-blue-50 text-[11px]">
+                        {(qd?.budget ?? 0).toLocaleString()}
+                      </td>
+                    </React.Fragment>
+                  );
+                })}
               </tr>
             );
           })}
           {rows.length === 0 && (
             <tr>
-              <td colSpan={10} className="p-6 text-center text-slate-500">
+              <td colSpan={10 + visibleQuarters.length * 2} className="p-6 text-center text-slate-500">
                 No data for this filter yet.
               </td>
             </tr>

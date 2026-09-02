@@ -19,8 +19,8 @@ export const Header: React.FC = () => {
       strategicPriorityId: 'ALL',
       strategicObjectiveId: 'ALL',
       nationalActivityId: 'ALL',
-      regionId: 'ALL',
-      projectId: 'ALL',
+      regionId: ['ALL'],
+      projectId: ['ALL'],
       zoneId: 'ALL',
     }));
     setActiveRoute('plan');
