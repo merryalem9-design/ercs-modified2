@@ -14,6 +14,7 @@ import {
   RegionActivityLink,
   StrategicKpi,
   KpiProgressEntry,
+  KnowledgeDocument,
 } from '../types';
 
 // ---------------------------------------------------------------------------
@@ -567,3 +568,49 @@ export const INITIAL_STRATEGIC_KPIS: StrategicKpi[] = [
 // No progress logged yet — exactly like the Monitoring Register's blank
 // template rows start empty. Grows only via addKpiProgressEntry.
 export const INITIAL_KPI_PROGRESS_ENTRIES: KpiProgressEntry[] = [];
+
+// ---------------------------------------------------------------------------
+// KNOWLEDGE LIBRARY STARTER DATA
+// ---------------------------------------------------------------------------
+export const INITIAL_KNOWLEDGE_DOCUMENTS: KnowledgeDocument[] = [
+  {
+    id: 'kdoc-1',
+    title: 'ERCS 2025-2030 Strategic Plan',
+    category: 'Strategic Planning',
+    summary: "The Ethiopian Red Cross Society's five-year strategic plan outlining eight strategic priorities, objectives, and key performance...",
+    version: 'v1.0',
+    published_date: '15 Jan 2025',
+  },
+  {
+    id: 'kdoc-2',
+    title: 'ERCS Disaster Response Operations Manual',
+    category: 'Disaster Management',
+    summary: 'Operational guidelines and procedures for ERCS disaster response including emergency activation protocols, resource...',
+    version: 'v1.0',
+    published_date: '10 Mar 2024',
+  },
+  {
+    id: 'kdoc-3',
+    title: 'Community-Based Health and First Aid (CBHFA)',
+    category: 'Health',
+    summary: 'Practical guide for ERCS volunteers and staff to deliver community-based health and first aid training across Ethiopian communities.',
+    version: 'v1.0',
+    published_date: '20 Jun 2024',
+  },
+  {
+    id: 'kdoc-4',
+    title: 'ERCS PMER Guidelines and Reporting Framework',
+    category: 'PMER',
+    summary: 'Framework for Planning, Monitoring, Evaluation, Accountability, and Learning across ERCS operations including template...',
+    version: 'v1.0',
+    published_date: '01 Feb 2025',
+  },
+  {
+    id: 'kdoc-5',
+    title: 'ERCS Institutional Governance Policy',
+    category: 'Institutional',
+    summary: 'Governance framework, leadership mandates, organizational integrity principles, and statutory accountability standards for ERCS operations.',
+    version: 'v1.0',
+    published_date: '12 Nov 2024',
+  },
+];

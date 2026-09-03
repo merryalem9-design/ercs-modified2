@@ -1,11 +1,11 @@
 // src/context/AppContext.tsx
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import {
-  StrategicPriority, StrategicObjective, NationalActivity, Region, Zone, Project, PlanEntry, Quarter, QuarterId, QuarterlyPlan, QuarterlyActual, UomFactorConfig, FilterState, UserRole, ScopeType, MonitoringRecord, RegionActivityLink, StrategicKpi, KpiProgressEntry,
+  StrategicPriority, StrategicObjective, NationalActivity, Region, Zone, Project, PlanEntry, Quarter, QuarterId, QuarterlyPlan, QuarterlyActual, UomFactorConfig, FilterState, UserRole, ScopeType, MonitoringRecord, RegionActivityLink, StrategicKpi, KpiProgressEntry, KnowledgeDocument,
 } from '../types';
 import {
   INITIAL_STRATEGIC_PRIORITIES, INITIAL_STRATEGIC_OBJECTIVES, INITIAL_NATIONAL_ACTIVITIES, INITIAL_REGIONS, INITIAL_ZONES, INITIAL_PROJECTS, INITIAL_PLAN_ENTRIES,
-  FISCAL_QUARTERS, INITIAL_QUARTERLY_PLANS, INITIAL_QUARTERLY_ACTUALS, INITIAL_UOM_CONFIGS, INITIAL_MONITORING_RECORDS, INITIAL_REGION_ACTIVITY_LINKS, INITIAL_STRATEGIC_KPIS, INITIAL_KPI_PROGRESS_ENTRIES,
+  FISCAL_QUARTERS, INITIAL_QUARTERLY_PLANS, INITIAL_QUARTERLY_ACTUALS, INITIAL_UOM_CONFIGS, INITIAL_MONITORING_RECORDS, INITIAL_REGION_ACTIVITY_LINKS, INITIAL_STRATEGIC_KPIS, INITIAL_KPI_PROGRESS_ENTRIES, INITIAL_KNOWLEDGE_DOCUMENTS,
 } from '../data/seedData';
 
 type QuarterlyPlanInput = Omit<QuarterlyPlan, 'approval_status' | 'submitted_at' | 'reviewed_at' | 'rejection_reason'>;
@@ -77,6 +77,9 @@ interface AppContextType {
   kpiProgressEntries: KpiProgressEntry[];
   addKpiProgressEntry: (entry: KpiProgressEntryInput) => void;
   getLatestKpiProgress: (strategicKpiId: string) => KpiProgressEntry | undefined;
+
+  knowledgeDocuments: KnowledgeDocument[];
+  addKnowledgeDocument: (doc: KnowledgeDocument) => void;
 }
 
 const DEFAULT_FILTERS: FilterState = { strategicPriorityId: 'ALL', strategicObjectiveId: 'ALL', nationalActivityId: 'ALL', regionId: ['ALL'], projectId: ['ALL'], zoneId: 'ALL', quarterId: 'ALL' };
@@ -177,6 +180,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   const [quarterlyActuals, setQuarterlyActuals] = useState<QuarterlyActual[]>(() => readPersisted('quarterlyActuals', INITIAL_QUARTERLY_ACTUALS));
   const [monitoringRecords, setMonitoringRecords] = useState<MonitoringRecord[]>(() => readPersisted('monitoringRecords', INITIAL_MONITORING_RECORDS));
   const [kpiProgressEntries, setKpiProgressEntries] = useState<KpiProgressEntry[]>(() => readPersisted('kpiProgressEntries', INITIAL_KPI_PROGRESS_ENTRIES));
+  const [knowledgeDocuments, setKnowledgeDocuments] = useState<KnowledgeDocument[]>(() => readPersisted('knowledgeDocuments', INITIAL_KNOWLEDGE_DOCUMENTS));
   const [uomConfigs] = useState<UomFactorConfig[]>(() => readPersisted('uomConfigs', INITIAL_UOM_CONFIGS));
   const [filters, setFilters] = useState<FilterState>(() => ({ ...DEFAULT_FILTERS, ...readPersisted('filters', DEFAULT_FILTERS) }));
 
@@ -186,11 +190,12 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       window.localStorage.setItem(PERSISTENCE_KEY, JSON.stringify({
         activeRoute, currentRole, selectedNationalActivityId, nationalActivities, regions, zones, projects,
         regionActivityLinks, planEntries, quarterlyPlans, quarterlyActuals, monitoringRecords, uomConfigs, filters, kpiProgressEntries,
+        knowledgeDocuments,
       }));
     } catch {
       // localStorage may be unavailable; in-memory state still works for the session.
     }
-  }, [activeRoute, currentRole, selectedNationalActivityId, nationalActivities, regions, zones, projects, regionActivityLinks, planEntries, quarterlyPlans, quarterlyActuals, monitoringRecords, uomConfigs, filters, kpiProgressEntries]);
+  }, [activeRoute, currentRole, selectedNationalActivityId, nationalActivities, regions, zones, projects, regionActivityLinks, planEntries, quarterlyPlans, quarterlyActuals, monitoringRecords, uomConfigs, filters, kpiProgressEntries, knowledgeDocuments]);
 
   const showToast = (msg: string) => { setToastMessage(msg); setTimeout(() => setToastMessage(null), 3000); };
   const resetFilters = () => setFilters(DEFAULT_FILTERS);
@@ -494,6 +499,15 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     return entriesForKpi.reduce((latest, e) => (e.date > latest.date ? e : latest), entriesForKpi[0]);
   };
 
+  const addKnowledgeDocument = (doc: KnowledgeDocument) => {
+    if (currentRole !== 'National Activity AOP') {
+      showToast('Only National Activity AOP can add documents to the Knowledge Library.');
+      return;
+    }
+    setKnowledgeDocuments(prev => [doc, ...prev]);
+    showToast(`Document "${doc.title}" added to Knowledge Library.`);
+  };
+
   return (
     <AppContext.Provider value={{
       activeRoute, setActiveRoute, currentRole, setCurrentRole, toastMessage, showToast,
@@ -512,6 +526,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       uomConfigs,
       filters, setFilters, resetFilters, getFilteredPlanEntries,
       strategicKpis, kpiProgressEntries, addKpiProgressEntry, getLatestKpiProgress,
+      knowledgeDocuments, addKnowledgeDocument,
     }}>
       {children}
     </AppContext.Provider>

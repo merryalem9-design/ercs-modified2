@@ -19,6 +19,7 @@ import { StrategicPlanPage } from './pages/StrategicPlanPage';
 import { QuarterlyPlanSubmissionsPage } from './pages/QuarterlyPlanSubmissionsPage';
 import { QuarterlyActualSubmissionsPage } from './pages/QuarterlyActualSubmissionsPage';
 import { StrategicKpiPage } from './pages/StrategicKpiPage';
+import { KnowledgeLibraryPage } from './pages/KnowledgeLibraryPage';
 
 const RESTRICTED_FOR_AOP = new Set(['quarterly-plan', 'quarterly']);
 // AOP is now allowed into 'monitoring-dashboard' (read-only) but still
@@ -42,7 +43,7 @@ const MainLayout: React.FC = () => {
   const onMonitorOnlyRouteAsOther = !isMonitor && MONITOR_ONLY_ROUTES.has(activeRoute);
   const onAopOnlyRouteAsOther = !isNationalAop && AOP_ONLY_ROUTES.has(activeRoute);
   const onRestrictedRouteForBranchHead = isBranchHead && RESTRICTED_FOR_BRANCH_HEAD.has(activeRoute);
-  const monitorOffItsOwnRoutes = isMonitor && !['monitoring', 'monitoring-dashboard', 'strategic-kpi'].includes(activeRoute);
+  const monitorOffItsOwnRoutes = isMonitor && !['monitoring', 'monitoring-dashboard', 'strategic-kpi', 'knowledge-library'].includes(activeRoute);
 
   React.useEffect(() => {
     if (onRestrictedRoute || onMonitorOnlyRouteAsOther || onAopOnlyRouteAsOther || onRestrictedRouteForBranchHead) setActiveRoute('plan');
@@ -68,6 +69,7 @@ const MainLayout: React.FC = () => {
       case 'performance': return <PerformancePage />;
       case 'strategic-plan': return <StrategicPlanPage />;
       case 'strategic-kpi': return <StrategicKpiPage />;
+      case 'knowledge-library': return <KnowledgeLibraryPage />;
       default: return <PlanPage />;
     }
   };

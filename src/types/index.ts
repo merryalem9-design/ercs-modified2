@@ -198,3 +198,12 @@ export interface KpiProgressEntry {
   date: string;
   note?: string;
 }
+
+export interface KnowledgeDocument {
+  id: string;
+  title: string;
+  category: string;       // e.g. 'Strategic Planning', 'Disaster Management', 'Health', 'Institutional', 'PMER'
+  summary: string;
+  version: string;        // e.g. 'v1.0'
+  published_date: string; // display string, e.g. '15 Jan 2025'
+}

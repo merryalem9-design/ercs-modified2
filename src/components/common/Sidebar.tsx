@@ -1,7 +1,7 @@
 import React from 'react';
 import { useApp } from '../../context/AppContext';
 import {
-  ClipboardList, CalendarClock, CalendarCheck2, BarChart3, ShieldCheck, LayoutDashboard, TrendingUp, Compass, Target,
+  ClipboardList, CalendarClock, CalendarCheck2, BarChart3, ShieldCheck, LayoutDashboard, TrendingUp, Compass, Target, BookOpen,
 } from 'lucide-react';
 
 const BASE_NAV = [
@@ -10,12 +10,14 @@ const BASE_NAV = [
   { id: 'quarterly', label: 'Quarterly Actual Entry', sub: 'Actuals vs quarterly plan', icon: CalendarCheck2 },
   { id: 'report', label: 'Report', sub: 'Aggregated results', icon: BarChart3 },
   { id: 'submissions', label: 'Submissions', sub: 'View all submitted entries', icon: BarChart3 },
+  { id: 'knowledge-library', label: 'Knowledge Library', sub: 'Policies, guidance & reports', icon: BookOpen },
 ];
 
 const MONITOR_NAV = [
   { id: 'monitoring-dashboard', label: 'Monitoring Dashboard', sub: 'Coverage & findings overview', icon: LayoutDashboard },
   { id: 'monitoring', label: 'Monitoring Register', sub: 'Verify reported achievements', icon: ShieldCheck },
   { id: 'strategic-kpi', label: 'Strategic KPI Tracking', sub: 'Baseline, target & progress vs the Five-Year Plan', icon: Target },
+  { id: 'knowledge-library', label: 'Knowledge Library', sub: 'Policies, guidance & reports', icon: BookOpen },
 ];
 
 // "Dashboard" (route id 'performance') is now the FIRST item, followed by
@@ -24,9 +26,10 @@ const MONITOR_NAV = [
 const AOP_NAV = [
   { id: 'performance', label: 'Dashboard', sub: 'National KPIs & trends', icon: TrendingUp },
   { id: 'strategic-plan', label: 'Strategic Plan', sub: 'Priorities & Objectives overview', icon: Compass },
-  ...BASE_NAV,
+  ...BASE_NAV.filter(item => item.id !== 'knowledge-library'),
   { id: 'monitoring-dashboard', label: 'Monitoring Dashboard', sub: 'Coverage & findings overview (view only)', icon: LayoutDashboard },
   { id: 'strategic-kpi', label: 'Strategic KPI Tracking', sub: 'Five-Year Plan indicators (view only)', icon: Target },
+  { id: 'knowledge-library', label: 'Knowledge Library', sub: 'Policies, guidance & reports', icon: BookOpen },
 ];
 
 // Branch Head no longer plans/enters quarterly figures directly — they link
@@ -39,6 +42,7 @@ const BRANCH_HEAD_NAV = [
   { id: 'quarterly-plan-submissions', label: 'Quarterly Plan Submissions', sub: 'Review & approve Zone submissions', icon: CalendarCheck2 },
   { id: 'quarterly-actual-submissions', label: 'Quarterly Actual Submissions', sub: 'Review & approve Zone actuals', icon: CalendarCheck2 },
   { id: 'report', label: 'Report', sub: 'Zone performance & aggregation', icon: BarChart3 },
+  { id: 'knowledge-library', label: 'Knowledge Library', sub: 'Policies, guidance & reports', icon: BookOpen },
 ];
 
 const RESTRICTED_FOR_AOP = new Set(['quarterly-plan', 'quarterly']);
