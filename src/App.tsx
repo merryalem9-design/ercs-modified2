@@ -24,9 +24,11 @@ import { StrategicKpiPage } from './pages/StrategicKpiPage';
 import { KnowledgeLibraryPage } from './pages/KnowledgeLibraryPage';
 import { AdminSettingsPage } from './pages/AdminSettingsPage';
 import { NotificationsPage } from './pages/NotificationsPage';
+import { ProjectConfigurationPage } from './pages/ProjectConfigurationPage';
 
 const RESTRICTED_FOR_AOP = new Set(['quarterly-plan', 'quarterly']);
-// AOP is now allowed into 'monitoring-dashboard' (read-only) but still
+
+// AOP creates activities; Zone/Project coordinators plan & enter. AOP is
 // blocked from 'monitoring' (the Register). 'performance' (Dashboard) and
 // 'strategic-plan' are AOP-only.
 const MONITOR_ONLY_ROUTES = new Set(['monitoring']);
@@ -35,8 +37,8 @@ const AOP_ONLY_ROUTES = new Set(['performance', 'strategic-plan']);
 // Submissions list — they use 'quarterly-plan-submissions' and
 // 'quarterly-actual-submissions' instead.
 const RESTRICTED_FOR_BRANCH_HEAD = new Set(['quarterly-plan', 'quarterly', 'submissions']);
-// Program Manager is restricted away from direct-entry routes the same way.
-const RESTRICTED_FOR_PM = new Set(['quarterly-plan', 'quarterly', 'submissions']);
+// Program Director is restricted away from direct-entry routes the same way.
+const RESTRICTED_FOR_PD = new Set(['quarterly-plan', 'quarterly', 'submissions']);
 
 const MainLayout: React.FC = () => {
   const { activeRoute, setActiveRoute, currentRole, filters } = useApp();
@@ -44,14 +46,14 @@ const MainLayout: React.FC = () => {
   const isMonitor = currentRole === 'PMER Officer';
   const isBranchHead = currentRole.startsWith('Branch Head — ');
   const isZoneCoordinator = currentRole.endsWith(' coordinators');
-  const isProgramManager = currentRole === 'Program Manager';
+  const isProgramDirector = currentRole === 'Program Director';
   const isSystemAdmin = currentRole === 'System Admin';
 
   const onRestrictedRoute = isNationalAop && RESTRICTED_FOR_AOP.has(activeRoute);
   const onMonitorOnlyRouteAsOther = !isMonitor && MONITOR_ONLY_ROUTES.has(activeRoute);
   const onAopOnlyRouteAsOther = !isNationalAop && AOP_ONLY_ROUTES.has(activeRoute);
   const onRestrictedRouteForBranchHead = isBranchHead && RESTRICTED_FOR_BRANCH_HEAD.has(activeRoute);
-  const onRestrictedRouteForPm = isProgramManager && RESTRICTED_FOR_PM.has(activeRoute);
+  const onRestrictedRouteForPd = isProgramDirector && RESTRICTED_FOR_PD.has(activeRoute);
   const monitorOffItsOwnRoutes = isMonitor && !['monitoring', 'monitoring-dashboard', 'strategic-kpi', 'knowledge-library'].includes(activeRoute);
   const adminOffItsOwnRoutes = isSystemAdmin && activeRoute !== 'admin-settings';
 
@@ -61,7 +63,7 @@ const MainLayout: React.FC = () => {
       onMonitorOnlyRouteAsOther ||
       onAopOnlyRouteAsOther ||
       onRestrictedRouteForBranchHead ||
-      onRestrictedRouteForPm
+      onRestrictedRouteForPd
     ) {
       setActiveRoute('plan');
     } else if (monitorOffItsOwnRoutes) {
@@ -74,7 +76,7 @@ const MainLayout: React.FC = () => {
     onMonitorOnlyRouteAsOther,
     onAopOnlyRouteAsOther,
     onRestrictedRouteForBranchHead,
-    onRestrictedRouteForPm,
+    onRestrictedRouteForPd,
     monitorOffItsOwnRoutes,
     adminOffItsOwnRoutes,
     setActiveRoute,
@@ -86,7 +88,7 @@ const MainLayout: React.FC = () => {
       onMonitorOnlyRouteAsOther ||
       onAopOnlyRouteAsOther ||
       onRestrictedRouteForBranchHead ||
-      onRestrictedRouteForPm
+      onRestrictedRouteForPd
     ) {
       return <PlanPage />;
     }
@@ -95,6 +97,7 @@ const MainLayout: React.FC = () => {
 
     switch (activeRoute) {
       case 'plan': return <PlanPage />;
+      case 'project-configuration': return <ProjectConfigurationPage />;
       case 'quarterly-plan': return <QuarterlyPlanPage />;
       case 'quarterly-plan-submissions': return <QuarterlyPlanSubmissionsPage />;
       case 'quarterly-actual-submissions': return <QuarterlyActualSubmissionsPage />;

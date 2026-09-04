@@ -16,7 +16,7 @@ export const QuarterlyEntryPage: React.FC = () => {
     <div className="space-y-6">
       <div>
         <h2 className="text-xl font-black text-slate-800">Step 3 — Quarterly Actual Entry</h2>
-        <p className="text-xs text-slate-500 mt-1">Zone and Project rows require an Approved Quarterly Plan for that quarter before Actuals can be entered, and go through Draft → Pending Approval → Approved/Rejected with the Branch Head (Zones) or Program Manager (Projects).</p>
+        <p className="text-xs text-slate-500 mt-1">Zone and Project rows require an Approved Quarterly Plan for that quarter before Actuals can be entered, and go through Draft → Pending Approval → Approved/Rejected with the Branch Head (Zones) or Program Director (Projects).</p>
       </div>
       <FilterBar />
       <div className="bg-white p-1.5 rounded-lg border inline-flex gap-1">

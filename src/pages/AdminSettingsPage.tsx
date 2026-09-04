@@ -1,45 +1,50 @@
 // src/pages/AdminSettingsPage.tsx
 import React, { useState } from 'react';
 import { useApp } from '../context/AppContext';
-import { Project } from '../types';
-import { Settings, Plus, Globe, MapPin, FolderKanban, Ruler, Check } from 'lucide-react';
+import { StatusThresholdBand, QuarterId } from '../types';
+import { Settings, Plus, Globe, MapPin, Ruler, Calendar, Sliders, Info, Check, Trash2 } from 'lucide-react';
 
 export const AdminSettingsPage: React.FC = () => {
   const {
     currentRole,
     regions,
     zones,
-    projects,
-    nationalActivities,
     uomConfigs,
     addRegion,
     addZone,
-    addProject,
-    addEligibleScope,
     addUomConfig,
+    statusThresholds,
+    saveStatusThresholds,
+    quarterPeriodConfigs,
+    updateQuarterPeriodConfig,
   } = useApp();
 
-  const [activeTab, setActiveTab] = useState<'regions' | 'projects' | 'uoms'>('regions');
+  const [activeTab, setActiveTab] = useState<'regions' | 'periods' | 'thresholds' | 'uoms'>('regions');
 
   // Region & Zone Form State
   const [newRegionName, setNewRegionName] = useState('');
   const [newZoneRegionId, setNewZoneRegionId] = useState('');
   const [newZoneName, setNewZoneName] = useState('');
 
-  // Project Form State
-  const [projectTitle, setProjectTitle] = useState('');
-  const [projectDescription, setProjectDescription] = useState('');
-  const [projectBudget, setProjectBudget] = useState('');
-  const [projectDonor, setProjectDonor] = useState('');
-  const [projectTarget, setProjectTarget] = useState('');
-  const [projectStartDate, setProjectStartDate] = useState('');
-  const [projectEndDate, setProjectEndDate] = useState('');
-  const [contributesToNa, setContributesToNa] = useState(false);
-  const [selectedNaId, setSelectedNaId] = useState('');
-
   // UOM Form State
   const [newUomName, setNewUomName] = useState('');
   const [newUomFactor, setNewUomFactor] = useState('');
+
+  // Thresholds editable state
+  const [bands, setBands] = useState<StatusThresholdBand[]>(statusThresholds);
+  const [previewValue, setPreviewValue] = useState<number>(85);
+
+  // Periods editable state
+  const [periods, setPeriods] = useState(quarterPeriodConfigs);
+
+  // Sync state if context changes
+  React.useEffect(() => {
+    setBands(statusThresholds);
+  }, [statusThresholds]);
+
+  React.useEffect(() => {
+    setPeriods(quarterPeriodConfigs);
+  }, [quarterPeriodConfigs]);
 
   if (currentRole !== 'System Admin') {
     return (
@@ -52,7 +57,7 @@ export const AdminSettingsPage: React.FC = () => {
   const handleAddRegion = () => {
     if (!newRegionName.trim()) return;
     addRegion({
-      id: `region-${Date.now()}`,
+      id: `reg-${Date.now()}`,
       name: newRegionName.trim(),
     });
     setNewRegionName('');
@@ -61,46 +66,12 @@ export const AdminSettingsPage: React.FC = () => {
   const handleAddZone = () => {
     if (!newZoneName.trim() || !newZoneRegionId) return;
     addZone({
-      id: `zone-${Date.now()}`,
+      id: `zn-${Date.now()}`,
       name: newZoneName.trim(),
       region_id: newZoneRegionId,
     });
     setNewZoneName('');
     setNewZoneRegionId('');
-  };
-
-  const handleAddProject = () => {
-    if (!projectTitle.trim()) return;
-    if (contributesToNa && !selectedNaId) return;
-
-    const newProjId = `proj-${Date.now()}`;
-    const parsedBudget = parseFloat(projectBudget);
-    const newProj: Project = {
-      id: newProjId,
-      name: projectTitle.trim(),
-      description: projectDescription.trim() || undefined,
-      budget: Number.isFinite(parsedBudget) ? parsedBudget : undefined,
-      donor: projectDonor.trim() || undefined,
-      target: projectTarget.trim() || undefined,
-      start_date: projectStartDate || undefined,
-      end_date: projectEndDate || undefined,
-    };
-
-    addProject(newProj);
-    if (contributesToNa && selectedNaId) {
-      addEligibleScope(selectedNaId, 'Project', newProjId);
-    }
-
-    // Reset form
-    setProjectTitle('');
-    setProjectDescription('');
-    setProjectBudget('');
-    setProjectDonor('');
-    setProjectTarget('');
-    setProjectStartDate('');
-    setProjectEndDate('');
-    setContributesToNa(false);
-    setSelectedNaId('');
   };
 
   const handleAddUom = () => {
@@ -115,6 +86,51 @@ export const AdminSettingsPage: React.FC = () => {
     setNewUomFactor('');
   };
 
+  // Threshold helpers
+  const handleAddBand = () => {
+    const newBand: StatusThresholdBand = {
+      id: `st-${Date.now()}`,
+      label: 'New Band',
+      lower_bound: 0,
+      requires_narrative: false,
+    };
+    setBands(prev => [...prev, newBand]);
+  };
+
+  const handleRemoveBand = (id: string) => {
+    setBands(prev => prev.filter(b => b.id !== id));
+  };
+
+  const handleUpdateBand = (id: string, updates: Partial<StatusThresholdBand>) => {
+    setBands(prev => prev.map(b => (b.id === id ? { ...b, ...updates } : b)));
+  };
+
+  const handleSaveThresholds = () => {
+    // Sort by lower bound
+    const sorted = [...bands].sort((a, b) => a.lower_bound - b.lower_bound);
+    saveStatusThresholds(sorted);
+  };
+
+  // Evaluation for live preview
+  const evaluateHigherIsBetter = (pct: number): string => {
+    const sorted = [...bands].sort((a, b) => b.lower_bound - a.lower_bound);
+    for (const b of sorted) {
+      if (pct >= b.lower_bound) return b.label;
+    }
+    return sorted[sorted.length - 1]?.label || 'Off track';
+  };
+
+  const evaluateLowerIsBetter = (pct: number): string => {
+    // For lower is better: overshooting (e.g. 130%) is bad, lower (e.g. 70%) is exceeding
+    // Effective achievement = 200 - pct (clamped >= 0)
+    const effectivePct = Math.max(0, 200 - pct);
+    return evaluateHigherIsBetter(effectivePct);
+  };
+
+  const handleSavePeriods = () => {
+    periods.forEach(p => updateQuarterPeriodConfig(p.id, p.date_range));
+  };
+
   return (
     <div className="space-y-6">
       <div>
@@ -122,7 +138,7 @@ export const AdminSettingsPage: React.FC = () => {
           <Settings className="w-5 h-5 text-ercs-red" /> Admin Settings
         </h2>
         <p className="text-xs text-slate-500 mt-1">
-          Manage master geographic structures, project entities, and unit of measure conversion configurations.
+          Manage master geographic structures, reporting periods, status thresholds, and unit of measure conversion configurations.
         </p>
       </div>
 
@@ -130,7 +146,7 @@ export const AdminSettingsPage: React.FC = () => {
       <div className="flex border-b border-slate-200">
         <button
           onClick={() => setActiveTab('regions')}
-          className={`px-4 py-2 text-xs font-bold flex items-center gap-1.5 border-b-2 transition-colors ${
+          className={`px-4 py-2 text-xs font-bold flex items-center gap-1.5 border-b-2 transition-colors cursor-pointer ${
             activeTab === 'regions'
               ? 'border-ercs-red text-ercs-red'
               : 'border-transparent text-slate-500 hover:text-slate-700'
@@ -139,67 +155,96 @@ export const AdminSettingsPage: React.FC = () => {
           <Globe className="w-4 h-4" /> Regions & Zones
         </button>
         <button
-          onClick={() => setActiveTab('projects')}
-          className={`px-4 py-2 text-xs font-bold flex items-center gap-1.5 border-b-2 transition-colors ${
-            activeTab === 'projects'
+          onClick={() => setActiveTab('periods')}
+          className={`px-4 py-2 text-xs font-bold flex items-center gap-1.5 border-b-2 transition-colors cursor-pointer ${
+            activeTab === 'periods'
               ? 'border-ercs-red text-ercs-red'
               : 'border-transparent text-slate-500 hover:text-slate-700'
           }`}
         >
-          <FolderKanban className="w-4 h-4" /> Projects
+          <Calendar className="w-4 h-4" /> Periods Configuration
+        </button>
+        <button
+          onClick={() => setActiveTab('thresholds')}
+          className={`px-4 py-2 text-xs font-bold flex items-center gap-1.5 border-b-2 transition-colors cursor-pointer ${
+            activeTab === 'thresholds'
+              ? 'border-ercs-red text-ercs-red'
+              : 'border-transparent text-slate-500 hover:text-slate-700'
+          }`}
+        >
+          <Sliders className="w-4 h-4" /> Status Thresholds
         </button>
         <button
           onClick={() => setActiveTab('uoms')}
-          className={`px-4 py-2 text-xs font-bold flex items-center gap-1.5 border-b-2 transition-colors ${
+          className={`px-4 py-2 text-xs font-bold flex items-center gap-1.5 border-b-2 transition-colors cursor-pointer ${
             activeTab === 'uoms'
               ? 'border-ercs-red text-ercs-red'
               : 'border-transparent text-slate-500 hover:text-slate-700'
           }`}
         >
-          <Ruler className="w-4 h-4" /> UOM & Conversion Factors
+          <Ruler className="w-4 h-4" /> Units of Measure
         </button>
       </div>
 
-      {/* 1. Regions & Zones */}
+      {/* TAB 1: REGIONS & ZONES */}
       {activeTab === 'regions' && (
-        <div className="space-y-6">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {/* Add Region Card */}
-            <div className="bg-white border rounded-xl shadow-sm p-4 space-y-4">
-              <div className="text-xs font-bold text-slate-700 flex items-center gap-1.5">
-                <Plus className="w-4 h-4 text-ercs-red" /> Add New Region
-              </div>
-              <div className="space-y-2">
-                <label className="block text-[10px] font-bold text-slate-500">Region Name</label>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          {/* Add Region */}
+          <div className="bg-white p-4 rounded-xl border border-slate-200 shadow-sm space-y-4">
+            <h3 className="text-sm font-bold text-slate-800 flex items-center gap-2">
+              <Globe className="w-4 h-4 text-ercs-red" /> Add New Region
+            </h3>
+            <div className="space-y-3">
+              <div>
+                <label className="block text-[10px] font-bold text-slate-500 uppercase mb-1">
+                  Region Name
+                </label>
                 <input
+                  type="text"
                   value={newRegionName}
                   onChange={e => setNewRegionName(e.target.value)}
-                  className="w-full text-xs border border-slate-200 rounded p-2 bg-slate-50 focus:outline-none focus:ring-2 focus:ring-red-100"
-                  placeholder="e.g. Sidama Region"
+                  placeholder="e.g. Gambella Region"
+                  className="w-full text-xs border border-slate-200 rounded p-2 bg-slate-50 focus:bg-white focus:outline-none"
                 />
               </div>
-              <div className="flex justify-end">
-                <button
-                  disabled={!newRegionName.trim()}
-                  onClick={handleAddRegion}
-                  className="bg-ercs-red text-white px-4 py-2 rounded-lg text-xs font-bold disabled:opacity-40"
-                >
-                  Add Region
-                </button>
-              </div>
+              <button
+                onClick={handleAddRegion}
+                disabled={!newRegionName.trim()}
+                className="bg-ercs-red text-white px-3 py-1.5 rounded text-xs font-bold hover:bg-red-700 disabled:opacity-40 transition-colors cursor-pointer"
+              >
+                Add Region
+              </button>
             </div>
 
-            {/* Add Zone Card */}
-            <div className="bg-white border rounded-xl shadow-sm p-4 space-y-4">
-              <div className="text-xs font-bold text-slate-700 flex items-center gap-1.5">
-                <Plus className="w-4 h-4 text-ercs-red" /> Add New Zone
+            <div className="pt-4 border-t border-slate-100">
+              <h4 className="text-xs font-bold text-slate-700 mb-2">Existing Regions ({regions.length})</h4>
+              <div className="space-y-1 max-h-56 overflow-y-auto pr-1">
+                {regions.map(r => (
+                  <div key={r.id} className="text-xs p-2 bg-slate-50 rounded border border-slate-100 flex items-center justify-between">
+                    <span className="font-semibold text-slate-700">{r.name}</span>
+                    <span className="text-[10px] text-slate-400">
+                      {zones.filter(z => z.region_id === r.id).length} zones
+                    </span>
+                  </div>
+                ))}
               </div>
-              <div className="space-y-2">
-                <label className="block text-[10px] font-bold text-slate-500">Parent Region</label>
+            </div>
+          </div>
+
+          {/* Add Zone */}
+          <div className="bg-white p-4 rounded-xl border border-slate-200 shadow-sm space-y-4">
+            <h3 className="text-sm font-bold text-slate-800 flex items-center gap-2">
+              <MapPin className="w-4 h-4 text-ercs-red" /> Add New Zone
+            </h3>
+            <div className="space-y-3">
+              <div>
+                <label className="block text-[10px] font-bold text-slate-500 uppercase mb-1">
+                  Parent Region
+                </label>
                 <select
                   value={newZoneRegionId}
                   onChange={e => setNewZoneRegionId(e.target.value)}
-                  className="w-full text-xs border border-slate-200 rounded p-2 bg-slate-50 focus:outline-none focus:ring-2 focus:ring-red-100"
+                  className="w-full text-xs border border-slate-200 rounded p-2 bg-slate-50 focus:bg-white focus:outline-none"
                 >
                   <option value="">Select Region…</option>
                   {regions.map(r => (
@@ -207,328 +252,307 @@ export const AdminSettingsPage: React.FC = () => {
                   ))}
                 </select>
               </div>
-              <div className="space-y-2">
-                <label className="block text-[10px] font-bold text-slate-500">Zone Name</label>
+              <div>
+                <label className="block text-[10px] font-bold text-slate-500 uppercase mb-1">
+                  Zone Name
+                </label>
                 <input
+                  type="text"
                   value={newZoneName}
                   onChange={e => setNewZoneName(e.target.value)}
-                  className="w-full text-xs border border-slate-200 rounded p-2 bg-slate-50 focus:outline-none focus:ring-2 focus:ring-red-100"
-                  placeholder="e.g. Hawassa Zone"
+                  placeholder="e.g. West Shewa Zone"
+                  className="w-full text-xs border border-slate-200 rounded p-2 bg-slate-50 focus:bg-white focus:outline-none"
                 />
               </div>
-              <div className="flex justify-end">
+              <button
+                onClick={handleAddZone}
+                disabled={!newZoneName.trim() || !newZoneRegionId}
+                className="bg-ercs-red text-white px-3 py-1.5 rounded text-xs font-bold hover:bg-red-700 disabled:opacity-40 transition-colors cursor-pointer"
+              >
+                Add Zone
+              </button>
+            </div>
+
+            <div className="pt-4 border-t border-slate-100">
+              <h4 className="text-xs font-bold text-slate-700 mb-2">Existing Zones ({zones.length})</h4>
+              <div className="space-y-1 max-h-56 overflow-y-auto pr-1">
+                {zones.map(z => {
+                  const reg = regions.find(r => r.id === z.region_id);
+                  return (
+                    <div key={z.id} className="text-xs p-2 bg-slate-50 rounded border border-slate-100 flex items-center justify-between">
+                      <span className="font-semibold text-slate-700">{z.name}</span>
+                      <span className="text-[10px] text-slate-400 bg-white px-1.5 py-0.5 rounded border border-slate-200">
+                        {reg?.name || 'Unknown'}
+                      </span>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* TAB 2: PERIODS CONFIGURATION */}
+      {activeTab === 'periods' && (
+        <div className="bg-white p-5 rounded-xl border border-slate-200 shadow-sm max-w-3xl space-y-5">
+          <div className="border-b border-slate-100 pb-3">
+            <h3 className="text-sm font-bold text-slate-800 flex items-center gap-2">
+              <Calendar className="w-4 h-4 text-ercs-red" /> Quarterly Periods Configuration
+            </h3>
+            <p className="text-[11px] text-slate-500 mt-0.5">
+              Customize the active month ranges for standard planning & reporting quarters (e.g. Ethiopian fiscal year Q1 = Jul–Sep).
+            </p>
+          </div>
+
+          <div className="space-y-3">
+            {periods.map(period => (
+              <div key={period.id} className="flex items-center gap-4 p-3 bg-slate-50 rounded-lg border border-slate-200">
+                <div className="w-16">
+                  <span className="text-xs font-bold text-slate-800 px-2.5 py-1 bg-white border border-slate-200 rounded">
+                    {period.label}
+                  </span>
+                </div>
+                <div className="flex-1">
+                  <label className="block text-[10px] font-bold text-slate-500 uppercase mb-0.5">
+                    Month Range Description
+                  </label>
+                  <input
+                    type="text"
+                    value={period.date_range}
+                    onChange={e => {
+                      const val = e.target.value;
+                      setPeriods(prev => prev.map(p => p.id === period.id ? { ...p, date_range: val } : p));
+                    }}
+                    placeholder="e.g. Jul – Sep"
+                    className="w-full text-xs border border-slate-200 rounded p-2 bg-white focus:outline-none focus:border-ercs-red font-medium text-slate-700"
+                  />
+                </div>
+              </div>
+            ))}
+          </div>
+
+          <div className="flex justify-end pt-2">
+            <button
+              onClick={handleSavePeriods}
+              className="bg-ercs-red text-white px-4 py-2 rounded-lg text-xs font-bold hover:bg-red-700 transition-colors shadow-xs flex items-center gap-1.5 cursor-pointer"
+            >
+              <Check className="w-3.5 h-3.5" /> Save Periods
+            </button>
+          </div>
+        </div>
+      )}
+
+      {/* TAB 3: STATUS THRESHOLDS */}
+      {activeTab === 'thresholds' && (
+        <div className="space-y-6">
+          <div className="bg-white p-5 rounded-xl border border-slate-200 shadow-sm space-y-5">
+            <div className="flex items-center justify-between border-b border-slate-100 pb-3">
+              <div>
+                <h3 className="text-sm font-bold text-slate-800 flex items-center gap-2">
+                  <Sliders className="w-4 h-4 text-ercs-red" /> Performance Status Thresholds
+                </h3>
+                <p className="text-[11px] text-slate-500 mt-0.5">
+                  Configure classification bands and requirements for indicator achievement ratings.
+                </p>
+              </div>
+              <div className="flex items-center gap-2">
                 <button
-                  disabled={!newZoneName.trim() || !newZoneRegionId}
-                  onClick={handleAddZone}
-                  className="bg-ercs-red text-white px-4 py-2 rounded-lg text-xs font-bold disabled:opacity-40"
+                  onClick={handleAddBand}
+                  className="px-3 py-1.5 rounded-lg border border-slate-200 hover:bg-slate-50 text-xs font-bold text-slate-700 flex items-center gap-1 cursor-pointer"
                 >
-                  Add Zone
+                  <Plus className="w-3.5 h-3.5" /> Add band
+                </button>
+                <button
+                  onClick={handleSaveThresholds}
+                  className="bg-ercs-red text-white px-3.5 py-1.5 rounded-lg text-xs font-bold hover:bg-red-700 transition-colors shadow-xs flex items-center gap-1 cursor-pointer"
+                >
+                  <Check className="w-3.5 h-3.5" /> Save thresholds
                 </button>
               </div>
             </div>
-          </div>
 
-          {/* Current Geographic Structure List */}
-          <section className="bg-white border rounded-xl shadow-sm overflow-hidden">
-            <div className="p-4 border-b bg-slate-50 text-xs font-bold text-slate-700 uppercase tracking-wider flex items-center gap-2">
-              <Globe className="w-4 h-4 text-ercs-red" /> Current Regions & Assigned Zones ({regions.length} Regions)
+            {/* Threshold Table */}
+            <div className="overflow-x-auto border border-slate-200 rounded-lg">
+              <table className="w-full text-left text-xs border-collapse">
+                <thead className="bg-slate-50 border-b border-slate-200 text-[11px] font-bold text-slate-600 uppercase">
+                  <tr>
+                    <th className="p-3">Label</th>
+                    <th className="p-3 w-40">Lower bound (%)</th>
+                    <th className="p-3 w-48 text-center">Requires narrative</th>
+                    <th className="p-3 w-16 text-center">Action</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-slate-100">
+                  {bands.map(band => (
+                    <tr key={band.id} className="hover:bg-slate-50/50">
+                      <td className="p-2.5">
+                        <input
+                          type="text"
+                          value={band.label}
+                          onChange={e => handleUpdateBand(band.id, { label: e.target.value })}
+                          className="w-full text-xs border border-slate-200 rounded p-1.5 bg-white focus:outline-none focus:border-ercs-red font-medium text-slate-800"
+                        />
+                      </td>
+                      <td className="p-2.5">
+                        <input
+                          type="number"
+                          value={band.lower_bound}
+                          onChange={e => handleUpdateBand(band.id, { lower_bound: parseFloat(e.target.value) || 0 })}
+                          step="1"
+                          min="0"
+                          max="500"
+                          className="w-full text-xs border border-slate-200 rounded p-1.5 bg-white focus:outline-none focus:border-ercs-red font-medium text-slate-800"
+                        />
+                      </td>
+                      <td className="p-2.5 text-center">
+                        <input
+                          type="checkbox"
+                          checked={band.requires_narrative}
+                          onChange={e => handleUpdateBand(band.id, { requires_narrative: e.target.checked })}
+                          className="rounded text-ercs-red focus:ring-ercs-red cursor-pointer"
+                        />
+                      </td>
+                      <td className="p-2.5 text-center">
+                        <button
+                          onClick={() => handleRemoveBand(band.id)}
+                          className="text-slate-400 hover:text-red-500 p-1 rounded cursor-pointer"
+                          title="Delete band"
+                        >
+                          <Trash2 className="w-4 h-4" />
+                        </button>
+                      </td>
+                    </tr>
+                  ))}
+                  {bands.length === 0 && (
+                    <tr>
+                      <td colSpan={4} className="p-6 text-center text-xs text-slate-400">
+                        No threshold bands configured. Click "Add band" above.
+                      </td>
+                    </tr>
+                  )}
+                </tbody>
+              </table>
             </div>
-            <div className="divide-y">
-              {regions.map(r => {
-                const assignedZones = zones.filter(z => z.region_id === r.id);
-                return (
-                  <div key={r.id} className="p-4 space-y-2">
-                    <div className="flex items-center gap-2 font-bold text-slate-800 text-xs">
-                      <Globe className="w-3.5 h-3.5 text-slate-400" />
-                      <span>{r.name}</span>
-                      <span className="text-[10px] font-normal text-slate-400">({assignedZones.length} Zones)</span>
-                    </div>
-                    <div className="flex flex-wrap gap-1.5 pl-5">
-                      {assignedZones.map(z => (
-                        <span key={z.id} className="inline-flex items-center gap-1 bg-slate-100 text-slate-700 text-[10px] px-2 py-0.5 rounded font-medium">
-                          <MapPin className="w-2.5 h-2.5 text-slate-400" />
-                          {z.name}
-                        </span>
-                      ))}
-                      {assignedZones.length === 0 && (
-                        <span className="text-[10px] text-slate-400 italic">No zones yet.</span>
-                      )}
-                    </div>
+
+            {/* Explanatory Note */}
+            <div className="p-3.5 bg-blue-50 border border-blue-100 rounded-lg flex items-start gap-2.5 text-blue-800 text-xs leading-relaxed">
+              <Info className="w-4 h-4 text-blue-600 shrink-0 mt-0.5" />
+              <div>
+                <span className="font-bold">Presentation rules only:</span> bands change how a result reads, never the value itself. They are compared against the indicator's improvement direction, so a lower-is-better indicator that overshoots reads as off track rather than as exceeding.
+              </div>
+            </div>
+
+            {/* Live Preview Control */}
+            <div className="p-4 bg-slate-50 border border-slate-200 rounded-lg space-y-3">
+              <div className="flex items-center justify-between">
+                <span className="text-xs font-bold text-slate-700">Live Preview Control</span>
+                <span className="text-xs text-slate-500 font-medium">Test band classifications</span>
+              </div>
+
+              <div className="flex items-center gap-4">
+                <label className="text-xs font-bold text-slate-600 shrink-0">
+                  Preview at [{previewValue}]% of target:
+                </label>
+                <input
+                  type="range"
+                  min="0"
+                  max="150"
+                  step="5"
+                  value={previewValue}
+                  onChange={e => setPreviewValue(parseInt(e.target.value, 10))}
+                  className="flex-1 accent-ercs-red cursor-pointer"
+                />
+                <input
+                  type="number"
+                  value={previewValue}
+                  onChange={e => setPreviewValue(parseInt(e.target.value, 10) || 0)}
+                  className="w-16 text-xs border border-slate-300 rounded p-1 text-center font-bold bg-white"
+                />
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2">
+                <div className="p-3 bg-white border border-slate-200 rounded-lg">
+                  <span className="text-[10px] font-bold text-slate-400 uppercase block">Higher is better direction</span>
+                  <div className="flex items-center justify-between mt-1">
+                    <span className="text-sm font-bold text-slate-800">{previewValue}%</span>
+                    <span className="text-xs font-bold px-2.5 py-0.5 rounded-full bg-slate-100 text-slate-700 border border-slate-200">
+                      {evaluateHigherIsBetter(previewValue)}
+                    </span>
                   </div>
-                );
-              })}
+                </div>
+
+                <div className="p-3 bg-white border border-slate-200 rounded-lg">
+                  <span className="text-[10px] font-bold text-slate-400 uppercase block">Lower is better direction</span>
+                  <div className="flex items-center justify-between mt-1">
+                    <span className="text-sm font-bold text-slate-800">{previewValue}%</span>
+                    <span className="text-xs font-bold px-2.5 py-0.5 rounded-full bg-slate-100 text-slate-700 border border-slate-200">
+                      {evaluateLowerIsBetter(previewValue)}
+                    </span>
+                  </div>
+                </div>
+              </div>
             </div>
-          </section>
+          </div>
         </div>
       )}
 
-      {/* 2. Projects */}
-      {activeTab === 'projects' && (
-        <div className="space-y-6">
-          {/* Add Project Form */}
-          <div className="bg-white border rounded-xl shadow-sm p-5 space-y-4">
-            <div className="text-xs font-bold text-slate-800 uppercase tracking-wider flex items-center gap-2 border-b pb-3">
-              <Plus className="w-4 h-4 text-ercs-red" /> Add New Project
+      {/* TAB 4: UOMS */}
+      {activeTab === 'uoms' && (
+        <div className="bg-white p-5 rounded-xl border border-slate-200 shadow-sm max-w-2xl space-y-4">
+          <h3 className="text-sm font-bold text-slate-800 flex items-center gap-2">
+            <Ruler className="w-4 h-4 text-ercs-red" /> Unit of Measure & Beneficiary Factors
+          </h3>
+          <p className="text-[11px] text-slate-500">
+            Define conversion factors to calculate estimated beneficiaries from physical output targets.
+          </p>
+
+          <div className="grid grid-cols-2 gap-3 pt-2">
+            <div>
+              <label className="block text-[10px] font-bold text-slate-500 uppercase mb-1">
+                UOM Label
+              </label>
+              <input
+                type="text"
+                value={newUomName}
+                onChange={e => setNewUomName(e.target.value)}
+                placeholder="e.g. # of schools"
+                className="w-full text-xs border border-slate-200 rounded p-2 bg-slate-50 focus:bg-white focus:outline-none"
+              />
             </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div>
-                <label className="block text-[10px] font-bold text-slate-500 mb-1">Project Title *</label>
-                <input
-                  value={projectTitle}
-                  onChange={e => setProjectTitle(e.target.value)}
-                  className="w-full text-xs border border-slate-200 rounded p-2 bg-slate-50 focus:outline-none focus:ring-2 focus:ring-red-100"
-                  placeholder="e.g. Emergency Food Security & Livelihoods"
-                />
-              </div>
-
-              <div>
-                <label className="block text-[10px] font-bold text-slate-500 mb-1">Donor</label>
-                <input
-                  value={projectDonor}
-                  onChange={e => setProjectDonor(e.target.value)}
-                  className="w-full text-xs border border-slate-200 rounded p-2 bg-slate-50 focus:outline-none focus:ring-2 focus:ring-red-100"
-                  placeholder="e.g. Swiss Red Cross / ECHO"
-                />
-              </div>
-
-              <div className="md:col-span-2">
-                <label className="block text-[10px] font-bold text-slate-500 mb-1">Description</label>
-                <textarea
-                  value={projectDescription}
-                  onChange={e => setProjectDescription(e.target.value)}
-                  rows={2}
-                  className="w-full text-xs border border-slate-200 rounded p-2 bg-slate-50 focus:outline-none focus:ring-2 focus:ring-red-100"
-                  placeholder="How the project is executed, primary objectives, implementation modalities…"
-                />
-              </div>
-
-              <div>
-                <label className="block text-[10px] font-bold text-slate-500 mb-1">Project Overall Budget (ETB)</label>
-                <input
-                  type="number"
-                  min={0}
-                  value={projectBudget}
-                  onChange={e => setProjectBudget(e.target.value)}
-                  className="w-full text-xs border border-slate-200 rounded p-2 bg-slate-50 focus:outline-none focus:ring-2 focus:ring-red-100"
-                  placeholder="0"
-                />
-              </div>
-
-              <div>
-                <label className="block text-[10px] font-bold text-slate-500 mb-1">Overall Project Target / Reach Description</label>
-                <input
-                  value={projectTarget}
-                  onChange={e => setProjectTarget(e.target.value)}
-                  className="w-full text-xs border border-slate-200 rounded p-2 bg-slate-50 focus:outline-none focus:ring-2 focus:ring-red-100"
-                  placeholder="e.g. 50,000 households across drought-affected districts"
-                />
-              </div>
-
-              <div>
-                <label className="block text-[10px] font-bold text-slate-500 mb-1">Start Date</label>
-                <input
-                  type="date"
-                  value={projectStartDate}
-                  onChange={e => setProjectStartDate(e.target.value)}
-                  className="w-full text-xs border border-slate-200 rounded p-2 bg-slate-50 focus:outline-none focus:ring-2 focus:ring-red-100"
-                />
-              </div>
-
-              <div>
-                <label className="block text-[10px] font-bold text-slate-500 mb-1">End Date</label>
-                <input
-                  type="date"
-                  value={projectEndDate}
-                  onChange={e => setProjectEndDate(e.target.value)}
-                  className="w-full text-xs border border-slate-200 rounded p-2 bg-slate-50 focus:outline-none focus:ring-2 focus:ring-red-100"
-                />
-              </div>
-            </div>
-
-            {/* National Activity Link Toggle */}
-            <div className="bg-slate-50 border border-slate-200 rounded-lg p-4 space-y-3">
-              <div className="flex items-center justify-between">
-                <div>
-                  <div className="text-xs font-bold text-slate-800">
-                    Does this project contribute to a National Activity?
-                  </div>
-                  <div className="text-[10px] text-slate-500">
-                    If Yes, choose a National Activity to immediately authorize this project to execute under it.
-                  </div>
-                </div>
-                <div className="flex items-center gap-2">
-                  <button
-                    type="button"
-                    onClick={() => setContributesToNa(false)}
-                    className={`px-3 py-1 rounded text-xs font-bold transition-colors ${
-                      !contributesToNa
-                        ? 'bg-slate-700 text-white'
-                        : 'bg-white border text-slate-600 hover:bg-slate-100'
-                    }`}
-                  >
-                    No
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => setContributesToNa(true)}
-                    className={`px-3 py-1 rounded text-xs font-bold transition-colors ${
-                      contributesToNa
-                        ? 'bg-ercs-red text-white'
-                        : 'bg-white border text-slate-600 hover:bg-slate-100'
-                    }`}
-                  >
-                    Yes
-                  </button>
-                </div>
-              </div>
-
-              {contributesToNa && (
-                <div className="pt-2 border-t border-slate-200">
-                  <label className="block text-[10px] font-bold text-slate-700 mb-1">
-                    Select National Activity to Link *
-                  </label>
-                  <select
-                    value={selectedNaId}
-                    onChange={e => setSelectedNaId(e.target.value)}
-                    className="w-full text-xs border border-slate-200 rounded p-2 bg-white focus:outline-none focus:ring-2 focus:ring-red-100"
-                  >
-                    <option value="">Select a National Activity…</option>
-                    {nationalActivities.map(na => (
-                      <option key={na.id} value={na.id}>
-                        {na.code} — {na.description}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-              )}
-            </div>
-
-            <div className="flex justify-end pt-2">
-              <button
-                disabled={!projectTitle.trim() || (contributesToNa && !selectedNaId)}
-                onClick={handleAddProject}
-                className="bg-ercs-red text-white px-5 py-2 rounded-lg text-xs font-bold disabled:opacity-40 flex items-center gap-1.5"
-              >
-                <Check className="w-3.5 h-3.5" /> Save Project
-              </button>
+            <div>
+              <label className="block text-[10px] font-bold text-slate-500 uppercase mb-1">
+                Beneficiary Factor
+              </label>
+              <input
+                type="number"
+                value={newUomFactor}
+                onChange={e => setNewUomFactor(e.target.value)}
+                placeholder="e.g. 500"
+                className="w-full text-xs border border-slate-200 rounded p-2 bg-slate-50 focus:bg-white focus:outline-none"
+              />
             </div>
           </div>
 
-          {/* Existing Projects List */}
-          <section className="bg-white border rounded-xl shadow-sm overflow-hidden">
-            <div className="p-4 border-b bg-slate-50 text-xs font-bold text-slate-700 uppercase tracking-wider flex items-center gap-2">
-              <FolderKanban className="w-4 h-4 text-ercs-red" /> Projects Directory ({projects.length})
-            </div>
-            <div className="divide-y">
-              {projects.map(p => (
-                <div key={p.id} className="p-4 space-y-1.5 hover:bg-slate-50">
-                  <div className="flex items-center justify-between gap-2 flex-wrap">
-                    <div className="font-bold text-slate-800 text-xs flex items-center gap-2">
-                      <FolderKanban className="w-3.5 h-3.5 text-ercs-red shrink-0" />
-                      <span>{p.name}</span>
-                    </div>
-                    <div className="flex items-center gap-2">
-                      {p.donor && (
-                        <span className="text-[10px] bg-slate-100 text-slate-600 px-2 py-0.5 rounded font-semibold">
-                          Donor: {p.donor}
-                        </span>
-                      )}
-                      {p.budget != null && (
-                        <span className="text-[10px] bg-emerald-50 text-emerald-700 border border-emerald-200 px-2 py-0.5 rounded font-bold">
-                          Budget: {p.budget.toLocaleString()} ETB
-                        </span>
-                      )}
-                    </div>
-                  </div>
-                  {p.description && (
-                    <div className="text-[11px] text-slate-600 pl-5">{p.description}</div>
-                  )}
-                  <div className="flex items-center gap-4 text-[10px] text-slate-400 pl-5 flex-wrap">
-                    {p.target && <span>Target / Reach: <strong className="text-slate-600 font-semibold">{p.target}</strong></span>}
-                    {(p.start_date || p.end_date) && (
-                      <span>
-                        Timeline: {p.start_date || '—'} to {p.end_date || '—'}
-                      </span>
-                    )}
-                  </div>
+          <button
+            onClick={handleAddUom}
+            disabled={!newUomName.trim() || !newUomFactor}
+            className="bg-ercs-red text-white px-3 py-1.5 rounded text-xs font-bold hover:bg-red-700 disabled:opacity-40 transition-colors cursor-pointer"
+          >
+            Add UOM Configuration
+          </button>
+
+          <div className="pt-4 border-t border-slate-100">
+            <h4 className="text-xs font-bold text-slate-700 mb-2">Configured Factors ({uomConfigs.length})</h4>
+            <div className="space-y-1 max-h-60 overflow-y-auto pr-1">
+              {uomConfigs.map(u => (
+                <div key={u.uom} className="text-xs p-2 bg-slate-50 rounded border border-slate-100 flex items-center justify-between">
+                  <span className="font-semibold text-slate-700">{u.uom}</span>
+                  <span className="text-[10px] text-slate-500 font-mono bg-white px-2 py-0.5 rounded border border-slate-200">
+                    × {u.factor} beneficiaries
+                  </span>
                 </div>
               ))}
-              {projects.length === 0 && (
-                <div className="p-6 text-center text-xs text-slate-400">No projects registered yet.</div>
-              )}
-            </div>
-          </section>
-        </div>
-      )}
-
-      {/* 3. UOM & Conversion Factors */}
-      {activeTab === 'uoms' && (
-        <div className="space-y-6">
-          <section className="bg-white border rounded-xl shadow-sm overflow-hidden">
-            <div className="p-4 border-b bg-slate-50 text-xs font-bold text-slate-700 uppercase tracking-wider flex items-center gap-2">
-              <Ruler className="w-4 h-4 text-ercs-red" /> Configured Units of Measure ({uomConfigs.length})
-            </div>
-            <table className="w-full text-xs">
-              <thead className="bg-slate-50 border-b text-[10px] font-bold text-slate-500 uppercase">
-                <tr>
-                  <th className="p-3 text-left">Unit of Measure (UOM)</th>
-                  <th className="p-3 text-right">Beneficiary Conversion Factor</th>
-                </tr>
-              </thead>
-              <tbody className="divide-y">
-                {uomConfigs.map(cfg => (
-                  <tr key={cfg.uom} className="hover:bg-slate-50">
-                    <td className="p-3 font-bold text-slate-800">{cfg.uom}</td>
-                    <td className="p-3 text-right font-semibold text-slate-600">
-                      1 {cfg.uom} = {cfg.factor.toLocaleString()} {cfg.factor === 1 ? 'Beneficiary' : 'Beneficiaries'}
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-            {uomConfigs.length === 0 && (
-              <div className="p-6 text-center text-xs text-slate-400">No UOM configurations found.</div>
-            )}
-          </section>
-
-          <div className="bg-white border rounded-xl shadow-sm p-4 space-y-3">
-            <div className="text-xs font-bold text-slate-700 flex items-center gap-1.5">
-              <Plus className="w-4 h-4 text-ercs-red" /> Add New Unit of Measure
-            </div>
-            <div className="flex gap-3 items-end flex-wrap">
-              <div className="flex-1 min-w-48">
-                <label className="block text-[10px] font-bold text-slate-500 mb-1">
-                  Unit Name (e.g. "Household", "Kit", "Patient")
-                </label>
-                <input
-                  value={newUomName}
-                  onChange={e => setNewUomName(e.target.value)}
-                  className="w-full text-xs border border-slate-200 rounded p-2 bg-slate-50 focus:outline-none focus:ring-2 focus:ring-red-100"
-                  placeholder="e.g. Kit"
-                />
-              </div>
-              <div className="w-48">
-                <label className="block text-[10px] font-bold text-slate-500 mb-1">
-                  Beneficiary Factor
-                </label>
-                <input
-                  type="number"
-                  min={0}
-                  step="any"
-                  value={newUomFactor}
-                  onChange={e => setNewUomFactor(e.target.value)}
-                  className="w-full text-xs border border-slate-200 rounded p-2 bg-slate-50 focus:outline-none focus:ring-2 focus:ring-red-100"
-                  placeholder="e.g. 5"
-                />
-              </div>
-              <button
-                disabled={!newUomName.trim() || !newUomFactor || isNaN(parseFloat(newUomFactor))}
-                onClick={handleAddUom}
-                className="bg-ercs-red text-white px-5 py-2 rounded-lg text-xs font-bold disabled:opacity-40 flex items-center gap-1"
-              >
-                <Plus className="w-3.5 h-3.5" /> Add UOM
-              </button>
             </div>
           </div>
         </div>

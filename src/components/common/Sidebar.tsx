@@ -1,7 +1,7 @@
 import React from 'react';
 import { useApp } from '../../context/AppContext';
 import {
-  ClipboardList, CalendarClock, CalendarCheck2, BarChart3, ShieldCheck, LayoutDashboard, TrendingUp, Compass, Target, BookOpen, Settings, Bell,
+  ClipboardList, CalendarClock, CalendarCheck2, BarChart3, ShieldCheck, LayoutDashboard, TrendingUp, Compass, Target, BookOpen, Settings, Bell, Calendar, CheckSquare,
 } from 'lucide-react';
 
 const BASE_NAV = [
@@ -46,15 +46,25 @@ const BRANCH_HEAD_NAV = [
   { id: 'knowledge-library', label: 'Knowledge Library', sub: 'Policies, guidance & reports', icon: BookOpen },
 ];
 
-const PROGRAM_MANAGER_NAV = [
+const PROGRAM_DIRECTOR_NAV = [
   { id: 'plan', label: 'Annual Plan', sub: 'National & project execution plans', icon: ClipboardList },
   { id: 'project-quarterly-plan-submissions', label: 'Quarterly Plan Submissions', sub: 'Review & approve Project submissions', icon: CalendarCheck2 },
   { id: 'project-quarterly-actual-submissions', label: 'Quarterly Actual Submissions', sub: 'Review & approve Project actuals', icon: CalendarCheck2 },
   { id: 'report', label: 'Report', sub: 'Project performance & aggregation', icon: BarChart3 },
+  { id: 'knowledge-library', label: 'Knowledge Library', sub: 'Policies, guidance & reports', icon: BookOpen },
+];
+
+const PROJECT_COORDINATOR_HQ_NAV = [
+  { id: 'plan', label: 'Annual Plan', sub: 'National & project execution plans', icon: ClipboardList },
+  { id: 'project-configuration', label: 'Project Configuration', sub: 'Create & configure projects', icon: Settings },
+  { id: 'quarterly-plan', label: 'Quarterly Plan', sub: 'Distribute targets & budgets', icon: Calendar },
+  { id: 'quarterly', label: 'Quarterly Actual', sub: 'Track achievements & expenditures', icon: CheckSquare },
+  { id: 'report', label: 'Report', sub: 'Project performance & aggregation', icon: BarChart3 },
+  { id: 'knowledge-library', label: 'Knowledge Library', sub: 'Policies, guidance & reports', icon: BookOpen },
 ];
 
 const ADMIN_NAV = [
-  { id: 'admin-settings', label: 'Admin Settings', sub: 'Manage regions, zones, projects, UOMs', icon: Settings },
+  { id: 'admin-settings', label: 'Admin Settings', sub: 'Manage regions, zones, periods, thresholds', icon: Settings },
 ];
 
 const RESTRICTED_FOR_AOP = new Set(['quarterly-plan', 'quarterly']);
@@ -66,25 +76,30 @@ export const Sidebar: React.FC = () => {
   const isMonitor = currentRole === 'PMER Officer';
   const isBranchHead = currentRole.startsWith('Branch Head — ');
   const isZoneCoordinator = currentRole.endsWith(' coordinators');
-  const isProgramManager = currentRole === 'Program Manager';
+  const isProgramDirector = currentRole === 'Program Director';
+  const isProjectCoordinatorHQ = currentRole === 'Project Coordinator — HQ';
   const isSystemAdmin = currentRole === 'System Admin';
 
   const nav = isSystemAdmin
     ? ADMIN_NAV
-    : isProgramManager
-      ? PROGRAM_MANAGER_NAV
-      : isMonitor
-        ? MONITOR_NAV
-        : isNationalAop
-          ? AOP_NAV.filter(item => !RESTRICTED_FOR_AOP.has(item.id))
-          : isBranchHead
-            ? BRANCH_HEAD_NAV
-            : BASE_NAV;
+    : isProjectCoordinatorHQ
+      ? PROJECT_COORDINATOR_HQ_NAV
+      : isProgramDirector
+        ? PROGRAM_DIRECTOR_NAV
+        : isMonitor
+          ? MONITOR_NAV
+          : isNationalAop
+            ? AOP_NAV.filter(item => !RESTRICTED_FOR_AOP.has(item.id))
+            : isBranchHead
+              ? BRANCH_HEAD_NAV
+              : BASE_NAV;
 
   const roleHint = isSystemAdmin
-    ? 'Manage master data: regions, zones, projects, and units of measure.'
-    : isProgramManager
-      ? 'Review and approve or reject quarterly plan and actual submissions from Project Coordinators.'
+    ? 'Manage master data: regions, zones, status thresholds, and quarterly periods.'
+    : isProjectCoordinatorHQ
+      ? 'Create and configure projects, and manage project execution plans.'
+      : isProgramDirector
+        ? 'Review and approve or reject quarterly plan and actual submissions from Project Coordinators.'
       : isNationalAop
         ? 'Create National Activities, view Performance, and review submissions.'
         : isMonitor

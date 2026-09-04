@@ -20,8 +20,11 @@ export interface PeWizardFormState {
   project_id: string;
   annual_target: string;
   annual_budget: string;
+  activity_code?: string;
   activity_name: string;
   activity_description: string;
+  is_contributing?: boolean;
+  uom?: string;
   lockScope?: boolean;
 }
 
@@ -170,10 +173,14 @@ export const PlanPage: React.FC = () => {
     const na = nationalActivities.find(n => n.id === pe.national_activity_id);
     setPeWizard({
       initial: {
-        id: pe.id, strategicPriorityId: na?.strategic_priority_id || '', national_activity_id: pe.national_activity_id,
+        id: pe.id, strategicPriorityId: na?.strategic_priority_id || '', national_activity_id: pe.national_activity_id || '',
         scope_type: pe.scope_type, region_id: pe.region_id || '', project_id: pe.project_id || '',
         annual_target: String(pe.annual_target), annual_budget: String(pe.annual_budget),
-        activity_name: pe.activity_name, activity_description: pe.activity_description, lockScope: true,
+        activity_code: pe.activity_code,
+        activity_name: pe.activity_name, activity_description: pe.activity_description,
+        is_contributing: pe.is_contributing !== false,
+        uom: pe.uom || na?.uom || '',
+        lockScope: true,
       },
       startStep: 2,
     });
@@ -252,7 +259,7 @@ export const PlanPage: React.FC = () => {
             <div className="overflow-x-auto">
               <table className="w-full text-left text-xs">
                 <thead className="bg-slate-50 text-slate-600 font-bold uppercase border-b">
-                  <tr><th className="p-3">Code</th><th className="p-3">Activity</th><th className="p-3">UOM</th><th className="p-3 text-right">Target</th><th className="p-3 text-right">Budget</th><th className="p-3 text-right">% Util</th></tr>
+                  <tr><th className="p-3">Code</th><th className="p-3">Activity</th><th className="p-3">UOM</th><th className="p-3 text-right">Target</th><th className="p-3 text-right">Budget</th></tr>
                 </thead>
                 <tbody className="divide-y">
                   {branchHeadLinks.map(link => {
@@ -260,7 +267,6 @@ export const PlanPage: React.FC = () => {
                     const es = planEntries.filter(pe => pe.region_activity_link_id === link.id);
                     const t = sumPlannedTarget(es, quarterlyPlans, q);
                     const b = sumPlannedBudget(es, quarterlyPlans, q);
-                    const s = sumExpenditure(es, quarterlyActuals, q);
                     return (
                       <tr key={link.id} className="hover:bg-slate-50">
                         <td className="p-3 font-bold text-ercs-red">{na?.code}</td>
@@ -268,7 +274,6 @@ export const PlanPage: React.FC = () => {
                         <td className="p-3">{na?.uom}</td>
                         <td className="p-3 text-right">{t.toLocaleString()}</td>
                         <td className="p-3 text-right">ETB {b.toLocaleString()}</td>
-                        <td className="p-3 text-right font-bold">{budgetUtilizationPct(s, b).toFixed(1)}%</td>
                       </tr>
                     );
                   })}
@@ -320,8 +325,8 @@ export const PlanPage: React.FC = () => {
                     <tr>
                       <th className="p-3">Code</th><th className="p-3">Activity</th><th className="p-3">UOM</th>
                       <th className="p-3 text-right">Target</th><th className="p-3 text-right">Budget (ETB)</th>
-                      <th className="p-3 text-right">Total Beneficiaries</th><th className="p-3 text-right">Actual Beneficiaries</th>
-                      <th className="p-3 text-right">% Utilization</th><th className="p-3 text-center">Actions</th>
+                      <th className="p-3 text-right">Total Beneficiaries</th>
+                      <th className="p-3 text-center">Actions</th>
                       {visibleQuarters.map(qId => (
                         <th key={qId} className="p-2 text-center bg-blue-50 border-l whitespace-nowrap" colSpan={2}>
                           {qId} Target / Budget
@@ -340,8 +345,6 @@ export const PlanPage: React.FC = () => {
                           <td className="p-3 text-right font-bold whitespace-nowrap">{row.target.toLocaleString()}</td>
                           <td className="p-3 text-right whitespace-nowrap">{row.budget.toLocaleString()}</td>
                           <td className="p-3 text-right whitespace-nowrap">{row.beneficiaries.toLocaleString()}</td>
-                          <td className="p-3 text-right whitespace-nowrap">{row.actualBeneficiaries.toLocaleString()}</td>
-                          <td className="p-3 text-right font-bold whitespace-nowrap">{row.utilization.toFixed(1)}%</td>
                           <td className="p-3 text-center">
                             <div className="flex items-center justify-center gap-3">
                               <button onClick={() => viewLinkMap(row.na.id)} className="text-[10px] font-bold text-ercs-red inline-flex items-center gap-0.5">View <ArrowUpRight className="w-3 h-3" /></button>
@@ -372,8 +375,6 @@ export const PlanPage: React.FC = () => {
                       <td className="p-3 text-right text-slate-300">—</td>
                       <td className="p-3 text-right">{aggregatedTotalBudget.toLocaleString()}</td>
                       <td className="p-3 text-right">{aggregatedTotalBeneficiaries.toLocaleString()}</td>
-                      <td className="p-3 text-right">{aggregatedTotalActualBeneficiaries.toLocaleString()}</td>
-                      <td className="p-3 text-right">{aggregatedTotalUtilization.toFixed(1)}%</td>
                       <td className="p-3"></td>
                       {/* Quarter footer — one empty pair per visible quarter */}
                       {visibleQuarters.map(qId => (
@@ -410,7 +411,7 @@ export const PlanPage: React.FC = () => {
                     <tr>
                       <th className="p-3">Code</th><th className="p-3">Activity Name</th><th className="p-3">Executed By</th>
                       <th className="p-3 text-right">Target</th><th className="p-3 text-right">Budget (ETB)</th>
-                      <th className="p-3 text-right">% Utilization</th><th className="p-3 text-center">Status</th>
+                      <th className="p-3 text-center">Status</th>
                       {(isProjectCoordinator || isZoneCoordinator) && <th className="p-3 text-center">Actions</th>}
                       {visibleQuarters.map(qId => (
                         <th key={qId} className="p-2 text-center bg-blue-50 border-l whitespace-nowrap" colSpan={2}>
@@ -420,45 +421,56 @@ export const PlanPage: React.FC = () => {
                     </tr>
                   </thead>
                   <tbody className="divide-y">
-                    {executionRows.map(row => (
-                      <tr key={row.pe.id} className="hover:bg-slate-50">
-                        <td className="p-3 font-bold text-ercs-red whitespace-nowrap">{row.na?.code}</td>
-                        <td className="p-3 min-w-40 font-bold text-slate-800">{row.pe.activity_name}</td>
-                        <td className="p-3 whitespace-nowrap">
-                          <span className={`px-2 py-0.5 rounded-full text-[10px] font-bold ${row.pe.scope_type === 'Regional' ? 'bg-blue-50 text-blue-700' : 'bg-purple-50 text-purple-700'}`}>{row.pe.scope_type}</span>
-                          <span className="ml-2 font-semibold">{row.scopeName || '—'}</span>
-                        </td>
-                        <td className="p-3 text-right font-bold whitespace-nowrap">{row.target.toLocaleString()} {row.na?.uom}</td>
-                        <td className="p-3 text-right whitespace-nowrap">{row.budget.toLocaleString()}</td>
-                        <td className="p-3 text-right font-bold whitespace-nowrap">{row.utilization.toFixed(1)}%</td>
-                        <td className="p-3 text-center"><StatusBadge achievementPct={row.achievement} hasActuals={row.actual > 0} /></td>
-                        {(isProjectCoordinator || isZoneCoordinator) && (
-                          <td className="p-3">
-                            <div className="flex items-center justify-center gap-2 flex-wrap">
-                              <button onClick={() => openEditPlanWizard(row.pe)} className="px-2.5 py-1 rounded bg-blue-50 text-blue-700 font-bold">Edit</button>
-                              <button onClick={() => setDeleteTarget({ id: row.pe.id, label: `${row.na?.code || ''} / ${row.scopeName || ''}` })} className="px-2.5 py-1 rounded bg-red-50 text-red-700 font-bold"><Trash2 className="w-3 h-3" /></button>
+                    {executionRows.map(row => {
+                      const regionObj = regions.find(r => r.id === row.pe.region_id);
+                      const executedByLabel = row.pe.scope_type === 'Regional' ? (regionObj?.name || 'Regional') : 'Project';
+                      return (
+                        <tr key={row.pe.id} className="hover:bg-slate-50">
+                          <td className="p-3 font-bold text-ercs-red whitespace-nowrap">{row.na?.code || row.pe.activity_code || '—'}</td>
+                          <td className="p-3 min-w-40 font-bold text-slate-800">
+                            <div className="flex items-center gap-1.5">
+                              <span>{row.pe.activity_name}</span>
+                              {row.pe.is_contributing === false && (
+                                <span className="px-1.5 py-0.5 rounded text-[9px] font-extrabold bg-amber-100 text-amber-800 border border-amber-200 uppercase tracking-wider">
+                                  Non-Contributing
+                                </span>
+                              )}
                             </div>
                           </td>
-                        )}
-                        {/* Per-quarter Target / Budget columns */}
-                        {visibleQuarters.map(qId => {
-                          const qd = qDataForEntry(row.pe.id, qId);
-                          return (
-                            <React.Fragment key={qId}>
-                              <td className="p-2 text-right whitespace-nowrap bg-blue-50 border-l text-[11px]">{qd.target.toLocaleString()}</td>
-                              <td className="p-2 text-right whitespace-nowrap bg-blue-50 text-[11px]">{qd.budget.toLocaleString()}</td>
-                            </React.Fragment>
-                          );
-                        })}
-                      </tr>
-                    ))}
+                          <td className="p-3 whitespace-nowrap">
+                            <span className={`px-2 py-0.5 rounded-full text-[10px] font-bold ${row.pe.scope_type === 'Regional' ? 'bg-blue-50 text-blue-700' : 'bg-purple-50 text-purple-700'}`}>{executedByLabel}</span>
+                            <span className="ml-2 font-semibold">{row.scopeName || '—'}</span>
+                          </td>
+                          <td className="p-3 text-right font-bold whitespace-nowrap">{row.target.toLocaleString()} {row.pe.uom || row.na?.uom || ''}</td>
+                          <td className="p-3 text-right whitespace-nowrap">{row.budget.toLocaleString()}</td>
+                          <td className="p-3 text-center"><StatusBadge achievementPct={row.achievement} hasActuals={row.actual > 0} /></td>
+                          {(isProjectCoordinator || isZoneCoordinator) && (
+                            <td className="p-3">
+                              <div className="flex items-center justify-center gap-2 flex-wrap">
+                                <button onClick={() => openEditPlanWizard(row.pe)} className="px-2.5 py-1 rounded bg-blue-50 text-blue-700 font-bold">Edit</button>
+                                <button onClick={() => setDeleteTarget({ id: row.pe.id, label: `${row.na?.code || row.pe.activity_code || ''} / ${row.scopeName || ''}` })} className="px-2.5 py-1 rounded bg-red-50 text-red-700 font-bold"><Trash2 className="w-3 h-3" /></button>
+                              </div>
+                            </td>
+                          )}
+                          {/* Per-quarter Target / Budget columns */}
+                          {visibleQuarters.map(qId => {
+                            const qd = qDataForEntry(row.pe.id, qId);
+                            return (
+                              <React.Fragment key={qId}>
+                                <td className="p-2 text-right whitespace-nowrap bg-blue-50 border-l text-[11px]">{qd.target.toLocaleString()}</td>
+                                <td className="p-2 text-right whitespace-nowrap bg-blue-50 text-[11px]">{qd.budget.toLocaleString()}</td>
+                              </React.Fragment>
+                            );
+                          })}
+                        </tr>
+                      );
+                    })}
                   </tbody>
                   <tfoot>
                     <tr className="bg-slate-50 font-black border-t-2 border-slate-200">
                       <td className="p-3" colSpan={3}>TOTAL</td>
                       <td className="p-3 text-right text-slate-300">—</td>
                       <td className="p-3 text-right">{executionTotalBudget.toLocaleString()}</td>
-                      <td className="p-3 text-right">{executionTotalUtilization.toFixed(1)}%</td>
                       <td className="p-3" colSpan={(isProjectCoordinator || isZoneCoordinator) ? 2 : 1}></td>
                       {/* Quarter footer — one empty pair per visible quarter */}
                       {visibleQuarters.map(qId => (
@@ -525,20 +537,29 @@ const NationalActivityFormModal: React.FC<NationalActivityFormModalProps> = ({
   const { nationalActivities, strategicPriorities, strategicObjectives, regions, projects, uomConfigs, addNationalActivity } = useApp();
   const [strategicPriorityId, setStrategicPriorityId] = useState(initialStrategicPriorityId || '');
   const [strategicObjectiveId, setStrategicObjectiveId] = useState(initialStrategicObjectiveId || '');
+  const [selectedActivityId, setSelectedActivityId] = useState('');
+  const [isCustom, setIsCustom] = useState(false);
   const [name, setName] = useState('');
   const [description, setDescription] = useState('');
   const [uom, setUom] = useState('');
   const [regionIds, setRegionIds] = useState<string[]>(initialRegionId ? [initialRegionId] : []);
   const [projectIds, setProjectIds] = useState<string[]>(initialProjectId ? [initialProjectId] : []);
+  const [isHq, setIsHq] = useState(false);
   const savingRef = useRef(false);
 
-  // Item 2: auto-generated activity code based on Strategic Objective.
+  const objectivesForPriority = strategicPriorityId
+    ? strategicObjectives.filter(so => so.strategic_priority_id === strategicPriorityId)
+    : [];
+
+  const activitiesInObjective = strategicObjectiveId
+    ? nationalActivities.filter(na => na.strategic_objective_id === strategicObjectiveId)
+    : [];
+
   const autoCode = useMemo(() => {
     if (!strategicObjectiveId) return '';
     const obj = strategicObjectives.find(o => o.id === strategicObjectiveId);
     if (!obj) return '';
     const siblings = nationalActivities.filter(na => na.strategic_objective_id === strategicObjectiveId);
-    // Parse last numeric suffix of each existing code, find max, add 1.
     let maxSuffix = 0;
     siblings.forEach(na => {
       const parts = na.code.split('.');
@@ -548,30 +569,77 @@ const NationalActivityFormModal: React.FC<NationalActivityFormModalProps> = ({
     return `${obj.code}.${maxSuffix + 1}`;
   }, [strategicObjectiveId, strategicObjectives, nationalActivities]);
 
-  const objectivesForPriority = strategicPriorityId
-    ? strategicObjectives.filter(so => so.strategic_priority_id === strategicPriorityId)
-    : [];
-
   const handlePriorityChange = (value: string) => {
     setStrategicPriorityId(value);
     setStrategicObjectiveId('');
+    setSelectedActivityId('');
+    setName('');
+    setDescription('');
+    setUom('');
+  };
+
+  const handleObjectiveChange = (value: string) => {
+    setStrategicObjectiveId(value);
+    setSelectedActivityId('');
+    setName('');
+    setDescription('');
+    setUom('');
+  };
+
+  const handleActivitySelect = (id: string) => {
+    setSelectedActivityId(id);
+    if (id === '__CUSTOM__') {
+      setIsCustom(true);
+      setName('');
+      setDescription('');
+      setUom(uomConfigs[0]?.uom || 'Number');
+    } else {
+      setIsCustom(false);
+      const found = nationalActivities.find(na => na.id === id);
+      if (found) {
+        setName(found.description);
+        setDescription(found.activity_description || '');
+        setUom(found.uom);
+        setRegionIds(found.eligible_region_ids || []);
+        setProjectIds(found.eligible_project_ids || []);
+        setIsHq(found.responsibility === 'HQ' || found.responsibility === 'Both');
+      }
+    }
   };
 
   const toggleRegion = (id: string) => setRegionIds(prev => prev.includes(id) ? prev.filter(r => r !== id) : [...prev, id]);
   const toggleProject = (id: string) => setProjectIds(prev => prev.includes(id) ? prev.filter(p => p !== id) : [...prev, id]);
-  const canSave = !!strategicPriorityId && !!strategicObjectiveId && !!autoCode && !!name.trim() && !!description.trim() && !!uom && (regionIds.length > 0 || projectIds.length > 0);
+
+  const isAllSelected = regionIds.length === regions.length && projectIds.length === projects.length && isHq;
+  const toggleSelectAll = () => {
+    if (isAllSelected) {
+      setRegionIds([]);
+      setProjectIds([]);
+      setIsHq(false);
+    } else {
+      setRegionIds(regions.map(r => r.id));
+      setProjectIds(projects.map(p => p.id));
+      setIsHq(true);
+    }
+  };
+
+  const activeCode = isCustom ? autoCode : (nationalActivities.find(na => na.id === selectedActivityId)?.code || '');
+  const canSave = !!strategicPriorityId && !!strategicObjectiveId && !!activeCode && !!name.trim() && !!uom && (regionIds.length > 0 || projectIds.length > 0 || isHq);
 
   const handleSave = () => {
     if (!canSave || savingRef.current) return;
     savingRef.current = true;
+    const existing = selectedActivityId && selectedActivityId !== '__CUSTOM__' ? nationalActivities.find(na => na.id === selectedActivityId) : null;
     const na: NationalActivity = {
-      id: `na-${Date.now()}`,
+      id: existing ? existing.id : `na-${Date.now()}`,
       strategic_priority_id: strategicPriorityId,
       strategic_objective_id: strategicObjectiveId,
-      code: autoCode,
+      code: activeCode,
       description: name.trim(),
       uom,
-      responsibility: 'Both',
+      responsibility: (regionIds.length > 0 || projectIds.length > 0) && isHq ? 'Both' : (isHq ? 'HQ' : 'Region'),
+      department: existing?.department || 'Operations',
+      year: existing?.year || 2019,
       activity_description: description.trim(),
       eligible_region_ids: regionIds,
       eligible_project_ids: projectIds,
@@ -582,64 +650,151 @@ const NationalActivityFormModal: React.FC<NationalActivityFormModalProps> = ({
 
   return (
     <ModalShell title="Add National Activity" onClose={onClose}>
-      <div className="space-y-4">
+      <div className="space-y-4 max-h-[80vh] overflow-y-auto pr-1">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
           <div>
-            <span className="block text-[10px] font-bold text-slate-500 mb-1">Strategic Priority</span>
+            <span className="block text-[10px] font-bold text-slate-500 mb-1">1. Strategic Priority</span>
             <select value={strategicPriorityId} onChange={e => handlePriorityChange(e.target.value)} className="w-full text-xs border border-slate-200 rounded p-2 bg-slate-50">
               <option value="">Select Strategic Priority…</option>
               {strategicPriorities.map(sp => <option key={sp.id} value={sp.id}>{sp.code} — {sp.name}</option>)}
             </select>
           </div>
           <div>
-            <span className="block text-[10px] font-bold text-slate-500 mb-1">Strategic Objective</span>
-            <select value={strategicObjectiveId} onChange={e => setStrategicObjectiveId(e.target.value)} disabled={!strategicPriorityId} className="w-full text-xs border border-slate-200 rounded p-2 bg-slate-50 disabled:opacity-60">
-              <option value="">{strategicPriorityId ? 'Select Strategic Objective…' : 'Select a Strategic Priority first'}</option>
+            <span className="block text-[10px] font-bold text-slate-500 mb-1">2. Strategic Objective</span>
+            <select value={strategicObjectiveId} onChange={e => handleObjectiveChange(e.target.value)} disabled={!strategicPriorityId} className="w-full text-xs border border-slate-200 rounded p-2 bg-slate-50 disabled:opacity-60">
+              <option value="">{strategicPriorityId ? 'Select Strategic Objective…' : 'Select Priority first'}</option>
               {objectivesForPriority.map(so => <option key={so.id} value={so.id}>{so.code} — {so.name}</option>)}
             </select>
           </div>
         </div>
+
         <div>
-          <span className="block text-[10px] font-bold text-slate-500 mb-1">Activity Code (auto-generated)</span>
-          <div className="bg-slate-50 border border-slate-200 rounded p-2 text-sm font-black text-ercs-red">
-            {autoCode || <span className="text-slate-400 font-normal text-xs">Select a Strategic Objective first…</span>}
-          </div>
-        </div>
-        <LabeledInput label="Activity Name" value={name} onChange={setName} placeholder="e.g. Provide Cash Assistance" />
-        <label className="block">
-          <span className="block text-[10px] font-bold text-slate-500 mb-1">Description</span>
-          <textarea value={description} onChange={e => setDescription(e.target.value)} rows={3} className="w-full text-xs border border-slate-200 rounded p-2 bg-slate-50" />
-        </label>
-        <div>
-          <span className="block text-[10px] font-bold text-slate-500 mb-1">Unit of Measure</span>
-          <select value={uom} onChange={e => setUom(e.target.value)} className="w-full text-xs border border-slate-200 rounded p-2 bg-slate-50">
-            <option value="">Select unit of measure…</option>
-            {uomConfigs.map(c => <option key={c.uom} value={c.uom}>{c.uom}</option>)}
+          <span className="block text-[10px] font-bold text-slate-500 mb-1">3. Select Activity (from master list)</span>
+          <select
+            value={selectedActivityId}
+            onChange={e => handleActivitySelect(e.target.value)}
+            disabled={!strategicObjectiveId}
+            className="w-full text-xs border border-slate-200 rounded p-2 bg-slate-50 disabled:opacity-60 font-medium"
+          >
+            <option value="">{strategicObjectiveId ? 'Select an activity under this objective…' : 'Select Objective first'}</option>
+            {activitiesInObjective.map(na => (
+              <option key={na.id} value={na.id}>{na.code} — {na.description}</option>
+            ))}
+            <option value="__CUSTOM__">+ Create New Custom Activity</option>
           </select>
         </div>
-        <div>
-          <span className="block text-[10px] font-bold text-slate-500 mb-2">Executed By</span>
-          <div className="grid grid-cols-2 gap-3">
-            <div>
-              <div className="text-[9px] uppercase font-extrabold text-slate-400 mb-1">Regions</div>
-              {regions.map(r => (
-                <label key={r.id} className="flex items-center gap-2 text-xs font-semibold text-slate-700 bg-slate-50 border rounded px-2 py-1.5 cursor-pointer mb-1">
-                  <input type="checkbox" checked={regionIds.includes(r.id)} onChange={() => toggleRegion(r.id)} /> {r.name}
-                </label>
-              ))}
+
+        {selectedActivityId && !isCustom ? (
+          <div className="space-y-3 bg-slate-50 border border-slate-200 rounded-xl p-3.5">
+            <div className="grid grid-cols-3 gap-2">
+              <div>
+                <span className="text-[10px] uppercase font-extrabold text-slate-400">Activity Code</span>
+                <div className="text-sm font-black text-ercs-red">{activeCode}</div>
+              </div>
+              <div className="col-span-2">
+                <span className="text-[10px] uppercase font-extrabold text-slate-400">Unit of Measure (UOM)</span>
+                <div className="text-xs font-bold text-slate-700">{uom}</div>
+              </div>
             </div>
             <div>
-              <div className="text-[9px] uppercase font-extrabold text-slate-400 mb-1">Projects</div>
-              {projects.map(p => (
-                <label key={p.id} className="flex items-center gap-2 text-xs font-semibold text-slate-700 bg-slate-50 border rounded px-2 py-1.5 cursor-pointer mb-1">
-                  <input type="checkbox" checked={projectIds.includes(p.id)} onChange={() => toggleProject(p.id)} /> {p.name}
-                </label>
-              ))}
+              <span className="text-[10px] uppercase font-extrabold text-slate-400">Activity Name</span>
+              <div className="text-xs font-bold text-slate-800 mt-0.5">{name}</div>
+            </div>
+            {description && (
+              <div>
+                <span className="text-[10px] uppercase font-extrabold text-slate-400">Description</span>
+                <div className="text-[11px] text-slate-600 mt-0.5">{description}</div>
+              </div>
+            )}
+          </div>
+        ) : isCustom ? (
+          <div className="space-y-3 border border-dashed border-slate-300 rounded-xl p-3.5 bg-white">
+            <div>
+              <span className="block text-[10px] font-bold text-slate-500 mb-1">Activity Code (auto-generated)</span>
+              <div className="bg-slate-50 border border-slate-200 rounded p-2 text-sm font-black text-ercs-red">
+                {activeCode}
+              </div>
+            </div>
+            <LabeledInput label="Activity Name" value={name} onChange={setName} placeholder="e.g. Provide Cash Assistance" />
+            <label className="block">
+              <span className="block text-[10px] font-bold text-slate-500 mb-1">Description</span>
+              <textarea value={description} onChange={e => setDescription(e.target.value)} rows={2} className="w-full text-xs border border-slate-200 rounded p-2 bg-slate-50" />
+            </label>
+            <div>
+              <span className="block text-[10px] font-bold text-slate-500 mb-1">Unit of Measure</span>
+              <select value={uom} onChange={e => setUom(e.target.value)} className="w-full text-xs border border-slate-200 rounded p-2 bg-slate-50">
+                <option value="">Select unit of measure…</option>
+                {uomConfigs.map(c => <option key={c.uom} value={c.uom}>{c.uom}</option>)}
+              </select>
             </div>
           </div>
-        </div>
-        <div className="flex justify-end">
-          <button disabled={!canSave} onClick={handleSave} className="bg-ercs-red text-white px-5 py-2.5 rounded-lg text-xs font-bold flex items-center gap-2 disabled:opacity-40">
+        ) : null}
+
+        {selectedActivityId && (
+          <div>
+            <div className="flex items-center justify-between mb-2">
+              <span className="block text-[10px] font-bold text-slate-600 uppercase tracking-wider">Executed By (multi-select)</span>
+              <button
+                type="button"
+                onClick={toggleSelectAll}
+                className="text-[10px] font-bold text-ercs-red hover:underline"
+              >
+                {isAllSelected ? 'Deselect All' : 'Select All'}
+              </button>
+            </div>
+
+            <div className="mb-3 p-2 bg-slate-50 border rounded-lg">
+              <label className="flex items-center gap-2 text-xs font-bold text-slate-800 cursor-pointer">
+                <input type="checkbox" checked={isHq} onChange={e => setIsHq(e.target.checked)} />
+                Headquarters (HQ)
+              </label>
+            </div>
+
+            <div className="grid grid-cols-2 gap-3">
+              <div>
+                <div className="flex items-center justify-between text-[9px] uppercase font-extrabold text-slate-400 mb-1.5">
+                  <span>Regions ({regionIds.length}/{regions.length})</span>
+                  <button
+                    type="button"
+                    onClick={() => regionIds.length === regions.length ? setRegionIds([]) : setRegionIds(regions.map(r => r.id))}
+                    className="text-ercs-red hover:underline"
+                  >
+                    {regionIds.length === regions.length ? 'None' : 'All'}
+                  </button>
+                </div>
+                <div className="max-h-48 overflow-y-auto space-y-1 pr-1 border rounded p-1.5 bg-slate-50">
+                  {regions.map(r => (
+                    <label key={r.id} className="flex items-center gap-2 text-xs font-semibold text-slate-700 bg-white border rounded px-2 py-1 cursor-pointer">
+                      <input type="checkbox" checked={regionIds.includes(r.id)} onChange={() => toggleRegion(r.id)} /> {r.name}
+                    </label>
+                  ))}
+                </div>
+              </div>
+              <div>
+                <div className="flex items-center justify-between text-[9px] uppercase font-extrabold text-slate-400 mb-1.5">
+                  <span>Projects ({projectIds.length}/{projects.length})</span>
+                  <button
+                    type="button"
+                    onClick={() => projectIds.length === projects.length ? setProjectIds([]) : setProjectIds(projects.map(p => p.id))}
+                    className="text-ercs-red hover:underline"
+                  >
+                    {projectIds.length === projects.length ? 'None' : 'All'}
+                  </button>
+                </div>
+                <div className="max-h-48 overflow-y-auto space-y-1 pr-1 border rounded p-1.5 bg-slate-50">
+                  {projects.map(p => (
+                    <label key={p.id} className="flex items-center gap-2 text-xs font-semibold text-slate-700 bg-white border rounded px-2 py-1 cursor-pointer">
+                      <input type="checkbox" checked={projectIds.includes(p.id)} onChange={() => toggleProject(p.id)} /> {p.name}
+                    </label>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+
+        <div className="flex justify-end pt-2 border-t">
+          <button disabled={!canSave} onClick={handleSave} className="bg-ercs-red text-white px-5 py-2.5 rounded-lg text-xs font-bold flex items-center gap-2 disabled:opacity-40 shadow-sm">
             <Save className="w-3.5 h-3.5" /> Save National Activity
           </button>
         </div>
@@ -649,11 +804,7 @@ const NationalActivityFormModal: React.FC<NationalActivityFormModalProps> = ({
 };
 
 // ============================================================
-// PlanEntryWizardModal — unchanged. Project branch stays exactly as
-// before; Regional branch is either a Branch Head's RegionActivityLink
-// wizard, or a Zone Coordinator's PlanEntry wizard, distinguished by
-// currentRole (computed fresh inside this component, independent of
-// whatever the caller thought the scope was).
+// PlanEntryWizardModal
 // ============================================================
 export const PlanEntryWizardModal: React.FC<{
   initial: PeWizardFormState;
@@ -661,9 +812,10 @@ export const PlanEntryWizardModal: React.FC<{
   onClose: () => void;
   onSaved: () => void;
 }> = ({ initial, startStep, onClose, onSaved }) => {
-  const { nationalActivities, regions, zones, projects, addProject, planEntries, addPlanEntry, updatePlanEntry, currentRole, regionActivityLinks, addRegionActivityLink } = useApp();
+  const { nationalActivities, regions, zones, projects, addProject, planEntries, addPlanEntry, updatePlanEntry, currentRole, regionActivityLinks, addRegionActivityLink, uomConfigs } = useApp();
   const [step, setStep] = useState<1 | 2>(startStep);
   const [form, setForm] = useState<PeWizardFormState>(initial);
+  const [isContributing, setIsContributing] = useState(form.is_contributing !== false);
   const [addingProject, setAddingProject] = useState(false);
   const [newProjectName, setNewProjectName] = useState('');
   const savingRef = useRef(false);
@@ -686,15 +838,18 @@ export const PlanEntryWizardModal: React.FC<{
     const thisBudget = Number(form.annual_budget) || 0;
     const numbersValid = thisTarget >= 0 && thisBudget >= 0;
     const isDuplicateLink = !!selectedNa && planEntries.some(pe => pe.id !== form.id && pe.national_activity_id === selectedNa.id && pe.scope_type === 'Project' && pe.project_id === form.project_id);
+
     const canContinue = !!form.national_activity_id;
-    const canSave = !!form.national_activity_id && isEligibleScope && !!form.activity_name.trim() && !!form.activity_description.trim() && numbersValid && !isDuplicateLink;
+    const canSaveContributing = !!form.national_activity_id && isEligibleScope && !!form.activity_name.trim() && !!form.activity_description.trim() && numbersValid && !isDuplicateLink;
+    const canSaveNonContributing = !!form.project_id && !!form.activity_name.trim() && !!form.uom && numbersValid;
+
     const activityCode = selectedNa?.code || '';
 
     React.useEffect(() => {
       if (form.activity_name.trim()) return;
       const label = projects.find(p => p.id === form.project_id)?.name;
-      if (label) setForm(f => ({ ...f, activity_name: label }));
-    }, [form.activity_name, form.project_id, projects]);
+      if (label && isContributing) setForm(f => ({ ...f, activity_name: label }));
+    }, [form.activity_name, form.project_id, projects, isContributing]);
 
     const handleAddProject = () => {
       const name = newProjectName.trim();
@@ -706,13 +861,36 @@ export const PlanEntryWizardModal: React.FC<{
       setAddingProject(false);
     };
 
-    const handleSave = () => {
-      if (!canSave || savingRef.current) return;
+    const handleSaveContributing = () => {
+      if (!canSaveContributing || savingRef.current) return;
       savingRef.current = true;
       const pe: PlanEntry = {
         id: form.id || `pe-${Date.now()}`, national_activity_id: form.national_activity_id, scope_type: 'Project',
         project_id: form.project_id, annual_target: thisTarget, annual_budget: thisBudget,
         activity_code: selectedNa?.code || '', activity_name: form.activity_name.trim(), activity_description: form.activity_description.trim(),
+        approval_status: 'Approved',
+        is_contributing: true,
+        uom: selectedNa?.uom,
+      };
+      if (isEditing) updatePlanEntry(pe); else addPlanEntry(pe);
+      onSaved();
+    };
+
+    const handleSaveNonContributing = () => {
+      if (!canSaveNonContributing || savingRef.current) return;
+      savingRef.current = true;
+      const pe: PlanEntry = {
+        id: form.id || `pe-nc-${Date.now()}`,
+        national_activity_id: '',
+        scope_type: 'Project',
+        project_id: form.project_id,
+        annual_target: thisTarget,
+        annual_budget: thisBudget,
+        activity_code: form.activity_code || `PROJ-${Date.now().toString().slice(-4)}`,
+        activity_name: form.activity_name.trim(),
+        activity_description: form.activity_description.trim(),
+        is_contributing: false,
+        uom: form.uom || 'Number',
         approval_status: 'Approved',
       };
       if (isEditing) updatePlanEntry(pe); else addPlanEntry(pe);
@@ -720,28 +898,114 @@ export const PlanEntryWizardModal: React.FC<{
     };
 
     return (
-      <ModalShell title={isEditing ? 'Edit Plan Entry' : 'Add Plan — Link to National Activity'} onClose={onClose}>
-        <div className="flex items-center gap-2 mb-4">
-          <StepPill num={1} label="Link to Parent" active={step === 1} done={step > 1} />
-          <div className="flex-1 h-px bg-slate-200" />
-          <StepPill num={2} label="Execution Details" active={step === 2} done={false} />
-        </div>
-        {step === 1 && (
-          <div className="space-y-4">
-            <div>
-              <span className="block text-[10px] font-bold text-slate-500 mb-1">National Activity (Parent)</span>
-              <select value={form.national_activity_id} onChange={e => setForm(f => ({ ...f, national_activity_id: e.target.value }))} disabled={isEditing} className="w-full text-xs border border-slate-200 rounded p-2 bg-slate-50 disabled:opacity-60">
-                <option value="">Select the National Activity this plan entry belongs to…</option>
-                {nationalActivities.map(na => <option key={na.id} value={na.id}>{na.code} — {na.description}</option>)}
-              </select>
-            </div>
-            <div className="flex justify-end">
-              <button disabled={!canContinue} onClick={() => setStep(2)} className="bg-ercs-red text-white px-4 py-2 rounded-lg text-xs font-bold disabled:opacity-40">Continue to Execution Details</button>
-            </div>
+      <ModalShell title={isEditing ? 'Edit Plan Entry' : 'Add Project Plan Entry'} onClose={onClose}>
+        {!isEditing && (
+          <div className="flex bg-slate-100 p-1 rounded-xl mb-4 text-xs font-bold">
+            <button
+              type="button"
+              onClick={() => setIsContributing(true)}
+              className={`flex-1 py-1.5 rounded-lg transition-all ${isContributing ? 'bg-white text-slate-800 shadow-sm' : 'text-slate-500 hover:text-slate-800'}`}
+            >
+              Contributing (Links to National Activity)
+            </button>
+            <button
+              type="button"
+              onClick={() => setIsContributing(false)}
+              className={`flex-1 py-1.5 rounded-lg transition-all ${!isContributing ? 'bg-white text-ercs-red shadow-sm' : 'text-slate-500 hover:text-slate-800'}`}
+            >
+              Non-Contributing (Standalone Project Activity)
+            </button>
           </div>
         )}
-        {step === 2 && selectedNa && (
+
+        {isContributing ? (
+          <div>
+            <div className="flex items-center gap-2 mb-4">
+              <StepPill num={1} label="Link to Parent" active={step === 1} done={step > 1} />
+              <div className="flex-1 h-px bg-slate-200" />
+              <StepPill num={2} label="Execution Details" active={step === 2} done={false} />
+            </div>
+            {step === 1 && (
+              <div className="space-y-4">
+                <div>
+                  <span className="block text-[10px] font-bold text-slate-500 mb-1">National Activity (Parent)</span>
+                  <select value={form.national_activity_id} onChange={e => setForm(f => ({ ...f, national_activity_id: e.target.value }))} disabled={isEditing} className="w-full text-xs border border-slate-200 rounded p-2 bg-slate-50 disabled:opacity-60">
+                    <option value="">Select the National Activity this plan entry belongs to…</option>
+                    {nationalActivities.map(na => <option key={na.id} value={na.id}>{na.code} — {na.description}</option>)}
+                  </select>
+                </div>
+                <div className="flex justify-end">
+                  <button disabled={!canContinue} onClick={() => setStep(2)} className="bg-ercs-red text-white px-4 py-2 rounded-lg text-xs font-bold disabled:opacity-40">Continue to Execution Details</button>
+                </div>
+              </div>
+            )}
+            {step === 2 && selectedNa && (
+              <div className="space-y-4">
+                <div>
+                  <div className="flex items-center justify-between mb-1">
+                    <span className="block text-[10px] font-bold text-slate-500">Project</span>
+                    {!form.lockScope && <button type="button" onClick={() => setAddingProject(a => !a)} className="text-[10px] font-bold text-ercs-red">+ Add Project</button>}
+                  </div>
+                  <select value={form.project_id} onChange={e => setForm(f => ({ ...f, project_id: e.target.value }))} disabled={form.lockScope} className="w-full text-xs border rounded p-2 bg-slate-50 disabled:opacity-60">
+                    <option value="">Select project…</option>
+                    {eligibleProjects.map(p => <option key={p.id} value={p.id}>{p.name}</option>)}
+                  </select>
+                  {addingProject && (
+                    <div className="mt-2 flex gap-1.5">
+                      <input value={newProjectName} onChange={e => setNewProjectName(e.target.value)} placeholder="New project name" className="flex-1 text-xs border border-slate-200 rounded p-1.5 bg-white" />
+                      <button type="button" onClick={handleAddProject} className="px-2.5 py-1 rounded bg-ercs-red text-white text-[10px] font-bold">Add</button>
+                    </div>
+                  )}
+                </div>
+                <div className="grid grid-cols-2 gap-3">
+                  <div className="col-span-2 bg-slate-50 border rounded-lg p-3">
+                    <div className="text-[10px] uppercase font-extrabold text-slate-400">Activity Code</div>
+                    <div className="text-sm font-black text-ercs-red mt-1">{activityCode || '—'}</div>
+                  </div>
+                  <LabeledInput label="Activity Name" value={form.activity_name} onChange={v => setForm(f => ({ ...f, activity_name: v }))} />
+                  <div className="col-span-2">
+                    <label className="block">
+                      <span className="block text-[10px] font-bold text-slate-500 mb-1">Activity Description</span>
+                      <textarea value={form.activity_description} onChange={e => setForm(f => ({ ...f, activity_description: e.target.value }))} rows={3} className="w-full text-xs border border-slate-200 rounded p-2 bg-slate-50" />
+                    </label>
+                  </div>
+                  <div>
+                    <label className="block text-[10px] font-bold text-slate-500 mb-1">Annual Target ({selectedNa.uom})</label>
+                    <NumberInput
+                      value={Number(form.annual_target) || 0}
+                      onChange={v => setForm(f => ({ ...f, annual_target: String(v), annual_budget: v <= 0 ? '0' : f.annual_budget }))}
+                      className="w-full text-xs border border-slate-200 rounded p-2 bg-slate-50 focus:outline-none focus:ring-2 focus:ring-red-100"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-[10px] font-bold text-slate-500 mb-1">Annual Budget (ETB)</label>
+                    <NumberInput
+                      value={Number(form.annual_budget) || 0}
+                      onChange={v => setForm(f => ({ ...f, annual_budget: String(v) }))}
+                      disabled={Number(form.annual_target) <= 0}
+                      className="w-full text-xs border border-slate-200 rounded p-2 bg-slate-50 focus:outline-none focus:ring-2 focus:ring-red-100 disabled:opacity-50"
+                    />
+                  </div>
+                </div>
+                {isDuplicateLink && <div className="bg-rose-50 border border-rose-200 rounded-lg p-3 text-[11px] text-rose-700 font-semibold">This Project is already linked to {selectedNa.code}.</div>}
+                <div className="bg-blue-50 border border-blue-100 rounded-lg p-3 text-[11px] text-blue-800 font-semibold space-y-1">
+                  <div>This entry will contribute <b>{thisTarget.toLocaleString()} {selectedNa.uom}</b> / <b>ETB {thisBudget.toLocaleString()}</b>, alongside <b>{siblingTarget.toLocaleString()}</b> / <b>ETB {siblingBudget.toLocaleString()}</b> already committed.</div>
+                </div>
+                <div className="flex justify-between">
+                  <button onClick={() => setStep(1)} className="px-4 py-2 rounded-lg border text-xs font-bold">Back</button>
+                  <button disabled={!canSaveContributing} onClick={handleSaveContributing} className="bg-ercs-red text-white px-5 py-2.5 rounded-lg text-xs font-bold flex items-center gap-2 disabled:opacity-40">
+                    <Save className="w-3.5 h-3.5" /> {isEditing ? 'Update Plan Entry' : 'Save & Link'}
+                  </button>
+                </div>
+              </div>
+            )}
+          </div>
+        ) : (
           <div className="space-y-4">
+            <div className="bg-amber-50 border border-amber-200 rounded-xl p-3 text-xs text-amber-800">
+              <span className="font-bold">Standalone Project Activity:</span> This activity is not linked to any National Activity and is not aggregated into National/Strategic totals.
+            </div>
+
             <div>
               <div className="flex items-center justify-between mb-1">
                 <span className="block text-[10px] font-bold text-slate-500">Project</span>
@@ -749,29 +1013,28 @@ export const PlanEntryWizardModal: React.FC<{
               </div>
               <select value={form.project_id} onChange={e => setForm(f => ({ ...f, project_id: e.target.value }))} disabled={form.lockScope} className="w-full text-xs border rounded p-2 bg-slate-50 disabled:opacity-60">
                 <option value="">Select project…</option>
-                {eligibleProjects.map(p => <option key={p.id} value={p.id}>{p.name}</option>)}
+                {projects.map(p => <option key={p.id} value={p.id}>{p.name}</option>)}
               </select>
-              {addingProject && (
-                <div className="mt-2 flex gap-1.5">
-                  <input value={newProjectName} onChange={e => setNewProjectName(e.target.value)} placeholder="New project name" className="flex-1 text-xs border border-slate-200 rounded p-1.5 bg-white" />
-                  <button type="button" onClick={handleAddProject} className="px-2.5 py-1 rounded bg-ercs-red text-white text-[10px] font-bold">Add</button>
-                </div>
-              )}
             </div>
+
+            <LabeledInput label="Activity Name" value={form.activity_name} onChange={v => setForm(f => ({ ...f, activity_name: v }))} placeholder="e.g. Conduct Community Baseline Survey" />
+
+            <label className="block">
+              <span className="block text-[10px] font-bold text-slate-500 mb-1">Activity Description</span>
+              <textarea value={form.activity_description} onChange={e => setForm(f => ({ ...f, activity_description: e.target.value }))} rows={3} className="w-full text-xs border border-slate-200 rounded p-2 bg-slate-50" placeholder="Detailed activity description..." />
+            </label>
+
+            <div>
+              <span className="block text-[10px] font-bold text-slate-500 mb-1">Unit of Measurement (UOM)</span>
+              <select value={form.uom || ''} onChange={e => setForm(f => ({ ...f, uom: e.target.value }))} className="w-full text-xs border border-slate-200 rounded p-2 bg-slate-50">
+                <option value="">Select unit of measure…</option>
+                {uomConfigs.map(c => <option key={c.uom} value={c.uom}>{c.uom}</option>)}
+              </select>
+            </div>
+
             <div className="grid grid-cols-2 gap-3">
-              <div className="col-span-2 bg-slate-50 border rounded-lg p-3">
-                <div className="text-[10px] uppercase font-extrabold text-slate-400">Activity Code</div>
-                <div className="text-sm font-black text-ercs-red mt-1">{activityCode || '—'}</div>
-              </div>
-              <LabeledInput label="Activity Name" value={form.activity_name} onChange={v => setForm(f => ({ ...f, activity_name: v }))} />
-              <div className="col-span-2">
-                <label className="block">
-                  <span className="block text-[10px] font-bold text-slate-500 mb-1">Activity Description</span>
-                  <textarea value={form.activity_description} onChange={e => setForm(f => ({ ...f, activity_description: e.target.value }))} rows={3} className="w-full text-xs border border-slate-200 rounded p-2 bg-slate-50" />
-                </label>
-              </div>
               <div>
-                <label className="block text-[10px] font-bold text-slate-500 mb-1">Annual Target ({selectedNa.uom})</label>
+                <label className="block text-[10px] font-bold text-slate-500 mb-1">Annual Target</label>
                 <NumberInput
                   value={Number(form.annual_target) || 0}
                   onChange={v => setForm(f => ({ ...f, annual_target: String(v), annual_budget: v <= 0 ? '0' : f.annual_budget }))}
@@ -783,19 +1046,14 @@ export const PlanEntryWizardModal: React.FC<{
                 <NumberInput
                   value={Number(form.annual_budget) || 0}
                   onChange={v => setForm(f => ({ ...f, annual_budget: String(v) }))}
-                  disabled={Number(form.annual_target) <= 0}
-                  className="w-full text-xs border border-slate-200 rounded p-2 bg-slate-50 focus:outline-none focus:ring-2 focus:ring-red-100 disabled:opacity-50"
+                  className="w-full text-xs border border-slate-200 rounded p-2 bg-slate-50 focus:outline-none focus:ring-2 focus:ring-red-100"
                 />
               </div>
             </div>
-            {isDuplicateLink && <div className="bg-rose-50 border border-rose-200 rounded-lg p-3 text-[11px] text-rose-700 font-semibold">This Project is already linked to {selectedNa.code}.</div>}
-            <div className="bg-blue-50 border border-blue-100 rounded-lg p-3 text-[11px] text-blue-800 font-semibold space-y-1">
-              <div>This entry will contribute <b>{thisTarget.toLocaleString()} {selectedNa.uom}</b> / <b>ETB {thisBudget.toLocaleString()}</b>, alongside <b>{siblingTarget.toLocaleString()}</b> / <b>ETB {siblingBudget.toLocaleString()}</b> already committed.</div>
-            </div>
-            <div className="flex justify-between">
-              <button onClick={() => setStep(1)} className="px-4 py-2 rounded-lg border text-xs font-bold">Back</button>
-              <button disabled={!canSave} onClick={handleSave} className="bg-ercs-red text-white px-5 py-2.5 rounded-lg text-xs font-bold flex items-center gap-2 disabled:opacity-40">
-                <Save className="w-3.5 h-3.5" /> {isEditing ? 'Update Plan Entry' : 'Save & Link'}
+
+            <div className="flex justify-end pt-2 border-t">
+              <button disabled={!canSaveNonContributing} onClick={handleSaveNonContributing} className="bg-ercs-red text-white px-5 py-2.5 rounded-lg text-xs font-bold flex items-center gap-2 disabled:opacity-40 shadow-sm">
+                <Save className="w-3.5 h-3.5" /> {isEditing ? 'Update Standalone Entry' : 'Save Standalone Entry'}
               </button>
             </div>
           </div>

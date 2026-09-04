@@ -9,7 +9,8 @@ export const Header: React.FC = () => {
     'National Activity AOP',
     ...regions.map(region => `Branch Head — ${region.name}` as UserRole),
     ...projects.map(project => `Project Coordinator — ${project.name}` as UserRole),
-    'Program Manager',
+    'Project Coordinator — HQ',
+    'Program Director',
     'PMER Officer',
     'System Admin',
   ];

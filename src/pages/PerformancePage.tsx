@@ -21,10 +21,16 @@ const ACHIEVEMENT_ACCENT = '#0D9488';
 export const PerformancePage: React.FC = () => {
   const { nationalActivities, regions, projects, quarterlyPlans, quarterlyActuals, uomConfigs, getFilteredPlanEntries, setReportFocusSection, setActiveRoute } = useApp();
   const entries = getFilteredPlanEntries();
-  const [groupBy, setGroupBy] = useState<'region' | 'project'>('region');
+  const [groupBy, setGroupBy] = useState<'region' | 'project' | 'hq' | 'department'>('region');
 
   const regionalEntries = entries.filter(e => e.scope_type === 'Regional');
   const projectEntries = entries.filter(e => e.scope_type === 'Project');
+  const hqEntries = entries.filter(e => {
+    const na = nationalActivities.find(n => n.id === e.national_activity_id);
+    return na?.responsibility === 'HQ' || na?.responsibility === 'Both';
+  });
+
+  const departments = Array.from(new Set(nationalActivities.map(na => na.department).filter(Boolean))) as string[];
 
   const nationalTarget = sumPlannedTarget(entries, quarterlyPlans, 'ALL');
   const nationalActual = sumActual(entries, quarterlyActuals, 'ALL');
@@ -49,24 +55,43 @@ export const PerformancePage: React.FC = () => {
   }, 0);
   const totalBeneficiaries = beneficiariesFor(entries);
 
-  // Panel 1 — Target vs Actual, toggleable between Region and Project
-  // grouping. Only includes a Region/Project that actually has entries
-  // under the current filter scope — otherwise every filter combination
-  // padded the chart with zero-value bars for everything else, which made
-  // "filter to one Region" look identical to "no filter" on this chart.
+  // Panel 1 — Target vs Actual, toggleable between Region, Project, HQ, and Department
   const targetActualByRegion = regions
     .map(r => {
       const es = regionalEntries.filter(e => e.region_id === r.id);
       return { name: r.name, count: es.length, Target: sumPlannedTarget(es, quarterlyPlans, 'ALL'), Actual: sumActual(es, quarterlyActuals, 'ALL') };
     })
     .filter(row => row.count > 0);
+
   const targetActualByProject = projects
     .map(p => {
       const es = projectEntries.filter(e => e.project_id === p.id);
       return { name: p.name, count: es.length, Target: sumPlannedTarget(es, quarterlyPlans, 'ALL'), Actual: sumActual(es, quarterlyActuals, 'ALL') };
     })
     .filter(row => row.count > 0);
-  const targetActualData = groupBy === 'region' ? targetActualByRegion : targetActualByProject;
+
+  const targetActualByHq = Array.from(new Set(hqEntries.map(e => nationalActivities.find(n => n.id === e.national_activity_id)?.department || 'HQ Operations')))
+    .map(dept => {
+      const es = hqEntries.filter(e => (nationalActivities.find(n => n.id === e.national_activity_id)?.department || 'HQ Operations') === dept);
+      return { name: dept, count: es.length, Target: sumPlannedTarget(es, quarterlyPlans, 'ALL'), Actual: sumActual(es, quarterlyActuals, 'ALL') };
+    })
+    .filter(row => row.count > 0);
+
+  const targetActualByDepartment = departments
+    .map(dept => {
+      const es = entries.filter(e => {
+        const na = nationalActivities.find(n => n.id === e.national_activity_id);
+        return na?.department === dept;
+      });
+      return { name: dept, count: es.length, Target: sumPlannedTarget(es, quarterlyPlans, 'ALL'), Actual: sumActual(es, quarterlyActuals, 'ALL') };
+    })
+    .filter(row => row.count > 0);
+
+  const targetActualData =
+    groupBy === 'region' ? targetActualByRegion :
+    groupBy === 'project' ? targetActualByProject :
+    groupBy === 'hq' ? targetActualByHq :
+    targetActualByDepartment;
 
   // Panel 2 — Budget distribution by National Activity, top 8 by aggregated Budget.
   const budgetByActivity = nationalActivities
@@ -92,9 +117,7 @@ export const PerformancePage: React.FC = () => {
     return { quarter: q, Planned: planned, Actual: actual };
   });
 
-  // Panel 4 — Achievement % across Regions and Projects that have entries
-  // in scope, sorted descending. Same "only what's actually there" fix as
-  // Panel 1.
+  // Panel 4 — Achievement % comparison, horizontal
   const achievementComparisonData = [
     ...regions
       .map(r => {
@@ -112,6 +135,16 @@ export const PerformancePage: React.FC = () => {
         if (es.length === 0) return null;
         return {
           name: p.name,
+          achievement: Number(achievementPct(sumActual(es, quarterlyActuals, 'ALL'), sumPlannedTarget(es, quarterlyPlans, 'ALL')).toFixed(1)),
+        };
+      })
+      .filter((row): row is { name: string; achievement: number } => row !== null),
+    ...departments
+      .map(dept => {
+        const es = entries.filter(e => nationalActivities.find(n => n.id === e.national_activity_id)?.department === dept);
+        if (es.length === 0) return null;
+        return {
+          name: `Dept: ${dept}`,
           achievement: Number(achievementPct(sumActual(es, quarterlyActuals, 'ALL'), sumPlannedTarget(es, quarterlyPlans, 'ALL')).toFixed(1)),
         };
       })
@@ -154,10 +187,14 @@ export const PerformancePage: React.FC = () => {
         {/* Panel 1 — Target vs Actual, toggleable */}
         <div className="bg-white rounded-xl border shadow-sm p-4">
           <div className="flex items-center justify-between mb-3 flex-wrap gap-2">
-            <div className="text-xs font-bold text-slate-800 uppercase tracking-wider">Target vs Actual by {groupBy === 'region' ? 'Region' : 'Project'}</div>
-            <div className="bg-slate-50 p-1 rounded-lg border inline-flex gap-1">
-              <button onClick={() => setGroupBy('region')} className={`px-3 py-1 rounded text-[10px] font-bold ${groupBy === 'region' ? 'bg-ercs-red text-white' : 'text-slate-600 hover:bg-white'}`}>Region</button>
-              <button onClick={() => setGroupBy('project')} className={`px-3 py-1 rounded text-[10px] font-bold ${groupBy === 'project' ? 'bg-ercs-red text-white' : 'text-slate-600 hover:bg-white'}`}>Project</button>
+            <div className="text-xs font-bold text-slate-800 uppercase tracking-wider">
+              Target vs Actual by {groupBy === 'region' ? 'Region' : groupBy === 'project' ? 'Project' : groupBy === 'hq' ? 'HQ' : 'Department'}
+            </div>
+            <div className="bg-slate-50 p-1 rounded-lg border inline-flex gap-1 flex-wrap">
+              <button onClick={() => setGroupBy('region')} className={`px-2.5 py-1 rounded text-[10px] font-bold ${groupBy === 'region' ? 'bg-ercs-red text-white' : 'text-slate-600 hover:bg-white'}`}>Region</button>
+              <button onClick={() => setGroupBy('project')} className={`px-2.5 py-1 rounded text-[10px] font-bold ${groupBy === 'project' ? 'bg-ercs-red text-white' : 'text-slate-600 hover:bg-white'}`}>Project</button>
+              <button onClick={() => setGroupBy('hq')} className={`px-2.5 py-1 rounded text-[10px] font-bold ${groupBy === 'hq' ? 'bg-ercs-red text-white' : 'text-slate-600 hover:bg-white'}`}>HQ</button>
+              <button onClick={() => setGroupBy('department')} className={`px-2.5 py-1 rounded text-[10px] font-bold ${groupBy === 'department' ? 'bg-ercs-red text-white' : 'text-slate-600 hover:bg-white'}`}>Department</button>
             </div>
           </div>
           {targetActualData.length === 0 ? (

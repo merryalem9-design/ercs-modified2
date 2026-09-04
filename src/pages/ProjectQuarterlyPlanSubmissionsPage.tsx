@@ -113,8 +113,18 @@ export const ProjectQuarterlyPlanSubmissionsPage: React.FC = () => {
 
                     <span className="font-bold text-slate-700 text-xs">{project?.name || '—'}</span>
                     <span className="text-slate-300 text-xs">·</span>
-                    <span className="font-bold text-ercs-red text-xs">{na?.code}</span>
-                    <span className="text-xs text-slate-600 font-semibold flex-1 min-w-0 truncate">{pe.activity_name}</span>
+                    <span className="font-bold text-ercs-red text-xs">{na?.code || pe.activity_code || '—'}</span>
+                    <div className="flex items-center gap-2 flex-1 min-w-0">
+                      <span className="text-xs text-slate-800 font-bold truncate">{pe.activity_name}</span>
+                      {pe.activity_description && (
+                        <span className="text-[11px] text-slate-500 truncate hidden md:inline">({pe.activity_description})</span>
+                      )}
+                      {pe.is_contributing === false && (
+                        <span className="px-1.5 py-0.5 rounded text-[9px] font-extrabold bg-amber-100 text-amber-800 border border-amber-200 uppercase tracking-wider shrink-0">
+                          Non-Contributing
+                        </span>
+                      )}
+                    </div>
 
                     {groupPendingCount > 0 && (
                       <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-bold border bg-amber-50 text-amber-800 border-amber-300 shrink-0">
@@ -140,7 +150,7 @@ export const ProjectQuarterlyPlanSubmissionsPage: React.FC = () => {
                             <tr key={qId} className="border-t hover:bg-slate-50">
                               <td className="p-3 pl-8 font-black text-slate-700 w-16">{qId}</td>
                               <td className="p-3 text-right whitespace-nowrap min-w-28 font-semibold">
-                                {qp.target.toLocaleString()} <span className="text-slate-400 font-normal">{na?.uom}</span>
+                                {qp.target.toLocaleString()} <span className="text-slate-400 font-normal">{pe.uom || na?.uom || ''}</span>
                               </td>
                               <td className="p-3 text-right whitespace-nowrap min-w-32 text-slate-600">
                                 ETB {qp.budget.toLocaleString()}

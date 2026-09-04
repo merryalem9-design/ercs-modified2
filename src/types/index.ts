@@ -13,7 +13,7 @@ export interface StrategicObjective {
   name: string;
 }
 
-export type Responsibility = 'HQ' | 'Branch' | 'Both';
+export type Responsibility = 'HQ' | 'Branch' | 'Both' | 'RB' | string;
 
 export interface Region { id: string; name: string; }
 
@@ -31,6 +31,8 @@ export interface NationalActivity {
   description: string;
   uom: string;
   responsibility: Responsibility;
+  department?: string;
+  year?: number;
   region_id?: string;
   zone_id?: string;
   activity_description: string;
@@ -70,9 +72,10 @@ export type UserRole =
   | 'National Activity AOP'
   | `Branch Head — ${string}`
   | `Project Coordinator — ${string}`
+  | 'Project Coordinator — HQ'
   | 'PMER Officer'
   | 'System Admin'
-  | 'Program Manager'
+  | 'Program Director'
   | `${string} coordinators`;
 
 export type ApprovalStatus = 'Draft' | 'Pending Approval' | 'Approved' | 'Rejected';
@@ -96,6 +99,9 @@ export interface PlanEntry {
   zone_id?: string;
   /** NEW — set when scope_type === 'Regional'. Parent RegionActivityLink. */
   region_activity_link_id?: string;
+  /** Non-contributing project activities */
+  is_contributing?: boolean;
+  uom?: string;
 }
 
 export type QuarterId = 'Q1' | 'Q2' | 'Q3' | 'Q4';
@@ -174,6 +180,24 @@ export interface FilterState {
   /** NEW — filters PlanEntries/QuarterlyPlans down to a single Zone. 'ALL' means no zone restriction. */
   zoneId: string;
   quarterId: QuarterFilterValue;
+  responsibility?: 'ALL' | 'Region' | 'Project' | 'HQ';
+  department?: string;
+  year?: string;
+  contributionType?: 'ALL' | 'Contributing' | 'Non-Contributing';
+}
+
+export interface StatusThresholdBand {
+  id: string;
+  label: string;
+  lower_bound: number;
+  requires_narrative: boolean;
+  color?: string;
+}
+
+export interface QuarterPeriodConfig {
+  id: QuarterId;
+  label: string;
+  date_range: string;
 }
 
 // ---------------------------------------------------------------------------

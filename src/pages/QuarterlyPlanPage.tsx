@@ -19,7 +19,7 @@ export const QuarterlyPlanPage: React.FC = () => {
       <div>
         <h2 className="text-xl font-black text-slate-800">Step 2 — Quarterly Plan Breakdown</h2>
         <p className="text-xs text-slate-500 mt-1">
-          Zone-scoped rows go through Draft → Pending Approval → Approved/Rejected with the Branch Head; Project-scoped rows go through approval with the Program Manager.
+          Zone-scoped rows go through Draft → Pending Approval → Approved/Rejected with the Branch Head; Project-scoped rows go through approval with the Program Director.
         </p>
       </div>
       <FilterBar />
