@@ -1,7 +1,7 @@
 import React from 'react';
 import { useApp } from '../../context/AppContext';
 import {
-  ClipboardList, CalendarClock, CalendarCheck2, BarChart3, ShieldCheck, LayoutDashboard, TrendingUp, Compass, Target, BookOpen,
+  ClipboardList, CalendarClock, CalendarCheck2, BarChart3, ShieldCheck, LayoutDashboard, TrendingUp, Compass, Target, BookOpen, Settings, Bell,
 } from 'lucide-react';
 
 const BASE_NAV = [
@@ -10,6 +10,7 @@ const BASE_NAV = [
   { id: 'quarterly', label: 'Quarterly Actual Entry', sub: 'Actuals vs quarterly plan', icon: CalendarCheck2 },
   { id: 'report', label: 'Report', sub: 'Aggregated results', icon: BarChart3 },
   { id: 'submissions', label: 'Submissions', sub: 'View all submitted entries', icon: BarChart3 },
+  { id: 'notifications', label: 'Notifications', sub: 'Your submission results', icon: Bell },
   { id: 'knowledge-library', label: 'Knowledge Library', sub: 'Policies, guidance & reports', icon: BookOpen },
 ];
 
@@ -26,7 +27,7 @@ const MONITOR_NAV = [
 const AOP_NAV = [
   { id: 'performance', label: 'Dashboard', sub: 'National KPIs & trends', icon: TrendingUp },
   { id: 'strategic-plan', label: 'Strategic Plan', sub: 'Priorities & Objectives overview', icon: Compass },
-  ...BASE_NAV.filter(item => item.id !== 'knowledge-library'),
+  ...BASE_NAV.filter(item => item.id !== 'knowledge-library' && item.id !== 'notifications'),
   { id: 'monitoring-dashboard', label: 'Monitoring Dashboard', sub: 'Coverage & findings overview (view only)', icon: LayoutDashboard },
   { id: 'strategic-kpi', label: 'Strategic KPI Tracking', sub: 'Five-Year Plan indicators (view only)', icon: Target },
   { id: 'knowledge-library', label: 'Knowledge Library', sub: 'Policies, guidance & reports', icon: BookOpen },
@@ -45,6 +46,17 @@ const BRANCH_HEAD_NAV = [
   { id: 'knowledge-library', label: 'Knowledge Library', sub: 'Policies, guidance & reports', icon: BookOpen },
 ];
 
+const PROGRAM_MANAGER_NAV = [
+  { id: 'plan', label: 'Annual Plan', sub: 'National & project execution plans', icon: ClipboardList },
+  { id: 'project-quarterly-plan-submissions', label: 'Quarterly Plan Submissions', sub: 'Review & approve Project submissions', icon: CalendarCheck2 },
+  { id: 'project-quarterly-actual-submissions', label: 'Quarterly Actual Submissions', sub: 'Review & approve Project actuals', icon: CalendarCheck2 },
+  { id: 'report', label: 'Report', sub: 'Project performance & aggregation', icon: BarChart3 },
+];
+
+const ADMIN_NAV = [
+  { id: 'admin-settings', label: 'Admin Settings', sub: 'Manage regions, zones, projects, UOMs', icon: Settings },
+];
+
 const RESTRICTED_FOR_AOP = new Set(['quarterly-plan', 'quarterly']);
 
 export const Sidebar: React.FC = () => {
@@ -54,24 +66,34 @@ export const Sidebar: React.FC = () => {
   const isMonitor = currentRole === 'PMER Officer';
   const isBranchHead = currentRole.startsWith('Branch Head — ');
   const isZoneCoordinator = currentRole.endsWith(' coordinators');
+  const isProgramManager = currentRole === 'Program Manager';
+  const isSystemAdmin = currentRole === 'System Admin';
 
-  const nav = isMonitor
-    ? MONITOR_NAV
-    : isNationalAop
-      ? AOP_NAV.filter(item => !RESTRICTED_FOR_AOP.has(item.id))
-      : isBranchHead
-        ? BRANCH_HEAD_NAV
-        : BASE_NAV;
+  const nav = isSystemAdmin
+    ? ADMIN_NAV
+    : isProgramManager
+      ? PROGRAM_MANAGER_NAV
+      : isMonitor
+        ? MONITOR_NAV
+        : isNationalAop
+          ? AOP_NAV.filter(item => !RESTRICTED_FOR_AOP.has(item.id))
+          : isBranchHead
+            ? BRANCH_HEAD_NAV
+            : BASE_NAV;
 
-  const roleHint = isNationalAop
-    ? 'Create National Activities, view Performance, and review submissions.'
-    : isMonitor
-      ? 'Verify reported achievements against evidence, log data-quality findings, and track corrective actions.'
-      : isBranchHead
-        ? 'Link National Activities to your Region, and review/approve Zone Quarterly Plan and Quarterly Actual submissions.'
-        : isZoneCoordinator
-          ? 'Enter and manage the plan, quarterly plan, and actuals for your assigned zone.'
-          : 'Enter and manage the plan, quarterly plan, and actuals for the assigned project.';
+  const roleHint = isSystemAdmin
+    ? 'Manage master data: regions, zones, projects, and units of measure.'
+    : isProgramManager
+      ? 'Review and approve or reject quarterly plan and actual submissions from Project Coordinators.'
+      : isNationalAop
+        ? 'Create National Activities, view Performance, and review submissions.'
+        : isMonitor
+          ? 'Verify reported achievements against evidence, log data-quality findings, and track corrective actions.'
+          : isBranchHead
+            ? 'Link National Activities to your Region, and review/approve Zone Quarterly Plan and Quarterly Actual submissions.'
+            : isZoneCoordinator
+              ? 'Enter and manage the plan, quarterly plan, and actuals for your assigned zone.'
+              : 'Enter and manage the plan, quarterly plan, and actuals for the assigned project.';
 
   return (
     <aside className="w-72 bg-slate-900 text-slate-300 flex flex-col h-screen sticky top-0 shrink-0">

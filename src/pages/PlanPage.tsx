@@ -1,5 +1,6 @@
 // src/pages/PlanPage.tsx
-import React, { useRef, useState } from 'react';
+import React, { useRef, useMemo, useState } from 'react';
+import { NumberInput } from '../components/common/NumberInput';
 import { useApp } from '../context/AppContext';
 import { FilterBar } from '../components/common/FilterBar';
 import { StatusBadge } from '../components/common/StatusBadge';
@@ -524,7 +525,6 @@ const NationalActivityFormModal: React.FC<NationalActivityFormModalProps> = ({
   const { nationalActivities, strategicPriorities, strategicObjectives, regions, projects, uomConfigs, addNationalActivity } = useApp();
   const [strategicPriorityId, setStrategicPriorityId] = useState(initialStrategicPriorityId || '');
   const [strategicObjectiveId, setStrategicObjectiveId] = useState(initialStrategicObjectiveId || '');
-  const [code, setCode] = useState('');
   const [name, setName] = useState('');
   const [description, setDescription] = useState('');
   const [uom, setUom] = useState('');
@@ -532,21 +532,34 @@ const NationalActivityFormModal: React.FC<NationalActivityFormModalProps> = ({
   const [projectIds, setProjectIds] = useState<string[]>(initialProjectId ? [initialProjectId] : []);
   const savingRef = useRef(false);
 
+  // Item 2: auto-generated activity code based on Strategic Objective.
+  const autoCode = useMemo(() => {
+    if (!strategicObjectiveId) return '';
+    const obj = strategicObjectives.find(o => o.id === strategicObjectiveId);
+    if (!obj) return '';
+    const siblings = nationalActivities.filter(na => na.strategic_objective_id === strategicObjectiveId);
+    // Parse last numeric suffix of each existing code, find max, add 1.
+    let maxSuffix = 0;
+    siblings.forEach(na => {
+      const parts = na.code.split('.');
+      const lastPart = parseInt(parts[parts.length - 1], 10);
+      if (!isNaN(lastPart) && lastPart > maxSuffix) maxSuffix = lastPart;
+    });
+    return `${obj.code}.${maxSuffix + 1}`;
+  }, [strategicObjectiveId, strategicObjectives, nationalActivities]);
+
   const objectivesForPriority = strategicPriorityId
     ? strategicObjectives.filter(so => so.strategic_priority_id === strategicPriorityId)
     : [];
 
   const handlePriorityChange = (value: string) => {
     setStrategicPriorityId(value);
-    // Whatever Objective was picked almost certainly doesn't belong to the
-    // new Priority, so it's cleared and must be re-selected.
     setStrategicObjectiveId('');
   };
 
   const toggleRegion = (id: string) => setRegionIds(prev => prev.includes(id) ? prev.filter(r => r !== id) : [...prev, id]);
   const toggleProject = (id: string) => setProjectIds(prev => prev.includes(id) ? prev.filter(p => p !== id) : [...prev, id]);
-  const isDuplicateCode = !!code.trim() && nationalActivities.some(na => na.code.trim().toLowerCase() === code.trim().toLowerCase());
-  const canSave = !!strategicPriorityId && !!strategicObjectiveId && !!code.trim() && !!name.trim() && !!description.trim() && !!uom && !isDuplicateCode && (regionIds.length > 0 || projectIds.length > 0);
+  const canSave = !!strategicPriorityId && !!strategicObjectiveId && !!autoCode && !!name.trim() && !!description.trim() && !!uom && (regionIds.length > 0 || projectIds.length > 0);
 
   const handleSave = () => {
     if (!canSave || savingRef.current) return;
@@ -555,7 +568,7 @@ const NationalActivityFormModal: React.FC<NationalActivityFormModalProps> = ({
       id: `na-${Date.now()}`,
       strategic_priority_id: strategicPriorityId,
       strategic_objective_id: strategicObjectiveId,
-      code: code.trim(),
+      code: autoCode,
       description: name.trim(),
       uom,
       responsibility: 'Both',
@@ -587,8 +600,10 @@ const NationalActivityFormModal: React.FC<NationalActivityFormModalProps> = ({
           </div>
         </div>
         <div>
-          <LabeledInput label="Activity Code" value={code} onChange={setCode} placeholder="e.g. 6.1.1" />
-          {isDuplicateCode && <div className="mt-1.5 text-[10px] text-rose-700 bg-rose-50 border border-rose-200 rounded p-2 font-semibold">A National Activity with code "{code.trim()}" already exists.</div>}
+          <span className="block text-[10px] font-bold text-slate-500 mb-1">Activity Code (auto-generated)</span>
+          <div className="bg-slate-50 border border-slate-200 rounded p-2 text-sm font-black text-ercs-red">
+            {autoCode || <span className="text-slate-400 font-normal text-xs">Select a Strategic Objective first…</span>}
+          </div>
         </div>
         <LabeledInput label="Activity Name" value={name} onChange={setName} placeholder="e.g. Provide Cash Assistance" />
         <label className="block">
@@ -755,8 +770,23 @@ export const PlanEntryWizardModal: React.FC<{
                   <textarea value={form.activity_description} onChange={e => setForm(f => ({ ...f, activity_description: e.target.value }))} rows={3} className="w-full text-xs border border-slate-200 rounded p-2 bg-slate-50" />
                 </label>
               </div>
-              <LabeledInput label={`Annual Target (${selectedNa.uom})`} type="number" value={form.annual_target} onChange={v => setForm(f => ({ ...f, annual_target: v === '' ? '' : String(Math.max(0, Number(v) || 0)) }))} />
-              <LabeledInput label="Annual Budget (ETB)" type="number" value={form.annual_budget} onChange={v => setForm(f => ({ ...f, annual_budget: v === '' ? '' : String(Math.max(0, Number(v) || 0)) }))} />
+              <div>
+                <label className="block text-[10px] font-bold text-slate-500 mb-1">Annual Target ({selectedNa.uom})</label>
+                <NumberInput
+                  value={Number(form.annual_target) || 0}
+                  onChange={v => setForm(f => ({ ...f, annual_target: String(v), annual_budget: v <= 0 ? '0' : f.annual_budget }))}
+                  className="w-full text-xs border border-slate-200 rounded p-2 bg-slate-50 focus:outline-none focus:ring-2 focus:ring-red-100"
+                />
+              </div>
+              <div>
+                <label className="block text-[10px] font-bold text-slate-500 mb-1">Annual Budget (ETB)</label>
+                <NumberInput
+                  value={Number(form.annual_budget) || 0}
+                  onChange={v => setForm(f => ({ ...f, annual_budget: String(v) }))}
+                  disabled={Number(form.annual_target) <= 0}
+                  className="w-full text-xs border border-slate-200 rounded p-2 bg-slate-50 focus:outline-none focus:ring-2 focus:ring-red-100 disabled:opacity-50"
+                />
+              </div>
             </div>
             {isDuplicateLink && <div className="bg-rose-50 border border-rose-200 rounded-lg p-3 text-[11px] text-rose-700 font-semibold">This Project is already linked to {selectedNa.code}.</div>}
             <div className="bg-blue-50 border border-blue-100 rounded-lg p-3 text-[11px] text-blue-800 font-semibold space-y-1">
@@ -783,7 +813,7 @@ export const PlanEntryWizardModal: React.FC<{
     const selectedNa = nationalActivities.find(na => na.id === form.national_activity_id);
     const isDuplicate = !!selectedNa && regionActivityLinks.some(l => l.national_activity_id === selectedNa.id && l.region_id === form.region_id);
     const canContinue = !!form.national_activity_id && !isDuplicate;
-    const canSave = canContinue && !!form.activity_name.trim() && !!form.activity_description.trim() && selectedZoneIds.length > 0;
+    const canSave = canContinue && selectedZoneIds.length > 0;
 
     const toggleZone = (id: string) => setSelectedZoneIds(prev => prev.includes(id) ? prev.filter(z => z !== id) : [...prev, id]);
 
@@ -792,7 +822,7 @@ export const PlanEntryWizardModal: React.FC<{
       savingRef.current = true;
       addRegionActivityLink({
         id: `ral-${Date.now()}`, national_activity_id: form.national_activity_id, region_id: form.region_id,
-        activity_name: form.activity_name.trim(), activity_description: form.activity_description.trim(), eligible_zone_ids: selectedZoneIds,
+        activity_name: selectedNa?.description || '', activity_description: selectedNa?.activity_description || '', eligible_zone_ids: selectedZoneIds,
       });
       onSaved();
     };
@@ -821,13 +851,31 @@ export const PlanEntryWizardModal: React.FC<{
         )}
         {step === 2 && selectedNa && (
           <div className="space-y-4">
-            <LabeledInput label="Activity Name" value={form.activity_name} onChange={v => setForm(f => ({ ...f, activity_name: v }))} />
-            <label className="block">
-              <span className="block text-[10px] font-bold text-slate-500 mb-1">Activity Description</span>
-              <textarea value={form.activity_description} onChange={e => setForm(f => ({ ...f, activity_description: e.target.value }))} rows={3} className="w-full text-xs border border-slate-200 rounded p-2 bg-slate-50" />
-            </label>
+            {/* Item 1: inherited Name & Description from parent National Activity */}
+            <div className="bg-slate-50 border rounded-lg p-3">
+              <div className="text-[10px] uppercase font-extrabold text-slate-400">Activity Name (inherited from National Activity)</div>
+              <div className="text-xs font-bold text-slate-800 mt-0.5">{selectedNa?.description || '—'}</div>
+              <div className="text-[10px] uppercase font-extrabold text-slate-400 mt-2">Activity Description (inherited from National Activity)</div>
+              <div className="text-[11px] text-slate-600 mt-0.5">{selectedNa?.activity_description || '—'}</div>
+            </div>
             <div>
-              <span className="block text-[10px] font-bold text-slate-500 mb-2">Eligible Zones (multi-select) — no Target/Budget here, each Zone enters its own</span>
+              {/* Item 7: Select All toggle above zones grid */}
+              <div className="flex items-center justify-between mb-2">
+                <span className="block text-[10px] font-bold text-slate-500">Eligible Zones (multi-select) — no Target/Budget here, each Zone enters its own</span>
+                <button
+                  type="button"
+                  onClick={() => {
+                    if (selectedZoneIds.length === zonesInRegion.length && zonesInRegion.length > 0) {
+                      setSelectedZoneIds([]);
+                    } else {
+                      setSelectedZoneIds(zonesInRegion.map(z => z.id));
+                    }
+                  }}
+                  className="text-[10px] font-bold text-ercs-red"
+                >
+                  {selectedZoneIds.length === zonesInRegion.length && zonesInRegion.length > 0 ? 'Deselect all' : 'Select all'}
+                </button>
+              </div>
               <div className="grid grid-cols-2 gap-1.5 max-h-56 overflow-y-auto">
                 {zonesInRegion.map(z => (
                   <label key={z.id} className="flex items-center gap-2 text-xs font-semibold text-slate-700 bg-slate-50 border rounded px-2 py-1.5 cursor-pointer">
@@ -911,8 +959,23 @@ export const PlanEntryWizardModal: React.FC<{
             <div className="text-[11px] text-slate-600 mt-0.5">{selectedLink.activity_description}</div>
           </div>
           <div className="grid grid-cols-2 gap-3">
-            <LabeledInput label={`Annual Target (${selectedNaZone.uom})`} type="number" value={form.annual_target} onChange={v => setForm(f => ({ ...f, annual_target: v === '' ? '' : String(Math.max(0, Number(v) || 0)) }))} />
-            <LabeledInput label="Annual Budget (ETB)" type="number" value={form.annual_budget} onChange={v => setForm(f => ({ ...f, annual_budget: v === '' ? '' : String(Math.max(0, Number(v) || 0)) }))} />
+            <div>
+              <label className="block text-[10px] font-bold text-slate-500 mb-1">Annual Target ({selectedNaZone.uom})</label>
+              <NumberInput
+                value={Number(form.annual_target) || 0}
+                onChange={v => setForm(f => ({ ...f, annual_target: String(v), annual_budget: v <= 0 ? '0' : f.annual_budget }))}
+                className="w-full text-xs border border-slate-200 rounded p-2 bg-slate-50 focus:outline-none focus:ring-2 focus:ring-red-100"
+              />
+            </div>
+            <div>
+              <label className="block text-[10px] font-bold text-slate-500 mb-1">Annual Budget (ETB)</label>
+              <NumberInput
+                value={Number(form.annual_budget) || 0}
+                onChange={v => setForm(f => ({ ...f, annual_budget: String(v) }))}
+                disabled={Number(form.annual_target) <= 0}
+                className="w-full text-xs border border-slate-200 rounded p-2 bg-slate-50 focus:outline-none focus:ring-2 focus:ring-red-100 disabled:opacity-50"
+              />
+            </div>
           </div>
           {isDuplicateZoneEntry && <div className="bg-rose-50 border border-rose-200 rounded-lg p-3 text-[11px] text-rose-700 font-semibold">Your Zone already has a Plan Entry against this National Activity.</div>}
           {!numbersValid && <div className="bg-rose-50 border border-rose-200 rounded-lg p-3 text-[11px] text-rose-700 font-semibold">Target and Budget must be zero or greater.</div>}

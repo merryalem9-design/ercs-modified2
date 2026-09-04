@@ -53,7 +53,16 @@ export interface RegionActivityLink {
   eligible_zone_ids: string[];
 }
 
-export interface Project { id: string; name: string; }
+export interface Project {
+  id: string;
+  name: string;
+  description?: string;
+  budget?: number;
+  donor?: string;
+  target?: string;
+  start_date?: string;
+  end_date?: string;
+}
 
 export type ScopeType = 'Regional' | 'Project';
 
@@ -62,6 +71,8 @@ export type UserRole =
   | `Branch Head — ${string}`
   | `Project Coordinator — ${string}`
   | 'PMER Officer'
+  | 'System Admin'
+  | 'Program Manager'
   | `${string} coordinators`;
 
 export type ApprovalStatus = 'Draft' | 'Pending Approval' | 'Approved' | 'Rejected';

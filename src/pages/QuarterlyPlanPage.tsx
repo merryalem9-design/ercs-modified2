@@ -4,6 +4,7 @@ import { useApp } from '../context/AppContext';
 import { FilterBar } from '../components/common/FilterBar';
 import { convertToBeneficiaries, getApprovalBadge } from '../utils/calculations';
 import { PlanEntry, QuarterId } from '../types';
+import { NumberInput } from '../components/common/NumberInput';
 import { AlertTriangle, CheckCircle2, Wand2 } from 'lucide-react';
 
 const clampNonNegative = (raw: string): number => { const p = Number(raw); return Number.isFinite(p) ? Math.max(0, p) : 0; };
@@ -18,7 +19,7 @@ export const QuarterlyPlanPage: React.FC = () => {
       <div>
         <h2 className="text-xl font-black text-slate-800">Step 2 — Quarterly Plan Breakdown</h2>
         <p className="text-xs text-slate-500 mt-1">
-          Zone-scoped rows go through Draft → Pending Approval → Approved/Rejected with the Branch Head; Project rows stay live-editable and auto-approved as before.
+          Zone-scoped rows go through Draft → Pending Approval → Approved/Rejected with the Branch Head; Project-scoped rows go through approval with the Program Manager.
         </p>
       </div>
       <FilterBar />
@@ -49,7 +50,11 @@ const QuarterlyPlanRow: React.FC<{ entry: PlanEntry }> = ({ entry }) => {
   const na = nationalActivities.find(n => n.id === entry.national_activity_id);
   const scopeName = entry.scope_type === 'Regional' ? zones.find(z => z.id === entry.zone_id)?.name : projects.find(p => p.id === entry.project_id)?.name;
   const isZoneEntry = entry.scope_type === 'Regional';
-  const isOwningZoneCoordinator = currentRole === `${scopeName} coordinators`;
+  const isProjectEntry = entry.scope_type === 'Project';
+  const isApprovalScoped = isZoneEntry || isProjectEntry;
+  const isOwningZoneCoordinator = isZoneEntry && currentRole === `${scopeName} coordinators`;
+  const isOwningProjectCoordinator = isProjectEntry && currentRole === `Project Coordinator — ${scopeName}`;
+  const isOwningCoordinator = isOwningZoneCoordinator || isOwningProjectCoordinator;
   void regions;
 
   const rowPlans = quarters.map(q => quarterlyPlans.find(qp => qp.plan_entry_id === entry.id && qp.quarter_id === q.id));
@@ -58,16 +63,24 @@ const QuarterlyPlanRow: React.FC<{ entry: PlanEntry }> = ({ entry }) => {
   const targetMismatch = Math.abs(sumT - entry.annual_target) > RECONCILE_EPSILON;
   const budgetMismatch = Math.abs(sumB - entry.annual_budget) > RECONCILE_EPSILON;
 
-  const setQuarterField = (quarterId: QuarterId, field: 'target' | 'budget', raw: string) => {
-    let value = clampNonNegative(raw);
-    if (field === 'budget') {
-      const othersBudget = rowPlans.reduce((s, qp, idx) => (quarters[idx].id === quarterId ? s : s + (qp?.budget || 0)), 0);
-      value = Math.min(value, Math.max(0, entry.annual_budget - othersBudget));
-    }
+  const setQuarterTarget = (quarterId: QuarterId, value: number) => {
+    const existingQp = rowPlans.find(qp => qp?.quarter_id === quarterId);
+    const newBudget = value === 0 ? 0 : (existingQp?.budget || 0);
     upsertQuarterlyPlan({
       id: `qp-${entry.id}-${quarterId}`, plan_entry_id: entry.id, quarter_id: quarterId,
-      target: field === 'target' ? value : (rowPlans.find(qp => qp?.quarter_id === quarterId)?.target || 0),
-      budget: field === 'budget' ? value : (rowPlans.find(qp => qp?.quarter_id === quarterId)?.budget || 0),
+      target: value,
+      budget: newBudget,
+    });
+  };
+
+  const setQuarterBudget = (quarterId: QuarterId, rawVal: number) => {
+    const othersBudget = rowPlans.reduce((s, qp, idx) => (quarters[idx].id === quarterId ? s : s + (qp?.budget || 0)), 0);
+    const value = Math.min(rawVal, Math.max(0, entry.annual_budget - othersBudget));
+    const currentTarget = rowPlans.find(qp => qp?.quarter_id === quarterId)?.target || 0;
+    upsertQuarterlyPlan({
+      id: `qp-${entry.id}-${quarterId}`, plan_entry_id: entry.id, quarter_id: quarterId,
+      target: currentTarget,
+      budget: value,
     });
   };
 
@@ -92,24 +105,37 @@ const QuarterlyPlanRow: React.FC<{ entry: PlanEntry }> = ({ entry }) => {
         const qTarget = qp?.target ?? 0;
         const qBeneficiary = na ? convertToBeneficiaries(qTarget, na.uom, uomConfigs) : 0;
         const status = qp?.approval_status || 'Draft';
-        const locked = isZoneEntry && (status === 'Pending Approval' || status === 'Approved');
+        const locked = isApprovalScoped && (status === 'Pending Approval' || status === 'Approved');
+        const isBudgetDisabled = locked || qTarget === 0 || entry.annual_budget === 0;
         const badge = getApprovalBadge(status);
         return (
           <td key={q.id} className="p-2 border-l">
             <div className="flex flex-col gap-1 items-center">
               <div className="flex gap-1 justify-center items-start">
-                <input type="number" min="0" value={qTarget} disabled={locked} onChange={e => setQuarterField(q.id, 'target', e.target.value)} className="w-14 text-center text-[10px] font-bold border border-slate-200 rounded p-1 disabled:opacity-50" />
-                <input type="number" min="0" value={qp?.budget ?? 0} disabled={locked} onChange={e => setQuarterField(q.id, 'budget', e.target.value)} className="w-20 text-center text-[10px] font-bold border border-slate-200 rounded p-1 disabled:opacity-50" />
+                <NumberInput
+                  min={0}
+                  value={qTarget}
+                  disabled={locked}
+                  onChange={v => setQuarterTarget(q.id, v)}
+                  className="w-14 text-center text-[10px] font-bold border border-slate-200 rounded p-1 disabled:opacity-50"
+                />
+                <NumberInput
+                  min={0}
+                  value={qp?.budget ?? 0}
+                  disabled={isBudgetDisabled}
+                  onChange={v => setQuarterBudget(q.id, v)}
+                  className="w-20 text-center text-[10px] font-bold border border-slate-200 rounded p-1 disabled:opacity-50"
+                />
                 <div className="rounded bg-emerald-50 border border-emerald-100 px-1.5 py-1 text-center min-w-16">
                   <div className="text-[8px] font-black uppercase tracking-wide text-emerald-700 whitespace-nowrap">{q.id} Ben</div>
                   <div className="text-[10px] font-black text-emerald-900">{qBeneficiary.toLocaleString()}</div>
                 </div>
               </div>
-              {isZoneEntry && (
+              {isApprovalScoped && (
                 <div className="flex flex-col items-center gap-1">
                   <span className={`px-1.5 py-0.5 rounded-full text-[8px] font-bold border ${badge.color}`}>{badge.label}</span>
                   {status === 'Rejected' && qp?.rejection_reason && <div className="text-[8px] text-rose-600 max-w-24 text-center">{qp.rejection_reason}</div>}
-                  {isOwningZoneCoordinator && (status === 'Draft' || status === 'Rejected') && (
+                  {isOwningCoordinator && (status === 'Draft' || status === 'Rejected') && (
                     <button onClick={() => submitQuarterlyPlanForApproval({ plan_entry_id: entry.id, quarter_id: q.id })} className="text-[8px] font-bold text-blue-600">Submit for Approval</button>
                   )}
                 </div>

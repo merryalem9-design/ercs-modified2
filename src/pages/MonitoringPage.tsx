@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import { useApp } from '../context/AppContext';
 import { FilterBar } from '../components/common/FilterBar';
 import { sumActual } from '../utils/calculations';
+import { NumberInput } from '../components/common/NumberInput';
 import {
   PlanEntry,
   MonitoringRecord,
@@ -345,11 +346,11 @@ const MonitoringRegisterRow: React.FC<{
         </div>
         <div>
           <label className="block text-[10px] font-bold text-slate-500 mb-1">Verified Achieved</label>
-          <input
+          <NumberInput
             disabled={!isMonitor}
-            type="number" min="0"
-            value={form.verified_achieved ?? ''}
-            onChange={e => update({ verified_achieved: e.target.value === '' ? undefined : Math.max(0, Number(e.target.value)) })}
+            min={0}
+            value={form.verified_achieved ?? 0}
+            onChange={v => update({ verified_achieved: v })}
             className="w-full text-xs p-2 border rounded bg-slate-50 disabled:opacity-60"
           />
         </div>

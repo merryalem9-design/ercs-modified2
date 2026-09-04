@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import { useApp } from '../context/AppContext';
 import { FilterBar } from '../components/common/FilterBar';
 import { achievementPct, budgetUtilizationPct, convertToBeneficiaries, sumActual, getApprovalBadge } from '../utils/calculations';
+import { NumberInput } from '../components/common/NumberInput';
 import { PlanEntry, QuarterId } from '../types';
 import { AlertTriangle, ArrowRight } from 'lucide-react';
 
@@ -15,7 +16,7 @@ export const QuarterlyEntryPage: React.FC = () => {
     <div className="space-y-6">
       <div>
         <h2 className="text-xl font-black text-slate-800">Step 3 — Quarterly Actual Entry</h2>
-        <p className="text-xs text-slate-500 mt-1">Zone rows require an Approved Quarterly Plan for that quarter before Actuals can be entered, and now go through their own Draft → Pending Approval → Approved/Rejected cycle with the Branch Head. Project rows are unchanged.</p>
+        <p className="text-xs text-slate-500 mt-1">Zone and Project rows require an Approved Quarterly Plan for that quarter before Actuals can be entered, and go through Draft → Pending Approval → Approved/Rejected with the Branch Head (Zones) or Program Manager (Projects).</p>
       </div>
       <FilterBar />
       <div className="bg-white p-1.5 rounded-lg border inline-flex gap-1">
@@ -53,23 +54,22 @@ const EntryRow: React.FC<{ entry: PlanEntry; quarter: QuarterId; nationalActivit
   const planForQuarter = quarterlyPlans.find(qp => qp.plan_entry_id === entry.id && qp.quarter_id === quarter);
   const plannedTarget = planForQuarter?.target ?? 0;
   const plannedBudget = planForQuarter?.budget ?? 0;
-  const isZoneEntry = entry.scope_type === 'Regional';
+  // Both Zone and Project entries now require approval (plan must be Approved first).
+  const isCoordinatedEntry = true;
   const planStatus = planForQuarter?.approval_status;
-  const zoneBlocked = isZoneEntry && planStatus !== 'Approved';
+  const zoneBlocked = planStatus !== 'Approved';
 
-  const zoneBlockMessage = !isZoneEntry ? '' :
-    planStatus === 'Pending Approval' ? 'Awaiting Branch Head approval.' :
+  const zoneBlockMessage =
+    planStatus === 'Pending Approval' ? 'Awaiting approval for this quarter’s Quarterly Plan.' :
     planStatus === 'Rejected' ? 'This Quarterly Plan was rejected — resubmit it.' :
     'No Quarterly Plan submitted yet for this quarter.';
 
-  // Zone Actuals now go through their own Draft → Pending Approval →
-  // Approved/Rejected cycle with the Branch Head, same as the Quarterly
-  // Plan. Locked once Pending/Approved; Rejected re-opens editing so the
-  // zone can revise and resubmit.
   const actualStatus = existing?.approval_status || 'Draft';
-  const actualLocked = isZoneEntry && (actualStatus === 'Pending Approval' || actualStatus === 'Approved');
+  const actualLocked = isCoordinatedEntry && (actualStatus === 'Pending Approval' || actualStatus === 'Approved');
   const inputsDisabled = zoneBlocked || actualLocked;
-  const isOwningZoneCoordinator = isZoneEntry && currentRole === `${scopeLabel} coordinators`;
+  const isOwningCoordinator = entry.scope_type === 'Regional'
+    ? isCoordinatedEntry && currentRole === `${scopeLabel} coordinators`
+    : isCoordinatedEntry && currentRole === `Project Coordinator — ${scopeLabel}`;
   const actualBadge = getApprovalBadge(actualStatus);
 
   const sync = (nextActual: number, nextExp: number, nextComment = commentVal) => {
@@ -101,7 +101,7 @@ const EntryRow: React.FC<{ entry: PlanEntry; quarter: QuarterId; nationalActivit
           <span className="ml-2 text-xs font-bold text-slate-800">{scopeLabel}</span>
         </div>
         <div className="flex items-center gap-2 flex-wrap justify-end">
-          {isZoneEntry && !zoneBlocked && (
+          {isCoordinatedEntry && !zoneBlocked && (
             <span className={`inline-flex px-2 py-0.5 rounded-full text-[10px] font-bold border ${actualBadge.color}`}>{actualBadge.label}</span>
           )}
           <div className="text-[10px] bg-slate-100 px-2 py-1 rounded font-semibold whitespace-nowrap">Annual Target: {entry.annual_target.toLocaleString()} {uom}</div>
@@ -109,24 +109,25 @@ const EntryRow: React.FC<{ entry: PlanEntry; quarter: QuarterId; nationalActivit
         </div>
       </div>
 
-      {isZoneEntry && zoneBlocked && (
+      {/* Plan-not-submitted blocker for both Zone and Project entries */}
+      {zoneBlocked && (
         <div className="flex items-center justify-between gap-3 bg-rose-50 border border-rose-200 rounded-lg px-3 py-2 text-[11px] text-rose-800 font-semibold">
           <span className="flex items-center gap-1.5"><AlertTriangle className="w-3.5 h-3.5 shrink-0" /> {zoneBlockMessage}</span>
           <button onClick={goToQuarterlyPlan} className="shrink-0 bg-rose-600 text-white px-2.5 py-1 rounded text-[10px] font-bold whitespace-nowrap">Go to Quarterly Plan</button>
         </div>
       )}
-      {isZoneEntry && !zoneBlocked && actualStatus === 'Pending Approval' && (
+      {isCoordinatedEntry && !zoneBlocked && actualStatus === 'Pending Approval' && (
         <div className="flex items-center gap-1.5 bg-amber-50 border border-amber-200 rounded-lg px-3 py-2 text-[11px] text-amber-800 font-semibold">
-          <AlertTriangle className="w-3.5 h-3.5 shrink-0" /> Awaiting Branch Head approval for this quarter's Actual.
+          <AlertTriangle className="w-3.5 h-3.5 shrink-0" /> Awaiting approval for this quarter's Actual.
         </div>
       )}
-      {isZoneEntry && !zoneBlocked && actualStatus === 'Rejected' && (
+      {isCoordinatedEntry && !zoneBlocked && actualStatus === 'Rejected' && (
         <div className="bg-rose-50 border border-rose-200 rounded-lg px-3 py-2 text-[11px] text-rose-800 font-semibold space-y-0.5">
           <div className="flex items-center gap-1.5"><AlertTriangle className="w-3.5 h-3.5 shrink-0" /> This Quarterly Actual was rejected — revise and resubmit.</div>
           {existing?.rejection_reason && <div className="text-rose-700 font-normal">{existing.rejection_reason}</div>}
         </div>
       )}
-      {!isZoneEntry && !hasQuarterlyPlanForThisQuarter && (
+      {!isCoordinatedEntry && !hasQuarterlyPlanForThisQuarter && (
         <div className="flex items-center justify-between gap-3 bg-amber-50 border border-amber-200 rounded-lg px-3 py-2 text-[11px] text-amber-800 font-semibold">
           <span className="flex items-center gap-1.5"><AlertTriangle className="w-3.5 h-3.5 shrink-0" /> No Quarterly Plan set for {quarter} yet.</span>
           <button onClick={goToQuarterlyPlan} className="shrink-0 bg-amber-600 text-white px-2.5 py-1 rounded text-[10px] font-bold whitespace-nowrap">Go to Quarterly Plan</button>
@@ -141,11 +142,21 @@ const EntryRow: React.FC<{ entry: PlanEntry; quarter: QuarterId; nationalActivit
       <div className="flex flex-wrap items-end gap-4">
         <div>
           <label className="block text-[10px] font-bold text-slate-500 mb-1">Actual this quarter ({uom})</label>
-          <input type="number" min="0" disabled={inputsDisabled} value={actualVal} onChange={e => handleActualChange(e.target.value)} className="w-32 text-xs p-2 border rounded disabled:opacity-50 disabled:bg-slate-50" />
+          <NumberInput
+            value={actualVal}
+            disabled={inputsDisabled}
+            onChange={v => { setActualVal(v); sync(v, expVal); }}
+            className="w-32 text-xs p-2 border rounded disabled:opacity-50 disabled:bg-slate-50"
+          />
         </div>
         <div>
           <label className="block text-[10px] font-bold text-slate-500 mb-1">Expenditure this quarter (ETB)</label>
-          <input type="number" min="0" disabled={inputsDisabled} value={expVal} onChange={e => handleExpChange(e.target.value)} className={`w-36 text-xs p-2 border rounded disabled:opacity-50 disabled:bg-slate-50 ${isOverBudget ? 'border-rose-300 bg-rose-50' : ''}`} />
+          <NumberInput
+            value={expVal}
+            disabled={inputsDisabled}
+            onChange={v => { setExpVal(v); sync(actualVal, v); }}
+            className={`w-36 text-xs p-2 border rounded disabled:opacity-50 disabled:bg-slate-50 ${isOverBudget ? 'border-rose-300 bg-rose-50' : ''}`}
+          />
         </div>
         <div className="min-w-64 flex-1">
           <label className="block text-[10px] font-bold text-slate-500 mb-1">Comment</label>
@@ -160,7 +171,7 @@ const EntryRow: React.FC<{ entry: PlanEntry; quarter: QuarterId; nationalActivit
         </div>
       </div>
 
-      {isZoneEntry && !zoneBlocked && isOwningZoneCoordinator && (actualStatus === 'Draft' || actualStatus === 'Rejected') && (
+      {isCoordinatedEntry && !zoneBlocked && isOwningCoordinator && (actualStatus === 'Draft' || actualStatus === 'Rejected') && (
         <div className="flex justify-end">
           <button onClick={() => submitQuarterlyActualForApproval({ plan_entry_id: entry.id, quarter_id: quarter })} className="bg-blue-600 text-white px-3 py-1.5 rounded-lg text-[10px] font-bold">Submit for Approval</button>
         </div>

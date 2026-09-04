@@ -69,6 +69,7 @@ interface AppContextType {
   getMonitoringRecordForPlanEntry: (planEntryId: string) => MonitoringRecord | undefined;
 
   uomConfigs: UomFactorConfig[];
+  addUomConfig: (cfg: UomFactorConfig) => void;
 
   filters: FilterState; setFilters: React.Dispatch<React.SetStateAction<FilterState>>; resetFilters: () => void;
   getFilteredPlanEntries: () => PlanEntry[];
@@ -88,7 +89,9 @@ type RoleScope =
   | { kind: 'National' }
   | { kind: 'Regional'; regionId: string }
   | { kind: 'Zone'; zoneId: string; regionId: string }
-  | { kind: 'Project'; projectId: string };
+  | { kind: 'Project'; projectId: string }
+  | { kind: 'ProgramManager' }
+  | { kind: 'SystemAdmin' };
 
 const BRANCH_HEAD_PREFIX = 'Branch Head — ';
 const PROJECT_PREFIX = 'Project Coordinator — ';
@@ -97,6 +100,8 @@ const ZONE_SUFFIX = ' coordinators';
 const parseRoleScope = (role: UserRole, regions: Region[], projects: Project[], zones: Zone[]): RoleScope => {
   if (role === 'National Activity AOP') return { kind: 'National' };
   if (role === 'PMER Officer') return { kind: 'National' };
+  if (role === 'Program Manager') return { kind: 'ProgramManager' };
+  if (role === 'System Admin') return { kind: 'SystemAdmin' };
   if (role.startsWith(BRANCH_HEAD_PREFIX)) {
     const name = role.slice(BRANCH_HEAD_PREFIX.length);
     const region = regions.find(r => r.name === name);
@@ -115,19 +120,21 @@ const parseRoleScope = (role: UserRole, regions: Region[], projects: Project[], 
   return { kind: 'National' };
 };
 
-// READ scope: National sees all; Regional (Branch Head) sees every zone
+// READ scope: National/ProgramManager sees all; Regional (Branch Head) sees every zone
 // under their region (needed for aggregation/approvals); Zone sees only its
 // own zone; Project sees only its own project.
 const roleOwnsPlanEntry = (role: UserRole, pe: PlanEntry, regions: Region[], projects: Project[], zones: Zone[]): boolean => {
   const scope = parseRoleScope(role, regions, projects, zones);
   if (scope.kind === 'National') return true;
+  if (scope.kind === 'ProgramManager') return pe.scope_type === 'Project';
+  if (scope.kind === 'SystemAdmin') return false;
   if (scope.kind === 'Regional') return pe.scope_type === 'Regional' && pe.region_id === scope.regionId;
   if (scope.kind === 'Zone') return pe.scope_type === 'Regional' && pe.zone_id === scope.zoneId;
   return pe.scope_type === 'Project' && pe.project_id === scope.projectId;
 };
 
 // WRITE scope: only Zone (own zone) or Project (own project) may write a
-// PlanEntry/QuarterlyPlan/QuarterlyActual. Branch Head/AOP/PMER Officer never can.
+// PlanEntry/QuarterlyPlan/QuarterlyActual. Branch Head/AOP/PMER/ProgramManager never can.
 const roleCanWritePlanEntry = (role: UserRole, pe: PlanEntry, regions: Region[], projects: Project[], zones: Zone[]): boolean => {
   const scope = parseRoleScope(role, regions, projects, zones);
   if (scope.kind === 'Zone') return pe.scope_type === 'Regional' && pe.zone_id === scope.zoneId;
@@ -136,7 +143,7 @@ const roleCanWritePlanEntry = (role: UserRole, pe: PlanEntry, regions: Region[],
 };
 
 const normalizePersistedRole = (raw: UserRole, regions: Region[], projects: Project[], zones: Zone[]): UserRole => {
-  if (raw === 'National Activity AOP' || raw === 'PMER Officer') return raw;
+  if (raw === 'National Activity AOP' || raw === 'PMER Officer' || raw === 'Program Manager' || raw === 'System Admin') return raw;
   if (parseRoleScope(raw, regions, projects, zones).kind !== 'National') return raw;
   return 'National Activity AOP';
 };
@@ -181,7 +188,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   const [monitoringRecords, setMonitoringRecords] = useState<MonitoringRecord[]>(() => readPersisted('monitoringRecords', INITIAL_MONITORING_RECORDS));
   const [kpiProgressEntries, setKpiProgressEntries] = useState<KpiProgressEntry[]>(() => readPersisted('kpiProgressEntries', INITIAL_KPI_PROGRESS_ENTRIES));
   const [knowledgeDocuments, setKnowledgeDocuments] = useState<KnowledgeDocument[]>(() => readPersisted('knowledgeDocuments', INITIAL_KNOWLEDGE_DOCUMENTS));
-  const [uomConfigs] = useState<UomFactorConfig[]>(() => readPersisted('uomConfigs', INITIAL_UOM_CONFIGS));
+  const [uomConfigs, setUomConfigs] = useState<UomFactorConfig[]>(() => readPersisted('uomConfigs', INITIAL_UOM_CONFIGS));
   const [filters, setFilters] = useState<FilterState>(() => ({ ...DEFAULT_FILTERS, ...readPersisted('filters', DEFAULT_FILTERS) }));
 
   useEffect(() => {
@@ -223,7 +230,8 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
 
   const getNationalActivitiesForRole = (): NationalActivity[] => {
     const scope = parseRoleScope(currentRole, regions, projects, zones);
-    if (scope.kind === 'National') return nationalActivities;
+    if (scope.kind === 'National' || scope.kind === 'SystemAdmin') return nationalActivities;
+    if (scope.kind === 'ProgramManager') return nationalActivities.filter(na => na.eligible_project_ids.length > 0);
     if (scope.kind === 'Regional') return nationalActivities.filter(na => na.eligible_region_ids.includes(scope.regionId));
     if (scope.kind === 'Zone') {
       const linkedActivityIds = new Set(
@@ -231,7 +239,10 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       );
       return nationalActivities.filter(na => linkedActivityIds.has(na.id));
     }
-    return nationalActivities.filter(na => na.eligible_project_ids.includes(scope.projectId));
+    if (scope.kind === 'Project') {
+      return nationalActivities.filter(na => na.eligible_project_ids.includes(scope.projectId));
+    }
+    return nationalActivities;
   };
 
   const addNationalActivity = (na: NationalActivity) => {
@@ -333,8 +344,9 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   };
 
   // -----------------------------------------------------------------------
-  // QUARTERLY PLAN — Project rows stay auto-Approved. Zone rows: live edits
-  // keep it Draft; blocked once Pending/Approved (Rejected re-opens editing).
+  // QUARTERLY PLAN — Both Zone and Project rows now go through
+  // Draft → Pending Approval → Approved/Rejected.
+  // Zone rows: approved by Branch Head. Project rows: approved by Program Manager.
   // -----------------------------------------------------------------------
   const upsertQuarterlyPlan = (qp: QuarterlyPlanInput) => {
     const parentEntry = planEntries.find(x => x.id === qp.plan_entry_id);
@@ -347,13 +359,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       const idx = prev.findIndex(x => x.plan_entry_id === qp.plan_entry_id && x.quarter_id === qp.quarter_id);
       const existing = idx >= 0 ? prev[idx] : undefined;
 
-      if (parentEntry.scope_type === 'Project') {
-        const merged: QuarterlyPlan = { ...qp, approval_status: 'Approved' };
-        if (idx >= 0) { const copy = [...prev]; copy[idx] = merged; return copy; }
-        return [...prev, merged];
-      }
-
-      // Zone-scoped: block edits once Pending/Approved.
+      // Block edits once Pending/Approved (for both Zone and Project).
       if (existing && (existing.approval_status === 'Pending Approval' || existing.approval_status === 'Approved')) {
         showToast('This Quarterly Plan is locked while Pending Approval or Approved.');
         return prev;
@@ -367,17 +373,23 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   const submitQuarterlyPlanForApproval = ({ plan_entry_id, quarter_id }: { plan_entry_id: string; quarter_id: QuarterId }) => {
     const scope = parseRoleScope(currentRole, regions, projects, zones);
     const parentEntry = planEntries.find(x => x.id === plan_entry_id);
-    if (scope.kind !== 'Zone' || !parentEntry || parentEntry.zone_id !== scope.zoneId) { showToast('Only the owning Zone Coordinator can submit this for approval.'); return; }
+    // Zone Coordinator submits zone-scoped entries; Project Coordinator submits project-scoped entries.
+    const isOwningZone = scope.kind === 'Zone' && parentEntry?.zone_id === scope.zoneId;
+    const isOwningProject = scope.kind === 'Project' && parentEntry?.project_id === scope.projectId;
+    if (!parentEntry || (!isOwningZone && !isOwningProject)) { showToast('Only the owning Zone/Project Coordinator can submit this for approval.'); return; }
     setQuarterlyPlans(prev => prev.map(qp => qp.plan_entry_id === plan_entry_id && qp.quarter_id === quarter_id
       ? { ...qp, approval_status: 'Pending Approval', submitted_at: new Date().toISOString(), rejection_reason: undefined }
       : qp));
-    showToast(`${quarter_id} Quarterly Plan submitted for Branch Head approval.`);
+    const approverLabel = parentEntry.scope_type === 'Project' ? 'Program Manager' : 'Branch Head';
+    showToast(`${quarter_id} Quarterly Plan submitted for ${approverLabel} approval.`);
   };
 
   const approveQuarterlyPlan = ({ plan_entry_id, quarter_id }: { plan_entry_id: string; quarter_id: QuarterId }) => {
     const scope = parseRoleScope(currentRole, regions, projects, zones);
     const parentEntry = planEntries.find(x => x.id === plan_entry_id);
-    if (scope.kind !== 'Regional' || !parentEntry || parentEntry.region_id !== scope.regionId) { showToast('Only this region\'s Branch Head can approve this.'); return; }
+    const isBranchHeadForEntry = scope.kind === 'Regional' && parentEntry?.region_id === scope.regionId;
+    const isPMForEntry = scope.kind === 'ProgramManager' && parentEntry?.scope_type === 'Project';
+    if (!parentEntry || (!isBranchHeadForEntry && !isPMForEntry)) { showToast('Only the Branch Head or Program Manager can approve this.'); return; }
     setQuarterlyPlans(prev => prev.map(qp => qp.plan_entry_id === plan_entry_id && qp.quarter_id === quarter_id
       ? { ...qp, approval_status: 'Approved', reviewed_at: new Date().toISOString() }
       : qp));
@@ -385,22 +397,24 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   };
 
   const rejectQuarterlyPlan = ({ plan_entry_id, quarter_id, rejection_reason }: { plan_entry_id: string; quarter_id: QuarterId; rejection_reason: string }) => {
+    if (!rejection_reason || !rejection_reason.trim()) { showToast('A rejection reason is required.'); return; }
     const scope = parseRoleScope(currentRole, regions, projects, zones);
     const parentEntry = planEntries.find(x => x.id === plan_entry_id);
-    if (scope.kind !== 'Regional' || !parentEntry || parentEntry.region_id !== scope.regionId) { showToast('Only this region\'s Branch Head can reject this.'); return; }
+    const isBranchHeadForEntry = scope.kind === 'Regional' && parentEntry?.region_id === scope.regionId;
+    const isPMForEntry = scope.kind === 'ProgramManager' && parentEntry?.scope_type === 'Project';
+    if (!parentEntry || (!isBranchHeadForEntry && !isPMForEntry)) { showToast('Only the Branch Head or Program Manager can reject this.'); return; }
     setQuarterlyPlans(prev => prev.map(qp => qp.plan_entry_id === plan_entry_id && qp.quarter_id === quarter_id
       ? { ...qp, approval_status: 'Rejected', reviewed_at: new Date().toISOString(), rejection_reason }
       : qp));
-    showToast(`${quarter_id} Quarterly Plan rejected — zone can revise and resubmit.`);
+    const label = parentEntry.scope_type === 'Project' ? 'project can revise and resubmit' : 'zone can revise and resubmit';
+    showToast(`${quarter_id} Quarterly Plan rejected — ${label}.`);
   };
 
   // -----------------------------------------------------------------------
-  // QUARTERLY ACTUAL — Project rows unchanged (always auto-Approved, soft
-  // budget warning only, in the UI). Zone rows: hard-blocked unless the
-  // matching Quarterly Plan is Approved, and now go through their own
-  // Draft → Pending Approval → Approved/Rejected cycle with the Branch
-  // Head, exactly like the Quarterly Plan does — live edits keep it Draft;
-  // blocked once Pending/Approved (Rejected re-opens editing).
+  // QUARTERLY ACTUAL — Both Zone and Project rows now go through
+  // Draft → Pending Approval → Approved/Rejected.
+  // Zone rows require an Approved Plan first (Branch Head approves actuals).
+  // Project rows require an Approved Plan first (Program Manager approves actuals).
   // -----------------------------------------------------------------------
   const upsertQuarterlyActual = (qa: QuarterlyActualInput) => {
     const parentEntry = planEntries.find(x => x.id === qa.plan_entry_id);
@@ -408,25 +422,18 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       showToast('You can only enter Quarterly Actual values for your assigned project or zone.');
       return;
     }
-    if (parentEntry.scope_type === 'Regional') {
-      const plan = quarterlyPlans.find(qp => qp.plan_entry_id === qa.plan_entry_id && qp.quarter_id === qa.quarter_id);
-      if (!plan || plan.approval_status !== 'Approved') {
-        showToast('The Quarterly Plan for this quarter must be Approved by the Branch Head before entering Actuals.');
-        return;
-      }
+    // Both Zone and Project entries require an Approved Quarterly Plan first.
+    const plan = quarterlyPlans.find(qp => qp.plan_entry_id === qa.plan_entry_id && qp.quarter_id === qa.quarter_id);
+    if (!plan || plan.approval_status !== 'Approved') {
+      showToast('The Quarterly Plan for this quarter must be Approved before entering Actuals.');
+      return;
     }
 
     setQuarterlyActuals(prev => {
       const idx = prev.findIndex(a => a.plan_entry_id === qa.plan_entry_id && a.quarter_id === qa.quarter_id);
       const existing = idx >= 0 ? prev[idx] : undefined;
 
-      if (parentEntry.scope_type === 'Project') {
-        const merged: QuarterlyActual = { ...qa, approval_status: 'Approved' };
-        if (idx >= 0) { const copy = [...prev]; copy[idx] = merged; return copy; }
-        return [...prev, merged];
-      }
-
-      // Zone-scoped: block edits once Pending/Approved.
+      // Block edits once Pending/Approved (for both Zone and Project).
       if (existing && (existing.approval_status === 'Pending Approval' || existing.approval_status === 'Approved')) {
         showToast('This Quarterly Actual is locked while Pending Approval or Approved.');
         return prev;
@@ -440,17 +447,23 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   const submitQuarterlyActualForApproval = ({ plan_entry_id, quarter_id }: { plan_entry_id: string; quarter_id: QuarterId }) => {
     const scope = parseRoleScope(currentRole, regions, projects, zones);
     const parentEntry = planEntries.find(x => x.id === plan_entry_id);
-    if (scope.kind !== 'Zone' || !parentEntry || parentEntry.zone_id !== scope.zoneId) { showToast('Only the owning Zone Coordinator can submit this for approval.'); return; }
+    // Zone Coordinator submits zone-scoped entries; Project Coordinator submits project-scoped entries.
+    const isOwningZone = scope.kind === 'Zone' && parentEntry?.zone_id === scope.zoneId;
+    const isOwningProject = scope.kind === 'Project' && parentEntry?.project_id === scope.projectId;
+    if (!parentEntry || (!isOwningZone && !isOwningProject)) { showToast('Only the owning Zone/Project Coordinator can submit this for approval.'); return; }
     setQuarterlyActuals(prev => prev.map(qa => qa.plan_entry_id === plan_entry_id && qa.quarter_id === quarter_id
       ? { ...qa, approval_status: 'Pending Approval', submitted_at: new Date().toISOString(), rejection_reason: undefined }
       : qa));
-    showToast(`${quarter_id} Quarterly Actual submitted for Branch Head approval.`);
+    const approverLabel = parentEntry.scope_type === 'Project' ? 'Program Manager' : 'Branch Head';
+    showToast(`${quarter_id} Quarterly Actual submitted for ${approverLabel} approval.`);
   };
 
   const approveQuarterlyActual = ({ plan_entry_id, quarter_id }: { plan_entry_id: string; quarter_id: QuarterId }) => {
     const scope = parseRoleScope(currentRole, regions, projects, zones);
     const parentEntry = planEntries.find(x => x.id === plan_entry_id);
-    if (scope.kind !== 'Regional' || !parentEntry || parentEntry.region_id !== scope.regionId) { showToast('Only this region\'s Branch Head can approve this.'); return; }
+    const isBranchHeadForEntry = scope.kind === 'Regional' && parentEntry?.region_id === scope.regionId;
+    const isPMForEntry = scope.kind === 'ProgramManager' && parentEntry?.scope_type === 'Project';
+    if (!parentEntry || (!isBranchHeadForEntry && !isPMForEntry)) { showToast('Only the Branch Head or Program Manager can approve this.'); return; }
     setQuarterlyActuals(prev => prev.map(qa => qa.plan_entry_id === plan_entry_id && qa.quarter_id === quarter_id
       ? { ...qa, approval_status: 'Approved', reviewed_at: new Date().toISOString() }
       : qa));
@@ -458,13 +471,17 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   };
 
   const rejectQuarterlyActual = ({ plan_entry_id, quarter_id, rejection_reason }: { plan_entry_id: string; quarter_id: QuarterId; rejection_reason: string }) => {
+    if (!rejection_reason || !rejection_reason.trim()) { showToast('A rejection reason is required.'); return; }
     const scope = parseRoleScope(currentRole, regions, projects, zones);
     const parentEntry = planEntries.find(x => x.id === plan_entry_id);
-    if (scope.kind !== 'Regional' || !parentEntry || parentEntry.region_id !== scope.regionId) { showToast('Only this region\'s Branch Head can reject this.'); return; }
+    const isBranchHeadForEntry = scope.kind === 'Regional' && parentEntry?.region_id === scope.regionId;
+    const isPMForEntry = scope.kind === 'ProgramManager' && parentEntry?.scope_type === 'Project';
+    if (!parentEntry || (!isBranchHeadForEntry && !isPMForEntry)) { showToast('Only the Branch Head or Program Manager can reject this.'); return; }
     setQuarterlyActuals(prev => prev.map(qa => qa.plan_entry_id === plan_entry_id && qa.quarter_id === quarter_id
       ? { ...qa, approval_status: 'Rejected', reviewed_at: new Date().toISOString(), rejection_reason }
       : qa));
-    showToast(`${quarter_id} Quarterly Actual rejected — zone can revise and resubmit.`);
+    const label = parentEntry.scope_type === 'Project' ? 'project can revise and resubmit' : 'zone can revise and resubmit';
+    showToast(`${quarter_id} Quarterly Actual rejected — ${label}.`);
   };
 
   const getMonitoringRecordForPlanEntry = (planEntryId: string) =>
@@ -499,6 +516,12 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     return entriesForKpi.reduce((latest, e) => (e.date > latest.date ? e : latest), entriesForKpi[0]);
   };
 
+  const addUomConfig = (config: UomFactorConfig) => {
+    if (currentRole !== 'System Admin') { showToast('Only System Admin can add UOM configurations.'); return; }
+    if (uomConfigs.some(c => c.uom.toLowerCase() === config.uom.toLowerCase())) { showToast('This UOM already exists.'); return; }
+    setUomConfigs(prev => [...prev, config]);
+  };
+
   const addKnowledgeDocument = (doc: KnowledgeDocument) => {
     if (currentRole !== 'National Activity AOP') {
       showToast('Only National Activity AOP can add documents to the Knowledge Library.');
@@ -523,7 +546,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       quarterlyPlans, upsertQuarterlyPlan, submitQuarterlyPlanForApproval, approveQuarterlyPlan, rejectQuarterlyPlan,
       quarterlyActuals, upsertQuarterlyActual, submitQuarterlyActualForApproval, approveQuarterlyActual, rejectQuarterlyActual,
       monitoringRecords, upsertMonitoringRecord, getMonitoringRecordForPlanEntry,
-      uomConfigs,
+      uomConfigs, addUomConfig,
       filters, setFilters, resetFilters, getFilteredPlanEntries,
       strategicKpis, kpiProgressEntries, addKpiProgressEntry, getLatestKpiProgress,
       knowledgeDocuments, addKnowledgeDocument,

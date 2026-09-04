@@ -18,8 +18,12 @@ import { PerformancePage } from './pages/PerformancePage';
 import { StrategicPlanPage } from './pages/StrategicPlanPage';
 import { QuarterlyPlanSubmissionsPage } from './pages/QuarterlyPlanSubmissionsPage';
 import { QuarterlyActualSubmissionsPage } from './pages/QuarterlyActualSubmissionsPage';
+import { ProjectQuarterlyPlanSubmissionsPage } from './pages/ProjectQuarterlyPlanSubmissionsPage';
+import { ProjectQuarterlyActualSubmissionsPage } from './pages/ProjectQuarterlyActualSubmissionsPage';
 import { StrategicKpiPage } from './pages/StrategicKpiPage';
 import { KnowledgeLibraryPage } from './pages/KnowledgeLibraryPage';
+import { AdminSettingsPage } from './pages/AdminSettingsPage';
+import { NotificationsPage } from './pages/NotificationsPage';
 
 const RESTRICTED_FOR_AOP = new Set(['quarterly-plan', 'quarterly']);
 // AOP is now allowed into 'monitoring-dashboard' (read-only) but still
@@ -31,6 +35,8 @@ const AOP_ONLY_ROUTES = new Set(['performance', 'strategic-plan']);
 // Submissions list — they use 'quarterly-plan-submissions' and
 // 'quarterly-actual-submissions' instead.
 const RESTRICTED_FOR_BRANCH_HEAD = new Set(['quarterly-plan', 'quarterly', 'submissions']);
+// Program Manager is restricted away from direct-entry routes the same way.
+const RESTRICTED_FOR_PM = new Set(['quarterly-plan', 'quarterly', 'submissions']);
 
 const MainLayout: React.FC = () => {
   const { activeRoute, setActiveRoute, currentRole, filters } = useApp();
@@ -38,26 +44,62 @@ const MainLayout: React.FC = () => {
   const isMonitor = currentRole === 'PMER Officer';
   const isBranchHead = currentRole.startsWith('Branch Head — ');
   const isZoneCoordinator = currentRole.endsWith(' coordinators');
+  const isProgramManager = currentRole === 'Program Manager';
+  const isSystemAdmin = currentRole === 'System Admin';
 
   const onRestrictedRoute = isNationalAop && RESTRICTED_FOR_AOP.has(activeRoute);
   const onMonitorOnlyRouteAsOther = !isMonitor && MONITOR_ONLY_ROUTES.has(activeRoute);
   const onAopOnlyRouteAsOther = !isNationalAop && AOP_ONLY_ROUTES.has(activeRoute);
   const onRestrictedRouteForBranchHead = isBranchHead && RESTRICTED_FOR_BRANCH_HEAD.has(activeRoute);
+  const onRestrictedRouteForPm = isProgramManager && RESTRICTED_FOR_PM.has(activeRoute);
   const monitorOffItsOwnRoutes = isMonitor && !['monitoring', 'monitoring-dashboard', 'strategic-kpi', 'knowledge-library'].includes(activeRoute);
+  const adminOffItsOwnRoutes = isSystemAdmin && activeRoute !== 'admin-settings';
 
   React.useEffect(() => {
-    if (onRestrictedRoute || onMonitorOnlyRouteAsOther || onAopOnlyRouteAsOther || onRestrictedRouteForBranchHead) setActiveRoute('plan');
-    else if (monitorOffItsOwnRoutes) setActiveRoute('monitoring');
-  }, [onRestrictedRoute, onMonitorOnlyRouteAsOther, onAopOnlyRouteAsOther, onRestrictedRouteForBranchHead, monitorOffItsOwnRoutes, setActiveRoute]);
+    if (
+      onRestrictedRoute ||
+      onMonitorOnlyRouteAsOther ||
+      onAopOnlyRouteAsOther ||
+      onRestrictedRouteForBranchHead ||
+      onRestrictedRouteForPm
+    ) {
+      setActiveRoute('plan');
+    } else if (monitorOffItsOwnRoutes) {
+      setActiveRoute('monitoring');
+    } else if (adminOffItsOwnRoutes) {
+      setActiveRoute('admin-settings');
+    }
+  }, [
+    onRestrictedRoute,
+    onMonitorOnlyRouteAsOther,
+    onAopOnlyRouteAsOther,
+    onRestrictedRouteForBranchHead,
+    onRestrictedRouteForPm,
+    monitorOffItsOwnRoutes,
+    adminOffItsOwnRoutes,
+    setActiveRoute,
+  ]);
 
   const renderContent = () => {
-    if (onRestrictedRoute || onMonitorOnlyRouteAsOther || onAopOnlyRouteAsOther || onRestrictedRouteForBranchHead) return <PlanPage />;
+    if (
+      onRestrictedRoute ||
+      onMonitorOnlyRouteAsOther ||
+      onAopOnlyRouteAsOther ||
+      onRestrictedRouteForBranchHead ||
+      onRestrictedRouteForPm
+    ) {
+      return <PlanPage />;
+    }
     if (monitorOffItsOwnRoutes) return <MonitoringRegisterPage />;
+    if (adminOffItsOwnRoutes) return <AdminSettingsPage />;
+
     switch (activeRoute) {
       case 'plan': return <PlanPage />;
       case 'quarterly-plan': return <QuarterlyPlanPage />;
       case 'quarterly-plan-submissions': return <QuarterlyPlanSubmissionsPage />;
       case 'quarterly-actual-submissions': return <QuarterlyActualSubmissionsPage />;
+      case 'project-quarterly-plan-submissions': return <ProjectQuarterlyPlanSubmissionsPage />;
+      case 'project-quarterly-actual-submissions': return <ProjectQuarterlyActualSubmissionsPage />;
       case 'quarterly': return <QuarterlyEntryPage />;
       case 'report': return <ReportPage />;
       case 'national-detail': return <NationalActivityDetailPage />;
@@ -70,9 +112,12 @@ const MainLayout: React.FC = () => {
       case 'strategic-plan': return <StrategicPlanPage />;
       case 'strategic-kpi': return <StrategicKpiPage />;
       case 'knowledge-library': return <KnowledgeLibraryPage />;
+      case 'admin-settings': return <AdminSettingsPage />;
+      case 'notifications': return <NotificationsPage />;
       default: return <PlanPage />;
     }
   };
+
   void isZoneCoordinator; void filters;
 
   return (
