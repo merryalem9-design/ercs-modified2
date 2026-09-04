@@ -114,14 +114,22 @@ export const ProjectQuarterlyPlanSubmissionsPage: React.FC = () => {
                     <span className="font-bold text-slate-700 text-xs">{project?.name || '—'}</span>
                     <span className="text-slate-300 text-xs">·</span>
                     <span className="font-bold text-ercs-red text-xs">{na?.code || pe.activity_code || '—'}</span>
-                    <div className="flex items-center gap-2 flex-1 min-w-0">
-                      <span className="text-xs text-slate-800 font-bold truncate">{pe.activity_name}</span>
+                    <div className="flex flex-col flex-1 min-w-0">
+                      <div className="flex items-center gap-2 flex-wrap">
+                        <span className="text-xs text-slate-900 font-bold">{pe.activity_name}</span>
+                        {pe.is_contributing === false ? (
+                          <span className="px-1.5 py-0.5 rounded text-[9px] font-extrabold bg-amber-100 text-amber-800 border border-amber-200 uppercase tracking-wider shrink-0">
+                            Non-Contributing
+                          </span>
+                        ) : na ? (
+                          <span className="text-[10px] text-slate-400 font-medium truncate">
+                            (Linked National: {na.code} — {na.description})
+                          </span>
+                        ) : null}
+                      </div>
                       {pe.activity_description && (
-                        <span className="text-[11px] text-slate-500 truncate hidden md:inline">({pe.activity_description})</span>
-                      )}
-                      {pe.is_contributing === false && (
-                        <span className="px-1.5 py-0.5 rounded text-[9px] font-extrabold bg-amber-100 text-amber-800 border border-amber-200 uppercase tracking-wider shrink-0">
-                          Non-Contributing
+                        <span className="text-[11px] text-slate-600 font-normal mt-0.5">
+                          {pe.activity_description}
                         </span>
                       )}
                     </div>

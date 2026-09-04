@@ -293,7 +293,75 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "proj-2",
       "proj-3",
       "proj-4"
-    ]
+    ],
+    "ercs_target": 2.0,
+    "ercs_budget": 1000000.0,
+    "hq_target": 2.0,
+    "hq_budget": 1000000.0,
+    "rb_target": 0.0,
+    "rb_budget": 0.0,
+    "regional_targets": {
+      "reg-oromia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-addis-ababa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-amhara": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-central-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-west-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-sidama": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-tigray": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-gambella": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-benishangul-gumuz": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-harar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-dire-dawa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-somali": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-afar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-moyale": {
+        "target": 0.0,
+        "budget": 0.0
+      }
+    }
   },
   {
     "id": "na-1-1-2",
@@ -328,7 +396,75 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "proj-2",
       "proj-3",
       "proj-4"
-    ]
+    ],
+    "ercs_target": 22.0,
+    "ercs_budget": 1775000.0,
+    "hq_target": 0.0,
+    "hq_budget": 0.0,
+    "rb_target": 22.0,
+    "rb_budget": 1775000.0,
+    "regional_targets": {
+      "reg-oromia": {
+        "target": 2.0,
+        "budget": 10000.0
+      },
+      "reg-addis-ababa": {
+        "target": 2.0,
+        "budget": 200000.0
+      },
+      "reg-amhara": {
+        "target": 2.0,
+        "budget": 200000.0
+      },
+      "reg-central-ethiopia": {
+        "target": 2.0,
+        "budget": 200000.0
+      },
+      "reg-south-ethiopia": {
+        "target": 1.0,
+        "budget": 75000.0
+      },
+      "reg-south-west-ethiopia": {
+        "target": 1.0,
+        "budget": 200000.0
+      },
+      "reg-sidama": {
+        "target": 2.0,
+        "budget": 20000.0
+      },
+      "reg-tigray": {
+        "target": 2.0,
+        "budget": 200000.0
+      },
+      "reg-gambella": {
+        "target": 1.0,
+        "budget": 120000.0
+      },
+      "reg-benishangul-gumuz": {
+        "target": 2.0,
+        "budget": 100000.0
+      },
+      "reg-harar": {
+        "target": 1.0,
+        "budget": 100000.0
+      },
+      "reg-dire-dawa": {
+        "target": 1.0,
+        "budget": 50000.0
+      },
+      "reg-somali": {
+        "target": 1.0,
+        "budget": 100000.0
+      },
+      "reg-afar": {
+        "target": 1.0,
+        "budget": 130000.0
+      },
+      "reg-moyale": {
+        "target": 1.0,
+        "budget": 70000.0
+      }
+    }
   },
   {
     "id": "na-1-1-3",
@@ -363,7 +499,75 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "proj-2",
       "proj-3",
       "proj-4"
-    ]
+    ],
+    "ercs_target": 2.0,
+    "ercs_budget": 500000.0,
+    "hq_target": 2.0,
+    "hq_budget": 500000.0,
+    "rb_target": 0.0,
+    "rb_budget": 0.0,
+    "regional_targets": {
+      "reg-oromia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-addis-ababa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-amhara": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-central-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-west-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-sidama": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-tigray": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-gambella": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-benishangul-gumuz": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-harar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-dire-dawa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-somali": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-afar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-moyale": {
+        "target": 0.0,
+        "budget": 0.0
+      }
+    }
   },
   {
     "id": "na-1-1-4",
@@ -398,7 +602,75 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "proj-2",
       "proj-3",
       "proj-4"
-    ]
+    ],
+    "ercs_target": 10.0,
+    "ercs_budget": 7331000.0,
+    "hq_target": 0.0,
+    "hq_budget": 0.0,
+    "rb_target": 10.0,
+    "rb_budget": 7331000.0,
+    "regional_targets": {
+      "reg-oromia": {
+        "target": 3.0,
+        "budget": 2100000.0
+      },
+      "reg-addis-ababa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-amhara": {
+        "target": 1.0,
+        "budget": 600000.0
+      },
+      "reg-central-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-ethiopia": {
+        "target": 2.0,
+        "budget": 1400000.0
+      },
+      "reg-south-west-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-sidama": {
+        "target": 1.0,
+        "budget": 200000.0
+      },
+      "reg-tigray": {
+        "target": 1.0,
+        "budget": 600000.0
+      },
+      "reg-gambella": {
+        "target": 1.0,
+        "budget": 2231000.0
+      },
+      "reg-benishangul-gumuz": {
+        "target": 1.0,
+        "budget": 200000.0
+      },
+      "reg-harar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-dire-dawa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-somali": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-afar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-moyale": {
+        "target": 0.0,
+        "budget": 0.0
+      }
+    }
   },
   {
     "id": "na-1-1-5",
@@ -433,7 +705,75 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "proj-2",
       "proj-3",
       "proj-4"
-    ]
+    ],
+    "ercs_target": 1.0,
+    "ercs_budget": 20000000.0,
+    "hq_target": 1.0,
+    "hq_budget": 20000000.0,
+    "rb_target": 0.0,
+    "rb_budget": 0.0,
+    "regional_targets": {
+      "reg-oromia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-addis-ababa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-amhara": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-central-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-west-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-sidama": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-tigray": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-gambella": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-benishangul-gumuz": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-harar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-dire-dawa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-somali": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-afar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-moyale": {
+        "target": 0.0,
+        "budget": 0.0
+      }
+    }
   },
   {
     "id": "na-1-1-6",
@@ -468,7 +808,75 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "proj-2",
       "proj-3",
       "proj-4"
-    ]
+    ],
+    "ercs_target": 5.0,
+    "ercs_budget": 18000000.0,
+    "hq_target": 0.0,
+    "hq_budget": 0.0,
+    "rb_target": 5.0,
+    "rb_budget": 18000000.0,
+    "regional_targets": {
+      "reg-oromia": {
+        "target": 4.0,
+        "budget": 15000000.0
+      },
+      "reg-addis-ababa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-amhara": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-central-ethiopia": {
+        "target": 1.0,
+        "budget": 3000000.0
+      },
+      "reg-south-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-west-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-sidama": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-tigray": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-gambella": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-benishangul-gumuz": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-harar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-dire-dawa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-somali": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-afar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-moyale": {
+        "target": 0.0,
+        "budget": 0.0
+      }
+    }
   },
   {
     "id": "na-1-1-7",
@@ -503,7 +911,75 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "proj-2",
       "proj-3",
       "proj-4"
-    ]
+    ],
+    "ercs_target": 42.0,
+    "ercs_budget": 3000000.0,
+    "hq_target": 42.0,
+    "hq_budget": 3000000.0,
+    "rb_target": 0.0,
+    "rb_budget": 0.0,
+    "regional_targets": {
+      "reg-oromia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-addis-ababa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-amhara": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-central-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-west-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-sidama": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-tigray": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-gambella": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-benishangul-gumuz": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-harar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-dire-dawa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-somali": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-afar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-moyale": {
+        "target": 0.0,
+        "budget": 0.0
+      }
+    }
   },
   {
     "id": "na-1-1-8",
@@ -538,7 +1014,75 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "proj-2",
       "proj-3",
       "proj-4"
-    ]
+    ],
+    "ercs_target": 819.0,
+    "ercs_budget": 20607900.0,
+    "hq_target": 378.0,
+    "hq_budget": 14145600.0,
+    "rb_target": 441.0,
+    "rb_budget": 6462300.0,
+    "regional_targets": {
+      "reg-oromia": {
+        "target": 105.0,
+        "budget": 1822500.0
+      },
+      "reg-addis-ababa": {
+        "target": 50.0,
+        "budget": 200000.0
+      },
+      "reg-amhara": {
+        "target": 30.0,
+        "budget": 800000.0
+      },
+      "reg-central-ethiopia": {
+        "target": 23.0,
+        "budget": 174000.0
+      },
+      "reg-south-ethiopia": {
+        "target": 42.0,
+        "budget": 1000000.0
+      },
+      "reg-south-west-ethiopia": {
+        "target": 30.0,
+        "budget": 940800.0
+      },
+      "reg-sidama": {
+        "target": 35.0,
+        "budget": 250000.0
+      },
+      "reg-tigray": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-gambella": {
+        "target": 14.0,
+        "budget": 175000.0
+      },
+      "reg-benishangul-gumuz": {
+        "target": 30.0,
+        "budget": 200000.0
+      },
+      "reg-harar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-dire-dawa": {
+        "target": 17.0,
+        "budget": 200000.0
+      },
+      "reg-somali": {
+        "target": 15.0,
+        "budget": 400000.0
+      },
+      "reg-afar": {
+        "target": 25.0,
+        "budget": 200000.0
+      },
+      "reg-moyale": {
+        "target": 25.0,
+        "budget": 100000.0
+      }
+    }
   },
   {
     "id": "na-1-1-9",
@@ -573,7 +1117,75 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "proj-2",
       "proj-3",
       "proj-4"
-    ]
+    ],
+    "ercs_target": 14752.0,
+    "ercs_budget": 135140920.0,
+    "hq_target": 8575.0,
+    "hq_budget": 85270920.0,
+    "rb_target": 6177.0,
+    "rb_budget": 49870000.0,
+    "regional_targets": {
+      "reg-oromia": {
+        "target": 2731.0,
+        "budget": 25510000.0
+      },
+      "reg-addis-ababa": {
+        "target": 100.0,
+        "budget": 1000000.0
+      },
+      "reg-amhara": {
+        "target": 900.0,
+        "budget": 10800000.0
+      },
+      "reg-central-ethiopia": {
+        "target": 296.0,
+        "budget": 2960000.0
+      },
+      "reg-south-ethiopia": {
+        "target": 1200.0,
+        "budget": 3000000.0
+      },
+      "reg-south-west-ethiopia": {
+        "target": 150.0,
+        "budget": 400000.0
+      },
+      "reg-sidama": {
+        "target": 200.0,
+        "budget": 1000000.0
+      },
+      "reg-tigray": {
+        "target": 100.0,
+        "budget": 1000000.0
+      },
+      "reg-gambella": {
+        "target": 50.0,
+        "budget": 500000.0
+      },
+      "reg-benishangul-gumuz": {
+        "target": 100.0,
+        "budget": 200000.0
+      },
+      "reg-harar": {
+        "target": 100.0,
+        "budget": 1000000.0
+      },
+      "reg-dire-dawa": {
+        "target": 100.0,
+        "budget": 1000000.0
+      },
+      "reg-somali": {
+        "target": 100.0,
+        "budget": 1000000.0
+      },
+      "reg-afar": {
+        "target": 50.0,
+        "budget": 500000.0
+      },
+      "reg-moyale": {
+        "target": 0.0,
+        "budget": 0.0
+      }
+    }
   },
   {
     "id": "na-1-1-10",
@@ -608,7 +1220,75 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "proj-2",
       "proj-3",
       "proj-4"
-    ]
+    ],
+    "ercs_target": 9.0,
+    "ercs_budget": 10953357.66,
+    "hq_target": 9.0,
+    "hq_budget": 7530000.0,
+    "rb_target": 5.0,
+    "rb_budget": 3423357.66,
+    "regional_targets": {
+      "reg-oromia": {
+        "target": 1.0,
+        "budget": 1100000.0
+      },
+      "reg-addis-ababa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-amhara": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-central-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-ethiopia": {
+        "target": 1.0,
+        "budget": 250000.0
+      },
+      "reg-south-west-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-sidama": {
+        "target": 1.0,
+        "budget": 500000.0
+      },
+      "reg-tigray": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-gambella": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-benishangul-gumuz": {
+        "target": 1.0,
+        "budget": 30000.0
+      },
+      "reg-harar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-dire-dawa": {
+        "target": 1.0,
+        "budget": 1543357.66
+      },
+      "reg-somali": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-afar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-moyale": {
+        "target": 0.0,
+        "budget": 0.0
+      }
+    }
   },
   {
     "id": "na-1-2-1",
@@ -643,7 +1323,75 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "proj-2",
       "proj-3",
       "proj-4"
-    ]
+    ],
+    "ercs_target": 1.0,
+    "ercs_budget": 400000.0,
+    "hq_target": 1.0,
+    "hq_budget": 400000.0,
+    "rb_target": 0.0,
+    "rb_budget": 0.0,
+    "regional_targets": {
+      "reg-oromia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-addis-ababa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-amhara": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-central-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-west-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-sidama": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-tigray": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-gambella": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-benishangul-gumuz": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-harar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-dire-dawa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-somali": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-afar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-moyale": {
+        "target": 0.0,
+        "budget": 0.0
+      }
+    }
   },
   {
     "id": "na-1-2-2",
@@ -678,7 +1426,75 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "proj-2",
       "proj-3",
       "proj-4"
-    ]
+    ],
+    "ercs_target": 2.0,
+    "ercs_budget": 400000.0,
+    "hq_target": 2.0,
+    "hq_budget": 400000.0,
+    "rb_target": 0.0,
+    "rb_budget": 0.0,
+    "regional_targets": {
+      "reg-oromia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-addis-ababa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-amhara": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-central-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-west-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-sidama": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-tigray": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-gambella": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-benishangul-gumuz": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-harar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-dire-dawa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-somali": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-afar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-moyale": {
+        "target": 0.0,
+        "budget": 0.0
+      }
+    }
   },
   {
     "id": "na-1-2-3",
@@ -713,7 +1529,75 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "proj-2",
       "proj-3",
       "proj-4"
-    ]
+    ],
+    "ercs_target": 22.0,
+    "ercs_budget": 1522000.0,
+    "hq_target": 3.0,
+    "hq_budget": 1000000.0,
+    "rb_target": 19.0,
+    "rb_budget": 522000.0,
+    "regional_targets": {
+      "reg-oromia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-addis-ababa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-amhara": {
+        "target": 1.0,
+        "budget": 110000.0
+      },
+      "reg-central-ethiopia": {
+        "target": 2.0,
+        "budget": 20000.0
+      },
+      "reg-south-ethiopia": {
+        "target": 3.0,
+        "budget": 110000.0
+      },
+      "reg-south-west-ethiopia": {
+        "target": 2.0,
+        "budget": 20000.0
+      },
+      "reg-sidama": {
+        "target": 4.0,
+        "budget": 50000.0
+      },
+      "reg-tigray": {
+        "target": 1.0,
+        "budget": 10000.0
+      },
+      "reg-gambella": {
+        "target": 1.0,
+        "budget": 60000.0
+      },
+      "reg-benishangul-gumuz": {
+        "target": 3.0,
+        "budget": 2000.0
+      },
+      "reg-harar": {
+        "target": 1.0,
+        "budget": 10000.0
+      },
+      "reg-dire-dawa": {
+        "target": 1.0,
+        "budget": 130000.0
+      },
+      "reg-somali": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-afar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-moyale": {
+        "target": 0.0,
+        "budget": 0.0
+      }
+    }
   },
   {
     "id": "na-1-2-4",
@@ -748,7 +1632,75 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "proj-2",
       "proj-3",
       "proj-4"
-    ]
+    ],
+    "ercs_target": 643.0,
+    "ercs_budget": 3778400.0,
+    "hq_target": 45.0,
+    "hq_budget": 1500000.0,
+    "rb_target": 598.0,
+    "rb_budget": 2278400.0,
+    "regional_targets": {
+      "reg-oromia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-addis-ababa": {
+        "target": 35.0,
+        "budget": 250000.0
+      },
+      "reg-amhara": {
+        "target": 70.0,
+        "budget": 200000.0
+      },
+      "reg-central-ethiopia": {
+        "target": 50.0,
+        "budget": 100000.0
+      },
+      "reg-south-ethiopia": {
+        "target": 83.0,
+        "budget": 750000.0
+      },
+      "reg-south-west-ethiopia": {
+        "target": 30.0,
+        "budget": 100000.0
+      },
+      "reg-sidama": {
+        "target": 42.0,
+        "budget": 50000.0
+      },
+      "reg-tigray": {
+        "target": 70.0,
+        "budget": 200000.0
+      },
+      "reg-gambella": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-benishangul-gumuz": {
+        "target": 35.0,
+        "budget": 10000.0
+      },
+      "reg-harar": {
+        "target": 14.0,
+        "budget": 50000.0
+      },
+      "reg-dire-dawa": {
+        "target": 78.0,
+        "budget": 188400.0
+      },
+      "reg-somali": {
+        "target": 35.0,
+        "budget": 100000.0
+      },
+      "reg-afar": {
+        "target": 35.0,
+        "budget": 200000.0
+      },
+      "reg-moyale": {
+        "target": 21.0,
+        "budget": 80000.0
+      }
+    }
   },
   {
     "id": "na-1-2-5",
@@ -783,7 +1735,75 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "proj-2",
       "proj-3",
       "proj-4"
-    ]
+    ],
+    "ercs_target": 19.0,
+    "ercs_budget": 2527000.0,
+    "hq_target": 1.0,
+    "hq_budget": 700000.0,
+    "rb_target": 18.0,
+    "rb_budget": 1827000.0,
+    "regional_targets": {
+      "reg-oromia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-addis-ababa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-amhara": {
+        "target": 1.0,
+        "budget": 200000.0
+      },
+      "reg-central-ethiopia": {
+        "target": 1.0,
+        "budget": 200000.0
+      },
+      "reg-south-ethiopia": {
+        "target": 4.0,
+        "budget": 70000.0
+      },
+      "reg-south-west-ethiopia": {
+        "target": 1.0,
+        "budget": 200000.0
+      },
+      "reg-sidama": {
+        "target": 1.0,
+        "budget": 200000.0
+      },
+      "reg-tigray": {
+        "target": 1.0,
+        "budget": 200000.0
+      },
+      "reg-gambella": {
+        "target": 2.0,
+        "budget": 235000.0
+      },
+      "reg-benishangul-gumuz": {
+        "target": 3.0,
+        "budget": 2000.0
+      },
+      "reg-harar": {
+        "target": 1.0,
+        "budget": 100000.0
+      },
+      "reg-dire-dawa": {
+        "target": 1.0,
+        "budget": 200000.0
+      },
+      "reg-somali": {
+        "target": 1.0,
+        "budget": 200000.0
+      },
+      "reg-afar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-moyale": {
+        "target": 1.0,
+        "budget": 20000.0
+      }
+    }
   },
   {
     "id": "na-1-2-6",
@@ -818,7 +1838,75 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "proj-2",
       "proj-3",
       "proj-4"
-    ]
+    ],
+    "ercs_target": 4.0,
+    "ercs_budget": 4800000.0,
+    "hq_target": 4.0,
+    "hq_budget": 4800000.0,
+    "rb_target": 0.0,
+    "rb_budget": 0.0,
+    "regional_targets": {
+      "reg-oromia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-addis-ababa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-amhara": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-central-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-west-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-sidama": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-tigray": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-gambella": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-benishangul-gumuz": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-harar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-dire-dawa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-somali": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-afar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-moyale": {
+        "target": 0.0,
+        "budget": 0.0
+      }
+    }
   },
   {
     "id": "na-1-2-7",
@@ -853,7 +1941,75 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "proj-2",
       "proj-3",
       "proj-4"
-    ]
+    ],
+    "ercs_target": 40000.0,
+    "ercs_budget": 20000000.0,
+    "hq_target": 40000.0,
+    "hq_budget": 20000000.0,
+    "rb_target": 0.0,
+    "rb_budget": 0.0,
+    "regional_targets": {
+      "reg-oromia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-addis-ababa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-amhara": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-central-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-west-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-sidama": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-tigray": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-gambella": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-benishangul-gumuz": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-harar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-dire-dawa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-somali": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-afar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-moyale": {
+        "target": 0.0,
+        "budget": 0.0
+      }
+    }
   },
   {
     "id": "na-1-2-8",
@@ -888,7 +2044,75 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "proj-2",
       "proj-3",
       "proj-4"
-    ]
+    ],
+    "ercs_target": 314.0,
+    "ercs_budget": 2633000.0,
+    "hq_target": 150.0,
+    "hq_budget": 1500000.0,
+    "rb_target": 164.0,
+    "rb_budget": 1133000.0,
+    "regional_targets": {
+      "reg-oromia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-addis-ababa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-amhara": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-central-ethiopia": {
+        "target": 20.0,
+        "budget": 123000.0
+      },
+      "reg-south-ethiopia": {
+        "target": 24.0,
+        "budget": 500000.0
+      },
+      "reg-south-west-ethiopia": {
+        "target": 30.0,
+        "budget": 150000.0
+      },
+      "reg-sidama": {
+        "target": 30.0,
+        "budget": 200000.0
+      },
+      "reg-tigray": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-gambella": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-benishangul-gumuz": {
+        "target": 30.0,
+        "budget": 60000.0
+      },
+      "reg-harar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-dire-dawa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-somali": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-afar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-moyale": {
+        "target": 30.0,
+        "budget": 100000.0
+      }
+    }
   },
   {
     "id": "na-1-2-9",
@@ -923,7 +2147,75 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "proj-2",
       "proj-3",
       "proj-4"
-    ]
+    ],
+    "ercs_target": 597.0,
+    "ercs_budget": 2115000.0,
+    "hq_target": 0.0,
+    "hq_budget": 0.0,
+    "rb_target": 597.0,
+    "rb_budget": 2115000.0,
+    "regional_targets": {
+      "reg-oromia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-addis-ababa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-amhara": {
+        "target": 100.0,
+        "budget": 500000.0
+      },
+      "reg-central-ethiopia": {
+        "target": 50.0,
+        "budget": 95000.0
+      },
+      "reg-south-ethiopia": {
+        "target": 120.0,
+        "budget": 120000.0
+      },
+      "reg-south-west-ethiopia": {
+        "target": 30.0,
+        "budget": 150000.0
+      },
+      "reg-sidama": {
+        "target": 2.0,
+        "budget": 0.0
+      },
+      "reg-tigray": {
+        "target": 100.0,
+        "budget": 500000.0
+      },
+      "reg-gambella": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-benishangul-gumuz": {
+        "target": 50.0,
+        "budget": 100000.0
+      },
+      "reg-harar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-dire-dawa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-somali": {
+        "target": 100.0,
+        "budget": 500000.0
+      },
+      "reg-afar": {
+        "target": 45.0,
+        "budget": 150000.0
+      },
+      "reg-moyale": {
+        "target": 0.0,
+        "budget": 0.0
+      }
+    }
   },
   {
     "id": "na-1-3-1",
@@ -958,7 +2250,75 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "proj-2",
       "proj-3",
       "proj-4"
-    ]
+    ],
+    "ercs_target": 91.0,
+    "ercs_budget": 6831900.0,
+    "hq_target": 25.0,
+    "hq_budget": 4300000.0,
+    "rb_target": 66.0,
+    "rb_budget": 2531900.0,
+    "regional_targets": {
+      "reg-oromia": {
+        "target": 15.0,
+        "budget": 500000.0
+      },
+      "reg-addis-ababa": {
+        "target": 1.0,
+        "budget": 25000.0
+      },
+      "reg-amhara": {
+        "target": 6.0,
+        "budget": 240000.0
+      },
+      "reg-central-ethiopia": {
+        "target": 3.0,
+        "budget": 174000.0
+      },
+      "reg-south-ethiopia": {
+        "target": 16.0,
+        "budget": 420000.0
+      },
+      "reg-south-west-ethiopia": {
+        "target": 2.0,
+        "budget": 67900.0
+      },
+      "reg-sidama": {
+        "target": 6.0,
+        "budget": 100000.0
+      },
+      "reg-tigray": {
+        "target": 5.0,
+        "budget": 200000.0
+      },
+      "reg-gambella": {
+        "target": 1.0,
+        "budget": 275000.0
+      },
+      "reg-benishangul-gumuz": {
+        "target": 2.0,
+        "budget": 100000.0
+      },
+      "reg-harar": {
+        "target": 1.0,
+        "budget": 30000.0
+      },
+      "reg-dire-dawa": {
+        "target": 2.0,
+        "budget": 90000.0
+      },
+      "reg-somali": {
+        "target": 2.0,
+        "budget": 100000.0
+      },
+      "reg-afar": {
+        "target": 3.0,
+        "budget": 140000.0
+      },
+      "reg-moyale": {
+        "target": 1.0,
+        "budget": 70000.0
+      }
+    }
   },
   {
     "id": "na-1-3-2",
@@ -993,7 +2353,75 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "proj-2",
       "proj-3",
       "proj-4"
-    ]
+    ],
+    "ercs_target": 75000.0,
+    "ercs_budget": 2205900000.0,
+    "hq_target": 75000.0,
+    "hq_budget": 2205900000.0,
+    "rb_target": 0.0,
+    "rb_budget": 0.0,
+    "regional_targets": {
+      "reg-oromia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-addis-ababa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-amhara": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-central-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-west-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-sidama": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-tigray": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-gambella": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-benishangul-gumuz": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-harar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-dire-dawa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-somali": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-afar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-moyale": {
+        "target": 0.0,
+        "budget": 0.0
+      }
+    }
   },
   {
     "id": "na-1-3-3",
@@ -1028,7 +2456,75 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "proj-2",
       "proj-3",
       "proj-4"
-    ]
+    ],
+    "ercs_target": 12294.0,
+    "ercs_budget": 141762230.0,
+    "hq_target": 8164.0,
+    "hq_budget": 107428230.0,
+    "rb_target": 4130.0,
+    "rb_budget": 34334000.0,
+    "regional_targets": {
+      "reg-oromia": {
+        "target": 2820.0,
+        "budget": 22479000.0
+      },
+      "reg-addis-ababa": {
+        "target": 100.0,
+        "budget": 1150000.0
+      },
+      "reg-amhara": {
+        "target": 700.0,
+        "budget": 8400000.0
+      },
+      "reg-central-ethiopia": {
+        "target": 75.0,
+        "budget": 460000.0
+      },
+      "reg-south-ethiopia": {
+        "target": 90.0,
+        "budget": 135000.0
+      },
+      "reg-south-west-ethiopia": {
+        "target": 150.0,
+        "budget": 200000.0
+      },
+      "reg-sidama": {
+        "target": 125.0,
+        "budget": 1300000.0
+      },
+      "reg-tigray": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-gambella": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-benishangul-gumuz": {
+        "target": 70.0,
+        "budget": 210000.0
+      },
+      "reg-harar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-dire-dawa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-somali": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-afar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-moyale": {
+        "target": 0.0,
+        "budget": 0.0
+      }
+    }
   },
   {
     "id": "na-1-3-4",
@@ -1063,7 +2559,75 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "proj-2",
       "proj-3",
       "proj-4"
-    ]
+    ],
+    "ercs_target": 22650.0,
+    "ercs_budget": 123570000.0,
+    "hq_target": 18000.0,
+    "hq_budget": 120600000.0,
+    "rb_target": 4650.0,
+    "rb_budget": 2970000.0,
+    "regional_targets": {
+      "reg-oromia": {
+        "target": 2000.0,
+        "budget": 1000000.0
+      },
+      "reg-addis-ababa": {
+        "target": 300.0,
+        "budget": 100000.0
+      },
+      "reg-amhara": {
+        "target": 900.0,
+        "budget": 0.0
+      },
+      "reg-central-ethiopia": {
+        "target": 150.0,
+        "budget": 100000.0
+      },
+      "reg-south-ethiopia": {
+        "target": 600.0,
+        "budget": 500000.0
+      },
+      "reg-south-west-ethiopia": {
+        "target": 150.0,
+        "budget": 250000.0
+      },
+      "reg-sidama": {
+        "target": 100.0,
+        "budget": 300000.0
+      },
+      "reg-tigray": {
+        "target": 100.0,
+        "budget": 100000.0
+      },
+      "reg-gambella": {
+        "target": 50.0,
+        "budget": 50000.0
+      },
+      "reg-benishangul-gumuz": {
+        "target": 50.0,
+        "budget": 170000.0
+      },
+      "reg-harar": {
+        "target": 50.0,
+        "budget": 50000.0
+      },
+      "reg-dire-dawa": {
+        "target": 100.0,
+        "budget": 100000.0
+      },
+      "reg-somali": {
+        "target": 50.0,
+        "budget": 150000.0
+      },
+      "reg-afar": {
+        "target": 50.0,
+        "budget": 100000.0
+      },
+      "reg-moyale": {
+        "target": 0.0,
+        "budget": 0.0
+      }
+    }
   },
   {
     "id": "na-1-3-5",
@@ -1098,7 +2662,75 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "proj-2",
       "proj-3",
       "proj-4"
-    ]
+    ],
+    "ercs_target": 2453.0,
+    "ercs_budget": 208986000.0,
+    "hq_target": 2351.0,
+    "hq_budget": 202186000.0,
+    "rb_target": 102.0,
+    "rb_budget": 6800000.0,
+    "regional_targets": {
+      "reg-oromia": {
+        "target": 70.0,
+        "budget": 4400000.0
+      },
+      "reg-addis-ababa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-amhara": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-central-ethiopia": {
+        "target": 6.0,
+        "budget": 1400000.0
+      },
+      "reg-south-ethiopia": {
+        "target": 16.0,
+        "budget": 800000.0
+      },
+      "reg-south-west-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-sidama": {
+        "target": 10.0,
+        "budget": 200000.0
+      },
+      "reg-tigray": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-gambella": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-benishangul-gumuz": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-harar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-dire-dawa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-somali": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-afar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-moyale": {
+        "target": 0.0,
+        "budget": 0.0
+      }
+    }
   },
   {
     "id": "na-1-3-6",
@@ -1133,7 +2765,75 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "proj-2",
       "proj-3",
       "proj-4"
-    ]
+    ],
+    "ercs_target": 10000.0,
+    "ercs_budget": 51440000.0,
+    "hq_target": 10000.0,
+    "hq_budget": 51440000.0,
+    "rb_target": 0.0,
+    "rb_budget": 0.0,
+    "regional_targets": {
+      "reg-oromia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-addis-ababa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-amhara": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-central-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-west-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-sidama": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-tigray": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-gambella": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-benishangul-gumuz": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-harar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-dire-dawa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-somali": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-afar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-moyale": {
+        "target": 0.0,
+        "budget": 0.0
+      }
+    }
   },
   {
     "id": "na-1-3-7",
@@ -1168,7 +2868,75 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "proj-2",
       "proj-3",
       "proj-4"
-    ]
+    ],
+    "ercs_target": 151500.0,
+    "ercs_budget": 15150000.0,
+    "hq_target": 151500.0,
+    "hq_budget": 15150000.0,
+    "rb_target": 0.0,
+    "rb_budget": 0.0,
+    "regional_targets": {
+      "reg-oromia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-addis-ababa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-amhara": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-central-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-west-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-sidama": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-tigray": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-gambella": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-benishangul-gumuz": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-harar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-dire-dawa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-somali": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-afar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-moyale": {
+        "target": 0.0,
+        "budget": 0.0
+      }
+    }
   },
   {
     "id": "na-1-4-1",
@@ -1203,7 +2971,75 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "proj-2",
       "proj-3",
       "proj-4"
-    ]
+    ],
+    "ercs_target": 10045.0,
+    "ercs_budget": 231450080.0,
+    "hq_target": 10000.0,
+    "hq_budget": 231034080.0,
+    "rb_target": 45.0,
+    "rb_budget": 416000.0,
+    "regional_targets": {
+      "reg-oromia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-addis-ababa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-amhara": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-central-ethiopia": {
+        "target": 10.0,
+        "budget": 166000.0
+      },
+      "reg-south-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-west-ethiopia": {
+        "target": 30.0,
+        "budget": 200000.0
+      },
+      "reg-sidama": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-tigray": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-gambella": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-benishangul-gumuz": {
+        "target": 5.0,
+        "budget": 50000.0
+      },
+      "reg-harar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-dire-dawa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-somali": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-afar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-moyale": {
+        "target": 0.0,
+        "budget": 0.0
+      }
+    }
   },
   {
     "id": "na-1-4-2",
@@ -1238,7 +3074,75 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "proj-2",
       "proj-3",
       "proj-4"
-    ]
+    ],
+    "ercs_target": 86.0,
+    "ercs_budget": 1370000.0,
+    "hq_target": 0.0,
+    "hq_budget": 0.0,
+    "rb_target": 86.0,
+    "rb_budget": 1370000.0,
+    "regional_targets": {
+      "reg-oromia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-addis-ababa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-amhara": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-central-ethiopia": {
+        "target": 20.0,
+        "budget": 110000.0
+      },
+      "reg-south-ethiopia": {
+        "target": 60.0,
+        "budget": 1200000.0
+      },
+      "reg-south-west-ethiopia": {
+        "target": 6.0,
+        "budget": 60000.0
+      },
+      "reg-sidama": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-tigray": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-gambella": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-benishangul-gumuz": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-harar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-dire-dawa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-somali": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-afar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-moyale": {
+        "target": 0.0,
+        "budget": 0.0
+      }
+    }
   },
   {
     "id": "na-1-4-3",
@@ -1273,7 +3177,75 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "proj-2",
       "proj-3",
       "proj-4"
-    ]
+    ],
+    "ercs_target": 8177.0,
+    "ercs_budget": 17046800.0,
+    "hq_target": 0.0,
+    "hq_budget": 0.0,
+    "rb_target": 8177.0,
+    "rb_budget": 17046800.0,
+    "regional_targets": {
+      "reg-oromia": {
+        "target": 4177.0,
+        "budget": 7241800.0
+      },
+      "reg-addis-ababa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-amhara": {
+        "target": 1000.0,
+        "budget": 3000000.0
+      },
+      "reg-central-ethiopia": {
+        "target": 500.0,
+        "budget": 1000000.0
+      },
+      "reg-south-ethiopia": {
+        "target": 1000.0,
+        "budget": 2500000.0
+      },
+      "reg-south-west-ethiopia": {
+        "target": 150.0,
+        "budget": 180000.0
+      },
+      "reg-sidama": {
+        "target": 100.0,
+        "budget": 300000.0
+      },
+      "reg-tigray": {
+        "target": 500.0,
+        "budget": 1500000.0
+      },
+      "reg-gambella": {
+        "target": 50.0,
+        "budget": 100000.0
+      },
+      "reg-benishangul-gumuz": {
+        "target": 100.0,
+        "budget": 200000.0
+      },
+      "reg-harar": {
+        "target": 50.0,
+        "budget": 150000.0
+      },
+      "reg-dire-dawa": {
+        "target": 200.0,
+        "budget": 300000.0
+      },
+      "reg-somali": {
+        "target": 100.0,
+        "budget": 300000.0
+      },
+      "reg-afar": {
+        "target": 150.0,
+        "budget": 230000.0
+      },
+      "reg-moyale": {
+        "target": 100.0,
+        "budget": 45000.0
+      }
+    }
   },
   {
     "id": "na-2-1-1",
@@ -1308,7 +3280,75 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "proj-2",
       "proj-3",
       "proj-4"
-    ]
+    ],
+    "ercs_target": 60750.0,
+    "ercs_budget": 7018000.0,
+    "hq_target": 16000.0,
+    "hq_budget": 5000000.0,
+    "rb_target": 44750.0,
+    "rb_budget": 2018000.0,
+    "regional_targets": {
+      "reg-oromia": {
+        "target": 2000.0,
+        "budget": 973000.0
+      },
+      "reg-addis-ababa": {
+        "target": 50.0,
+        "budget": 120000.0
+      },
+      "reg-amhara": {
+        "target": 1800.0,
+        "budget": 225000.0
+      },
+      "reg-central-ethiopia": {
+        "target": 25800.0,
+        "budget": 50000.0
+      },
+      "reg-south-ethiopia": {
+        "target": 3000.0,
+        "budget": 150000.0
+      },
+      "reg-south-west-ethiopia": {
+        "target": 200.0,
+        "budget": 100000.0
+      },
+      "reg-sidama": {
+        "target": 1000.0,
+        "budget": 50000.0
+      },
+      "reg-tigray": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-gambella": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-benishangul-gumuz": {
+        "target": 3000.0,
+        "budget": 70000.0
+      },
+      "reg-harar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-dire-dawa": {
+        "target": 200.0,
+        "budget": 100000.0
+      },
+      "reg-somali": {
+        "target": 500.0,
+        "budget": 100000.0
+      },
+      "reg-afar": {
+        "target": 200.0,
+        "budget": 20000.0
+      },
+      "reg-moyale": {
+        "target": 7000.0,
+        "budget": 60000.0
+      }
+    }
   },
   {
     "id": "na-2-1-2",
@@ -1343,7 +3383,75 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "proj-2",
       "proj-3",
       "proj-4"
-    ]
+    ],
+    "ercs_target": 88.0,
+    "ercs_budget": 7370000.0,
+    "hq_target": 40.0,
+    "hq_budget": 6000000.0,
+    "rb_target": 48.0,
+    "rb_budget": 1370000.0,
+    "regional_targets": {
+      "reg-oromia": {
+        "target": 15.0,
+        "budget": 300000.0
+      },
+      "reg-addis-ababa": {
+        "target": 2.0,
+        "budget": 40000.0
+      },
+      "reg-amhara": {
+        "target": 7.0,
+        "budget": 350000.0
+      },
+      "reg-central-ethiopia": {
+        "target": 2.0,
+        "budget": 60000.0
+      },
+      "reg-south-ethiopia": {
+        "target": 4.0,
+        "budget": 200000.0
+      },
+      "reg-south-west-ethiopia": {
+        "target": 5.0,
+        "budget": 100000.0
+      },
+      "reg-sidama": {
+        "target": 1.0,
+        "budget": 0.0
+      },
+      "reg-tigray": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-gambella": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-benishangul-gumuz": {
+        "target": 5.0,
+        "budget": 80000.0
+      },
+      "reg-harar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-dire-dawa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-somali": {
+        "target": 5.0,
+        "budget": 200000.0
+      },
+      "reg-afar": {
+        "target": 2.0,
+        "budget": 40000.0
+      },
+      "reg-moyale": {
+        "target": 0.0,
+        "budget": 0.0
+      }
+    }
   },
   {
     "id": "na-2-1-3",
@@ -1378,7 +3486,75 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "proj-2",
       "proj-3",
       "proj-4"
-    ]
+    ],
+    "ercs_target": 14330.0,
+    "ercs_budget": 18775000.0,
+    "hq_target": 12000.0,
+    "hq_budget": 18000000.0,
+    "rb_target": 2330.0,
+    "rb_budget": 775000.0,
+    "regional_targets": {
+      "reg-oromia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-addis-ababa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-amhara": {
+        "target": 1800.0,
+        "budget": 225000.0
+      },
+      "reg-central-ethiopia": {
+        "target": 200.0,
+        "budget": 50000.0
+      },
+      "reg-south-ethiopia": {
+        "target": 300.0,
+        "budget": 200000.0
+      },
+      "reg-south-west-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-sidama": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-tigray": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-gambella": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-benishangul-gumuz": {
+        "target": 30.0,
+        "budget": 300000.0
+      },
+      "reg-harar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-dire-dawa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-somali": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-afar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-moyale": {
+        "target": 0.0,
+        "budget": 0.0
+      }
+    }
   },
   {
     "id": "na-2-1-4",
@@ -1413,7 +3589,75 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "proj-2",
       "proj-3",
       "proj-4"
-    ]
+    ],
+    "ercs_target": 663.0,
+    "ercs_budget": 5810000.0,
+    "hq_target": 40.0,
+    "hq_budget": 2400000.0,
+    "rb_target": 623.0,
+    "rb_budget": 3410000.0,
+    "regional_targets": {
+      "reg-oromia": {
+        "target": 10.0,
+        "budget": 1730000.0
+      },
+      "reg-addis-ababa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-amhara": {
+        "target": 18.0,
+        "budget": 360000.0
+      },
+      "reg-central-ethiopia": {
+        "target": 10.0,
+        "budget": 50000.0
+      },
+      "reg-south-ethiopia": {
+        "target": 500.0,
+        "budget": 600000.0
+      },
+      "reg-south-west-ethiopia": {
+        "target": 50.0,
+        "budget": 150000.0
+      },
+      "reg-sidama": {
+        "target": 20.0,
+        "budget": 50000.0
+      },
+      "reg-tigray": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-gambella": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-benishangul-gumuz": {
+        "target": 5.0,
+        "budget": 100000.0
+      },
+      "reg-harar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-dire-dawa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-somali": {
+        "target": 2.0,
+        "budget": 100000.0
+      },
+      "reg-afar": {
+        "target": 2.0,
+        "budget": 170000.0
+      },
+      "reg-moyale": {
+        "target": 6.0,
+        "budget": 100000.0
+      }
+    }
   },
   {
     "id": "na-2-1-5",
@@ -1448,7 +3692,75 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "proj-2",
       "proj-3",
       "proj-4"
-    ]
+    ],
+    "ercs_target": 301.0,
+    "ercs_budget": 14802500.0,
+    "hq_target": 230.0,
+    "hq_budget": 12100000.0,
+    "rb_target": 71.0,
+    "rb_budget": 2702500.0,
+    "regional_targets": {
+      "reg-oromia": {
+        "target": 28.0,
+        "budget": 567500.0
+      },
+      "reg-addis-ababa": {
+        "target": 1.0,
+        "budget": 140000.0
+      },
+      "reg-amhara": {
+        "target": 8.0,
+        "budget": 800000.0
+      },
+      "reg-central-ethiopia": {
+        "target": 5.0,
+        "budget": 130000.0
+      },
+      "reg-south-ethiopia": {
+        "target": 12.0,
+        "budget": 700000.0
+      },
+      "reg-south-west-ethiopia": {
+        "target": 2.0,
+        "budget": 20000.0
+      },
+      "reg-sidama": {
+        "target": 8.0,
+        "budget": 50000.0
+      },
+      "reg-tigray": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-gambella": {
+        "target": 3.0,
+        "budget": 25000.0
+      },
+      "reg-benishangul-gumuz": {
+        "target": 3.0,
+        "budget": 50000.0
+      },
+      "reg-harar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-dire-dawa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-somali": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-afar": {
+        "target": 1.0,
+        "budget": 220000.0
+      },
+      "reg-moyale": {
+        "target": 0.0,
+        "budget": 0.0
+      }
+    }
   },
   {
     "id": "na-2-1-6",
@@ -1483,7 +3795,75 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "proj-2",
       "proj-3",
       "proj-4"
-    ]
+    ],
+    "ercs_target": 12065.0,
+    "ercs_budget": 243350000.0,
+    "hq_target": 12000.0,
+    "hq_budget": 240000000.0,
+    "rb_target": 65.0,
+    "rb_budget": 3350000.0,
+    "regional_targets": {
+      "reg-oromia": {
+        "target": 50.0,
+        "budget": 2500000.0
+      },
+      "reg-addis-ababa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-amhara": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-central-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-west-ethiopia": {
+        "target": 5.0,
+        "budget": 250000.0
+      },
+      "reg-sidama": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-tigray": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-gambella": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-benishangul-gumuz": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-harar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-dire-dawa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-somali": {
+        "target": 5.0,
+        "budget": 300000.0
+      },
+      "reg-afar": {
+        "target": 5.0,
+        "budget": 300000.0
+      },
+      "reg-moyale": {
+        "target": 0.0,
+        "budget": 0.0
+      }
+    }
   },
   {
     "id": "na-2-1-7",
@@ -1518,7 +3898,75 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "proj-2",
       "proj-3",
       "proj-4"
-    ]
+    ],
+    "ercs_target": 1320.0,
+    "ercs_budget": 29840000.0,
+    "hq_target": 810.0,
+    "hq_budget": 29160000.0,
+    "rb_target": 510.0,
+    "rb_budget": 680000.0,
+    "regional_targets": {
+      "reg-oromia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-addis-ababa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-amhara": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-central-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-ethiopia": {
+        "target": 400.0,
+        "budget": 450000.0
+      },
+      "reg-south-west-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-sidama": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-tigray": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-gambella": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-benishangul-gumuz": {
+        "target": 100.0,
+        "budget": 30000.0
+      },
+      "reg-harar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-dire-dawa": {
+        "target": 10.0,
+        "budget": 200000.0
+      },
+      "reg-somali": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-afar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-moyale": {
+        "target": 0.0,
+        "budget": 0.0
+      }
+    }
   },
   {
     "id": "na-2-1-8",
@@ -1553,7 +4001,75 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "proj-2",
       "proj-3",
       "proj-4"
-    ]
+    ],
+    "ercs_target": 702.0,
+    "ercs_budget": 24255304.0,
+    "hq_target": 652.0,
+    "hq_budget": 22755304.0,
+    "rb_target": 50.0,
+    "rb_budget": 1500000.0,
+    "regional_targets": {
+      "reg-oromia": {
+        "target": 50.0,
+        "budget": 1500000.0
+      },
+      "reg-addis-ababa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-amhara": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-central-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-west-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-sidama": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-tigray": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-gambella": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-benishangul-gumuz": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-harar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-dire-dawa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-somali": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-afar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-moyale": {
+        "target": 0.0,
+        "budget": 0.0
+      }
+    }
   },
   {
     "id": "na-2-1-9",
@@ -1588,7 +4104,75 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "proj-2",
       "proj-3",
       "proj-4"
-    ]
+    ],
+    "ercs_target": 163.0,
+    "ercs_budget": 5688826.2,
+    "hq_target": 163.0,
+    "hq_budget": 5688826.2,
+    "rb_target": 0.0,
+    "rb_budget": 0.0,
+    "regional_targets": {
+      "reg-oromia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-addis-ababa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-amhara": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-central-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-west-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-sidama": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-tigray": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-gambella": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-benishangul-gumuz": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-harar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-dire-dawa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-somali": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-afar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-moyale": {
+        "target": 0.0,
+        "budget": 0.0
+      }
+    }
   },
   {
     "id": "na-2-2-1",
@@ -1623,7 +4207,75 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "proj-2",
       "proj-3",
       "proj-4"
-    ]
+    ],
+    "ercs_target": 2352.0,
+    "ercs_budget": 7025000.0,
+    "hq_target": 2200.0,
+    "hq_budget": 6600000.0,
+    "rb_target": 152.0,
+    "rb_budget": 425000.0,
+    "regional_targets": {
+      "reg-oromia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-addis-ababa": {
+        "target": 12.0,
+        "budget": 120000.0
+      },
+      "reg-amhara": {
+        "target": 15.0,
+        "budget": 75000.0
+      },
+      "reg-central-ethiopia": {
+        "target": 20.0,
+        "budget": 50000.0
+      },
+      "reg-south-ethiopia": {
+        "target": 100.0,
+        "budget": 160000.0
+      },
+      "reg-south-west-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-sidama": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-tigray": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-gambella": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-benishangul-gumuz": {
+        "target": 5.0,
+        "budget": 20000.0
+      },
+      "reg-harar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-dire-dawa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-somali": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-afar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-moyale": {
+        "target": 0.0,
+        "budget": 0.0
+      }
+    }
   },
   {
     "id": "na-2-2-2",
@@ -1658,7 +4310,75 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "proj-2",
       "proj-3",
       "proj-4"
-    ]
+    ],
+    "ercs_target": 2258.0,
+    "ercs_budget": 111595000.0,
+    "hq_target": 2200.0,
+    "hq_budget": 110000000.0,
+    "rb_target": 58.0,
+    "rb_budget": 1595000.0,
+    "regional_targets": {
+      "reg-oromia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-addis-ababa": {
+        "target": 8.0,
+        "budget": 400000.0
+      },
+      "reg-amhara": {
+        "target": 15.0,
+        "budget": 375000.0
+      },
+      "reg-central-ethiopia": {
+        "target": 10.0,
+        "budget": 120000.0
+      },
+      "reg-south-ethiopia": {
+        "target": 20.0,
+        "budget": 600000.0
+      },
+      "reg-south-west-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-sidama": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-tigray": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-gambella": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-benishangul-gumuz": {
+        "target": 5.0,
+        "budget": 100000.0
+      },
+      "reg-harar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-dire-dawa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-somali": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-afar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-moyale": {
+        "target": 0.0,
+        "budget": 0.0
+      }
+    }
   },
   {
     "id": "na-2-2-3",
@@ -1693,7 +4413,75 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "proj-2",
       "proj-3",
       "proj-4"
-    ]
+    ],
+    "ercs_target": 640.0,
+    "ercs_budget": 30880000.0,
+    "hq_target": 600.0,
+    "hq_budget": 30000000.0,
+    "rb_target": 40.0,
+    "rb_budget": 880000.0,
+    "regional_targets": {
+      "reg-oromia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-addis-ababa": {
+        "target": 10.0,
+        "budget": 60000.0
+      },
+      "reg-amhara": {
+        "target": 5.0,
+        "budget": 500000.0
+      },
+      "reg-central-ethiopia": {
+        "target": 10.0,
+        "budget": 20000.0
+      },
+      "reg-south-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-west-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-sidama": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-tigray": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-gambella": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-benishangul-gumuz": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-harar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-dire-dawa": {
+        "target": 5.0,
+        "budget": 100000.0
+      },
+      "reg-somali": {
+        "target": 10.0,
+        "budget": 200000.0
+      },
+      "reg-afar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-moyale": {
+        "target": 0.0,
+        "budget": 0.0
+      }
+    }
   },
   {
     "id": "na-2-3-1",
@@ -1728,7 +4516,75 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "proj-2",
       "proj-3",
       "proj-4"
-    ]
+    ],
+    "ercs_target": 13200.0,
+    "ercs_budget": 7342800.0,
+    "hq_target": 12000.0,
+    "hq_budget": 4852800.0,
+    "rb_target": 1200.0,
+    "rb_budget": 2490000.0,
+    "regional_targets": {
+      "reg-oromia": {
+        "target": 200.0,
+        "budget": 1480000.0
+      },
+      "reg-addis-ababa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-amhara": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-central-ethiopia": {
+        "target": 200.0,
+        "budget": 100000.0
+      },
+      "reg-south-ethiopia": {
+        "target": 120.0,
+        "budget": 240000.0
+      },
+      "reg-south-west-ethiopia": {
+        "target": 360.0,
+        "budget": 200000.0
+      },
+      "reg-sidama": {
+        "target": 200.0,
+        "budget": 100000.0
+      },
+      "reg-tigray": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-gambella": {
+        "target": 50.0,
+        "budget": 225000.0
+      },
+      "reg-benishangul-gumuz": {
+        "target": 50.0,
+        "budget": 50000.0
+      },
+      "reg-harar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-dire-dawa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-somali": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-afar": {
+        "target": 20.0,
+        "budget": 95000.0
+      },
+      "reg-moyale": {
+        "target": 0.0,
+        "budget": 0.0
+      }
+    }
   },
   {
     "id": "na-2-3-2",
@@ -1763,7 +4619,75 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "proj-2",
       "proj-3",
       "proj-4"
-    ]
+    ],
+    "ercs_target": 1655.0,
+    "ercs_budget": 6975246.0,
+    "hq_target": 750.0,
+    "hq_budget": 2929996.0,
+    "rb_target": 905.0,
+    "rb_budget": 4045250.0,
+    "regional_targets": {
+      "reg-oromia": {
+        "target": 100.0,
+        "budget": 1703250.0
+      },
+      "reg-addis-ababa": {
+        "target": 30.0,
+        "budget": 100000.0
+      },
+      "reg-amhara": {
+        "target": 135.0,
+        "budget": 1350000.0
+      },
+      "reg-central-ethiopia": {
+        "target": 90.0,
+        "budget": 182000.0
+      },
+      "reg-south-ethiopia": {
+        "target": 280.0,
+        "budget": 360000.0
+      },
+      "reg-south-west-ethiopia": {
+        "target": 150.0,
+        "budget": 100000.0
+      },
+      "reg-sidama": {
+        "target": 50.0,
+        "budget": 150000.0
+      },
+      "reg-tigray": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-gambella": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-benishangul-gumuz": {
+        "target": 70.0,
+        "budget": 100000.0
+      },
+      "reg-harar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-dire-dawa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-somali": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-afar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-moyale": {
+        "target": 0.0,
+        "budget": 0.0
+      }
+    }
   },
   {
     "id": "na-2-3-3",
@@ -1798,7 +4722,75 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "proj-2",
       "proj-3",
       "proj-4"
-    ]
+    ],
+    "ercs_target": 504.0,
+    "ercs_budget": 4779498.0,
+    "hq_target": 175.0,
+    "hq_budget": 2091998.0,
+    "rb_target": 329.0,
+    "rb_budget": 2687500.0,
+    "regional_targets": {
+      "reg-oromia": {
+        "target": 50.0,
+        "budget": 1615000.0
+      },
+      "reg-addis-ababa": {
+        "target": 12.0,
+        "budget": 120000.0
+      },
+      "reg-amhara": {
+        "target": 9.0,
+        "budget": 225000.0
+      },
+      "reg-central-ethiopia": {
+        "target": 41.0,
+        "budget": 127500.0
+      },
+      "reg-south-ethiopia": {
+        "target": 20.0,
+        "budget": 60000.0
+      },
+      "reg-south-west-ethiopia": {
+        "target": 100.0,
+        "budget": 50000.0
+      },
+      "reg-sidama": {
+        "target": 10.0,
+        "budget": 100000.0
+      },
+      "reg-tigray": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-gambella": {
+        "target": 12.0,
+        "budget": 90000.0
+      },
+      "reg-benishangul-gumuz": {
+        "target": 50.0,
+        "budget": 120000.0
+      },
+      "reg-harar": {
+        "target": 5.0,
+        "budget": 20000.0
+      },
+      "reg-dire-dawa": {
+        "target": 10.0,
+        "budget": 30000.0
+      },
+      "reg-somali": {
+        "target": 5.0,
+        "budget": 100000.0
+      },
+      "reg-afar": {
+        "target": 5.0,
+        "budget": 30000.0
+      },
+      "reg-moyale": {
+        "target": 0.0,
+        "budget": 0.0
+      }
+    }
   },
   {
     "id": "na-2-3-4",
@@ -1833,7 +4825,75 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "proj-2",
       "proj-3",
       "proj-4"
-    ]
+    ],
+    "ercs_target": 1755.0,
+    "ercs_budget": 3936754.0,
+    "hq_target": 1345.0,
+    "hq_budget": 2106754.0,
+    "rb_target": 410.0,
+    "rb_budget": 1830000.0,
+    "regional_targets": {
+      "reg-oromia": {
+        "target": 50.0,
+        "budget": 1370000.0
+      },
+      "reg-addis-ababa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-amhara": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-central-ethiopia": {
+        "target": 40.0,
+        "budget": 50000.0
+      },
+      "reg-south-ethiopia": {
+        "target": 200.0,
+        "budget": 250000.0
+      },
+      "reg-south-west-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-sidama": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-tigray": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-gambella": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-benishangul-gumuz": {
+        "target": 120.0,
+        "budget": 160000.0
+      },
+      "reg-harar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-dire-dawa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-somali": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-afar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-moyale": {
+        "target": 0.0,
+        "budget": 0.0
+      }
+    }
   },
   {
     "id": "na-2-3-5",
@@ -1868,7 +4928,75 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "proj-2",
       "proj-3",
       "proj-4"
-    ]
+    ],
+    "ercs_target": 1240000.0,
+    "ercs_budget": 3277600.0,
+    "hq_target": 1150000.0,
+    "hq_budget": 2850000.0,
+    "rb_target": 90000.0,
+    "rb_budget": 427600.0,
+    "regional_targets": {
+      "reg-oromia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-addis-ababa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-amhara": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-central-ethiopia": {
+        "target": 30000.0,
+        "budget": 27600.0
+      },
+      "reg-south-ethiopia": {
+        "target": 30000.0,
+        "budget": 350000.0
+      },
+      "reg-south-west-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-sidama": {
+        "target": 30000.0,
+        "budget": 50000.0
+      },
+      "reg-tigray": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-gambella": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-benishangul-gumuz": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-harar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-dire-dawa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-somali": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-afar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-moyale": {
+        "target": 0.0,
+        "budget": 0.0
+      }
+    }
   },
   {
     "id": "na-2-4-1",
@@ -1903,7 +5031,75 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "proj-2",
       "proj-3",
       "proj-4"
-    ]
+    ],
+    "ercs_target": 203360.0,
+    "ercs_budget": 102999000.0,
+    "hq_target": 202810.0,
+    "hq_budget": 102329000.0,
+    "rb_target": 550.0,
+    "rb_budget": 670000.0,
+    "regional_targets": {
+      "reg-oromia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-addis-ababa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-amhara": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-central-ethiopia": {
+        "target": 20.0,
+        "budget": 100000.0
+      },
+      "reg-south-ethiopia": {
+        "target": 200.0,
+        "budget": 500000.0
+      },
+      "reg-south-west-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-sidama": {
+        "target": 30.0,
+        "budget": 50000.0
+      },
+      "reg-tigray": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-gambella": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-benishangul-gumuz": {
+        "target": 200.0,
+        "budget": 0.0
+      },
+      "reg-harar": {
+        "target": 100.0,
+        "budget": 20000.0
+      },
+      "reg-dire-dawa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-somali": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-afar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-moyale": {
+        "target": 0.0,
+        "budget": 0.0
+      }
+    }
   },
   {
     "id": "na-2-4-2",
@@ -1938,7 +5134,75 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "proj-2",
       "proj-3",
       "proj-4"
-    ]
+    ],
+    "ercs_target": 7600.0,
+    "ercs_budget": 1069000.0,
+    "hq_target": 5000.0,
+    "hq_budget": 905000.0,
+    "rb_target": 2600.0,
+    "rb_budget": 164000.0,
+    "regional_targets": {
+      "reg-oromia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-addis-ababa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-amhara": {
+        "target": 200.0,
+        "budget": 100000.0
+      },
+      "reg-central-ethiopia": {
+        "target": 1200.0,
+        "budget": 44000.0
+      },
+      "reg-south-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-west-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-sidama": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-tigray": {
+        "target": 1000.0,
+        "budget": 0.0
+      },
+      "reg-gambella": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-benishangul-gumuz": {
+        "target": 100.0,
+        "budget": 0.0
+      },
+      "reg-harar": {
+        "target": 100.0,
+        "budget": 20000.0
+      },
+      "reg-dire-dawa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-somali": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-afar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-moyale": {
+        "target": 0.0,
+        "budget": 0.0
+      }
+    }
   },
   {
     "id": "na-2-4-3",
@@ -1973,7 +5237,75 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "proj-2",
       "proj-3",
       "proj-4"
-    ]
+    ],
+    "ercs_target": 29247.0,
+    "ercs_budget": 2802000.0,
+    "hq_target": 28500.0,
+    "hq_budget": 2280000.0,
+    "rb_target": 747.0,
+    "rb_budget": 522000.0,
+    "regional_targets": {
+      "reg-oromia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-addis-ababa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-amhara": {
+        "target": 200.0,
+        "budget": 200000.0
+      },
+      "reg-central-ethiopia": {
+        "target": 72.0,
+        "budget": 52000.0
+      },
+      "reg-south-ethiopia": {
+        "target": 200.0,
+        "budget": 100000.0
+      },
+      "reg-south-west-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-sidama": {
+        "target": 100.0,
+        "budget": 40000.0
+      },
+      "reg-tigray": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-gambella": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-benishangul-gumuz": {
+        "target": 60.0,
+        "budget": 0.0
+      },
+      "reg-harar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-dire-dawa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-somali": {
+        "target": 50.0,
+        "budget": 50000.0
+      },
+      "reg-afar": {
+        "target": 35.0,
+        "budget": 70000.0
+      },
+      "reg-moyale": {
+        "target": 30.0,
+        "budget": 10000.0
+      }
+    }
   },
   {
     "id": "na-2-4-4",
@@ -2008,7 +5340,75 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "proj-2",
       "proj-3",
       "proj-4"
-    ]
+    ],
+    "ercs_target": 2200.0,
+    "ercs_budget": 110277200.0,
+    "hq_target": 2200.0,
+    "hq_budget": 110277200.0,
+    "rb_target": 0.0,
+    "rb_budget": 0.0,
+    "regional_targets": {
+      "reg-oromia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-addis-ababa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-amhara": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-central-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-west-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-sidama": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-tigray": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-gambella": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-benishangul-gumuz": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-harar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-dire-dawa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-somali": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-afar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-moyale": {
+        "target": 0.0,
+        "budget": 0.0
+      }
+    }
   },
   {
     "id": "na-2-4-5",
@@ -2043,7 +5443,75 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "proj-2",
       "proj-3",
       "proj-4"
-    ]
+    ],
+    "ercs_target": 12.0,
+    "ercs_budget": 1300000.0,
+    "hq_target": 4.0,
+    "hq_budget": 1200000.0,
+    "rb_target": 8.0,
+    "rb_budget": 100000.0,
+    "regional_targets": {
+      "reg-oromia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-addis-ababa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-amhara": {
+        "target": 4.0,
+        "budget": 100000.0
+      },
+      "reg-central-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-west-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-sidama": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-tigray": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-gambella": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-benishangul-gumuz": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-harar": {
+        "target": 4.0,
+        "budget": 0.0
+      },
+      "reg-dire-dawa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-somali": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-afar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-moyale": {
+        "target": 0.0,
+        "budget": 0.0
+      }
+    }
   },
   {
     "id": "na-2-4-6",
@@ -2078,7 +5546,75 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "proj-2",
       "proj-3",
       "proj-4"
-    ]
+    ],
+    "ercs_target": 36.0,
+    "ercs_budget": 832000.0,
+    "hq_target": 4.0,
+    "hq_budget": 500000.0,
+    "rb_target": 32.0,
+    "rb_budget": 332000.0,
+    "regional_targets": {
+      "reg-oromia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-addis-ababa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-amhara": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-central-ethiopia": {
+        "target": 4.0,
+        "budget": 82000.0
+      },
+      "reg-south-ethiopia": {
+        "target": 2.0,
+        "budget": 200000.0
+      },
+      "reg-south-west-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-sidama": {
+        "target": 12.0,
+        "budget": 50000.0
+      },
+      "reg-tigray": {
+        "target": 12.0,
+        "budget": 0.0
+      },
+      "reg-gambella": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-benishangul-gumuz": {
+        "target": 2.0,
+        "budget": 0.0
+      },
+      "reg-harar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-dire-dawa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-somali": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-afar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-moyale": {
+        "target": 0.0,
+        "budget": 0.0
+      }
+    }
   },
   {
     "id": "na-2-4-7",
@@ -2113,7 +5649,75 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "proj-2",
       "proj-3",
       "proj-4"
-    ]
+    ],
+    "ercs_target": 550.0,
+    "ercs_budget": 5500000.0,
+    "hq_target": 550.0,
+    "hq_budget": 5500000.0,
+    "rb_target": 0.0,
+    "rb_budget": 0.0,
+    "regional_targets": {
+      "reg-oromia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-addis-ababa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-amhara": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-central-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-west-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-sidama": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-tigray": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-gambella": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-benishangul-gumuz": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-harar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-dire-dawa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-somali": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-afar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-moyale": {
+        "target": 0.0,
+        "budget": 0.0
+      }
+    }
   },
   {
     "id": "na-2-4-8",
@@ -2148,7 +5752,75 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "proj-2",
       "proj-3",
       "proj-4"
-    ]
+    ],
+    "ercs_target": 250000.0,
+    "ercs_budget": 10600000.0,
+    "hq_target": 250000.0,
+    "hq_budget": 10600000.0,
+    "rb_target": 0.0,
+    "rb_budget": 0.0,
+    "regional_targets": {
+      "reg-oromia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-addis-ababa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-amhara": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-central-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-west-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-sidama": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-tigray": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-gambella": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-benishangul-gumuz": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-harar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-dire-dawa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-somali": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-afar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-moyale": {
+        "target": 0.0,
+        "budget": 0.0
+      }
+    }
   },
   {
     "id": "na-2-4-9",
@@ -2183,7 +5855,75 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "proj-2",
       "proj-3",
       "proj-4"
-    ]
+    ],
+    "ercs_target": 60000.0,
+    "ercs_budget": 0.0,
+    "hq_target": 60000.0,
+    "hq_budget": 0.0,
+    "rb_target": 0.0,
+    "rb_budget": 0.0,
+    "regional_targets": {
+      "reg-oromia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-addis-ababa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-amhara": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-central-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-west-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-sidama": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-tigray": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-gambella": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-benishangul-gumuz": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-harar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-dire-dawa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-somali": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-afar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-moyale": {
+        "target": 0.0,
+        "budget": 0.0
+      }
+    }
   },
   {
     "id": "na-2-4-10",
@@ -2218,7 +5958,75 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "proj-2",
       "proj-3",
       "proj-4"
-    ]
+    ],
+    "ercs_target": 692300.0,
+    "ercs_budget": 905000.0,
+    "hq_target": 630300.0,
+    "hq_budget": 100000.0,
+    "rb_target": 62000.0,
+    "rb_budget": 805000.0,
+    "regional_targets": {
+      "reg-oromia": {
+        "target": 5000.0,
+        "budget": 301000.0
+      },
+      "reg-addis-ababa": {
+        "target": 8000.0,
+        "budget": 0.0
+      },
+      "reg-amhara": {
+        "target": 5000.0,
+        "budget": 250000.0
+      },
+      "reg-central-ethiopia": {
+        "target": 5000.0,
+        "budget": 4000.0
+      },
+      "reg-south-ethiopia": {
+        "target": 1000.0,
+        "budget": 250000.0
+      },
+      "reg-south-west-ethiopia": {
+        "target": 5000.0,
+        "budget": 0.0
+      },
+      "reg-sidama": {
+        "target": 5000.0,
+        "budget": 0.0
+      },
+      "reg-tigray": {
+        "target": 5000.0,
+        "budget": 0.0
+      },
+      "reg-gambella": {
+        "target": 5000.0,
+        "budget": 0.0
+      },
+      "reg-benishangul-gumuz": {
+        "target": 5000.0,
+        "budget": 0.0
+      },
+      "reg-harar": {
+        "target": 1000.0,
+        "budget": 0.0
+      },
+      "reg-dire-dawa": {
+        "target": 5000.0,
+        "budget": 0.0
+      },
+      "reg-somali": {
+        "target": 5000.0,
+        "budget": 0.0
+      },
+      "reg-afar": {
+        "target": 1000.0,
+        "budget": 0.0
+      },
+      "reg-moyale": {
+        "target": 1000.0,
+        "budget": 0.0
+      }
+    }
   },
   {
     "id": "na-2-4-11",
@@ -2253,7 +6061,75 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "proj-2",
       "proj-3",
       "proj-4"
-    ]
+    ],
+    "ercs_target": 1049.0,
+    "ercs_budget": 534000.0,
+    "hq_target": 800.0,
+    "hq_budget": 0.0,
+    "rb_target": 249.0,
+    "rb_budget": 534000.0,
+    "regional_targets": {
+      "reg-oromia": {
+        "target": 50.0,
+        "budget": 100000.0
+      },
+      "reg-addis-ababa": {
+        "target": 50.0,
+        "budget": 0.0
+      },
+      "reg-amhara": {
+        "target": 50.0,
+        "budget": 0.0
+      },
+      "reg-central-ethiopia": {
+        "target": 20.0,
+        "budget": 40000.0
+      },
+      "reg-south-ethiopia": {
+        "target": 15.0,
+        "budget": 24000.0
+      },
+      "reg-south-west-ethiopia": {
+        "target": 5.0,
+        "budget": 50000.0
+      },
+      "reg-sidama": {
+        "target": 5.0,
+        "budget": 50000.0
+      },
+      "reg-tigray": {
+        "target": 10.0,
+        "budget": 50000.0
+      },
+      "reg-gambella": {
+        "target": 4.0,
+        "budget": 40000.0
+      },
+      "reg-benishangul-gumuz": {
+        "target": 15.0,
+        "budget": 50000.0
+      },
+      "reg-harar": {
+        "target": 5.0,
+        "budget": 10000.0
+      },
+      "reg-dire-dawa": {
+        "target": 5.0,
+        "budget": 10000.0
+      },
+      "reg-somali": {
+        "target": 5.0,
+        "budget": 50000.0
+      },
+      "reg-afar": {
+        "target": 5.0,
+        "budget": 50000.0
+      },
+      "reg-moyale": {
+        "target": 5.0,
+        "budget": 10000.0
+      }
+    }
   },
   {
     "id": "na-2-4-12",
@@ -2288,7 +6164,75 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "proj-2",
       "proj-3",
       "proj-4"
-    ]
+    ],
+    "ercs_target": 600.0,
+    "ercs_budget": 5138800.0,
+    "hq_target": 600.0,
+    "hq_budget": 5138800.0,
+    "rb_target": 0.0,
+    "rb_budget": 0.0,
+    "regional_targets": {
+      "reg-oromia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-addis-ababa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-amhara": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-central-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-west-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-sidama": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-tigray": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-gambella": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-benishangul-gumuz": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-harar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-dire-dawa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-somali": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-afar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-moyale": {
+        "target": 0.0,
+        "budget": 0.0
+      }
+    }
   },
   {
     "id": "na-2-4-13",
@@ -2323,7 +6267,75 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "proj-2",
       "proj-3",
       "proj-4"
-    ]
+    ],
+    "ercs_target": 245.0,
+    "ercs_budget": 599000.0,
+    "hq_target": 132.0,
+    "hq_budget": 0.0,
+    "rb_target": 113.0,
+    "rb_budget": 599000.0,
+    "regional_targets": {
+      "reg-oromia": {
+        "target": 24.0,
+        "budget": 483000.0
+      },
+      "reg-addis-ababa": {
+        "target": 4.0,
+        "budget": 0.0
+      },
+      "reg-amhara": {
+        "target": 12.0,
+        "budget": 0.0
+      },
+      "reg-central-ethiopia": {
+        "target": 4.0,
+        "budget": 20000.0
+      },
+      "reg-south-ethiopia": {
+        "target": 3.0,
+        "budget": 96000.0
+      },
+      "reg-south-west-ethiopia": {
+        "target": 4.0,
+        "budget": 0.0
+      },
+      "reg-sidama": {
+        "target": 4.0,
+        "budget": 0.0
+      },
+      "reg-tigray": {
+        "target": 12.0,
+        "budget": 0.0
+      },
+      "reg-gambella": {
+        "target": 6.0,
+        "budget": 0.0
+      },
+      "reg-benishangul-gumuz": {
+        "target": 12.0,
+        "budget": 0.0
+      },
+      "reg-harar": {
+        "target": 4.0,
+        "budget": 0.0
+      },
+      "reg-dire-dawa": {
+        "target": 4.0,
+        "budget": 0.0
+      },
+      "reg-somali": {
+        "target": 12.0,
+        "budget": 0.0
+      },
+      "reg-afar": {
+        "target": 4.0,
+        "budget": 0.0
+      },
+      "reg-moyale": {
+        "target": 4.0,
+        "budget": 0.0
+      }
+    }
   },
   {
     "id": "na-2-4-14",
@@ -2358,7 +6370,75 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "proj-2",
       "proj-3",
       "proj-4"
-    ]
+    ],
+    "ercs_target": 150000.0,
+    "ercs_budget": 1000000.0,
+    "hq_target": 150000.0,
+    "hq_budget": 1000000.0,
+    "rb_target": 0.0,
+    "rb_budget": 0.0,
+    "regional_targets": {
+      "reg-oromia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-addis-ababa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-amhara": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-central-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-west-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-sidama": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-tigray": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-gambella": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-benishangul-gumuz": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-harar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-dire-dawa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-somali": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-afar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-moyale": {
+        "target": 0.0,
+        "budget": 0.0
+      }
+    }
   },
   {
     "id": "na-2-4-15",
@@ -2393,7 +6473,75 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "proj-2",
       "proj-3",
       "proj-4"
-    ]
+    ],
+    "ercs_target": 5.0,
+    "ercs_budget": 2000000.0,
+    "hq_target": 5.0,
+    "hq_budget": 2000000.0,
+    "rb_target": 0.0,
+    "rb_budget": 0.0,
+    "regional_targets": {
+      "reg-oromia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-addis-ababa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-amhara": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-central-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-west-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-sidama": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-tigray": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-gambella": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-benishangul-gumuz": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-harar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-dire-dawa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-somali": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-afar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-moyale": {
+        "target": 0.0,
+        "budget": 0.0
+      }
+    }
   },
   {
     "id": "na-2-4-16",
@@ -2428,7 +6576,75 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "proj-2",
       "proj-3",
       "proj-4"
-    ]
+    ],
+    "ercs_target": 2000.0,
+    "ercs_budget": 3000000.0,
+    "hq_target": 2000.0,
+    "hq_budget": 3000000.0,
+    "rb_target": 0.0,
+    "rb_budget": 0.0,
+    "regional_targets": {
+      "reg-oromia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-addis-ababa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-amhara": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-central-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-west-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-sidama": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-tigray": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-gambella": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-benishangul-gumuz": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-harar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-dire-dawa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-somali": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-afar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-moyale": {
+        "target": 0.0,
+        "budget": 0.0
+      }
+    }
   },
   {
     "id": "na-3-1-1",
@@ -2463,7 +6679,75 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "proj-2",
       "proj-3",
       "proj-4"
-    ]
+    ],
+    "ercs_target": 42700.0,
+    "ercs_budget": 10909496.0,
+    "hq_target": 9500.0,
+    "hq_budget": 8733104.0,
+    "rb_target": 33200.0,
+    "rb_budget": 2176392.0,
+    "regional_targets": {
+      "reg-oromia": {
+        "target": 2000.0,
+        "budget": 1000000.0
+      },
+      "reg-addis-ababa": {
+        "target": 1100.0,
+        "budget": 250000.0
+      },
+      "reg-amhara": {
+        "target": 500.0,
+        "budget": 250000.0
+      },
+      "reg-central-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-ethiopia": {
+        "target": 2000.0,
+        "budget": 100000.0
+      },
+      "reg-south-west-ethiopia": {
+        "target": 300.0,
+        "budget": 80000.0
+      },
+      "reg-sidama": {
+        "target": 300.0,
+        "budget": 50000.0
+      },
+      "reg-tigray": {
+        "target": 10000.0,
+        "budget": 20000.0
+      },
+      "reg-gambella": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-benishangul-gumuz": {
+        "target": 5000.0,
+        "budget": 50000.0
+      },
+      "reg-harar": {
+        "target": 1000.0,
+        "budget": 15000.0
+      },
+      "reg-dire-dawa": {
+        "target": 10000.0,
+        "budget": 211392.0
+      },
+      "reg-somali": {
+        "target": 1000.0,
+        "budget": 150000.0
+      },
+      "reg-afar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-moyale": {
+        "target": 0.0,
+        "budget": 0.0
+      }
+    }
   },
   {
     "id": "na-3-1-2",
@@ -2498,7 +6782,75 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "proj-2",
       "proj-3",
       "proj-4"
-    ]
+    ],
+    "ercs_target": 125630.0,
+    "ercs_budget": 35410000.0,
+    "hq_target": 37400.0,
+    "hq_budget": 31500000.0,
+    "rb_target": 88230.0,
+    "rb_budget": 3910000.0,
+    "regional_targets": {
+      "reg-oromia": {
+        "target": 12500.0,
+        "budget": 250000.0
+      },
+      "reg-addis-ababa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-amhara": {
+        "target": 5400.0,
+        "budget": 1620000.0
+      },
+      "reg-central-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-ethiopia": {
+        "target": 40000.0,
+        "budget": 400000.0
+      },
+      "reg-south-west-ethiopia": {
+        "target": 15000.0,
+        "budget": 1200000.0
+      },
+      "reg-sidama": {
+        "target": 150.0,
+        "budget": 50000.0
+      },
+      "reg-tigray": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-gambella": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-benishangul-gumuz": {
+        "target": 15000.0,
+        "budget": 30000.0
+      },
+      "reg-harar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-dire-dawa": {
+        "target": 180.0,
+        "budget": 360000.0
+      },
+      "reg-somali": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-afar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-moyale": {
+        "target": 0.0,
+        "budget": 0.0
+      }
+    }
   },
   {
     "id": "na-3-1-3",
@@ -2533,7 +6885,75 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "proj-2",
       "proj-3",
       "proj-4"
-    ]
+    ],
+    "ercs_target": 69800.0,
+    "ercs_budget": 16580000.0,
+    "hq_target": 60000.0,
+    "hq_budget": 15000000.0,
+    "rb_target": 9800.0,
+    "rb_budget": 1580000.0,
+    "regional_targets": {
+      "reg-oromia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-addis-ababa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-amhara": {
+        "target": 2700.0,
+        "budget": 1350000.0
+      },
+      "reg-central-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-west-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-sidama": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-tigray": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-gambella": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-benishangul-gumuz": {
+        "target": 2000.0,
+        "budget": 80000.0
+      },
+      "reg-harar": {
+        "target": 100.0,
+        "budget": 50000.0
+      },
+      "reg-dire-dawa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-somali": {
+        "target": 5000.0,
+        "budget": 100000.0
+      },
+      "reg-afar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-moyale": {
+        "target": 0.0,
+        "budget": 0.0
+      }
+    }
   },
   {
     "id": "na-3-1-4",
@@ -2568,7 +6988,75 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "proj-2",
       "proj-3",
       "proj-4"
-    ]
+    ],
+    "ercs_target": 30.0,
+    "ercs_budget": 14210526.0,
+    "hq_target": 30.0,
+    "hq_budget": 14210526.0,
+    "rb_target": 0.0,
+    "rb_budget": 0.0,
+    "regional_targets": {
+      "reg-oromia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-addis-ababa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-amhara": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-central-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-west-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-sidama": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-tigray": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-gambella": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-benishangul-gumuz": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-harar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-dire-dawa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-somali": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-afar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-moyale": {
+        "target": 0.0,
+        "budget": 0.0
+      }
+    }
   },
   {
     "id": "na-3-1-5",
@@ -2603,7 +7091,75 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "proj-2",
       "proj-3",
       "proj-4"
-    ]
+    ],
+    "ercs_target": 1185.0,
+    "ercs_budget": 10685000.0,
+    "hq_target": 675.0,
+    "hq_budget": 7500000.0,
+    "rb_target": 510.0,
+    "rb_budget": 3185000.0,
+    "regional_targets": {
+      "reg-oromia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-addis-ababa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-amhara": {
+        "target": 150.0,
+        "budget": 1500000.0
+      },
+      "reg-central-ethiopia": {
+        "target": 70.0,
+        "budget": 175000.0
+      },
+      "reg-south-ethiopia": {
+        "target": 100.0,
+        "budget": 600000.0
+      },
+      "reg-south-west-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-sidama": {
+        "target": 50.0,
+        "budget": 140000.0
+      },
+      "reg-tigray": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-gambella": {
+        "target": 50.0,
+        "budget": 450000.0
+      },
+      "reg-benishangul-gumuz": {
+        "target": 60.0,
+        "budget": 70000.0
+      },
+      "reg-harar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-dire-dawa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-somali": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-afar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-moyale": {
+        "target": 30.0,
+        "budget": 250000.0
+      }
+    }
   },
   {
     "id": "na-3-2-1",
@@ -2638,7 +7194,75 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "proj-2",
       "proj-3",
       "proj-4"
-    ]
+    ],
+    "ercs_target": 8324.0,
+    "ercs_budget": 4910000.0,
+    "hq_target": 7600.0,
+    "hq_budget": 4640000.0,
+    "rb_target": 724.0,
+    "rb_budget": 270000.0,
+    "regional_targets": {
+      "reg-oromia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-addis-ababa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-amhara": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-central-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-ethiopia": {
+        "target": 24.0,
+        "budget": 120000.0
+      },
+      "reg-south-west-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-sidama": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-tigray": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-gambella": {
+        "target": 500.0,
+        "budget": 60000.0
+      },
+      "reg-benishangul-gumuz": {
+        "target": 200.0,
+        "budget": 90000.0
+      },
+      "reg-harar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-dire-dawa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-somali": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-afar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-moyale": {
+        "target": 0.0,
+        "budget": 0.0
+      }
+    }
   },
   {
     "id": "na-3-2-2",
@@ -2673,7 +7297,75 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "proj-2",
       "proj-3",
       "proj-4"
-    ]
+    ],
+    "ercs_target": 11.0,
+    "ercs_budget": 81000000.0,
+    "hq_target": 10.0,
+    "hq_budget": 80000000.0,
+    "rb_target": 1.0,
+    "rb_budget": 1000000.0,
+    "regional_targets": {
+      "reg-oromia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-addis-ababa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-amhara": {
+        "target": 1.0,
+        "budget": 1000000.0
+      },
+      "reg-central-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-west-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-sidama": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-tigray": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-gambella": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-benishangul-gumuz": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-harar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-dire-dawa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-somali": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-afar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-moyale": {
+        "target": 0.0,
+        "budget": 0.0
+      }
+    }
   },
   {
     "id": "na-3-2-3",
@@ -2708,7 +7400,75 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "proj-2",
       "proj-3",
       "proj-4"
-    ]
+    ],
+    "ercs_target": 2720.0,
+    "ercs_budget": 9225000.0,
+    "hq_target": 2500.0,
+    "hq_budget": 9000000.0,
+    "rb_target": 220.0,
+    "rb_budget": 225000.0,
+    "regional_targets": {
+      "reg-oromia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-addis-ababa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-amhara": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-central-ethiopia": {
+        "target": 20.0,
+        "budget": 65000.0
+      },
+      "reg-south-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-west-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-sidama": {
+        "target": 100.0,
+        "budget": 100000.0
+      },
+      "reg-tigray": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-gambella": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-benishangul-gumuz": {
+        "target": 100.0,
+        "budget": 60000.0
+      },
+      "reg-harar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-dire-dawa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-somali": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-afar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-moyale": {
+        "target": 0.0,
+        "budget": 0.0
+      }
+    }
   },
   {
     "id": "na-3-2-4",
@@ -2743,7 +7503,75 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "proj-2",
       "proj-3",
       "proj-4"
-    ]
+    ],
+    "ercs_target": 6.0,
+    "ercs_budget": 5000000.0,
+    "hq_target": 6.0,
+    "hq_budget": 5000000.0,
+    "rb_target": 0.0,
+    "rb_budget": 0.0,
+    "regional_targets": {
+      "reg-oromia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-addis-ababa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-amhara": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-central-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-west-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-sidama": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-tigray": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-gambella": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-benishangul-gumuz": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-harar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-dire-dawa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-somali": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-afar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-moyale": {
+        "target": 0.0,
+        "budget": 0.0
+      }
+    }
   },
   {
     "id": "na-3-2-5",
@@ -2778,7 +7606,75 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "proj-2",
       "proj-3",
       "proj-4"
-    ]
+    ],
+    "ercs_target": 10200.0,
+    "ercs_budget": 4125000.0,
+    "hq_target": 8000.0,
+    "hq_budget": 3000000.0,
+    "rb_target": 2200.0,
+    "rb_budget": 1125000.0,
+    "regional_targets": {
+      "reg-oromia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-addis-ababa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-amhara": {
+        "target": 1200.0,
+        "budget": 600000.0
+      },
+      "reg-central-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-ethiopia": {
+        "target": 250.0,
+        "budget": 100000.0
+      },
+      "reg-south-west-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-sidama": {
+        "target": 100.0,
+        "budget": 50000.0
+      },
+      "reg-tigray": {
+        "target": 500.0,
+        "budget": 25000.0
+      },
+      "reg-gambella": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-benishangul-gumuz": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-harar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-dire-dawa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-somali": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-afar": {
+        "target": 150.0,
+        "budget": 350000.0
+      },
+      "reg-moyale": {
+        "target": 0.0,
+        "budget": 0.0
+      }
+    }
   },
   {
     "id": "na-3-2-6",
@@ -2813,7 +7709,75 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "proj-2",
       "proj-3",
       "proj-4"
-    ]
+    ],
+    "ercs_target": 58.0,
+    "ercs_budget": 16859090.0,
+    "hq_target": 35.0,
+    "hq_budget": 5409090.0,
+    "rb_target": 23.0,
+    "rb_budget": 11450000.0,
+    "regional_targets": {
+      "reg-oromia": {
+        "target": 4.0,
+        "budget": 8000000.0
+      },
+      "reg-addis-ababa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-amhara": {
+        "target": 3.0,
+        "budget": 1500000.0
+      },
+      "reg-central-ethiopia": {
+        "target": 1.0,
+        "budget": 250000.0
+      },
+      "reg-south-ethiopia": {
+        "target": 12.0,
+        "budget": 200000.0
+      },
+      "reg-south-west-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-sidama": {
+        "target": 1.0,
+        "budget": 1000000.0
+      },
+      "reg-tigray": {
+        "target": 2.0,
+        "budget": 500000.0
+      },
+      "reg-gambella": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-benishangul-gumuz": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-harar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-dire-dawa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-somali": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-afar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-moyale": {
+        "target": 0.0,
+        "budget": 0.0
+      }
+    }
   },
   {
     "id": "na-3-2-7",
@@ -2848,7 +7812,75 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "proj-2",
       "proj-3",
       "proj-4"
-    ]
+    ],
+    "ercs_target": 6020.0,
+    "ercs_budget": 9299558.0,
+    "hq_target": 5000.0,
+    "hq_budget": 7499558.0,
+    "rb_target": 1020.0,
+    "rb_budget": 1800000.0,
+    "regional_targets": {
+      "reg-oromia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-addis-ababa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-amhara": {
+        "target": 450.0,
+        "budget": 900000.0
+      },
+      "reg-central-ethiopia": {
+        "target": 100.0,
+        "budget": 100000.0
+      },
+      "reg-south-ethiopia": {
+        "target": 200.0,
+        "budget": 400000.0
+      },
+      "reg-south-west-ethiopia": {
+        "target": 150.0,
+        "budget": 200000.0
+      },
+      "reg-sidama": {
+        "target": 40.0,
+        "budget": 100000.0
+      },
+      "reg-tigray": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-gambella": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-benishangul-gumuz": {
+        "target": 80.0,
+        "budget": 100000.0
+      },
+      "reg-harar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-dire-dawa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-somali": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-afar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-moyale": {
+        "target": 0.0,
+        "budget": 0.0
+      }
+    }
   },
   {
     "id": "na-3-2-8",
@@ -2883,7 +7915,75 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "proj-2",
       "proj-3",
       "proj-4"
-    ]
+    ],
+    "ercs_target": 977900.0,
+    "ercs_budget": 13877100.0,
+    "hq_target": 900000.0,
+    "hq_budget": 12900000.0,
+    "rb_target": 77900.0,
+    "rb_budget": 977100.0,
+    "regional_targets": {
+      "reg-oromia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-addis-ababa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-amhara": {
+        "target": 32500.0,
+        "budget": 390000.0
+      },
+      "reg-central-ethiopia": {
+        "target": 10000.0,
+        "budget": 100000.0
+      },
+      "reg-south-ethiopia": {
+        "target": 4900.0,
+        "budget": 97100.0
+      },
+      "reg-south-west-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-sidama": {
+        "target": 20000.0,
+        "budget": 100000.0
+      },
+      "reg-tigray": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-gambella": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-benishangul-gumuz": {
+        "target": 4000.0,
+        "budget": 50000.0
+      },
+      "reg-harar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-dire-dawa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-somali": {
+        "target": 5000.0,
+        "budget": 150000.0
+      },
+      "reg-afar": {
+        "target": 1500.0,
+        "budget": 90000.0
+      },
+      "reg-moyale": {
+        "target": 0.0,
+        "budget": 0.0
+      }
+    }
   },
   {
     "id": "na-3-2-9",
@@ -2918,7 +8018,75 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "proj-2",
       "proj-3",
       "proj-4"
-    ]
+    ],
+    "ercs_target": 85300.0,
+    "ercs_budget": 7290000.0,
+    "hq_target": 3000.0,
+    "hq_budget": 6000000.0,
+    "rb_target": 82300.0,
+    "rb_budget": 1290000.0,
+    "regional_targets": {
+      "reg-oromia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-addis-ababa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-amhara": {
+        "target": 5000.0,
+        "budget": 250000.0
+      },
+      "reg-central-ethiopia": {
+        "target": 2000.0,
+        "budget": 150000.0
+      },
+      "reg-south-ethiopia": {
+        "target": 20000.0,
+        "budget": 600000.0
+      },
+      "reg-south-west-ethiopia": {
+        "target": 300.0,
+        "budget": 0.0
+      },
+      "reg-sidama": {
+        "target": 28000.0,
+        "budget": 0.0
+      },
+      "reg-tigray": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-gambella": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-benishangul-gumuz": {
+        "target": 12000.0,
+        "budget": 40000.0
+      },
+      "reg-harar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-dire-dawa": {
+        "target": 10000.0,
+        "budget": 150000.0
+      },
+      "reg-somali": {
+        "target": 5000.0,
+        "budget": 100000.0
+      },
+      "reg-afar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-moyale": {
+        "target": 0.0,
+        "budget": 0.0
+      }
+    }
   },
   {
     "id": "na-3-2-10",
@@ -2953,7 +8121,75 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "proj-2",
       "proj-3",
       "proj-4"
-    ]
+    ],
+    "ercs_target": 1.0,
+    "ercs_budget": 26200000.0,
+    "hq_target": 1.0,
+    "hq_budget": 26200000.0,
+    "rb_target": 0.0,
+    "rb_budget": 0.0,
+    "regional_targets": {
+      "reg-oromia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-addis-ababa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-amhara": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-central-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-west-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-sidama": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-tigray": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-gambella": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-benishangul-gumuz": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-harar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-dire-dawa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-somali": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-afar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-moyale": {
+        "target": 0.0,
+        "budget": 0.0
+      }
+    }
   },
   {
     "id": "na-3-2-11",
@@ -2988,7 +8224,75 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "proj-2",
       "proj-3",
       "proj-4"
-    ]
+    ],
+    "ercs_target": 1.0,
+    "ercs_budget": 300000.0,
+    "hq_target": 1.0,
+    "hq_budget": 300000.0,
+    "rb_target": 0.0,
+    "rb_budget": 0.0,
+    "regional_targets": {
+      "reg-oromia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-addis-ababa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-amhara": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-central-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-west-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-sidama": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-tigray": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-gambella": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-benishangul-gumuz": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-harar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-dire-dawa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-somali": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-afar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-moyale": {
+        "target": 0.0,
+        "budget": 0.0
+      }
+    }
   },
   {
     "id": "na-3-3-1",
@@ -3023,7 +8327,75 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "proj-2",
       "proj-3",
       "proj-4"
-    ]
+    ],
+    "ercs_target": 139.0,
+    "ercs_budget": 288508560.0,
+    "hq_target": 120.0,
+    "hq_budget": 274998560.0,
+    "rb_target": 19.0,
+    "rb_budget": 13510000.0,
+    "regional_targets": {
+      "reg-oromia": {
+        "target": 8.0,
+        "budget": 8000000.0
+      },
+      "reg-addis-ababa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-amhara": {
+        "target": 3.0,
+        "budget": 3000000.0
+      },
+      "reg-central-ethiopia": {
+        "target": 1.0,
+        "budget": 1000000.0
+      },
+      "reg-south-ethiopia": {
+        "target": 4.0,
+        "budget": 960000.0
+      },
+      "reg-south-west-ethiopia": {
+        "target": 2.0,
+        "budget": 500000.0
+      },
+      "reg-sidama": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-tigray": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-gambella": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-benishangul-gumuz": {
+        "target": 1.0,
+        "budget": 50000.0
+      },
+      "reg-harar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-dire-dawa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-somali": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-afar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-moyale": {
+        "target": 0.0,
+        "budget": 0.0
+      }
+    }
   },
   {
     "id": "na-3-3-2",
@@ -3058,7 +8430,75 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "proj-2",
       "proj-3",
       "proj-4"
-    ]
+    ],
+    "ercs_target": 139.0,
+    "ercs_budget": 9030000.0,
+    "hq_target": 120.0,
+    "hq_budget": 8000000.0,
+    "rb_target": 19.0,
+    "rb_budget": 1030000.0,
+    "regional_targets": {
+      "reg-oromia": {
+        "target": 8.0,
+        "budget": 800000.0
+      },
+      "reg-addis-ababa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-amhara": {
+        "target": 3.0,
+        "budget": 0.0
+      },
+      "reg-central-ethiopia": {
+        "target": 1.0,
+        "budget": 100000.0
+      },
+      "reg-south-ethiopia": {
+        "target": 4.0,
+        "budget": 100000.0
+      },
+      "reg-south-west-ethiopia": {
+        "target": 2.0,
+        "budget": 0.0
+      },
+      "reg-sidama": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-tigray": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-gambella": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-benishangul-gumuz": {
+        "target": 1.0,
+        "budget": 30000.0
+      },
+      "reg-harar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-dire-dawa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-somali": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-afar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-moyale": {
+        "target": 0.0,
+        "budget": 0.0
+      }
+    }
   },
   {
     "id": "na-3-3-3",
@@ -3093,7 +8533,75 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "proj-2",
       "proj-3",
       "proj-4"
-    ]
+    ],
+    "ercs_target": 7.0,
+    "ercs_budget": 16976000.0,
+    "hq_target": 2.0,
+    "hq_budget": 4476000.0,
+    "rb_target": 5.0,
+    "rb_budget": 12500000.0,
+    "regional_targets": {
+      "reg-oromia": {
+        "target": 4.0,
+        "budget": 10500000.0
+      },
+      "reg-addis-ababa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-amhara": {
+        "target": 1.0,
+        "budget": 2000000.0
+      },
+      "reg-central-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-west-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-sidama": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-tigray": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-gambella": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-benishangul-gumuz": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-harar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-dire-dawa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-somali": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-afar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-moyale": {
+        "target": 0.0,
+        "budget": 0.0
+      }
+    }
   },
   {
     "id": "na-3-3-4",
@@ -3128,7 +8636,75 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "proj-2",
       "proj-3",
       "proj-4"
-    ]
+    ],
+    "ercs_target": 24.0,
+    "ercs_budget": 42800000.0,
+    "hq_target": 20.0,
+    "hq_budget": 40000000.0,
+    "rb_target": 4.0,
+    "rb_budget": 2800000.0,
+    "regional_targets": {
+      "reg-oromia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-addis-ababa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-amhara": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-central-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-west-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-sidama": {
+        "target": 3.0,
+        "budget": 800000.0
+      },
+      "reg-tigray": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-gambella": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-benishangul-gumuz": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-harar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-dire-dawa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-somali": {
+        "target": 1.0,
+        "budget": 2000000.0
+      },
+      "reg-afar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-moyale": {
+        "target": 0.0,
+        "budget": 0.0
+      }
+    }
   },
   {
     "id": "na-3-3-5",
@@ -3163,7 +8739,75 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "proj-2",
       "proj-3",
       "proj-4"
-    ]
+    ],
+    "ercs_target": 8.0,
+    "ercs_budget": 450000.0,
+    "hq_target": 0.0,
+    "hq_budget": 0.0,
+    "rb_target": 8.0,
+    "rb_budget": 450000.0,
+    "regional_targets": {
+      "reg-oromia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-addis-ababa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-amhara": {
+        "target": 2.0,
+        "budget": 200000.0
+      },
+      "reg-central-ethiopia": {
+        "target": 1.0,
+        "budget": 100000.0
+      },
+      "reg-south-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-west-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-sidama": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-tigray": {
+        "target": 1.0,
+        "budget": 100000.0
+      },
+      "reg-gambella": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-benishangul-gumuz": {
+        "target": 4.0,
+        "budget": 50000.0
+      },
+      "reg-harar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-dire-dawa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-somali": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-afar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-moyale": {
+        "target": 0.0,
+        "budget": 0.0
+      }
+    }
   },
   {
     "id": "na-3-4-1",
@@ -3198,7 +8842,75 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "proj-2",
       "proj-3",
       "proj-4"
-    ]
+    ],
+    "ercs_target": 59.0,
+    "ercs_budget": 106200000.0,
+    "hq_target": 59.0,
+    "hq_budget": 106200000.0,
+    "rb_target": 0.0,
+    "rb_budget": 0.0,
+    "regional_targets": {
+      "reg-oromia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-addis-ababa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-amhara": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-central-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-west-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-sidama": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-tigray": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-gambella": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-benishangul-gumuz": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-harar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-dire-dawa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-somali": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-afar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-moyale": {
+        "target": 0.0,
+        "budget": 0.0
+      }
+    }
   },
   {
     "id": "na-3-4-2",
@@ -3233,7 +8945,75 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "proj-2",
       "proj-3",
       "proj-4"
-    ]
+    ],
+    "ercs_target": 27.0,
+    "ercs_budget": 135000000.0,
+    "hq_target": 27.0,
+    "hq_budget": 135000000.0,
+    "rb_target": 0.0,
+    "rb_budget": 0.0,
+    "regional_targets": {
+      "reg-oromia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-addis-ababa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-amhara": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-central-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-west-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-sidama": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-tigray": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-gambella": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-benishangul-gumuz": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-harar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-dire-dawa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-somali": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-afar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-moyale": {
+        "target": 0.0,
+        "budget": 0.0
+      }
+    }
   },
   {
     "id": "na-3-4-3",
@@ -3268,7 +9048,75 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "proj-2",
       "proj-3",
       "proj-4"
-    ]
+    ],
+    "ercs_target": 15.0,
+    "ercs_budget": 2400000.0,
+    "hq_target": 15.0,
+    "hq_budget": 2400000.0,
+    "rb_target": 0.0,
+    "rb_budget": 0.0,
+    "regional_targets": {
+      "reg-oromia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-addis-ababa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-amhara": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-central-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-west-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-sidama": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-tigray": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-gambella": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-benishangul-gumuz": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-harar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-dire-dawa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-somali": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-afar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-moyale": {
+        "target": 0.0,
+        "budget": 0.0
+      }
+    }
   },
   {
     "id": "na-3-4-4",
@@ -3303,7 +9151,75 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "proj-2",
       "proj-3",
       "proj-4"
-    ]
+    ],
+    "ercs_target": 33.0,
+    "ercs_budget": 22010000.0,
+    "hq_target": 0.0,
+    "hq_budget": 0.0,
+    "rb_target": 33.0,
+    "rb_budget": 22010000.0,
+    "regional_targets": {
+      "reg-oromia": {
+        "target": 20.0,
+        "budget": 20250000.0
+      },
+      "reg-addis-ababa": {
+        "target": 1.0,
+        "budget": 500000.0
+      },
+      "reg-amhara": {
+        "target": 4.0,
+        "budget": 400000.0
+      },
+      "reg-central-ethiopia": {
+        "target": 2.0,
+        "budget": 200000.0
+      },
+      "reg-south-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-west-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-sidama": {
+        "target": 2.0,
+        "budget": 100000.0
+      },
+      "reg-tigray": {
+        "target": 1.0,
+        "budget": 200000.0
+      },
+      "reg-gambella": {
+        "target": 1.0,
+        "budget": 200000.0
+      },
+      "reg-benishangul-gumuz": {
+        "target": 1.0,
+        "budget": 60000.0
+      },
+      "reg-harar": {
+        "target": 1.0,
+        "budget": 100000.0
+      },
+      "reg-dire-dawa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-somali": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-afar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-moyale": {
+        "target": 0.0,
+        "budget": 0.0
+      }
+    }
   },
   {
     "id": "na-3-4-5",
@@ -3338,7 +9254,75 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "proj-2",
       "proj-3",
       "proj-4"
-    ]
+    ],
+    "ercs_target": 0.0,
+    "ercs_budget": 0.0,
+    "hq_target": 0.0,
+    "hq_budget": 0.0,
+    "rb_target": 2.0,
+    "rb_budget": 0.0,
+    "regional_targets": {
+      "reg-oromia": {
+        "target": 20.0,
+        "budget": 0.0
+      },
+      "reg-addis-ababa": {
+        "target": 2.0,
+        "budget": 0.0
+      },
+      "reg-amhara": {
+        "target": 2.0,
+        "budget": 0.0
+      },
+      "reg-central-ethiopia": {
+        "target": 1.0,
+        "budget": 0.0
+      },
+      "reg-south-ethiopia": {
+        "target": 5.0,
+        "budget": 0.0
+      },
+      "reg-south-west-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-sidama": {
+        "target": 2.0,
+        "budget": 0.0
+      },
+      "reg-tigray": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-gambella": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-benishangul-gumuz": {
+        "target": 1.0,
+        "budget": 0.0
+      },
+      "reg-harar": {
+        "target": 1.0,
+        "budget": 0.0
+      },
+      "reg-dire-dawa": {
+        "target": 1.0,
+        "budget": 0.0
+      },
+      "reg-somali": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-afar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-moyale": {
+        "target": 0.0,
+        "budget": 0.0
+      }
+    }
   },
   {
     "id": "na-3-4-6",
@@ -3373,7 +9357,75 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "proj-2",
       "proj-3",
       "proj-4"
-    ]
+    ],
+    "ercs_target": 1.0,
+    "ercs_budget": 24261865.0,
+    "hq_target": 1.0,
+    "hq_budget": 24261865.0,
+    "rb_target": 0.0,
+    "rb_budget": 0.0,
+    "regional_targets": {
+      "reg-oromia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-addis-ababa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-amhara": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-central-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-west-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-sidama": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-tigray": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-gambella": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-benishangul-gumuz": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-harar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-dire-dawa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-somali": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-afar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-moyale": {
+        "target": 0.0,
+        "budget": 0.0
+      }
+    }
   },
   {
     "id": "na-3-4-7",
@@ -3408,7 +9460,75 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "proj-2",
       "proj-3",
       "proj-4"
-    ]
+    ],
+    "ercs_target": 9.0,
+    "ercs_budget": 3480000.0,
+    "hq_target": 0.0,
+    "hq_budget": 0.0,
+    "rb_target": 9.0,
+    "rb_budget": 3480000.0,
+    "regional_targets": {
+      "reg-oromia": {
+        "target": 1.0,
+        "budget": 0.0
+      },
+      "reg-addis-ababa": {
+        "target": 1.0,
+        "budget": 250000.0
+      },
+      "reg-amhara": {
+        "target": 1.0,
+        "budget": 1300000.0
+      },
+      "reg-central-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-ethiopia": {
+        "target": 1.0,
+        "budget": 300000.0
+      },
+      "reg-south-west-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-sidama": {
+        "target": 1.0,
+        "budget": 100000.0
+      },
+      "reg-tigray": {
+        "target": 1.0,
+        "budget": 1300000.0
+      },
+      "reg-gambella": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-benishangul-gumuz": {
+        "target": 1.0,
+        "budget": 30000.0
+      },
+      "reg-harar": {
+        "target": 1.0,
+        "budget": 0.0
+      },
+      "reg-dire-dawa": {
+        "target": 1.0,
+        "budget": 200000.0
+      },
+      "reg-somali": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-afar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-moyale": {
+        "target": 0.0,
+        "budget": 0.0
+      }
+    }
   },
   {
     "id": "na-3-4-8",
@@ -3443,7 +9563,75 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "proj-2",
       "proj-3",
       "proj-4"
-    ]
+    ],
+    "ercs_target": 30.0,
+    "ercs_budget": 1500000.0,
+    "hq_target": 30.0,
+    "hq_budget": 1500000.0,
+    "rb_target": 0.0,
+    "rb_budget": 0.0,
+    "regional_targets": {
+      "reg-oromia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-addis-ababa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-amhara": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-central-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-west-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-sidama": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-tigray": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-gambella": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-benishangul-gumuz": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-harar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-dire-dawa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-somali": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-afar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-moyale": {
+        "target": 0.0,
+        "budget": 0.0
+      }
+    }
   },
   {
     "id": "na-3-4-9",
@@ -3478,7 +9666,75 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "proj-2",
       "proj-3",
       "proj-4"
-    ]
+    ],
+    "ercs_target": 11482.0,
+    "ercs_budget": 12583250.0,
+    "hq_target": 0.0,
+    "hq_budget": 0.0,
+    "rb_target": 11482.0,
+    "rb_budget": 12583250.0,
+    "regional_targets": {
+      "reg-oromia": {
+        "target": 6892.0,
+        "budget": 7663250.0
+      },
+      "reg-addis-ababa": {
+        "target": 1100.0,
+        "budget": 300000.0
+      },
+      "reg-amhara": {
+        "target": 500.0,
+        "budget": 1100000.0
+      },
+      "reg-central-ethiopia": {
+        "target": 50.0,
+        "budget": 150000.0
+      },
+      "reg-south-ethiopia": {
+        "target": 600.0,
+        "budget": 1200000.0
+      },
+      "reg-south-west-ethiopia": {
+        "target": 120.0,
+        "budget": 240000.0
+      },
+      "reg-sidama": {
+        "target": 500.0,
+        "budget": 150000.0
+      },
+      "reg-tigray": {
+        "target": 1000.0,
+        "budget": 600000.0
+      },
+      "reg-gambella": {
+        "target": 30.0,
+        "budget": 400000.0
+      },
+      "reg-benishangul-gumuz": {
+        "target": 200.0,
+        "budget": 60000.0
+      },
+      "reg-harar": {
+        "target": 30.0,
+        "budget": 50000.0
+      },
+      "reg-dire-dawa": {
+        "target": 300.0,
+        "budget": 100000.0
+      },
+      "reg-somali": {
+        "target": 50.0,
+        "budget": 300000.0
+      },
+      "reg-afar": {
+        "target": 80.0,
+        "budget": 170000.0
+      },
+      "reg-moyale": {
+        "target": 30.0,
+        "budget": 100000.0
+      }
+    }
   },
   {
     "id": "na-3-4-10",
@@ -3513,7 +9769,75 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "proj-2",
       "proj-3",
       "proj-4"
-    ]
+    ],
+    "ercs_target": 954.0,
+    "ercs_budget": 4657000.0,
+    "hq_target": 30.0,
+    "hq_budget": 226500.0,
+    "rb_target": 924.0,
+    "rb_budget": 4430500.0,
+    "regional_targets": {
+      "reg-oromia": {
+        "target": 584.0,
+        "budget": 2222000.0
+      },
+      "reg-addis-ababa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-amhara": {
+        "target": 120.0,
+        "budget": 906000.0
+      },
+      "reg-central-ethiopia": {
+        "target": 30.0,
+        "budget": 226500.0
+      },
+      "reg-south-ethiopia": {
+        "target": 30.0,
+        "budget": 226500.0
+      },
+      "reg-south-west-ethiopia": {
+        "target": 30.0,
+        "budget": 90000.0
+      },
+      "reg-sidama": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-tigray": {
+        "target": 60.0,
+        "budget": 453000.0
+      },
+      "reg-gambella": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-benishangul-gumuz": {
+        "target": 40.0,
+        "budget": 80000.0
+      },
+      "reg-harar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-dire-dawa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-somali": {
+        "target": 30.0,
+        "budget": 226500.0
+      },
+      "reg-afar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-moyale": {
+        "target": 0.0,
+        "budget": 0.0
+      }
+    }
   },
   {
     "id": "na-3-4-11",
@@ -3548,7 +9872,75 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "proj-2",
       "proj-3",
       "proj-4"
-    ]
+    ],
+    "ercs_target": 189115.0,
+    "ercs_budget": 7730472.0,
+    "hq_target": 0.0,
+    "hq_budget": 0.0,
+    "rb_target": 189115.0,
+    "rb_budget": 7730472.0,
+    "regional_targets": {
+      "reg-oromia": {
+        "target": 82198.0,
+        "budget": 3790000.0
+      },
+      "reg-addis-ababa": {
+        "target": 2506.0,
+        "budget": 601440.0
+      },
+      "reg-amhara": {
+        "target": 40568.0,
+        "budget": 1217040.0
+      },
+      "reg-central-ethiopia": {
+        "target": 12732.0,
+        "budget": 370000.0
+      },
+      "reg-south-ethiopia": {
+        "target": 17531.0,
+        "budget": 700000.0
+      },
+      "reg-south-west-ethiopia": {
+        "target": 1260.0,
+        "budget": 300000.0
+      },
+      "reg-sidama": {
+        "target": 11391.0,
+        "budget": 30000.0
+      },
+      "reg-tigray": {
+        "target": 4846.0,
+        "budget": 0.0
+      },
+      "reg-gambella": {
+        "target": 4800.0,
+        "budget": 160000.0
+      },
+      "reg-benishangul-gumuz": {
+        "target": 9325.0,
+        "budget": 10000.0
+      },
+      "reg-harar": {
+        "target": 528.0,
+        "budget": 100000.0
+      },
+      "reg-dire-dawa": {
+        "target": 437.0,
+        "budget": 145992.0
+      },
+      "reg-somali": {
+        "target": 238.0,
+        "budget": 50000.0
+      },
+      "reg-afar": {
+        "target": 605.0,
+        "budget": 240000.0
+      },
+      "reg-moyale": {
+        "target": 150.0,
+        "budget": 16000.0
+      }
+    }
   },
   {
     "id": "na-3-4-12",
@@ -3583,7 +9975,75 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "proj-2",
       "proj-3",
       "proj-4"
-    ]
+    ],
+    "ercs_target": 449802.0,
+    "ercs_budget": 249900716.9,
+    "hq_target": 0.0,
+    "hq_budget": 0.0,
+    "rb_target": 449802.0,
+    "rb_budget": 249900716.9,
+    "regional_targets": {
+      "reg-oromia": {
+        "target": 114603.0,
+        "budget": 99752305.0
+      },
+      "reg-addis-ababa": {
+        "target": 5200.0,
+        "budget": 11652939.9
+      },
+      "reg-amhara": {
+        "target": 85610.0,
+        "budget": 51366000.0
+      },
+      "reg-central-ethiopia": {
+        "target": 7901.0,
+        "budget": 3000000.0
+      },
+      "reg-south-ethiopia": {
+        "target": 24978.0,
+        "budget": 3000000.0
+      },
+      "reg-south-west-ethiopia": {
+        "target": 3474.0,
+        "budget": 300000.0
+      },
+      "reg-sidama": {
+        "target": 12940.0,
+        "budget": 1500000.0
+      },
+      "reg-tigray": {
+        "target": 162705.0,
+        "budget": 64000000.0
+      },
+      "reg-gambella": {
+        "target": 6000.0,
+        "budget": 840000.0
+      },
+      "reg-benishangul-gumuz": {
+        "target": 8590.0,
+        "budget": 2500000.0
+      },
+      "reg-harar": {
+        "target": 2041.0,
+        "budget": 800000.0
+      },
+      "reg-dire-dawa": {
+        "target": 1500.0,
+        "budget": 2889472.0
+      },
+      "reg-somali": {
+        "target": 4713.0,
+        "budget": 2000000.0
+      },
+      "reg-afar": {
+        "target": 9547.0,
+        "budget": 6300000.0
+      },
+      "reg-moyale": {
+        "target": 0.0,
+        "budget": 0.0
+      }
+    }
   },
   {
     "id": "na-3-4-13",
@@ -3618,7 +10078,75 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "proj-2",
       "proj-3",
       "proj-4"
-    ]
+    ],
+    "ercs_target": 100.0,
+    "ercs_budget": 118000.0,
+    "hq_target": 100.0,
+    "hq_budget": 118000.0,
+    "rb_target": 0.0,
+    "rb_budget": 0.0,
+    "regional_targets": {
+      "reg-oromia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-addis-ababa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-amhara": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-central-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-west-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-sidama": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-tigray": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-gambella": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-benishangul-gumuz": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-harar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-dire-dawa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-somali": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-afar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-moyale": {
+        "target": 0.0,
+        "budget": 0.0
+      }
+    }
   },
   {
     "id": "na-3-4-14",
@@ -3653,7 +10181,75 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "proj-2",
       "proj-3",
       "proj-4"
-    ]
+    ],
+    "ercs_target": 34.0,
+    "ercs_budget": 6510000.0,
+    "hq_target": 0.0,
+    "hq_budget": 0.0,
+    "rb_target": 34.0,
+    "rb_budget": 6510000.0,
+    "regional_targets": {
+      "reg-oromia": {
+        "target": 17.0,
+        "budget": 1720000.0
+      },
+      "reg-addis-ababa": {
+        "target": 2.0,
+        "budget": 420000.0
+      },
+      "reg-amhara": {
+        "target": 6.0,
+        "budget": 2160000.0
+      },
+      "reg-central-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-west-ethiopia": {
+        "target": 1.0,
+        "budget": 0.0
+      },
+      "reg-sidama": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-tigray": {
+        "target": 6.0,
+        "budget": 2160000.0
+      },
+      "reg-gambella": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-benishangul-gumuz": {
+        "target": 2.0,
+        "budget": 50000.0
+      },
+      "reg-harar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-dire-dawa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-somali": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-afar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-moyale": {
+        "target": 0.0,
+        "budget": 0.0
+      }
+    }
   },
   {
     "id": "na-4-1-1",
@@ -3688,7 +10284,75 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "proj-2",
       "proj-3",
       "proj-4"
-    ]
+    ],
+    "ercs_target": 130.0,
+    "ercs_budget": 2400000.0,
+    "hq_target": 130.0,
+    "hq_budget": 2400000.0,
+    "rb_target": 0.0,
+    "rb_budget": 0.0,
+    "regional_targets": {
+      "reg-oromia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-addis-ababa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-amhara": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-central-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-west-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-sidama": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-tigray": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-gambella": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-benishangul-gumuz": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-harar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-dire-dawa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-somali": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-afar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-moyale": {
+        "target": 0.0,
+        "budget": 0.0
+      }
+    }
   },
   {
     "id": "na-4-1-2",
@@ -3723,7 +10387,75 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "proj-2",
       "proj-3",
       "proj-4"
-    ]
+    ],
+    "ercs_target": 2512981.0,
+    "ercs_budget": 5805100.0,
+    "hq_target": 0.0,
+    "hq_budget": 0.0,
+    "rb_target": 2512981.0,
+    "rb_budget": 5805100.0,
+    "regional_targets": {
+      "reg-oromia": {
+        "target": 715843.0,
+        "budget": 4729100.0
+      },
+      "reg-addis-ababa": {
+        "target": 418953.0,
+        "budget": 0.0
+      },
+      "reg-amhara": {
+        "target": 500000.0,
+        "budget": 650000.0
+      },
+      "reg-central-ethiopia": {
+        "target": 86000.0,
+        "budget": 26000.0
+      },
+      "reg-south-ethiopia": {
+        "target": 292000.0,
+        "budget": 292000.0
+      },
+      "reg-south-west-ethiopia": {
+        "target": 60000.0,
+        "budget": 0.0
+      },
+      "reg-sidama": {
+        "target": 273000.0,
+        "budget": 100000.0
+      },
+      "reg-tigray": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-gambella": {
+        "target": 12000.0,
+        "budget": 0.0
+      },
+      "reg-benishangul-gumuz": {
+        "target": 10000.0,
+        "budget": 8000.0
+      },
+      "reg-harar": {
+        "target": 8000.0,
+        "budget": 0.0
+      },
+      "reg-dire-dawa": {
+        "target": 20000.0,
+        "budget": 0.0
+      },
+      "reg-somali": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-afar": {
+        "target": 89185.0,
+        "budget": 0.0
+      },
+      "reg-moyale": {
+        "target": 28000.0,
+        "budget": 0.0
+      }
+    }
   },
   {
     "id": "na-4-1-3",
@@ -3758,7 +10490,75 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "proj-2",
       "proj-3",
       "proj-4"
-    ]
+    ],
+    "ercs_target": 9973574.0,
+    "ercs_budget": 0.0,
+    "hq_target": 0.0,
+    "hq_budget": 0.0,
+    "rb_target": 9973574.0,
+    "rb_budget": 0.0,
+    "regional_targets": {
+      "reg-oromia": {
+        "target": 4504403.0,
+        "budget": 0.0
+      },
+      "reg-addis-ababa": {
+        "target": 418953.0,
+        "budget": 0.0
+      },
+      "reg-amhara": {
+        "target": 2334183.0,
+        "budget": 0.0
+      },
+      "reg-central-ethiopia": {
+        "target": 718659.0,
+        "budget": 0.0
+      },
+      "reg-south-ethiopia": {
+        "target": 757503.0,
+        "budget": 0.0
+      },
+      "reg-south-west-ethiopia": {
+        "target": 250335.0,
+        "budget": 0.0
+      },
+      "reg-sidama": {
+        "target": 368948.0,
+        "budget": 0.0
+      },
+      "reg-tigray": {
+        "target": 389160.0,
+        "budget": 0.0
+      },
+      "reg-gambella": {
+        "target": 14755.0,
+        "budget": 0.0
+      },
+      "reg-benishangul-gumuz": {
+        "target": 51000.0,
+        "budget": 0.0
+      },
+      "reg-harar": {
+        "target": 16100.0,
+        "budget": 0.0
+      },
+      "reg-dire-dawa": {
+        "target": 20000.0,
+        "budget": 0.0
+      },
+      "reg-somali": {
+        "target": 30660.0,
+        "budget": 0.0
+      },
+      "reg-afar": {
+        "target": 73815.0,
+        "budget": 0.0
+      },
+      "reg-moyale": {
+        "target": 25100.0,
+        "budget": 0.0
+      }
+    }
   },
   {
     "id": "na-4-1-4",
@@ -3793,7 +10593,75 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "proj-2",
       "proj-3",
       "proj-4"
-    ]
+    ],
+    "ercs_target": 7444458.0,
+    "ercs_budget": 32180177.35,
+    "hq_target": 0.0,
+    "hq_budget": 0.0,
+    "rb_target": 7444458.0,
+    "rb_budget": 32180177.35,
+    "regional_targets": {
+      "reg-oromia": {
+        "target": 3649139.0,
+        "budget": 16007080.0
+      },
+      "reg-addis-ababa": {
+        "target": 309079.0,
+        "budget": 0.0
+      },
+      "reg-amhara": {
+        "target": 1609766.0,
+        "budget": 0.0
+      },
+      "reg-central-ethiopia": {
+        "target": 532787.0,
+        "budget": 5327870.0
+      },
+      "reg-south-ethiopia": {
+        "target": 544362.0,
+        "budget": 6243620.0
+      },
+      "reg-south-west-ethiopia": {
+        "target": 155104.0,
+        "budget": 0.0
+      },
+      "reg-sidama": {
+        "target": 236779.0,
+        "budget": 2236607.35
+      },
+      "reg-tigray": {
+        "target": 298500.0,
+        "budget": 1990000.0
+      },
+      "reg-gambella": {
+        "target": 1980.0,
+        "budget": 40000.0
+      },
+      "reg-benishangul-gumuz": {
+        "target": 25245.0,
+        "budget": 150000.0
+      },
+      "reg-harar": {
+        "target": 7719.0,
+        "budget": 0.0
+      },
+      "reg-dire-dawa": {
+        "target": 8297.0,
+        "budget": 0.0
+      },
+      "reg-somali": {
+        "target": 15701.0,
+        "budget": 150000.0
+      },
+      "reg-afar": {
+        "target": 40000.0,
+        "budget": 25000.0
+      },
+      "reg-moyale": {
+        "target": 10000.0,
+        "budget": 10000.0
+      }
+    }
   },
   {
     "id": "na-4-1-5",
@@ -3828,7 +10696,75 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "proj-2",
       "proj-3",
       "proj-4"
-    ]
+    ],
+    "ercs_target": 18980.0,
+    "ercs_budget": 144833.33,
+    "hq_target": 0.0,
+    "hq_budget": 0.0,
+    "rb_target": 18980.0,
+    "rb_budget": 144833.33,
+    "regional_targets": {
+      "reg-oromia": {
+        "target": 15059.0,
+        "budget": 68000.0
+      },
+      "reg-addis-ababa": {
+        "target": 442.0,
+        "budget": 0.0
+      },
+      "reg-amhara": {
+        "target": 1334.0,
+        "budget": 0.0
+      },
+      "reg-central-ethiopia": {
+        "target": 698.0,
+        "budget": 0.0
+      },
+      "reg-south-ethiopia": {
+        "target": 175.0,
+        "budget": 0.0
+      },
+      "reg-south-west-ethiopia": {
+        "target": 90.0,
+        "budget": 0.0
+      },
+      "reg-sidama": {
+        "target": 100.0,
+        "budget": 50000.0
+      },
+      "reg-tigray": {
+        "target": 500.0,
+        "budget": 3333.33
+      },
+      "reg-gambella": {
+        "target": 4.0,
+        "budget": 0.0
+      },
+      "reg-benishangul-gumuz": {
+        "target": 450.0,
+        "budget": 20000.0
+      },
+      "reg-harar": {
+        "target": 56.0,
+        "budget": 0.0
+      },
+      "reg-dire-dawa": {
+        "target": 25.0,
+        "budget": 0.0
+      },
+      "reg-somali": {
+        "target": 3.0,
+        "budget": 3500.0
+      },
+      "reg-afar": {
+        "target": 15.0,
+        "budget": 0.0
+      },
+      "reg-moyale": {
+        "target": 29.0,
+        "budget": 0.0
+      }
+    }
   },
   {
     "id": "na-4-1-6",
@@ -3863,7 +10799,75 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "proj-2",
       "proj-3",
       "proj-4"
-    ]
+    ],
+    "ercs_target": 19210.0,
+    "ercs_budget": 652833.34,
+    "hq_target": 0.0,
+    "hq_budget": 0.0,
+    "rb_target": 19210.0,
+    "rb_budget": 652833.34,
+    "regional_targets": {
+      "reg-oromia": {
+        "target": 13619.0,
+        "budget": 602000.0
+      },
+      "reg-addis-ababa": {
+        "target": 366.0,
+        "budget": 0.0
+      },
+      "reg-amhara": {
+        "target": 2440.0,
+        "budget": 0.0
+      },
+      "reg-central-ethiopia": {
+        "target": 89.0,
+        "budget": 0.0
+      },
+      "reg-south-ethiopia": {
+        "target": 555.0,
+        "budget": 0.0
+      },
+      "reg-south-west-ethiopia": {
+        "target": 150.0,
+        "budget": 0.0
+      },
+      "reg-sidama": {
+        "target": 32.0,
+        "budget": 25000.0
+      },
+      "reg-tigray": {
+        "target": 500.0,
+        "budget": 3333.34
+      },
+      "reg-gambella": {
+        "target": 10.0,
+        "budget": 0.0
+      },
+      "reg-benishangul-gumuz": {
+        "target": 350.0,
+        "budget": 20000.0
+      },
+      "reg-harar": {
+        "target": 150.0,
+        "budget": 0.0
+      },
+      "reg-dire-dawa": {
+        "target": 49.0,
+        "budget": 0.0
+      },
+      "reg-somali": {
+        "target": 50.0,
+        "budget": 2500.0
+      },
+      "reg-afar": {
+        "target": 500.0,
+        "budget": 0.0
+      },
+      "reg-moyale": {
+        "target": 350.0,
+        "budget": 0.0
+      }
+    }
   },
   {
     "id": "na-4-1-7",
@@ -3898,7 +10902,75 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "proj-2",
       "proj-3",
       "proj-4"
-    ]
+    ],
+    "ercs_target": 4425.0,
+    "ercs_budget": 92433.33,
+    "hq_target": 0.0,
+    "hq_budget": 0.0,
+    "rb_target": 4425.0,
+    "rb_budget": 92433.33,
+    "regional_targets": {
+      "reg-oromia": {
+        "target": 2075.0,
+        "budget": 31600.0
+      },
+      "reg-addis-ababa": {
+        "target": 259.0,
+        "budget": 0.0
+      },
+      "reg-amhara": {
+        "target": 460.0,
+        "budget": 0.0
+      },
+      "reg-central-ethiopia": {
+        "target": 85.0,
+        "budget": 0.0
+      },
+      "reg-south-ethiopia": {
+        "target": 188.0,
+        "budget": 0.0
+      },
+      "reg-south-west-ethiopia": {
+        "target": 150.0,
+        "budget": 0.0
+      },
+      "reg-sidama": {
+        "target": 37.0,
+        "budget": 35000.0
+      },
+      "reg-tigray": {
+        "target": 500.0,
+        "budget": 3333.33
+      },
+      "reg-gambella": {
+        "target": 6.0,
+        "budget": 0.0
+      },
+      "reg-benishangul-gumuz": {
+        "target": 200.0,
+        "budget": 20000.0
+      },
+      "reg-harar": {
+        "target": 75.0,
+        "budget": 0.0
+      },
+      "reg-dire-dawa": {
+        "target": 19.0,
+        "budget": 0.0
+      },
+      "reg-somali": {
+        "target": 50.0,
+        "budget": 2500.0
+      },
+      "reg-afar": {
+        "target": 300.0,
+        "budget": 0.0
+      },
+      "reg-moyale": {
+        "target": 21.0,
+        "budget": 0.0
+      }
+    }
   },
   {
     "id": "na-4-1-8",
@@ -3933,7 +11005,75 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "proj-2",
       "proj-3",
       "proj-4"
-    ]
+    ],
+    "ercs_target": 2486501.0,
+    "ercs_budget": 0.0,
+    "hq_target": 0.0,
+    "hq_budget": 0.0,
+    "rb_target": 2486501.0,
+    "rb_budget": 0.0,
+    "regional_targets": {
+      "reg-oromia": {
+        "target": 824511.0,
+        "budget": 0.0
+      },
+      "reg-addis-ababa": {
+        "target": 108807.0,
+        "budget": 0.0
+      },
+      "reg-amhara": {
+        "target": 720183.0,
+        "budget": 0.0
+      },
+      "reg-central-ethiopia": {
+        "target": 185000.0,
+        "budget": 0.0
+      },
+      "reg-south-ethiopia": {
+        "target": 212223.0,
+        "budget": 0.0
+      },
+      "reg-south-west-ethiopia": {
+        "target": 94841.0,
+        "budget": 0.0
+      },
+      "reg-sidama": {
+        "target": 132000.0,
+        "budget": 0.0
+      },
+      "reg-tigray": {
+        "target": 89160.0,
+        "budget": 0.0
+      },
+      "reg-gambella": {
+        "target": 12755.0,
+        "budget": 0.0
+      },
+      "reg-benishangul-gumuz": {
+        "target": 24755.0,
+        "budget": 0.0
+      },
+      "reg-harar": {
+        "target": 8100.0,
+        "budget": 0.0
+      },
+      "reg-dire-dawa": {
+        "target": 11610.0,
+        "budget": 0.0
+      },
+      "reg-somali": {
+        "target": 14856.0,
+        "budget": 0.0
+      },
+      "reg-afar": {
+        "target": 33000.0,
+        "budget": 0.0
+      },
+      "reg-moyale": {
+        "target": 14700.0,
+        "budget": 0.0
+      }
+    }
   },
   {
     "id": "na-4-1-9",
@@ -3968,7 +11108,75 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "proj-2",
       "proj-3",
       "proj-4"
-    ]
+    ],
+    "ercs_target": 45490.0,
+    "ercs_budget": 100000.0,
+    "hq_target": 0.0,
+    "hq_budget": 0.0,
+    "rb_target": 45490.0,
+    "rb_budget": 100000.0,
+    "regional_targets": {
+      "reg-oromia": {
+        "target": 32011.0,
+        "budget": 100000.0
+      },
+      "reg-addis-ababa": {
+        "target": 5506.0,
+        "budget": 0.0
+      },
+      "reg-amhara": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-central-ethiopia": {
+        "target": 5000.0,
+        "budget": 0.0
+      },
+      "reg-south-ethiopia": {
+        "target": 223.0,
+        "budget": 0.0
+      },
+      "reg-south-west-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-sidama": {
+        "target": 2000.0,
+        "budget": 0.0
+      },
+      "reg-tigray": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-gambella": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-benishangul-gumuz": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-harar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-dire-dawa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-somali": {
+        "target": 750.0,
+        "budget": 0.0
+      },
+      "reg-afar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-moyale": {
+        "target": 0.0,
+        "budget": 0.0
+      }
+    }
   },
   {
     "id": "na-4-1-10",
@@ -4003,7 +11211,75 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "proj-2",
       "proj-3",
       "proj-4"
-    ]
+    ],
+    "ercs_target": 1196989.0,
+    "ercs_budget": 1045000.0,
+    "hq_target": 0.0,
+    "hq_budget": 0.0,
+    "rb_target": 1196989.0,
+    "rb_budget": 1045000.0,
+    "regional_targets": {
+      "reg-oromia": {
+        "target": 295000.0,
+        "budget": 600000.0
+      },
+      "reg-addis-ababa": {
+        "target": 30000.0,
+        "budget": 0.0
+      },
+      "reg-amhara": {
+        "target": 410183.0,
+        "budget": 0.0
+      },
+      "reg-central-ethiopia": {
+        "target": 100000.0,
+        "budget": 0.0
+      },
+      "reg-south-ethiopia": {
+        "target": 65000.0,
+        "budget": 0.0
+      },
+      "reg-south-west-ethiopia": {
+        "target": 94841.0,
+        "budget": 0.0
+      },
+      "reg-sidama": {
+        "target": 75000.0,
+        "budget": 80000.0
+      },
+      "reg-tigray": {
+        "target": 89160.0,
+        "budget": 0.0
+      },
+      "reg-gambella": {
+        "target": 600.0,
+        "budget": 0.0
+      },
+      "reg-benishangul-gumuz": {
+        "target": 16255.0,
+        "budget": 0.0
+      },
+      "reg-harar": {
+        "target": 4500.0,
+        "budget": 0.0
+      },
+      "reg-dire-dawa": {
+        "target": 4450.0,
+        "budget": 0.0
+      },
+      "reg-somali": {
+        "target": 4500.0,
+        "budget": 350000.0
+      },
+      "reg-afar": {
+        "target": 5000.0,
+        "budget": 15000.0
+      },
+      "reg-moyale": {
+        "target": 2500.0,
+        "budget": 0.0
+      }
+    }
   },
   {
     "id": "na-4-1-11",
@@ -4038,7 +11314,75 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "proj-2",
       "proj-3",
       "proj-4"
-    ]
+    ],
+    "ercs_target": 344200.0,
+    "ercs_budget": 120000.0,
+    "hq_target": 0.0,
+    "hq_budget": 0.0,
+    "rb_target": 344200.0,
+    "rb_budget": 120000.0,
+    "regional_targets": {
+      "reg-oromia": {
+        "target": 150000.0,
+        "budget": 100000.0
+      },
+      "reg-addis-ababa": {
+        "target": 30000.0,
+        "budget": 0.0
+      },
+      "reg-amhara": {
+        "target": 125000.0,
+        "budget": 0.0
+      },
+      "reg-central-ethiopia": {
+        "target": 10000.0,
+        "budget": 0.0
+      },
+      "reg-south-ethiopia": {
+        "target": 15000.0,
+        "budget": 0.0
+      },
+      "reg-south-west-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-sidama": {
+        "target": 10000.0,
+        "budget": 0.0
+      },
+      "reg-tigray": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-gambella": {
+        "target": 400.0,
+        "budget": 0.0
+      },
+      "reg-benishangul-gumuz": {
+        "target": 100.0,
+        "budget": 0.0
+      },
+      "reg-harar": {
+        "target": 1000.0,
+        "budget": 0.0
+      },
+      "reg-dire-dawa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-somali": {
+        "target": 500.0,
+        "budget": 0.0
+      },
+      "reg-afar": {
+        "target": 1000.0,
+        "budget": 20000.0
+      },
+      "reg-moyale": {
+        "target": 1200.0,
+        "budget": 0.0
+      }
+    }
   },
   {
     "id": "na-4-1-12",
@@ -4073,7 +11417,75 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "proj-2",
       "proj-3",
       "proj-4"
-    ]
+    ],
+    "ercs_target": 163461.0,
+    "ercs_budget": 830000.0,
+    "hq_target": 0.0,
+    "hq_budget": 0.0,
+    "rb_target": 163461.0,
+    "rb_budget": 830000.0,
+    "regional_targets": {
+      "reg-oromia": {
+        "target": 75000.0,
+        "budget": 750000.0
+      },
+      "reg-addis-ababa": {
+        "target": 3761.0,
+        "budget": 0.0
+      },
+      "reg-amhara": {
+        "target": 50000.0,
+        "budget": 0.0
+      },
+      "reg-central-ethiopia": {
+        "target": 10000.0,
+        "budget": 0.0
+      },
+      "reg-south-ethiopia": {
+        "target": 10000.0,
+        "budget": 0.0
+      },
+      "reg-south-west-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-sidama": {
+        "target": 5000.0,
+        "budget": 0.0
+      },
+      "reg-tigray": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-gambella": {
+        "target": 600.0,
+        "budget": 0.0
+      },
+      "reg-benishangul-gumuz": {
+        "target": 3500.0,
+        "budget": 0.0
+      },
+      "reg-harar": {
+        "target": 100.0,
+        "budget": 0.0
+      },
+      "reg-dire-dawa": {
+        "target": 1000.0,
+        "budget": 0.0
+      },
+      "reg-somali": {
+        "target": 1500.0,
+        "budget": 0.0
+      },
+      "reg-afar": {
+        "target": 1500.0,
+        "budget": 80000.0
+      },
+      "reg-moyale": {
+        "target": 1500.0,
+        "budget": 0.0
+      }
+    }
   },
   {
     "id": "na-4-1-13",
@@ -4108,7 +11520,75 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "proj-2",
       "proj-3",
       "proj-4"
-    ]
+    ],
+    "ercs_target": 323295.0,
+    "ercs_budget": 580000.0,
+    "hq_target": 0.0,
+    "hq_budget": 0.0,
+    "rb_target": 323295.0,
+    "rb_budget": 580000.0,
+    "regional_targets": {
+      "reg-oromia": {
+        "target": 145000.0,
+        "budget": 100000.0
+      },
+      "reg-addis-ababa": {
+        "target": 4540.0,
+        "budget": 0.0
+      },
+      "reg-amhara": {
+        "target": 15000.0,
+        "budget": 0.0
+      },
+      "reg-central-ethiopia": {
+        "target": 45000.0,
+        "budget": 0.0
+      },
+      "reg-south-ethiopia": {
+        "target": 55000.0,
+        "budget": 0.0
+      },
+      "reg-south-west-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-sidama": {
+        "target": 25000.0,
+        "budget": 0.0
+      },
+      "reg-tigray": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-gambella": {
+        "target": 9755.0,
+        "budget": 180000.0
+      },
+      "reg-benishangul-gumuz": {
+        "target": 2500.0,
+        "budget": 0.0
+      },
+      "reg-harar": {
+        "target": 1000.0,
+        "budget": 0.0
+      },
+      "reg-dire-dawa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-somali": {
+        "target": 6500.0,
+        "budget": 250000.0
+      },
+      "reg-afar": {
+        "target": 6000.0,
+        "budget": 50000.0
+      },
+      "reg-moyale": {
+        "target": 8000.0,
+        "budget": 0.0
+      }
+    }
   },
   {
     "id": "na-4-1-14",
@@ -4143,7 +11623,75 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "proj-2",
       "proj-3",
       "proj-4"
-    ]
+    ],
+    "ercs_target": 183066.0,
+    "ercs_budget": 370000.0,
+    "hq_target": 0.0,
+    "hq_budget": 0.0,
+    "rb_target": 183066.0,
+    "rb_budget": 370000.0,
+    "regional_targets": {
+      "reg-oromia": {
+        "target": 42500.0,
+        "budget": 298000.0
+      },
+      "reg-addis-ababa": {
+        "target": 20000.0,
+        "budget": 0.0
+      },
+      "reg-amhara": {
+        "target": 80000.0,
+        "budget": 0.0
+      },
+      "reg-central-ethiopia": {
+        "target": 5000.0,
+        "budget": 0.0
+      },
+      "reg-south-ethiopia": {
+        "target": 12000.0,
+        "budget": 0.0
+      },
+      "reg-south-west-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-sidama": {
+        "target": 10000.0,
+        "budget": 0.0
+      },
+      "reg-tigray": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-gambella": {
+        "target": 400.0,
+        "budget": 0.0
+      },
+      "reg-benishangul-gumuz": {
+        "target": 400.0,
+        "budget": 0.0
+      },
+      "reg-harar": {
+        "target": 500.0,
+        "budget": 0.0
+      },
+      "reg-dire-dawa": {
+        "target": 1160.0,
+        "budget": 0.0
+      },
+      "reg-somali": {
+        "target": 606.0,
+        "budget": 2000.0
+      },
+      "reg-afar": {
+        "target": 9500.0,
+        "budget": 70000.0
+      },
+      "reg-moyale": {
+        "target": 1000.0,
+        "budget": 0.0
+      }
+    }
   },
   {
     "id": "na-4-1-15",
@@ -4178,7 +11726,75 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "proj-2",
       "proj-3",
       "proj-4"
-    ]
+    ],
+    "ercs_target": 230000.0,
+    "ercs_budget": 731500.0,
+    "hq_target": 0.0,
+    "hq_budget": 0.0,
+    "rb_target": 230000.0,
+    "rb_budget": 731500.0,
+    "regional_targets": {
+      "reg-oromia": {
+        "target": 85000.0,
+        "budget": 455000.0
+      },
+      "reg-addis-ababa": {
+        "target": 15000.0,
+        "budget": 0.0
+      },
+      "reg-amhara": {
+        "target": 40000.0,
+        "budget": 0.0
+      },
+      "reg-central-ethiopia": {
+        "target": 10000.0,
+        "budget": 0.0
+      },
+      "reg-south-ethiopia": {
+        "target": 55000.0,
+        "budget": 113000.0
+      },
+      "reg-south-west-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-sidama": {
+        "target": 5000.0,
+        "budget": 25000.0
+      },
+      "reg-tigray": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-gambella": {
+        "target": 1000.0,
+        "budget": 10000.0
+      },
+      "reg-benishangul-gumuz": {
+        "target": 2000.0,
+        "budget": 0.0
+      },
+      "reg-harar": {
+        "target": 1000.0,
+        "budget": 0.0
+      },
+      "reg-dire-dawa": {
+        "target": 5000.0,
+        "budget": 0.0
+      },
+      "reg-somali": {
+        "target": 500.0,
+        "budget": 3500.0
+      },
+      "reg-afar": {
+        "target": 10000.0,
+        "budget": 75000.0
+      },
+      "reg-moyale": {
+        "target": 500.0,
+        "budget": 50000.0
+      }
+    }
   },
   {
     "id": "na-4-1-16",
@@ -4213,7 +11829,75 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "proj-2",
       "proj-3",
       "proj-4"
-    ]
+    ],
+    "ercs_target": 62.0,
+    "ercs_budget": 6332000.0,
+    "hq_target": 1.0,
+    "hq_budget": 0.0,
+    "rb_target": 61.0,
+    "rb_budget": 6332000.0,
+    "regional_targets": {
+      "reg-oromia": {
+        "target": 21.0,
+        "budget": 2922000.0
+      },
+      "reg-addis-ababa": {
+        "target": 1.0,
+        "budget": 100000.0
+      },
+      "reg-amhara": {
+        "target": 13.0,
+        "budget": 1300000.0
+      },
+      "reg-central-ethiopia": {
+        "target": 4.0,
+        "budget": 400000.0
+      },
+      "reg-south-ethiopia": {
+        "target": 6.0,
+        "budget": 155000.0
+      },
+      "reg-south-west-ethiopia": {
+        "target": 3.0,
+        "budget": 300000.0
+      },
+      "reg-sidama": {
+        "target": 1.0,
+        "budget": 100000.0
+      },
+      "reg-tigray": {
+        "target": 5.0,
+        "budget": 500000.0
+      },
+      "reg-gambella": {
+        "target": 1.0,
+        "budget": 100000.0
+      },
+      "reg-benishangul-gumuz": {
+        "target": 1.0,
+        "budget": 100000.0
+      },
+      "reg-harar": {
+        "target": 1.0,
+        "budget": 40000.0
+      },
+      "reg-dire-dawa": {
+        "target": 1.0,
+        "budget": 100000.0
+      },
+      "reg-somali": {
+        "target": 1.0,
+        "budget": 100000.0
+      },
+      "reg-afar": {
+        "target": 1.0,
+        "budget": 65000.0
+      },
+      "reg-moyale": {
+        "target": 1.0,
+        "budget": 50000.0
+      }
+    }
   },
   {
     "id": "na-4-1-17",
@@ -4248,7 +11932,75 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "proj-2",
       "proj-3",
       "proj-4"
-    ]
+    ],
+    "ercs_target": 1.0,
+    "ercs_budget": 1500000.0,
+    "hq_target": 1.0,
+    "hq_budget": 1500000.0,
+    "rb_target": 0.0,
+    "rb_budget": 0.0,
+    "regional_targets": {
+      "reg-oromia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-addis-ababa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-amhara": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-central-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-west-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-sidama": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-tigray": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-gambella": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-benishangul-gumuz": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-harar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-dire-dawa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-somali": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-afar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-moyale": {
+        "target": 0.0,
+        "budget": 0.0
+      }
+    }
   },
   {
     "id": "na-4-2-1",
@@ -4283,7 +12035,75 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "proj-2",
       "proj-3",
       "proj-4"
-    ]
+    ],
+    "ercs_target": 50.0,
+    "ercs_budget": 1000000.0,
+    "hq_target": 50.0,
+    "hq_budget": 1000000.0,
+    "rb_target": 0.0,
+    "rb_budget": 0.0,
+    "regional_targets": {
+      "reg-oromia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-addis-ababa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-amhara": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-central-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-west-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-sidama": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-tigray": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-gambella": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-benishangul-gumuz": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-harar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-dire-dawa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-somali": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-afar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-moyale": {
+        "target": 0.0,
+        "budget": 0.0
+      }
+    }
   },
   {
     "id": "na-4-2-2",
@@ -4318,7 +12138,75 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "proj-2",
       "proj-3",
       "proj-4"
-    ]
+    ],
+    "ercs_target": 1.0,
+    "ercs_budget": 250000.0,
+    "hq_target": 1.0,
+    "hq_budget": 250000.0,
+    "rb_target": 0.0,
+    "rb_budget": 0.0,
+    "regional_targets": {
+      "reg-oromia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-addis-ababa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-amhara": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-central-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-west-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-sidama": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-tigray": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-gambella": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-benishangul-gumuz": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-harar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-dire-dawa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-somali": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-afar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-moyale": {
+        "target": 0.0,
+        "budget": 0.0
+      }
+    }
   },
   {
     "id": "na-4-2-3",
@@ -4353,7 +12241,75 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "proj-2",
       "proj-3",
       "proj-4"
-    ]
+    ],
+    "ercs_target": 75.0,
+    "ercs_budget": 1960000.0,
+    "hq_target": 5.0,
+    "hq_budget": 1200000.0,
+    "rb_target": 70.0,
+    "rb_budget": 760000.0,
+    "regional_targets": {
+      "reg-oromia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-addis-ababa": {
+        "target": 5.0,
+        "budget": 50000.0
+      },
+      "reg-amhara": {
+        "target": 10.0,
+        "budget": 200000.0
+      },
+      "reg-central-ethiopia": {
+        "target": 5.0,
+        "budget": 100000.0
+      },
+      "reg-south-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-west-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-sidama": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-tigray": {
+        "target": 5.0,
+        "budget": 100000.0
+      },
+      "reg-gambella": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-benishangul-gumuz": {
+        "target": 5.0,
+        "budget": 30000.0
+      },
+      "reg-harar": {
+        "target": 5.0,
+        "budget": 50000.0
+      },
+      "reg-dire-dawa": {
+        "target": 20.0,
+        "budget": 100000.0
+      },
+      "reg-somali": {
+        "target": 5.0,
+        "budget": 100000.0
+      },
+      "reg-afar": {
+        "target": 5.0,
+        "budget": 0.0
+      },
+      "reg-moyale": {
+        "target": 5.0,
+        "budget": 30000.0
+      }
+    }
   },
   {
     "id": "na-4-2-4",
@@ -4388,7 +12344,75 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "proj-2",
       "proj-3",
       "proj-4"
-    ]
+    ],
+    "ercs_target": 1.0,
+    "ercs_budget": 6900000.0,
+    "hq_target": 1.0,
+    "hq_budget": 5000000.0,
+    "rb_target": 0.0,
+    "rb_budget": 1900000.0,
+    "regional_targets": {
+      "reg-oromia": {
+        "target": 3.0,
+        "budget": 1750000.0
+      },
+      "reg-addis-ababa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-amhara": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-central-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-west-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-sidama": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-tigray": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-gambella": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-benishangul-gumuz": {
+        "target": 1.0,
+        "budget": 50000.0
+      },
+      "reg-harar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-dire-dawa": {
+        "target": 1.0,
+        "budget": 100000.0
+      },
+      "reg-somali": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-afar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-moyale": {
+        "target": 0.0,
+        "budget": 0.0
+      }
+    }
   },
   {
     "id": "na-4-2-5",
@@ -4423,7 +12447,75 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "proj-2",
       "proj-3",
       "proj-4"
-    ]
+    ],
+    "ercs_target": 31170.0,
+    "ercs_budget": 3068000.0,
+    "hq_target": 0.0,
+    "hq_budget": 0.0,
+    "rb_target": 31170.0,
+    "rb_budget": 3068000.0,
+    "regional_targets": {
+      "reg-oromia": {
+        "target": 15000.0,
+        "budget": 1274000.0
+      },
+      "reg-addis-ababa": {
+        "target": 1200.0,
+        "budget": 0.0
+      },
+      "reg-amhara": {
+        "target": 6000.0,
+        "budget": 600000.0
+      },
+      "reg-central-ethiopia": {
+        "target": 600.0,
+        "budget": 0.0
+      },
+      "reg-south-ethiopia": {
+        "target": 2100.0,
+        "budget": 720000.0
+      },
+      "reg-south-west-ethiopia": {
+        "target": 550.0,
+        "budget": 0.0
+      },
+      "reg-sidama": {
+        "target": 1550.0,
+        "budget": 0.0
+      },
+      "reg-tigray": {
+        "target": 2600.0,
+        "budget": 0.0
+      },
+      "reg-gambella": {
+        "target": 220.0,
+        "budget": 394000.0
+      },
+      "reg-benishangul-gumuz": {
+        "target": 250.0,
+        "budget": 40000.0
+      },
+      "reg-harar": {
+        "target": 150.0,
+        "budget": 40000.0
+      },
+      "reg-dire-dawa": {
+        "target": 300.0,
+        "budget": 0.0
+      },
+      "reg-somali": {
+        "target": 250.0,
+        "budget": 0.0
+      },
+      "reg-afar": {
+        "target": 250.0,
+        "budget": 0.0
+      },
+      "reg-moyale": {
+        "target": 150.0,
+        "budget": 0.0
+      }
+    }
   },
   {
     "id": "na-4-2-6",
@@ -4458,7 +12550,75 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "proj-2",
       "proj-3",
       "proj-4"
-    ]
+    ],
+    "ercs_target": 93708.0,
+    "ercs_budget": 4969700.0,
+    "hq_target": 0.0,
+    "hq_budget": 0.0,
+    "rb_target": 93708.0,
+    "rb_budget": 4969700.0,
+    "regional_targets": {
+      "reg-oromia": {
+        "target": 50000.0,
+        "budget": 1494200.0
+      },
+      "reg-addis-ababa": {
+        "target": 2797.0,
+        "budget": 565000.0
+      },
+      "reg-amhara": {
+        "target": 16573.0,
+        "budget": 1657300.0
+      },
+      "reg-central-ethiopia": {
+        "target": 2844.0,
+        "budget": 853200.0
+      },
+      "reg-south-ethiopia": {
+        "target": 5539.0,
+        "budget": 0.0
+      },
+      "reg-south-west-ethiopia": {
+        "target": 2478.0,
+        "budget": 0.0
+      },
+      "reg-sidama": {
+        "target": 3146.0,
+        "budget": 0.0
+      },
+      "reg-tigray": {
+        "target": 6572.0,
+        "budget": 0.0
+      },
+      "reg-gambella": {
+        "target": 538.0,
+        "budget": 0.0
+      },
+      "reg-benishangul-gumuz": {
+        "target": 593.0,
+        "budget": 160000.0
+      },
+      "reg-harar": {
+        "target": 443.0,
+        "budget": 60000.0
+      },
+      "reg-dire-dawa": {
+        "target": 564.0,
+        "budget": 180000.0
+      },
+      "reg-somali": {
+        "target": 530.0,
+        "budget": 0.0
+      },
+      "reg-afar": {
+        "target": 671.0,
+        "budget": 0.0
+      },
+      "reg-moyale": {
+        "target": 420.0,
+        "budget": 0.0
+      }
+    }
   },
   {
     "id": "na-4-2-7",
@@ -4493,7 +12653,75 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "proj-2",
       "proj-3",
       "proj-4"
-    ]
+    ],
+    "ercs_target": 11250.0,
+    "ercs_budget": 888000.0,
+    "hq_target": 0.0,
+    "hq_budget": 0.0,
+    "rb_target": 11250.0,
+    "rb_budget": 888000.0,
+    "regional_targets": {
+      "reg-oromia": {
+        "target": 8000.0,
+        "budget": 740000.0
+      },
+      "reg-addis-ababa": {
+        "target": 400.0,
+        "budget": 0.0
+      },
+      "reg-amhara": {
+        "target": 700.0,
+        "budget": 70000.0
+      },
+      "reg-central-ethiopia": {
+        "target": 250.0,
+        "budget": 0.0
+      },
+      "reg-south-ethiopia": {
+        "target": 530.0,
+        "budget": 53000.0
+      },
+      "reg-south-west-ethiopia": {
+        "target": 150.0,
+        "budget": 0.0
+      },
+      "reg-sidama": {
+        "target": 50.0,
+        "budget": 0.0
+      },
+      "reg-tigray": {
+        "target": 400.0,
+        "budget": 0.0
+      },
+      "reg-gambella": {
+        "target": 50.0,
+        "budget": 0.0
+      },
+      "reg-benishangul-gumuz": {
+        "target": 200.0,
+        "budget": 25000.0
+      },
+      "reg-harar": {
+        "target": 40.0,
+        "budget": 0.0
+      },
+      "reg-dire-dawa": {
+        "target": 110.0,
+        "budget": 0.0
+      },
+      "reg-somali": {
+        "target": 240.0,
+        "budget": 0.0
+      },
+      "reg-afar": {
+        "target": 110.0,
+        "budget": 0.0
+      },
+      "reg-moyale": {
+        "target": 20.0,
+        "budget": 0.0
+      }
+    }
   },
   {
     "id": "na-4-2-8",
@@ -4528,7 +12756,75 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "proj-2",
       "proj-3",
       "proj-4"
-    ]
+    ],
+    "ercs_target": 27477.0,
+    "ercs_budget": 4878540.0,
+    "hq_target": 0.0,
+    "hq_budget": 0.0,
+    "rb_target": 27477.0,
+    "rb_budget": 4878540.0,
+    "regional_targets": {
+      "reg-oromia": {
+        "target": 19984.0,
+        "budget": 2777840.0
+      },
+      "reg-addis-ababa": {
+        "target": 942.0,
+        "budget": 300000.0
+      },
+      "reg-amhara": {
+        "target": 1961.0,
+        "budget": 196100.0
+      },
+      "reg-central-ethiopia": {
+        "target": 593.0,
+        "budget": 593000.0
+      },
+      "reg-south-ethiopia": {
+        "target": 1036.0,
+        "budget": 621600.0
+      },
+      "reg-south-west-ethiopia": {
+        "target": 335.0,
+        "budget": 0.0
+      },
+      "reg-sidama": {
+        "target": 87.0,
+        "budget": 100000.0
+      },
+      "reg-tigray": {
+        "target": 887.0,
+        "budget": 0.0
+      },
+      "reg-gambella": {
+        "target": 103.0,
+        "budget": 0.0
+      },
+      "reg-benishangul-gumuz": {
+        "target": 494.0,
+        "budget": 70000.0
+      },
+      "reg-harar": {
+        "target": 84.0,
+        "budget": 50000.0
+      },
+      "reg-dire-dawa": {
+        "target": 216.0,
+        "budget": 100000.0
+      },
+      "reg-somali": {
+        "target": 478.0,
+        "budget": 0.0
+      },
+      "reg-afar": {
+        "target": 236.0,
+        "budget": 70000.0
+      },
+      "reg-moyale": {
+        "target": 41.0,
+        "budget": 0.0
+      }
+    }
   },
   {
     "id": "na-4-2-9",
@@ -4563,7 +12859,75 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "proj-2",
       "proj-3",
       "proj-4"
-    ]
+    ],
+    "ercs_target": 60.0,
+    "ercs_budget": 3816000.0,
+    "hq_target": 1.0,
+    "hq_budget": 1000000.0,
+    "rb_target": 59.0,
+    "rb_budget": 2816000.0,
+    "regional_targets": {
+      "reg-oromia": {
+        "target": 19.0,
+        "budget": 1356000.0
+      },
+      "reg-addis-ababa": {
+        "target": 1.0,
+        "budget": 100000.0
+      },
+      "reg-amhara": {
+        "target": 13.0,
+        "budget": 390000.0
+      },
+      "reg-central-ethiopia": {
+        "target": 5.0,
+        "budget": 150000.0
+      },
+      "reg-south-ethiopia": {
+        "target": 5.0,
+        "budget": 150000.0
+      },
+      "reg-south-west-ethiopia": {
+        "target": 3.0,
+        "budget": 100000.0
+      },
+      "reg-sidama": {
+        "target": 1.0,
+        "budget": 50000.0
+      },
+      "reg-tigray": {
+        "target": 5.0,
+        "budget": 150000.0
+      },
+      "reg-gambella": {
+        "target": 1.0,
+        "budget": 50000.0
+      },
+      "reg-benishangul-gumuz": {
+        "target": 1.0,
+        "budget": 50000.0
+      },
+      "reg-harar": {
+        "target": 1.0,
+        "budget": 50000.0
+      },
+      "reg-dire-dawa": {
+        "target": 1.0,
+        "budget": 100000.0
+      },
+      "reg-somali": {
+        "target": 1.0,
+        "budget": 50000.0
+      },
+      "reg-afar": {
+        "target": 1.0,
+        "budget": 40000.0
+      },
+      "reg-moyale": {
+        "target": 1.0,
+        "budget": 30000.0
+      }
+    }
   },
   {
     "id": "na-4-2-10",
@@ -4598,7 +12962,75 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "proj-2",
       "proj-3",
       "proj-4"
-    ]
+    ],
+    "ercs_target": 51.0,
+    "ercs_budget": 7490000.0,
+    "hq_target": 2.0,
+    "hq_budget": 1600000.0,
+    "rb_target": 49.0,
+    "rb_budget": 5890000.0,
+    "regional_targets": {
+      "reg-oromia": {
+        "target": 21.0,
+        "budget": 2890000.0
+      },
+      "reg-addis-ababa": {
+        "target": 1.0,
+        "budget": 100000.0
+      },
+      "reg-amhara": {
+        "target": 2.0,
+        "budget": 600000.0
+      },
+      "reg-central-ethiopia": {
+        "target": 1.0,
+        "budget": 300000.0
+      },
+      "reg-south-ethiopia": {
+        "target": 5.0,
+        "budget": 270000.0
+      },
+      "reg-south-west-ethiopia": {
+        "target": 1.0,
+        "budget": 300000.0
+      },
+      "reg-sidama": {
+        "target": 1.0,
+        "budget": 50000.0
+      },
+      "reg-tigray": {
+        "target": 1.0,
+        "budget": 300000.0
+      },
+      "reg-gambella": {
+        "target": 12.0,
+        "budget": 300000.0
+      },
+      "reg-benishangul-gumuz": {
+        "target": 1.0,
+        "budget": 100000.0
+      },
+      "reg-harar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-dire-dawa": {
+        "target": 1.0,
+        "budget": 150000.0
+      },
+      "reg-somali": {
+        "target": 1.0,
+        "budget": 300000.0
+      },
+      "reg-afar": {
+        "target": 1.0,
+        "budget": 230000.0
+      },
+      "reg-moyale": {
+        "target": 0.0,
+        "budget": 0.0
+      }
+    }
   },
   {
     "id": "na-4-2-11",
@@ -4633,7 +13065,75 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "proj-2",
       "proj-3",
       "proj-4"
-    ]
+    ],
+    "ercs_target": 192.0,
+    "ercs_budget": 2565000.0,
+    "hq_target": 30.0,
+    "hq_budget": 1000000.0,
+    "rb_target": 162.0,
+    "rb_budget": 1565000.0,
+    "regional_targets": {
+      "reg-oromia": {
+        "target": 96.0,
+        "budget": 1180000.0
+      },
+      "reg-addis-ababa": {
+        "target": 15.0,
+        "budget": 40000.0
+      },
+      "reg-amhara": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-central-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-ethiopia": {
+        "target": 12.0,
+        "budget": 150000.0
+      },
+      "reg-south-west-ethiopia": {
+        "target": 8.0,
+        "budget": 80000.0
+      },
+      "reg-sidama": {
+        "target": 30.0,
+        "budget": 35000.0
+      },
+      "reg-tigray": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-gambella": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-benishangul-gumuz": {
+        "target": 1.0,
+        "budget": 80000.0
+      },
+      "reg-harar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-dire-dawa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-somali": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-afar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-moyale": {
+        "target": 0.0,
+        "budget": 0.0
+      }
+    }
   },
   {
     "id": "na-4-2-12",
@@ -4668,7 +13168,75 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "proj-2",
       "proj-3",
       "proj-4"
-    ]
+    ],
+    "ercs_target": 14.0,
+    "ercs_budget": 2925000.0,
+    "hq_target": 1.0,
+    "hq_budget": 200000.0,
+    "rb_target": 13.0,
+    "rb_budget": 2725000.0,
+    "regional_targets": {
+      "reg-oromia": {
+        "target": 12.0,
+        "budget": 2675000.0
+      },
+      "reg-addis-ababa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-amhara": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-central-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-west-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-sidama": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-tigray": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-gambella": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-benishangul-gumuz": {
+        "target": 1.0,
+        "budget": 50000.0
+      },
+      "reg-harar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-dire-dawa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-somali": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-afar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-moyale": {
+        "target": 0.0,
+        "budget": 0.0
+      }
+    }
   },
   {
     "id": "na-4-2-13",
@@ -4703,7 +13271,75 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "proj-2",
       "proj-3",
       "proj-4"
-    ]
+    ],
+    "ercs_target": 200.0,
+    "ercs_budget": 2400000.0,
+    "hq_target": 200.0,
+    "hq_budget": 2400000.0,
+    "rb_target": 0.0,
+    "rb_budget": 0.0,
+    "regional_targets": {
+      "reg-oromia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-addis-ababa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-amhara": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-central-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-west-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-sidama": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-tigray": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-gambella": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-benishangul-gumuz": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-harar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-dire-dawa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-somali": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-afar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-moyale": {
+        "target": 0.0,
+        "budget": 0.0
+      }
+    }
   },
   {
     "id": "na-4-2-14",
@@ -4738,7 +13374,75 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "proj-2",
       "proj-3",
       "proj-4"
-    ]
+    ],
+    "ercs_target": 3375.0,
+    "ercs_budget": 1500000.0,
+    "hq_target": 3375.0,
+    "hq_budget": 1500000.0,
+    "rb_target": 0.0,
+    "rb_budget": 0.0,
+    "regional_targets": {
+      "reg-oromia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-addis-ababa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-amhara": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-central-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-west-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-sidama": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-tigray": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-gambella": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-benishangul-gumuz": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-harar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-dire-dawa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-somali": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-afar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-moyale": {
+        "target": 0.0,
+        "budget": 0.0
+      }
+    }
   },
   {
     "id": "na-4-2-15",
@@ -4773,7 +13477,75 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "proj-2",
       "proj-3",
       "proj-4"
-    ]
+    ],
+    "ercs_target": 300.0,
+    "ercs_budget": 1500000.0,
+    "hq_target": 300.0,
+    "hq_budget": 1500000.0,
+    "rb_target": 0.0,
+    "rb_budget": 0.0,
+    "regional_targets": {
+      "reg-oromia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-addis-ababa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-amhara": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-central-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-west-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-sidama": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-tigray": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-gambella": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-benishangul-gumuz": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-harar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-dire-dawa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-somali": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-afar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-moyale": {
+        "target": 0.0,
+        "budget": 0.0
+      }
+    }
   },
   {
     "id": "na-4-3-1",
@@ -4808,7 +13580,75 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "proj-2",
       "proj-3",
       "proj-4"
-    ]
+    ],
+    "ercs_target": 397.0,
+    "ercs_budget": 3180000.0,
+    "hq_target": 70.0,
+    "hq_budget": 1500000.0,
+    "rb_target": 327.0,
+    "rb_budget": 1680000.0,
+    "regional_targets": {
+      "reg-oromia": {
+        "target": 300.0,
+        "budget": 1490000.0
+      },
+      "reg-addis-ababa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-amhara": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-central-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-west-ethiopia": {
+        "target": 1.0,
+        "budget": 60000.0
+      },
+      "reg-sidama": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-tigray": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-gambella": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-benishangul-gumuz": {
+        "target": 1.0,
+        "budget": 30000.0
+      },
+      "reg-harar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-dire-dawa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-somali": {
+        "target": 25.0,
+        "budget": 100000.0
+      },
+      "reg-afar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-moyale": {
+        "target": 0.0,
+        "budget": 0.0
+      }
+    }
   },
   {
     "id": "na-4-3-2",
@@ -4843,7 +13683,75 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "proj-2",
       "proj-3",
       "proj-4"
-    ]
+    ],
+    "ercs_target": 1058.0,
+    "ercs_budget": 2505000.0,
+    "hq_target": 0.0,
+    "hq_budget": 0.0,
+    "rb_target": 1058.0,
+    "rb_budget": 2505000.0,
+    "regional_targets": {
+      "reg-oromia": {
+        "target": 560.0,
+        "budget": 1420000.0
+      },
+      "reg-addis-ababa": {
+        "target": 80.0,
+        "budget": 0.0
+      },
+      "reg-amhara": {
+        "target": 170.0,
+        "budget": 200000.0
+      },
+      "reg-central-ethiopia": {
+        "target": 25.0,
+        "budget": 160000.0
+      },
+      "reg-south-ethiopia": {
+        "target": 80.0,
+        "budget": 180000.0
+      },
+      "reg-south-west-ethiopia": {
+        "target": 15.0,
+        "budget": 100000.0
+      },
+      "reg-sidama": {
+        "target": 11.0,
+        "budget": 100000.0
+      },
+      "reg-tigray": {
+        "target": 20.0,
+        "budget": 100000.0
+      },
+      "reg-gambella": {
+        "target": 10.0,
+        "budget": 50000.0
+      },
+      "reg-benishangul-gumuz": {
+        "target": 50.0,
+        "budget": 50000.0
+      },
+      "reg-harar": {
+        "target": 5.0,
+        "budget": 35000.0
+      },
+      "reg-dire-dawa": {
+        "target": 15.0,
+        "budget": 35000.0
+      },
+      "reg-somali": {
+        "target": 5.0,
+        "budget": 35000.0
+      },
+      "reg-afar": {
+        "target": 7.0,
+        "budget": 25000.0
+      },
+      "reg-moyale": {
+        "target": 5.0,
+        "budget": 15000.0
+      }
+    }
   },
   {
     "id": "na-4-3-3",
@@ -4878,7 +13786,75 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "proj-2",
       "proj-3",
       "proj-4"
-    ]
+    ],
+    "ercs_target": 336.0,
+    "ercs_budget": 2565000.0,
+    "hq_target": 0.0,
+    "hq_budget": 0.0,
+    "rb_target": 336.0,
+    "rb_budget": 2565000.0,
+    "regional_targets": {
+      "reg-oromia": {
+        "target": 240.0,
+        "budget": 1900000.0
+      },
+      "reg-addis-ababa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-amhara": {
+        "target": 50.0,
+        "budget": 130000.0
+      },
+      "reg-central-ethiopia": {
+        "target": 5.0,
+        "budget": 50000.0
+      },
+      "reg-south-ethiopia": {
+        "target": 6.0,
+        "budget": 90000.0
+      },
+      "reg-south-west-ethiopia": {
+        "target": 3.0,
+        "budget": 30000.0
+      },
+      "reg-sidama": {
+        "target": 4.0,
+        "budget": 200000.0
+      },
+      "reg-tigray": {
+        "target": 4.0,
+        "budget": 40000.0
+      },
+      "reg-gambella": {
+        "target": 5.0,
+        "budget": 10000.0
+      },
+      "reg-benishangul-gumuz": {
+        "target": 7.0,
+        "budget": 60000.0
+      },
+      "reg-harar": {
+        "target": 1.0,
+        "budget": 10000.0
+      },
+      "reg-dire-dawa": {
+        "target": 5.0,
+        "budget": 20000.0
+      },
+      "reg-somali": {
+        "target": 1.0,
+        "budget": 10000.0
+      },
+      "reg-afar": {
+        "target": 3.0,
+        "budget": 5000.0
+      },
+      "reg-moyale": {
+        "target": 2.0,
+        "budget": 10000.0
+      }
+    }
   },
   {
     "id": "na-4-3-4",
@@ -4913,7 +13889,75 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "proj-2",
       "proj-3",
       "proj-4"
-    ]
+    ],
+    "ercs_target": 766.0,
+    "ercs_budget": 5780000.0,
+    "hq_target": 0.0,
+    "hq_budget": 0.0,
+    "rb_target": 766.0,
+    "rb_budget": 5780000.0,
+    "regional_targets": {
+      "reg-oromia": {
+        "target": 460.0,
+        "budget": 2585000.0
+      },
+      "reg-addis-ababa": {
+        "target": 60.0,
+        "budget": 120000.0
+      },
+      "reg-amhara": {
+        "target": 170.0,
+        "budget": 700000.0
+      },
+      "reg-central-ethiopia": {
+        "target": 8.0,
+        "budget": 400000.0
+      },
+      "reg-south-ethiopia": {
+        "target": 8.0,
+        "budget": 400000.0
+      },
+      "reg-south-west-ethiopia": {
+        "target": 5.0,
+        "budget": 300000.0
+      },
+      "reg-sidama": {
+        "target": 8.0,
+        "budget": 200000.0
+      },
+      "reg-tigray": {
+        "target": 6.0,
+        "budget": 300000.0
+      },
+      "reg-gambella": {
+        "target": 3.0,
+        "budget": 25000.0
+      },
+      "reg-benishangul-gumuz": {
+        "target": 7.0,
+        "budget": 200000.0
+      },
+      "reg-harar": {
+        "target": 2.0,
+        "budget": 100000.0
+      },
+      "reg-dire-dawa": {
+        "target": 10.0,
+        "budget": 200000.0
+      },
+      "reg-somali": {
+        "target": 2.0,
+        "budget": 100000.0
+      },
+      "reg-afar": {
+        "target": 5.0,
+        "budget": 100000.0
+      },
+      "reg-moyale": {
+        "target": 12.0,
+        "budget": 50000.0
+      }
+    }
   },
   {
     "id": "na-4-3-5",
@@ -4948,7 +13992,75 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "proj-2",
       "proj-3",
       "proj-4"
-    ]
+    ],
+    "ercs_target": 1.0,
+    "ercs_budget": 0.0,
+    "hq_target": 1.0,
+    "hq_budget": 0.0,
+    "rb_target": 0.0,
+    "rb_budget": 0.0,
+    "regional_targets": {
+      "reg-oromia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-addis-ababa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-amhara": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-central-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-west-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-sidama": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-tigray": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-gambella": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-benishangul-gumuz": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-harar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-dire-dawa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-somali": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-afar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-moyale": {
+        "target": 0.0,
+        "budget": 0.0
+      }
+    }
   },
   {
     "id": "na-4-3-6",
@@ -4983,7 +14095,75 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "proj-2",
       "proj-3",
       "proj-4"
-    ]
+    ],
+    "ercs_target": 3.0,
+    "ercs_budget": 3650000.0,
+    "hq_target": 1.0,
+    "hq_budget": 3500000.0,
+    "rb_target": 2.0,
+    "rb_budget": 150000.0,
+    "regional_targets": {
+      "reg-oromia": {
+        "target": 1.0,
+        "budget": 50000.0
+      },
+      "reg-addis-ababa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-amhara": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-central-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-west-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-sidama": {
+        "target": 1.0,
+        "budget": 100000.0
+      },
+      "reg-tigray": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-gambella": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-benishangul-gumuz": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-harar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-dire-dawa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-somali": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-afar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-moyale": {
+        "target": 0.0,
+        "budget": 0.0
+      }
+    }
   },
   {
     "id": "na-4-3-7",
@@ -5018,7 +14198,75 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "proj-2",
       "proj-3",
       "proj-4"
-    ]
+    ],
+    "ercs_target": 9.0,
+    "ercs_budget": 3540000.0,
+    "hq_target": 1.0,
+    "hq_budget": 2000000.0,
+    "rb_target": 8.0,
+    "rb_budget": 1540000.0,
+    "regional_targets": {
+      "reg-oromia": {
+        "target": 5.0,
+        "budget": 810000.0
+      },
+      "reg-addis-ababa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-amhara": {
+        "target": 1.0,
+        "budget": 500000.0
+      },
+      "reg-central-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-west-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-sidama": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-tigray": {
+        "target": 1.0,
+        "budget": 200000.0
+      },
+      "reg-gambella": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-benishangul-gumuz": {
+        "target": 1.0,
+        "budget": 30000.0
+      },
+      "reg-harar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-dire-dawa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-somali": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-afar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-moyale": {
+        "target": 0.0,
+        "budget": 0.0
+      }
+    }
   },
   {
     "id": "na-4-3-8",
@@ -5053,7 +14301,75 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "proj-2",
       "proj-3",
       "proj-4"
-    ]
+    ],
+    "ercs_target": 21.0,
+    "ercs_budget": 1457000.0,
+    "hq_target": 1.0,
+    "hq_budget": 600000.0,
+    "rb_target": 20.0,
+    "rb_budget": 857000.0,
+    "regional_targets": {
+      "reg-oromia": {
+        "target": 12.0,
+        "budget": 600000.0
+      },
+      "reg-addis-ababa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-amhara": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-central-ethiopia": {
+        "target": 5.0,
+        "budget": 57000.0
+      },
+      "reg-south-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-west-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-sidama": {
+        "target": 1.0,
+        "budget": 50000.0
+      },
+      "reg-tigray": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-gambella": {
+        "target": 1.0,
+        "budget": 100000.0
+      },
+      "reg-benishangul-gumuz": {
+        "target": 1.0,
+        "budget": 50000.0
+      },
+      "reg-harar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-dire-dawa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-somali": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-afar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-moyale": {
+        "target": 0.0,
+        "budget": 0.0
+      }
+    }
   },
   {
     "id": "na-4-3-9",
@@ -5088,7 +14404,75 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "proj-2",
       "proj-3",
       "proj-4"
-    ]
+    ],
+    "ercs_target": 60.0,
+    "ercs_budget": 3220000.0,
+    "hq_target": 0.0,
+    "hq_budget": 0.0,
+    "rb_target": 60.0,
+    "rb_budget": 3220000.0,
+    "regional_targets": {
+      "reg-oromia": {
+        "target": 22.0,
+        "budget": 1075000.0
+      },
+      "reg-addis-ababa": {
+        "target": 5.0,
+        "budget": 40000.0
+      },
+      "reg-amhara": {
+        "target": 8.0,
+        "budget": 600000.0
+      },
+      "reg-central-ethiopia": {
+        "target": 5.0,
+        "budget": 400000.0
+      },
+      "reg-south-ethiopia": {
+        "target": 5.0,
+        "budget": 100000.0
+      },
+      "reg-south-west-ethiopia": {
+        "target": 3.0,
+        "budget": 350000.0
+      },
+      "reg-sidama": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-tigray": {
+        "target": 5.0,
+        "budget": 400000.0
+      },
+      "reg-gambella": {
+        "target": 1.0,
+        "budget": 60000.0
+      },
+      "reg-benishangul-gumuz": {
+        "target": 1.0,
+        "budget": 40000.0
+      },
+      "reg-harar": {
+        "target": 1.0,
+        "budget": 40000.0
+      },
+      "reg-dire-dawa": {
+        "target": 1.0,
+        "budget": 40000.0
+      },
+      "reg-somali": {
+        "target": 1.0,
+        "budget": 40000.0
+      },
+      "reg-afar": {
+        "target": 1.0,
+        "budget": 30000.0
+      },
+      "reg-moyale": {
+        "target": 1.0,
+        "budget": 5000.0
+      }
+    }
   },
   {
     "id": "na-4-3-10",
@@ -5123,7 +14507,75 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "proj-2",
       "proj-3",
       "proj-4"
-    ]
+    ],
+    "ercs_target": 1.0,
+    "ercs_budget": 450000.0,
+    "hq_target": 1.0,
+    "hq_budget": 450000.0,
+    "rb_target": 0.0,
+    "rb_budget": 0.0,
+    "regional_targets": {
+      "reg-oromia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-addis-ababa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-amhara": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-central-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-west-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-sidama": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-tigray": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-gambella": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-benishangul-gumuz": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-harar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-dire-dawa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-somali": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-afar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-moyale": {
+        "target": 0.0,
+        "budget": 0.0
+      }
+    }
   },
   {
     "id": "na-4-3-11",
@@ -5158,7 +14610,75 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "proj-2",
       "proj-3",
       "proj-4"
-    ]
+    ],
+    "ercs_target": 92.0,
+    "ercs_budget": 1200000.0,
+    "hq_target": 92.0,
+    "hq_budget": 1200000.0,
+    "rb_target": 0.0,
+    "rb_budget": 0.0,
+    "regional_targets": {
+      "reg-oromia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-addis-ababa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-amhara": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-central-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-west-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-sidama": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-tigray": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-gambella": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-benishangul-gumuz": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-harar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-dire-dawa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-somali": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-afar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-moyale": {
+        "target": 0.0,
+        "budget": 0.0
+      }
+    }
   },
   {
     "id": "na-4-3-12",
@@ -5193,7 +14713,75 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "proj-2",
       "proj-3",
       "proj-4"
-    ]
+    ],
+    "ercs_target": 3.0,
+    "ercs_budget": 2500000.0,
+    "hq_target": 3.0,
+    "hq_budget": 2500000.0,
+    "rb_target": 0.0,
+    "rb_budget": 0.0,
+    "regional_targets": {
+      "reg-oromia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-addis-ababa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-amhara": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-central-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-west-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-sidama": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-tigray": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-gambella": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-benishangul-gumuz": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-harar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-dire-dawa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-somali": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-afar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-moyale": {
+        "target": 0.0,
+        "budget": 0.0
+      }
+    }
   },
   {
     "id": "na-5-1-1",
@@ -5228,7 +14816,75 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "proj-2",
       "proj-3",
       "proj-4"
-    ]
+    ],
+    "ercs_target": 1.0,
+    "ercs_budget": 500000.0,
+    "hq_target": 1.0,
+    "hq_budget": 500000.0,
+    "rb_target": 0.0,
+    "rb_budget": 0.0,
+    "regional_targets": {
+      "reg-oromia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-addis-ababa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-amhara": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-central-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-west-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-sidama": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-tigray": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-gambella": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-benishangul-gumuz": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-harar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-dire-dawa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-somali": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-afar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-moyale": {
+        "target": 0.0,
+        "budget": 0.0
+      }
+    }
   },
   {
     "id": "na-5-1-2",
@@ -5263,7 +14919,75 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "proj-2",
       "proj-3",
       "proj-4"
-    ]
+    ],
+    "ercs_target": 17.0,
+    "ercs_budget": 3079000.0,
+    "hq_target": 4.0,
+    "hq_budget": 2000000.0,
+    "rb_target": 13.0,
+    "rb_budget": 1079000.0,
+    "regional_targets": {
+      "reg-oromia": {
+        "target": 2.0,
+        "budget": 500000.0
+      },
+      "reg-addis-ababa": {
+        "target": 1.0,
+        "budget": 150000.0
+      },
+      "reg-amhara": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-central-ethiopia": {
+        "target": 2.0,
+        "budget": 24000.0
+      },
+      "reg-south-ethiopia": {
+        "target": 6.0,
+        "budget": 275000.0
+      },
+      "reg-south-west-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-sidama": {
+        "target": 1.0,
+        "budget": 100000.0
+      },
+      "reg-tigray": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-gambella": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-benishangul-gumuz": {
+        "target": 1.0,
+        "budget": 30000.0
+      },
+      "reg-harar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-dire-dawa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-somali": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-afar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-moyale": {
+        "target": 0.0,
+        "budget": 0.0
+      }
+    }
   },
   {
     "id": "na-5-1-3",
@@ -5298,7 +15022,75 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "proj-2",
       "proj-3",
       "proj-4"
-    ]
+    ],
+    "ercs_target": 330.0,
+    "ercs_budget": 2720000.0,
+    "hq_target": 180.0,
+    "hq_budget": 2000000.0,
+    "rb_target": 150.0,
+    "rb_budget": 720000.0,
+    "regional_targets": {
+      "reg-oromia": {
+        "target": 50.0,
+        "budget": 450000.0
+      },
+      "reg-addis-ababa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-amhara": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-central-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-west-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-sidama": {
+        "target": 20.0,
+        "budget": 50000.0
+      },
+      "reg-tigray": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-gambella": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-benishangul-gumuz": {
+        "target": 50.0,
+        "budget": 20000.0
+      },
+      "reg-harar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-dire-dawa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-somali": {
+        "target": 30.0,
+        "budget": 200000.0
+      },
+      "reg-afar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-moyale": {
+        "target": 0.0,
+        "budget": 0.0
+      }
+    }
   },
   {
     "id": "na-5-1-4",
@@ -5333,7 +15125,75 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "proj-2",
       "proj-3",
       "proj-4"
-    ]
+    ],
+    "ercs_target": 2.0,
+    "ercs_budget": 500000.0,
+    "hq_target": 2.0,
+    "hq_budget": 500000.0,
+    "rb_target": 0.0,
+    "rb_budget": 0.0,
+    "regional_targets": {
+      "reg-oromia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-addis-ababa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-amhara": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-central-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-west-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-sidama": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-tigray": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-gambella": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-benishangul-gumuz": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-harar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-dire-dawa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-somali": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-afar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-moyale": {
+        "target": 0.0,
+        "budget": 0.0
+      }
+    }
   },
   {
     "id": "na-5-2-1",
@@ -5368,7 +15228,75 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "proj-2",
       "proj-3",
       "proj-4"
-    ]
+    ],
+    "ercs_target": 1.0,
+    "ercs_budget": 500000.0,
+    "hq_target": 1.0,
+    "hq_budget": 500000.0,
+    "rb_target": 0.0,
+    "rb_budget": 0.0,
+    "regional_targets": {
+      "reg-oromia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-addis-ababa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-amhara": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-central-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-west-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-sidama": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-tigray": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-gambella": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-benishangul-gumuz": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-harar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-dire-dawa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-somali": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-afar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-moyale": {
+        "target": 0.0,
+        "budget": 0.0
+      }
+    }
   },
   {
     "id": "na-5-2-3",
@@ -5403,7 +15331,75 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "proj-2",
       "proj-3",
       "proj-4"
-    ]
+    ],
+    "ercs_target": 1454.0,
+    "ercs_budget": 3746500.0,
+    "hq_target": 850.0,
+    "hq_budget": 2000000.0,
+    "rb_target": 604.0,
+    "rb_budget": 1746500.0,
+    "regional_targets": {
+      "reg-oromia": {
+        "target": 42.0,
+        "budget": 1114000.0
+      },
+      "reg-addis-ababa": {
+        "target": 154.0,
+        "budget": 0.0
+      },
+      "reg-amhara": {
+        "target": 150.0,
+        "budget": 400000.0
+      },
+      "reg-central-ethiopia": {
+        "target": 40.0,
+        "budget": 10000.0
+      },
+      "reg-south-ethiopia": {
+        "target": 80.0,
+        "budget": 12500.0
+      },
+      "reg-south-west-ethiopia": {
+        "target": 15.0,
+        "budget": 10000.0
+      },
+      "reg-sidama": {
+        "target": 11.0,
+        "budget": 60000.0
+      },
+      "reg-tigray": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-gambella": {
+        "target": 12.0,
+        "budget": 0.0
+      },
+      "reg-benishangul-gumuz": {
+        "target": 50.0,
+        "budget": 30000.0
+      },
+      "reg-harar": {
+        "target": 9.0,
+        "budget": 20000.0
+      },
+      "reg-dire-dawa": {
+        "target": 4.0,
+        "budget": 50000.0
+      },
+      "reg-somali": {
+        "target": 10.0,
+        "budget": 0.0
+      },
+      "reg-afar": {
+        "target": 15.0,
+        "budget": 30000.0
+      },
+      "reg-moyale": {
+        "target": 12.0,
+        "budget": 10000.0
+      }
+    }
   },
   {
     "id": "na-5-2-4",
@@ -5438,7 +15434,75 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "proj-2",
       "proj-3",
       "proj-4"
-    ]
+    ],
+    "ercs_target": 125.0,
+    "ercs_budget": 9342183.0,
+    "hq_target": 95.0,
+    "hq_budget": 8584483.0,
+    "rb_target": 30.0,
+    "rb_budget": 757700.0,
+    "regional_targets": {
+      "reg-oromia": {
+        "target": 2.0,
+        "budget": 450000.0
+      },
+      "reg-addis-ababa": {
+        "target": 2.0,
+        "budget": 50000.0
+      },
+      "reg-amhara": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-central-ethiopia": {
+        "target": 6.0,
+        "budget": 47700.0
+      },
+      "reg-south-ethiopia": {
+        "target": 4.0,
+        "budget": 100000.0
+      },
+      "reg-south-west-ethiopia": {
+        "target": 4.0,
+        "budget": 50000.0
+      },
+      "reg-sidama": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-tigray": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-gambella": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-benishangul-gumuz": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-harar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-dire-dawa": {
+        "target": 12.0,
+        "budget": 60000.0
+      },
+      "reg-somali": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-afar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-moyale": {
+        "target": 0.0,
+        "budget": 0.0
+      }
+    }
   },
   {
     "id": "na-5-2-5",
@@ -5473,7 +15537,75 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "proj-2",
       "proj-3",
       "proj-4"
-    ]
+    ],
+    "ercs_target": 386.0,
+    "ercs_budget": 6129930.0,
+    "hq_target": 275.0,
+    "hq_budget": 3468930.0,
+    "rb_target": 111.0,
+    "rb_budget": 2661000.0,
+    "regional_targets": {
+      "reg-oromia": {
+        "target": 21.0,
+        "budget": 1010000.0
+      },
+      "reg-addis-ababa": {
+        "target": 8.0,
+        "budget": 100000.0
+      },
+      "reg-amhara": {
+        "target": 7.0,
+        "budget": 700000.0
+      },
+      "reg-central-ethiopia": {
+        "target": 20.0,
+        "budget": 140000.0
+      },
+      "reg-south-ethiopia": {
+        "target": 29.0,
+        "budget": 261000.0
+      },
+      "reg-south-west-ethiopia": {
+        "target": 14.0,
+        "budget": 100000.0
+      },
+      "reg-sidama": {
+        "target": 4.0,
+        "budget": 100000.0
+      },
+      "reg-tigray": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-gambella": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-benishangul-gumuz": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-harar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-dire-dawa": {
+        "target": 4.0,
+        "budget": 30000.0
+      },
+      "reg-somali": {
+        "target": 2.0,
+        "budget": 150000.0
+      },
+      "reg-afar": {
+        "target": 2.0,
+        "budget": 70000.0
+      },
+      "reg-moyale": {
+        "target": 0.0,
+        "budget": 0.0
+      }
+    }
   },
   {
     "id": "na-5-2-6",
@@ -5508,7 +15640,75 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "proj-2",
       "proj-3",
       "proj-4"
-    ]
+    ],
+    "ercs_target": 361.0,
+    "ercs_budget": 120000.0,
+    "hq_target": 360.0,
+    "hq_budget": 100000.0,
+    "rb_target": 1.0,
+    "rb_budget": 20000.0,
+    "regional_targets": {
+      "reg-oromia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-addis-ababa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-amhara": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-central-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-west-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-sidama": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-tigray": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-gambella": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-benishangul-gumuz": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-harar": {
+        "target": 1.0,
+        "budget": 20000.0
+      },
+      "reg-dire-dawa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-somali": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-afar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-moyale": {
+        "target": 0.0,
+        "budget": 0.0
+      }
+    }
   },
   {
     "id": "na-5-2-7",
@@ -5543,7 +15743,75 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "proj-2",
       "proj-3",
       "proj-4"
-    ]
+    ],
+    "ercs_target": 1.0,
+    "ercs_budget": 1500000.0,
+    "hq_target": 1.0,
+    "hq_budget": 1500000.0,
+    "rb_target": 0.0,
+    "rb_budget": 0.0,
+    "regional_targets": {
+      "reg-oromia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-addis-ababa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-amhara": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-central-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-west-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-sidama": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-tigray": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-gambella": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-benishangul-gumuz": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-harar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-dire-dawa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-somali": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-afar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-moyale": {
+        "target": 0.0,
+        "budget": 0.0
+      }
+    }
   },
   {
     "id": "na-5-2-8",
@@ -5578,7 +15846,75 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "proj-2",
       "proj-3",
       "proj-4"
-    ]
+    ],
+    "ercs_target": 4.0,
+    "ercs_budget": 2000000.0,
+    "hq_target": 4.0,
+    "hq_budget": 2000000.0,
+    "rb_target": 0.0,
+    "rb_budget": 0.0,
+    "regional_targets": {
+      "reg-oromia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-addis-ababa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-amhara": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-central-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-west-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-sidama": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-tigray": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-gambella": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-benishangul-gumuz": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-harar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-dire-dawa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-somali": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-afar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-moyale": {
+        "target": 0.0,
+        "budget": 0.0
+      }
+    }
   },
   {
     "id": "na-5-2-9",
@@ -5613,7 +15949,75 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "proj-2",
       "proj-3",
       "proj-4"
-    ]
+    ],
+    "ercs_target": 52.0,
+    "ercs_budget": 0.0,
+    "hq_target": 52.0,
+    "hq_budget": 0.0,
+    "rb_target": 0.0,
+    "rb_budget": 0.0,
+    "regional_targets": {
+      "reg-oromia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-addis-ababa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-amhara": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-central-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-west-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-sidama": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-tigray": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-gambella": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-benishangul-gumuz": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-harar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-dire-dawa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-somali": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-afar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-moyale": {
+        "target": 0.0,
+        "budget": 0.0
+      }
+    }
   },
   {
     "id": "na-5-2-10",
@@ -5648,7 +16052,75 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "proj-2",
       "proj-3",
       "proj-4"
-    ]
+    ],
+    "ercs_target": 6667.0,
+    "ercs_budget": 14892672.0,
+    "hq_target": 3466.0,
+    "hq_budget": 9191672.0,
+    "rb_target": 3201.0,
+    "rb_budget": 5701000.0,
+    "regional_targets": {
+      "reg-oromia": {
+        "target": 1000.0,
+        "budget": 4230000.0
+      },
+      "reg-addis-ababa": {
+        "target": 500.0,
+        "budget": 400000.0
+      },
+      "reg-amhara": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-central-ethiopia": {
+        "target": 400.0,
+        "budget": 216000.0
+      },
+      "reg-south-ethiopia": {
+        "target": 400.0,
+        "budget": 200000.0
+      },
+      "reg-south-west-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-sidama": {
+        "target": 300.0,
+        "budget": 150000.0
+      },
+      "reg-tigray": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-gambella": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-benishangul-gumuz": {
+        "target": 200.0,
+        "budget": 150000.0
+      },
+      "reg-harar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-dire-dawa": {
+        "target": 300.0,
+        "budget": 90000.0
+      },
+      "reg-somali": {
+        "target": 100.0,
+        "budget": 100000.0
+      },
+      "reg-afar": {
+        "target": 1.0,
+        "budget": 165000.0
+      },
+      "reg-moyale": {
+        "target": 0.0,
+        "budget": 0.0
+      }
+    }
   },
   {
     "id": "na-5-2-11",
@@ -5683,7 +16155,75 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "proj-2",
       "proj-3",
       "proj-4"
-    ]
+    ],
+    "ercs_target": 458.0,
+    "ercs_budget": 7161464.0,
+    "hq_target": 54.0,
+    "hq_budget": 3211464.0,
+    "rb_target": 404.0,
+    "rb_budget": 3950000.0,
+    "regional_targets": {
+      "reg-oromia": {
+        "target": 21.0,
+        "budget": 2005000.0
+      },
+      "reg-addis-ababa": {
+        "target": 1.0,
+        "budget": 100000.0
+      },
+      "reg-amhara": {
+        "target": 13.0,
+        "budget": 325000.0
+      },
+      "reg-central-ethiopia": {
+        "target": 5.0,
+        "budget": 215000.0
+      },
+      "reg-south-ethiopia": {
+        "target": 4.0,
+        "budget": 280000.0
+      },
+      "reg-south-west-ethiopia": {
+        "target": 3.0,
+        "budget": 50000.0
+      },
+      "reg-sidama": {
+        "target": 1.0,
+        "budget": 500000.0
+      },
+      "reg-tigray": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-gambella": {
+        "target": 50.0,
+        "budget": 60000.0
+      },
+      "reg-benishangul-gumuz": {
+        "target": 1.0,
+        "budget": 50000.0
+      },
+      "reg-harar": {
+        "target": 1.0,
+        "budget": 0.0
+      },
+      "reg-dire-dawa": {
+        "target": 1.0,
+        "budget": 30000.0
+      },
+      "reg-somali": {
+        "target": 1.0,
+        "budget": 110000.0
+      },
+      "reg-afar": {
+        "target": 2.0,
+        "budget": 85000.0
+      },
+      "reg-moyale": {
+        "target": 1.0,
+        "budget": 80000.0
+      }
+    }
   },
   {
     "id": "na-5-2-12",
@@ -5718,7 +16258,75 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "proj-2",
       "proj-3",
       "proj-4"
-    ]
+    ],
+    "ercs_target": 53.0,
+    "ercs_budget": 270000.0,
+    "hq_target": 50.0,
+    "hq_budget": 100000.0,
+    "rb_target": 3.0,
+    "rb_budget": 170000.0,
+    "regional_targets": {
+      "reg-oromia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-addis-ababa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-amhara": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-central-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-west-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-sidama": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-tigray": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-gambella": {
+        "target": 1.0,
+        "budget": 100000.0
+      },
+      "reg-benishangul-gumuz": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-harar": {
+        "target": 1.0,
+        "budget": 40000.0
+      },
+      "reg-dire-dawa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-somali": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-afar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-moyale": {
+        "target": 0.0,
+        "budget": 0.0
+      }
+    }
   },
   {
     "id": "na-5-3-1",
@@ -5753,7 +16361,75 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "proj-2",
       "proj-3",
       "proj-4"
-    ]
+    ],
+    "ercs_target": 1.0,
+    "ercs_budget": 200000.0,
+    "hq_target": 1.0,
+    "hq_budget": 200000.0,
+    "rb_target": 0.0,
+    "rb_budget": 0.0,
+    "regional_targets": {
+      "reg-oromia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-addis-ababa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-amhara": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-central-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-west-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-sidama": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-tigray": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-gambella": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-benishangul-gumuz": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-harar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-dire-dawa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-somali": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-afar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-moyale": {
+        "target": 0.0,
+        "budget": 0.0
+      }
+    }
   },
   {
     "id": "na-5-3-2",
@@ -5788,7 +16464,75 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "proj-2",
       "proj-3",
       "proj-4"
-    ]
+    ],
+    "ercs_target": 198.0,
+    "ercs_budget": 16404847.0,
+    "hq_target": 78.0,
+    "hq_budget": 9457958.0,
+    "rb_target": 120.0,
+    "rb_budget": 6946889.0,
+    "regional_targets": {
+      "reg-oromia": {
+        "target": 21.0,
+        "budget": 2100000.0
+      },
+      "reg-addis-ababa": {
+        "target": 8.0,
+        "budget": 300000.0
+      },
+      "reg-amhara": {
+        "target": 9.0,
+        "budget": 900000.0
+      },
+      "reg-central-ethiopia": {
+        "target": 4.0,
+        "budget": 56889.0
+      },
+      "reg-south-ethiopia": {
+        "target": 60.0,
+        "budget": 2000000.0
+      },
+      "reg-south-west-ethiopia": {
+        "target": 1.0,
+        "budget": 50000.0
+      },
+      "reg-sidama": {
+        "target": 4.0,
+        "budget": 100000.0
+      },
+      "reg-tigray": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-gambella": {
+        "target": 2.0,
+        "budget": 500000.0
+      },
+      "reg-benishangul-gumuz": {
+        "target": 1.0,
+        "budget": 100000.0
+      },
+      "reg-harar": {
+        "target": 1.0,
+        "budget": 50000.0
+      },
+      "reg-dire-dawa": {
+        "target": 1.0,
+        "budget": 100000.0
+      },
+      "reg-somali": {
+        "target": 2.0,
+        "budget": 200000.0
+      },
+      "reg-afar": {
+        "target": 5.0,
+        "budget": 430000.0
+      },
+      "reg-moyale": {
+        "target": 1.0,
+        "budget": 60000.0
+      }
+    }
   },
   {
     "id": "na-5-3-3",
@@ -5823,7 +16567,75 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "proj-2",
       "proj-3",
       "proj-4"
-    ]
+    ],
+    "ercs_target": 130.0,
+    "ercs_budget": 8341440.0,
+    "hq_target": 58.0,
+    "hq_budget": 3841440.0,
+    "rb_target": 72.0,
+    "rb_budget": 4500000.0,
+    "regional_targets": {
+      "reg-oromia": {
+        "target": 40.0,
+        "budget": 3650000.0
+      },
+      "reg-addis-ababa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-amhara": {
+        "target": 9.0,
+        "budget": 180000.0
+      },
+      "reg-central-ethiopia": {
+        "target": 2.0,
+        "budget": 150000.0
+      },
+      "reg-south-ethiopia": {
+        "target": 4.0,
+        "budget": 100000.0
+      },
+      "reg-south-west-ethiopia": {
+        "target": 1.0,
+        "budget": 10000.0
+      },
+      "reg-sidama": {
+        "target": 2.0,
+        "budget": 100000.0
+      },
+      "reg-tigray": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-gambella": {
+        "target": 2.0,
+        "budget": 50000.0
+      },
+      "reg-benishangul-gumuz": {
+        "target": 3.0,
+        "budget": 60000.0
+      },
+      "reg-harar": {
+        "target": 2.0,
+        "budget": 20000.0
+      },
+      "reg-dire-dawa": {
+        "target": 2.0,
+        "budget": 30000.0
+      },
+      "reg-somali": {
+        "target": 2.0,
+        "budget": 40000.0
+      },
+      "reg-afar": {
+        "target": 2.0,
+        "budget": 90000.0
+      },
+      "reg-moyale": {
+        "target": 1.0,
+        "budget": 20000.0
+      }
+    }
   },
   {
     "id": "na-5-3-4",
@@ -5858,7 +16670,75 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "proj-2",
       "proj-3",
       "proj-4"
-    ]
+    ],
+    "ercs_target": 134.0,
+    "ercs_budget": 1700000.0,
+    "hq_target": 60.0,
+    "hq_budget": 800000.0,
+    "rb_target": 74.0,
+    "rb_budget": 900000.0,
+    "regional_targets": {
+      "reg-oromia": {
+        "target": 50.0,
+        "budget": 500000.0
+      },
+      "reg-addis-ababa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-amhara": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-central-ethiopia": {
+        "target": 12.0,
+        "budget": 300000.0
+      },
+      "reg-south-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-west-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-sidama": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-tigray": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-gambella": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-benishangul-gumuz": {
+        "target": 12.0,
+        "budget": 100000.0
+      },
+      "reg-harar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-dire-dawa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-somali": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-afar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-moyale": {
+        "target": 0.0,
+        "budget": 0.0
+      }
+    }
   },
   {
     "id": "na-5-3-5",
@@ -5893,7 +16773,75 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "proj-2",
       "proj-3",
       "proj-4"
-    ]
+    ],
+    "ercs_target": 60.0,
+    "ercs_budget": 400000.0,
+    "hq_target": 60.0,
+    "hq_budget": 400000.0,
+    "rb_target": 0.0,
+    "rb_budget": 0.0,
+    "regional_targets": {
+      "reg-oromia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-addis-ababa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-amhara": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-central-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-west-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-sidama": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-tigray": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-gambella": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-benishangul-gumuz": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-harar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-dire-dawa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-somali": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-afar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-moyale": {
+        "target": 0.0,
+        "budget": 0.0
+      }
+    }
   },
   {
     "id": "na-6-1-1",
@@ -5928,7 +16876,75 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "proj-2",
       "proj-3",
       "proj-4"
-    ]
+    ],
+    "ercs_target": 2.0,
+    "ercs_budget": 1530000.0,
+    "hq_target": 1.0,
+    "hq_budget": 1500000.0,
+    "rb_target": 1.0,
+    "rb_budget": 30000.0,
+    "regional_targets": {
+      "reg-oromia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-addis-ababa": {
+        "target": 1.0,
+        "budget": 30000.0
+      },
+      "reg-amhara": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-central-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-west-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-sidama": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-tigray": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-gambella": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-benishangul-gumuz": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-harar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-dire-dawa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-somali": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-afar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-moyale": {
+        "target": 0.0,
+        "budget": 0.0
+      }
+    }
   },
   {
     "id": "na-6-1-2",
@@ -5963,7 +16979,75 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "proj-2",
       "proj-3",
       "proj-4"
-    ]
+    ],
+    "ercs_target": 8.0,
+    "ercs_budget": 830000.0,
+    "hq_target": 5.0,
+    "hq_budget": 800000.0,
+    "rb_target": 3.0,
+    "rb_budget": 30000.0,
+    "regional_targets": {
+      "reg-oromia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-addis-ababa": {
+        "target": 3.0,
+        "budget": 30000.0
+      },
+      "reg-amhara": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-central-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-west-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-sidama": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-tigray": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-gambella": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-benishangul-gumuz": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-harar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-dire-dawa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-somali": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-afar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-moyale": {
+        "target": 0.0,
+        "budget": 0.0
+      }
+    }
   },
   {
     "id": "na-6-1-3",
@@ -5998,7 +17082,75 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "proj-2",
       "proj-3",
       "proj-4"
-    ]
+    ],
+    "ercs_target": 1.0,
+    "ercs_budget": 4000000.0,
+    "hq_target": 1.0,
+    "hq_budget": 4000000.0,
+    "rb_target": 0.0,
+    "rb_budget": 0.0,
+    "regional_targets": {
+      "reg-oromia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-addis-ababa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-amhara": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-central-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-west-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-sidama": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-tigray": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-gambella": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-benishangul-gumuz": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-harar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-dire-dawa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-somali": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-afar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-moyale": {
+        "target": 0.0,
+        "budget": 0.0
+      }
+    }
   },
   {
     "id": "na-6-1-4",
@@ -6033,7 +17185,75 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "proj-2",
       "proj-3",
       "proj-4"
-    ]
+    ],
+    "ercs_target": 2.0,
+    "ercs_budget": 1500000.0,
+    "hq_target": 2.0,
+    "hq_budget": 1500000.0,
+    "rb_target": 0.0,
+    "rb_budget": 0.0,
+    "regional_targets": {
+      "reg-oromia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-addis-ababa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-amhara": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-central-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-west-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-sidama": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-tigray": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-gambella": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-benishangul-gumuz": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-harar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-dire-dawa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-somali": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-afar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-moyale": {
+        "target": 0.0,
+        "budget": 0.0
+      }
+    }
   },
   {
     "id": "na-6-1-5",
@@ -6068,7 +17288,75 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "proj-2",
       "proj-3",
       "proj-4"
-    ]
+    ],
+    "ercs_target": 12.0,
+    "ercs_budget": 120000.0,
+    "hq_target": 12.0,
+    "hq_budget": 120000.0,
+    "rb_target": 0.0,
+    "rb_budget": 0.0,
+    "regional_targets": {
+      "reg-oromia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-addis-ababa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-amhara": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-central-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-west-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-sidama": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-tigray": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-gambella": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-benishangul-gumuz": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-harar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-dire-dawa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-somali": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-afar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-moyale": {
+        "target": 0.0,
+        "budget": 0.0
+      }
+    }
   },
   {
     "id": "na-6-1-6",
@@ -6103,7 +17391,75 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "proj-2",
       "proj-3",
       "proj-4"
-    ]
+    ],
+    "ercs_target": 45.0,
+    "ercs_budget": 1400000.0,
+    "hq_target": 23.0,
+    "hq_budget": 800000.0,
+    "rb_target": 22.0,
+    "rb_budget": 600000.0,
+    "regional_targets": {
+      "reg-oromia": {
+        "target": 5.0,
+        "budget": 500000.0
+      },
+      "reg-addis-ababa": {
+        "target": 4.0,
+        "budget": 0.0
+      },
+      "reg-amhara": {
+        "target": 2.0,
+        "budget": 0.0
+      },
+      "reg-central-ethiopia": {
+        "target": 2.0,
+        "budget": 50000.0
+      },
+      "reg-south-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-west-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-sidama": {
+        "target": 3.0,
+        "budget": 40000.0
+      },
+      "reg-tigray": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-gambella": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-benishangul-gumuz": {
+        "target": 2.0,
+        "budget": 10000.0
+      },
+      "reg-harar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-dire-dawa": {
+        "target": 4.0,
+        "budget": 0.0
+      },
+      "reg-somali": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-afar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-moyale": {
+        "target": 0.0,
+        "budget": 0.0
+      }
+    }
   },
   {
     "id": "na-6-1-7",
@@ -6138,7 +17494,75 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "proj-2",
       "proj-3",
       "proj-4"
-    ]
+    ],
+    "ercs_target": 5.0,
+    "ercs_budget": 600000.0,
+    "hq_target": 1.0,
+    "hq_budget": 600000.0,
+    "rb_target": 4.0,
+    "rb_budget": 0.0,
+    "regional_targets": {
+      "reg-oromia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-addis-ababa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-amhara": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-central-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-west-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-sidama": {
+        "target": 4.0,
+        "budget": 0.0
+      },
+      "reg-tigray": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-gambella": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-benishangul-gumuz": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-harar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-dire-dawa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-somali": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-afar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-moyale": {
+        "target": 0.0,
+        "budget": 0.0
+      }
+    }
   },
   {
     "id": "na-6-1-8",
@@ -6173,7 +17597,75 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "proj-2",
       "proj-3",
       "proj-4"
-    ]
+    ],
+    "ercs_target": 183.0,
+    "ercs_budget": 4984000.0,
+    "hq_target": 145.0,
+    "hq_budget": 4000000.0,
+    "rb_target": 38.0,
+    "rb_budget": 984000.0,
+    "regional_targets": {
+      "reg-oromia": {
+        "target": 16.0,
+        "budget": 364000.0
+      },
+      "reg-addis-ababa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-amhara": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-central-ethiopia": {
+        "target": 4.0,
+        "budget": 200000.0
+      },
+      "reg-south-ethiopia": {
+        "target": 4.0,
+        "budget": 320000.0
+      },
+      "reg-south-west-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-sidama": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-tigray": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-gambella": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-benishangul-gumuz": {
+        "target": 4.0,
+        "budget": 100000.0
+      },
+      "reg-harar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-dire-dawa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-somali": {
+        "target": 10.0,
+        "budget": 0.0
+      },
+      "reg-afar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-moyale": {
+        "target": 0.0,
+        "budget": 0.0
+      }
+    }
   },
   {
     "id": "na-6-1-9",
@@ -6208,7 +17700,75 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "proj-2",
       "proj-3",
       "proj-4"
-    ]
+    ],
+    "ercs_target": 2.0,
+    "ercs_budget": 4000000.0,
+    "hq_target": 2.0,
+    "hq_budget": 4000000.0,
+    "rb_target": 0.0,
+    "rb_budget": 0.0,
+    "regional_targets": {
+      "reg-oromia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-addis-ababa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-amhara": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-central-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-west-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-sidama": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-tigray": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-gambella": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-benishangul-gumuz": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-harar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-dire-dawa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-somali": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-afar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-moyale": {
+        "target": 0.0,
+        "budget": 0.0
+      }
+    }
   },
   {
     "id": "na-6-1-10",
@@ -6243,7 +17803,75 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "proj-2",
       "proj-3",
       "proj-4"
-    ]
+    ],
+    "ercs_target": 10.0,
+    "ercs_budget": 5000000.0,
+    "hq_target": 5.0,
+    "hq_budget": 5000000.0,
+    "rb_target": 5.0,
+    "rb_budget": 0.0,
+    "regional_targets": {
+      "reg-oromia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-addis-ababa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-amhara": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-central-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-west-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-sidama": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-tigray": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-gambella": {
+        "target": 5.0,
+        "budget": 0.0
+      },
+      "reg-benishangul-gumuz": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-harar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-dire-dawa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-somali": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-afar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-moyale": {
+        "target": 0.0,
+        "budget": 0.0
+      }
+    }
   },
   {
     "id": "na-6-1-11",
@@ -6278,7 +17906,75 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "proj-2",
       "proj-3",
       "proj-4"
-    ]
+    ],
+    "ercs_target": 91.0,
+    "ercs_budget": 1835000.0,
+    "hq_target": 69.0,
+    "hq_budget": 1540000.0,
+    "rb_target": 22.0,
+    "rb_budget": 295000.0,
+    "regional_targets": {
+      "reg-oromia": {
+        "target": 6.0,
+        "budget": 100000.0
+      },
+      "reg-addis-ababa": {
+        "target": 3.0,
+        "budget": 30000.0
+      },
+      "reg-amhara": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-central-ethiopia": {
+        "target": 4.0,
+        "budget": 50000.0
+      },
+      "reg-south-ethiopia": {
+        "target": 4.0,
+        "budget": 40000.0
+      },
+      "reg-south-west-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-sidama": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-tigray": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-gambella": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-benishangul-gumuz": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-harar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-dire-dawa": {
+        "target": 5.0,
+        "budget": 75000.0
+      },
+      "reg-somali": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-afar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-moyale": {
+        "target": 0.0,
+        "budget": 0.0
+      }
+    }
   },
   {
     "id": "na-6-2-1",
@@ -6313,7 +18009,75 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "proj-2",
       "proj-3",
       "proj-4"
-    ]
+    ],
+    "ercs_target": 30.0,
+    "ercs_budget": 1500000.0,
+    "hq_target": 30.0,
+    "hq_budget": 1500000.0,
+    "rb_target": 0.0,
+    "rb_budget": 0.0,
+    "regional_targets": {
+      "reg-oromia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-addis-ababa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-amhara": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-central-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-west-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-sidama": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-tigray": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-gambella": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-benishangul-gumuz": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-harar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-dire-dawa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-somali": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-afar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-moyale": {
+        "target": 0.0,
+        "budget": 0.0
+      }
+    }
   },
   {
     "id": "na-6-2-2",
@@ -6348,7 +18112,75 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "proj-2",
       "proj-3",
       "proj-4"
-    ]
+    ],
+    "ercs_target": 36.0,
+    "ercs_budget": 400000.0,
+    "hq_target": 1.0,
+    "hq_budget": 50000.0,
+    "rb_target": 35.0,
+    "rb_budget": 350000.0,
+    "regional_targets": {
+      "reg-oromia": {
+        "target": 10.0,
+        "budget": 30000.0
+      },
+      "reg-addis-ababa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-amhara": {
+        "target": 8.0,
+        "budget": 0.0
+      },
+      "reg-central-ethiopia": {
+        "target": 5.0,
+        "budget": 100000.0
+      },
+      "reg-south-ethiopia": {
+        "target": 5.0,
+        "budget": 30000.0
+      },
+      "reg-south-west-ethiopia": {
+        "target": 3.0,
+        "budget": 0.0
+      },
+      "reg-sidama": {
+        "target": 1.0,
+        "budget": 0.0
+      },
+      "reg-tigray": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-gambella": {
+        "target": 1.0,
+        "budget": 0.0
+      },
+      "reg-benishangul-gumuz": {
+        "target": 1.0,
+        "budget": 50000.0
+      },
+      "reg-harar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-dire-dawa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-somali": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-afar": {
+        "target": 1.0,
+        "budget": 140000.0
+      },
+      "reg-moyale": {
+        "target": 0.0,
+        "budget": 0.0
+      }
+    }
   },
   {
     "id": "na-6-2-3",
@@ -6383,7 +18215,75 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "proj-2",
       "proj-3",
       "proj-4"
-    ]
+    ],
+    "ercs_target": 0.0,
+    "ercs_budget": 0.0,
+    "hq_target": 0.0,
+    "hq_budget": 0.0,
+    "rb_target": 0.0,
+    "rb_budget": 0.0,
+    "regional_targets": {
+      "reg-oromia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-addis-ababa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-amhara": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-central-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-west-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-sidama": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-tigray": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-gambella": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-benishangul-gumuz": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-harar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-dire-dawa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-somali": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-afar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-moyale": {
+        "target": 0.0,
+        "budget": 0.0
+      }
+    }
   },
   {
     "id": "na-6-2-4",
@@ -6418,7 +18318,75 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "proj-2",
       "proj-3",
       "proj-4"
-    ]
+    ],
+    "ercs_target": 0.0,
+    "ercs_budget": 0.0,
+    "hq_target": 0.0,
+    "hq_budget": 0.0,
+    "rb_target": 0.0,
+    "rb_budget": 0.0,
+    "regional_targets": {
+      "reg-oromia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-addis-ababa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-amhara": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-central-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-west-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-sidama": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-tigray": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-gambella": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-benishangul-gumuz": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-harar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-dire-dawa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-somali": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-afar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-moyale": {
+        "target": 0.0,
+        "budget": 0.0
+      }
+    }
   },
   {
     "id": "na-6-2-5",
@@ -6453,7 +18421,75 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "proj-2",
       "proj-3",
       "proj-4"
-    ]
+    ],
+    "ercs_target": 17.0,
+    "ercs_budget": 1732000.0,
+    "hq_target": 1.0,
+    "hq_budget": 375000.0,
+    "rb_target": 16.0,
+    "rb_budget": 1357000.0,
+    "regional_targets": {
+      "reg-oromia": {
+        "target": 10.0,
+        "budget": 867000.0
+      },
+      "reg-addis-ababa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-amhara": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-central-ethiopia": {
+        "target": 1.0,
+        "budget": 100000.0
+      },
+      "reg-south-ethiopia": {
+        "target": 4.0,
+        "budget": 320000.0
+      },
+      "reg-south-west-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-sidama": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-tigray": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-gambella": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-benishangul-gumuz": {
+        "target": 1.0,
+        "budget": 70000.0
+      },
+      "reg-harar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-dire-dawa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-somali": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-afar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-moyale": {
+        "target": 0.0,
+        "budget": 0.0
+      }
+    }
   },
   {
     "id": "na-6-2-6",
@@ -6488,7 +18524,75 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "proj-2",
       "proj-3",
       "proj-4"
-    ]
+    ],
+    "ercs_target": 3.0,
+    "ercs_budget": 150000.0,
+    "hq_target": 3.0,
+    "hq_budget": 150000.0,
+    "rb_target": 0.0,
+    "rb_budget": 0.0,
+    "regional_targets": {
+      "reg-oromia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-addis-ababa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-amhara": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-central-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-west-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-sidama": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-tigray": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-gambella": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-benishangul-gumuz": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-harar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-dire-dawa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-somali": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-afar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-moyale": {
+        "target": 0.0,
+        "budget": 0.0
+      }
+    }
   },
   {
     "id": "na-6-2-7",
@@ -6523,7 +18627,75 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "proj-2",
       "proj-3",
       "proj-4"
-    ]
+    ],
+    "ercs_target": 27.0,
+    "ercs_budget": 430000.0,
+    "hq_target": 2.0,
+    "hq_budget": 125000.0,
+    "rb_target": 25.0,
+    "rb_budget": 305000.0,
+    "regional_targets": {
+      "reg-oromia": {
+        "target": 2.0,
+        "budget": 25000.0
+      },
+      "reg-addis-ababa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-amhara": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-central-ethiopia": {
+        "target": 4.0,
+        "budget": 100000.0
+      },
+      "reg-south-ethiopia": {
+        "target": 4.0,
+        "budget": 100000.0
+      },
+      "reg-south-west-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-sidama": {
+        "target": 4.0,
+        "budget": 0.0
+      },
+      "reg-tigray": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-gambella": {
+        "target": 1.0,
+        "budget": 0.0
+      },
+      "reg-benishangul-gumuz": {
+        "target": 7.0,
+        "budget": 50000.0
+      },
+      "reg-harar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-dire-dawa": {
+        "target": 3.0,
+        "budget": 30000.0
+      },
+      "reg-somali": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-afar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-moyale": {
+        "target": 0.0,
+        "budget": 0.0
+      }
+    }
   },
   {
     "id": "na-6-3-1",
@@ -6558,7 +18730,75 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "proj-2",
       "proj-3",
       "proj-4"
-    ]
+    ],
+    "ercs_target": 19.0,
+    "ercs_budget": 1270000.0,
+    "hq_target": 1.0,
+    "hq_budget": 500000.0,
+    "rb_target": 18.0,
+    "rb_budget": 770000.0,
+    "regional_targets": {
+      "reg-oromia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-addis-ababa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-amhara": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-central-ethiopia": {
+        "target": 5.0,
+        "budget": 200000.0
+      },
+      "reg-south-ethiopia": {
+        "target": 7.0,
+        "budget": 370000.0
+      },
+      "reg-south-west-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-sidama": {
+        "target": 1.0,
+        "budget": 0.0
+      },
+      "reg-tigray": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-gambella": {
+        "target": 1.0,
+        "budget": 50000.0
+      },
+      "reg-benishangul-gumuz": {
+        "target": 2.0,
+        "budget": 150000.0
+      },
+      "reg-harar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-dire-dawa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-somali": {
+        "target": 2.0,
+        "budget": 0.0
+      },
+      "reg-afar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-moyale": {
+        "target": 0.0,
+        "budget": 0.0
+      }
+    }
   },
   {
     "id": "na-6-3-2",
@@ -6593,7 +18833,75 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "proj-2",
       "proj-3",
       "proj-4"
-    ]
+    ],
+    "ercs_target": 1.0,
+    "ercs_budget": 500000.0,
+    "hq_target": 1.0,
+    "hq_budget": 500000.0,
+    "rb_target": 0.0,
+    "rb_budget": 0.0,
+    "regional_targets": {
+      "reg-oromia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-addis-ababa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-amhara": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-central-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-west-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-sidama": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-tigray": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-gambella": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-benishangul-gumuz": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-harar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-dire-dawa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-somali": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-afar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-moyale": {
+        "target": 0.0,
+        "budget": 0.0
+      }
+    }
   },
   {
     "id": "na-6-3-3",
@@ -6628,7 +18936,75 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "proj-2",
       "proj-3",
       "proj-4"
-    ]
+    ],
+    "ercs_target": 1.0,
+    "ercs_budget": 0.0,
+    "hq_target": 1.0,
+    "hq_budget": 0.0,
+    "rb_target": 0.0,
+    "rb_budget": 0.0,
+    "regional_targets": {
+      "reg-oromia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-addis-ababa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-amhara": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-central-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-west-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-sidama": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-tigray": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-gambella": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-benishangul-gumuz": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-harar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-dire-dawa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-somali": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-afar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-moyale": {
+        "target": 0.0,
+        "budget": 0.0
+      }
+    }
   },
   {
     "id": "na-6-3-4",
@@ -6663,7 +19039,75 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "proj-2",
       "proj-3",
       "proj-4"
-    ]
+    ],
+    "ercs_target": 1.0,
+    "ercs_budget": 400000.0,
+    "hq_target": 1.0,
+    "hq_budget": 400000.0,
+    "rb_target": 0.0,
+    "rb_budget": 0.0,
+    "regional_targets": {
+      "reg-oromia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-addis-ababa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-amhara": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-central-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-west-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-sidama": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-tigray": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-gambella": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-benishangul-gumuz": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-harar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-dire-dawa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-somali": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-afar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-moyale": {
+        "target": 0.0,
+        "budget": 0.0
+      }
+    }
   },
   {
     "id": "na-6-3-5",
@@ -6698,7 +19142,75 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "proj-2",
       "proj-3",
       "proj-4"
-    ]
+    ],
+    "ercs_target": 113.0,
+    "ercs_budget": 402000.0,
+    "hq_target": 0.0,
+    "hq_budget": 0.0,
+    "rb_target": 113.0,
+    "rb_budget": 402000.0,
+    "regional_targets": {
+      "reg-oromia": {
+        "target": 21.0,
+        "budget": 320000.0
+      },
+      "reg-addis-ababa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-amhara": {
+        "target": 6.0,
+        "budget": 0.0
+      },
+      "reg-central-ethiopia": {
+        "target": 2.0,
+        "budget": 30000.0
+      },
+      "reg-south-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-west-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-sidama": {
+        "target": 2.0,
+        "budget": 50000.0
+      },
+      "reg-tigray": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-gambella": {
+        "target": 4.0,
+        "budget": 0.0
+      },
+      "reg-benishangul-gumuz": {
+        "target": 36.0,
+        "budget": 2000.0
+      },
+      "reg-harar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-dire-dawa": {
+        "target": 2.0,
+        "budget": 0.0
+      },
+      "reg-somali": {
+        "target": 36.0,
+        "budget": 0.0
+      },
+      "reg-afar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-moyale": {
+        "target": 4.0,
+        "budget": 0.0
+      }
+    }
   },
   {
     "id": "na-6-3-6",
@@ -6733,7 +19245,75 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "proj-2",
       "proj-3",
       "proj-4"
-    ]
+    ],
+    "ercs_target": 0.0,
+    "ercs_budget": 0.0,
+    "hq_target": 0.0,
+    "hq_budget": 0.0,
+    "rb_target": 0.0,
+    "rb_budget": 0.0,
+    "regional_targets": {
+      "reg-oromia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-addis-ababa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-amhara": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-central-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-west-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-sidama": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-tigray": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-gambella": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-benishangul-gumuz": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-harar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-dire-dawa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-somali": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-afar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-moyale": {
+        "target": 0.0,
+        "budget": 0.0
+      }
+    }
   },
   {
     "id": "na-7-1-1",
@@ -6768,7 +19348,75 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "proj-2",
       "proj-3",
       "proj-4"
-    ]
+    ],
+    "ercs_target": 1.0,
+    "ercs_budget": 1500000.0,
+    "hq_target": 1.0,
+    "hq_budget": 1500000.0,
+    "rb_target": 0.0,
+    "rb_budget": 0.0,
+    "regional_targets": {
+      "reg-oromia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-addis-ababa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-amhara": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-central-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-west-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-sidama": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-tigray": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-gambella": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-benishangul-gumuz": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-harar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-dire-dawa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-somali": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-afar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-moyale": {
+        "target": 0.0,
+        "budget": 0.0
+      }
+    }
   },
   {
     "id": "na-7-1-2",
@@ -6803,7 +19451,75 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "proj-2",
       "proj-3",
       "proj-4"
-    ]
+    ],
+    "ercs_target": 9.0,
+    "ercs_budget": 1745460.0,
+    "hq_target": 9.0,
+    "hq_budget": 1745460.0,
+    "rb_target": 0.0,
+    "rb_budget": 0.0,
+    "regional_targets": {
+      "reg-oromia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-addis-ababa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-amhara": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-central-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-west-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-sidama": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-tigray": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-gambella": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-benishangul-gumuz": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-harar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-dire-dawa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-somali": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-afar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-moyale": {
+        "target": 0.0,
+        "budget": 0.0
+      }
+    }
   },
   {
     "id": "na-7-1-3",
@@ -6838,7 +19554,75 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "proj-2",
       "proj-3",
       "proj-4"
-    ]
+    ],
+    "ercs_target": 219.0,
+    "ercs_budget": 80283329.0,
+    "hq_target": 153.0,
+    "hq_budget": 80283329.0,
+    "rb_target": 66.0,
+    "rb_budget": 0.0,
+    "regional_targets": {
+      "reg-oromia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-addis-ababa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-amhara": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-central-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-west-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-sidama": {
+        "target": 66.0,
+        "budget": 0.0
+      },
+      "reg-tigray": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-gambella": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-benishangul-gumuz": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-harar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-dire-dawa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-somali": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-afar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-moyale": {
+        "target": 0.0,
+        "budget": 0.0
+      }
+    }
   },
   {
     "id": "na-7-1-4",
@@ -6873,7 +19657,75 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "proj-2",
       "proj-3",
       "proj-4"
-    ]
+    ],
+    "ercs_target": 1.0,
+    "ercs_budget": 759000.0,
+    "hq_target": 1.0,
+    "hq_budget": 759000.0,
+    "rb_target": 0.0,
+    "rb_budget": 0.0,
+    "regional_targets": {
+      "reg-oromia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-addis-ababa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-amhara": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-central-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-west-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-sidama": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-tigray": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-gambella": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-benishangul-gumuz": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-harar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-dire-dawa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-somali": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-afar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-moyale": {
+        "target": 0.0,
+        "budget": 0.0
+      }
+    }
   },
   {
     "id": "na-7-1-5",
@@ -6908,7 +19760,75 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "proj-2",
       "proj-3",
       "proj-4"
-    ]
+    ],
+    "ercs_target": 61.0,
+    "ercs_budget": 1200000.0,
+    "hq_target": 2.0,
+    "hq_budget": 1000000.0,
+    "rb_target": 59.0,
+    "rb_budget": 200000.0,
+    "regional_targets": {
+      "reg-oromia": {
+        "target": 35.0,
+        "budget": 150000.0
+      },
+      "reg-addis-ababa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-amhara": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-central-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-west-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-sidama": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-tigray": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-gambella": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-benishangul-gumuz": {
+        "target": 24.0,
+        "budget": 50000.0
+      },
+      "reg-harar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-dire-dawa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-somali": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-afar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-moyale": {
+        "target": 0.0,
+        "budget": 0.0
+      }
+    }
   },
   {
     "id": "na-7-1-6",
@@ -6943,7 +19863,75 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "proj-2",
       "proj-3",
       "proj-4"
-    ]
+    ],
+    "ercs_target": 76.0,
+    "ercs_budget": 2175000.0,
+    "hq_target": 31.0,
+    "hq_budget": 1705000.0,
+    "rb_target": 45.0,
+    "rb_budget": 470000.0,
+    "regional_targets": {
+      "reg-oromia": {
+        "target": 45.0,
+        "budget": 470000.0
+      },
+      "reg-addis-ababa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-amhara": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-central-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-west-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-sidama": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-tigray": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-gambella": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-benishangul-gumuz": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-harar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-dire-dawa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-somali": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-afar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-moyale": {
+        "target": 0.0,
+        "budget": 0.0
+      }
+    }
   },
   {
     "id": "na-7-1-7",
@@ -6978,7 +19966,75 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "proj-2",
       "proj-3",
       "proj-4"
-    ]
+    ],
+    "ercs_target": 38.0,
+    "ercs_budget": 6500000.0,
+    "hq_target": 38.0,
+    "hq_budget": 6500000.0,
+    "rb_target": 0.0,
+    "rb_budget": 0.0,
+    "regional_targets": {
+      "reg-oromia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-addis-ababa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-amhara": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-central-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-west-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-sidama": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-tigray": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-gambella": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-benishangul-gumuz": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-harar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-dire-dawa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-somali": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-afar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-moyale": {
+        "target": 0.0,
+        "budget": 0.0
+      }
+    }
   },
   {
     "id": "na-7-2-1",
@@ -7013,7 +20069,75 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "proj-2",
       "proj-3",
       "proj-4"
-    ]
+    ],
+    "ercs_target": 2.0,
+    "ercs_budget": 2000000.0,
+    "hq_target": 2.0,
+    "hq_budget": 2000000.0,
+    "rb_target": 0.0,
+    "rb_budget": 0.0,
+    "regional_targets": {
+      "reg-oromia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-addis-ababa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-amhara": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-central-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-west-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-sidama": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-tigray": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-gambella": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-benishangul-gumuz": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-harar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-dire-dawa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-somali": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-afar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-moyale": {
+        "target": 0.0,
+        "budget": 0.0
+      }
+    }
   },
   {
     "id": "na-7-2-2",
@@ -7048,7 +20172,75 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "proj-2",
       "proj-3",
       "proj-4"
-    ]
+    ],
+    "ercs_target": 4.0,
+    "ercs_budget": 800000.0,
+    "hq_target": 4.0,
+    "hq_budget": 800000.0,
+    "rb_target": 0.0,
+    "rb_budget": 0.0,
+    "regional_targets": {
+      "reg-oromia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-addis-ababa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-amhara": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-central-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-west-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-sidama": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-tigray": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-gambella": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-benishangul-gumuz": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-harar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-dire-dawa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-somali": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-afar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-moyale": {
+        "target": 0.0,
+        "budget": 0.0
+      }
+    }
   },
   {
     "id": "na-7-2-3",
@@ -7083,7 +20275,75 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "proj-2",
       "proj-3",
       "proj-4"
-    ]
+    ],
+    "ercs_target": 4.0,
+    "ercs_budget": 405000.0,
+    "hq_target": 4.0,
+    "hq_budget": 405000.0,
+    "rb_target": 0.0,
+    "rb_budget": 0.0,
+    "regional_targets": {
+      "reg-oromia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-addis-ababa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-amhara": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-central-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-west-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-sidama": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-tigray": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-gambella": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-benishangul-gumuz": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-harar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-dire-dawa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-somali": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-afar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-moyale": {
+        "target": 0.0,
+        "budget": 0.0
+      }
+    }
   },
   {
     "id": "na-7-2-4",
@@ -7118,7 +20378,75 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "proj-2",
       "proj-3",
       "proj-4"
-    ]
+    ],
+    "ercs_target": 4.0,
+    "ercs_budget": 20000000.0,
+    "hq_target": 4.0,
+    "hq_budget": 20000000.0,
+    "rb_target": 0.0,
+    "rb_budget": 0.0,
+    "regional_targets": {
+      "reg-oromia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-addis-ababa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-amhara": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-central-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-west-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-sidama": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-tigray": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-gambella": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-benishangul-gumuz": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-harar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-dire-dawa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-somali": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-afar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-moyale": {
+        "target": 0.0,
+        "budget": 0.0
+      }
+    }
   },
   {
     "id": "na-7-2-5",
@@ -7153,7 +20481,75 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "proj-2",
       "proj-3",
       "proj-4"
-    ]
+    ],
+    "ercs_target": 5.0,
+    "ercs_budget": 3300000.0,
+    "hq_target": 1.0,
+    "hq_budget": 500000.0,
+    "rb_target": 4.0,
+    "rb_budget": 2800000.0,
+    "regional_targets": {
+      "reg-oromia": {
+        "target": 1.0,
+        "budget": 1000000.0
+      },
+      "reg-addis-ababa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-amhara": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-central-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-ethiopia": {
+        "target": 2.0,
+        "budget": 1500000.0
+      },
+      "reg-south-west-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-sidama": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-tigray": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-gambella": {
+        "target": 1.0,
+        "budget": 300000.0
+      },
+      "reg-benishangul-gumuz": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-harar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-dire-dawa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-somali": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-afar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-moyale": {
+        "target": 0.0,
+        "budget": 0.0
+      }
+    }
   },
   {
     "id": "na-7-2-6",
@@ -7188,7 +20584,75 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "proj-2",
       "proj-3",
       "proj-4"
-    ]
+    ],
+    "ercs_target": 10.0,
+    "ercs_budget": 8165000.0,
+    "hq_target": 1.0,
+    "hq_budget": 5600000.0,
+    "rb_target": 9.0,
+    "rb_budget": 2565000.0,
+    "regional_targets": {
+      "reg-oromia": {
+        "target": 1.0,
+        "budget": 1505000.0
+      },
+      "reg-addis-ababa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-amhara": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-central-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-ethiopia": {
+        "target": 4.0,
+        "budget": 510000.0
+      },
+      "reg-south-west-ethiopia": {
+        "target": 1.0,
+        "budget": 300000.0
+      },
+      "reg-sidama": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-tigray": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-gambella": {
+        "target": 1.0,
+        "budget": 100000.0
+      },
+      "reg-benishangul-gumuz": {
+        "target": 1.0,
+        "budget": 50000.0
+      },
+      "reg-harar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-dire-dawa": {
+        "target": 1.0,
+        "budget": 100000.0
+      },
+      "reg-somali": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-afar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-moyale": {
+        "target": 0.0,
+        "budget": 0.0
+      }
+    }
   },
   {
     "id": "na-7-2-7",
@@ -7223,7 +20687,75 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "proj-2",
       "proj-3",
       "proj-4"
-    ]
+    ],
+    "ercs_target": 2.0,
+    "ercs_budget": 3000000.0,
+    "hq_target": 2.0,
+    "hq_budget": 3000000.0,
+    "rb_target": 0.0,
+    "rb_budget": 0.0,
+    "regional_targets": {
+      "reg-oromia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-addis-ababa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-amhara": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-central-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-west-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-sidama": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-tigray": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-gambella": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-benishangul-gumuz": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-harar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-dire-dawa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-somali": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-afar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-moyale": {
+        "target": 0.0,
+        "budget": 0.0
+      }
+    }
   },
   {
     "id": "na-7-2-8",
@@ -7258,7 +20790,75 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "proj-2",
       "proj-3",
       "proj-4"
-    ]
+    ],
+    "ercs_target": 6.0,
+    "ercs_budget": 2650000.0,
+    "hq_target": 1.0,
+    "hq_budget": 1200000.0,
+    "rb_target": 5.0,
+    "rb_budget": 1450000.0,
+    "regional_targets": {
+      "reg-oromia": {
+        "target": 3.0,
+        "budget": 1450000.0
+      },
+      "reg-addis-ababa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-amhara": {
+        "target": 1.0,
+        "budget": 0.0
+      },
+      "reg-central-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-ethiopia": {
+        "target": 1.0,
+        "budget": 0.0
+      },
+      "reg-south-west-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-sidama": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-tigray": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-gambella": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-benishangul-gumuz": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-harar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-dire-dawa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-somali": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-afar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-moyale": {
+        "target": 0.0,
+        "budget": 0.0
+      }
+    }
   },
   {
     "id": "na-7-2-9",
@@ -7293,7 +20893,75 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "proj-2",
       "proj-3",
       "proj-4"
-    ]
+    ],
+    "ercs_target": 3.0,
+    "ercs_budget": 7838000.0,
+    "hq_target": 1.0,
+    "hq_budget": 2000000.0,
+    "rb_target": 2.0,
+    "rb_budget": 5838000.0,
+    "regional_targets": {
+      "reg-oromia": {
+        "target": 8.0,
+        "budget": 4700000.0
+      },
+      "reg-addis-ababa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-amhara": {
+        "target": 7.0,
+        "budget": 700000.0
+      },
+      "reg-central-ethiopia": {
+        "target": 2.0,
+        "budget": 78000.0
+      },
+      "reg-south-ethiopia": {
+        "target": 1.0,
+        "budget": 100000.0
+      },
+      "reg-south-west-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-sidama": {
+        "target": 1.0,
+        "budget": 0.0
+      },
+      "reg-tigray": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-gambella": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-benishangul-gumuz": {
+        "target": 1.0,
+        "budget": 50000.0
+      },
+      "reg-harar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-dire-dawa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-somali": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-afar": {
+        "target": 1.0,
+        "budget": 210000.0
+      },
+      "reg-moyale": {
+        "target": 0.0,
+        "budget": 0.0
+      }
+    }
   },
   {
     "id": "na-7-2-10",
@@ -7328,7 +20996,75 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "proj-2",
       "proj-3",
       "proj-4"
-    ]
+    ],
+    "ercs_target": 4.0,
+    "ercs_budget": 1750000.0,
+    "hq_target": 2.0,
+    "hq_budget": 150000.0,
+    "rb_target": 2.0,
+    "rb_budget": 1600000.0,
+    "regional_targets": {
+      "reg-oromia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-addis-ababa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-amhara": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-central-ethiopia": {
+        "target": 2.0,
+        "budget": 300000.0
+      },
+      "reg-south-ethiopia": {
+        "target": 2.0,
+        "budget": 0.0
+      },
+      "reg-south-west-ethiopia": {
+        "target": 3.0,
+        "budget": 600000.0
+      },
+      "reg-sidama": {
+        "target": 2.0,
+        "budget": 50000.0
+      },
+      "reg-tigray": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-gambella": {
+        "target": 1.0,
+        "budget": 500000.0
+      },
+      "reg-benishangul-gumuz": {
+        "target": 1.0,
+        "budget": 150000.0
+      },
+      "reg-harar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-dire-dawa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-somali": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-afar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-moyale": {
+        "target": 0.0,
+        "budget": 0.0
+      }
+    }
   },
   {
     "id": "na-7-2-11",
@@ -7363,7 +21099,75 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "proj-2",
       "proj-3",
       "proj-4"
-    ]
+    ],
+    "ercs_target": 0.0,
+    "ercs_budget": 0.0,
+    "hq_target": 1.0,
+    "hq_budget": 750000.0,
+    "rb_target": 0.0,
+    "rb_budget": 0.0,
+    "regional_targets": {
+      "reg-oromia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-addis-ababa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-amhara": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-central-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-west-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-sidama": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-tigray": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-gambella": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-benishangul-gumuz": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-harar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-dire-dawa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-somali": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-afar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-moyale": {
+        "target": 0.0,
+        "budget": 0.0
+      }
+    }
   },
   {
     "id": "na-7-3-1",
@@ -7398,7 +21202,75 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "proj-2",
       "proj-3",
       "proj-4"
-    ]
+    ],
+    "ercs_target": 8.0,
+    "ercs_budget": 590000.0,
+    "hq_target": 1.0,
+    "hq_budget": 300000.0,
+    "rb_target": 7.0,
+    "rb_budget": 290000.0,
+    "regional_targets": {
+      "reg-oromia": {
+        "target": 1.0,
+        "budget": 40000.0
+      },
+      "reg-addis-ababa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-amhara": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-central-ethiopia": {
+        "target": 2.0,
+        "budget": 60000.0
+      },
+      "reg-south-ethiopia": {
+        "target": 3.0,
+        "budget": 150000.0
+      },
+      "reg-south-west-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-sidama": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-tigray": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-gambella": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-benishangul-gumuz": {
+        "target": 1.0,
+        "budget": 40000.0
+      },
+      "reg-harar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-dire-dawa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-somali": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-afar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-moyale": {
+        "target": 0.0,
+        "budget": 0.0
+      }
+    }
   },
   {
     "id": "na-7-3-2",
@@ -7433,7 +21305,75 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "proj-2",
       "proj-3",
       "proj-4"
-    ]
+    ],
+    "ercs_target": 8.0,
+    "ercs_budget": 230000.0,
+    "hq_target": 1.0,
+    "hq_budget": 0.0,
+    "rb_target": 7.0,
+    "rb_budget": 230000.0,
+    "regional_targets": {
+      "reg-oromia": {
+        "target": 1.0,
+        "budget": 40000.0
+      },
+      "reg-addis-ababa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-amhara": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-central-ethiopia": {
+        "target": 2.0,
+        "budget": 100000.0
+      },
+      "reg-south-ethiopia": {
+        "target": 3.0,
+        "budget": 60000.0
+      },
+      "reg-south-west-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-sidama": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-tigray": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-gambella": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-benishangul-gumuz": {
+        "target": 1.0,
+        "budget": 30000.0
+      },
+      "reg-harar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-dire-dawa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-somali": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-afar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-moyale": {
+        "target": 0.0,
+        "budget": 0.0
+      }
+    }
   },
   {
     "id": "na-7-3-3",
@@ -7468,7 +21408,75 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "proj-2",
       "proj-3",
       "proj-4"
-    ]
+    ],
+    "ercs_target": 71.0,
+    "ercs_budget": 2160000.0,
+    "hq_target": 60.0,
+    "hq_budget": 1750000.0,
+    "rb_target": 11.0,
+    "rb_budget": 410000.0,
+    "regional_targets": {
+      "reg-oromia": {
+        "target": 1.0,
+        "budget": 10000.0
+      },
+      "reg-addis-ababa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-amhara": {
+        "target": 10.0,
+        "budget": 400000.0
+      },
+      "reg-central-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-west-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-sidama": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-tigray": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-gambella": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-benishangul-gumuz": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-harar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-dire-dawa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-somali": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-afar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-moyale": {
+        "target": 0.0,
+        "budget": 0.0
+      }
+    }
   },
   {
     "id": "na-7-3-4",
@@ -7503,7 +21511,75 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "proj-2",
       "proj-3",
       "proj-4"
-    ]
+    ],
+    "ercs_target": 11.0,
+    "ercs_budget": 10000.0,
+    "hq_target": 0.0,
+    "hq_budget": 0.0,
+    "rb_target": 11.0,
+    "rb_budget": 10000.0,
+    "regional_targets": {
+      "reg-oromia": {
+        "target": 1.0,
+        "budget": 10000.0
+      },
+      "reg-addis-ababa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-amhara": {
+        "target": 10.0,
+        "budget": 0.0
+      },
+      "reg-central-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-west-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-sidama": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-tigray": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-gambella": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-benishangul-gumuz": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-harar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-dire-dawa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-somali": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-afar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-moyale": {
+        "target": 0.0,
+        "budget": 0.0
+      }
+    }
   },
   {
     "id": "na-7-3-5",
@@ -7538,7 +21614,75 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "proj-2",
       "proj-3",
       "proj-4"
-    ]
+    ],
+    "ercs_target": 1.0,
+    "ercs_budget": 100000.0,
+    "hq_target": 1.0,
+    "hq_budget": 100000.0,
+    "rb_target": 0.0,
+    "rb_budget": 0.0,
+    "regional_targets": {
+      "reg-oromia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-addis-ababa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-amhara": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-central-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-west-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-sidama": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-tigray": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-gambella": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-benishangul-gumuz": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-harar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-dire-dawa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-somali": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-afar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-moyale": {
+        "target": 0.0,
+        "budget": 0.0
+      }
+    }
   },
   {
     "id": "na-7-4-1",
@@ -7573,7 +21717,75 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "proj-2",
       "proj-3",
       "proj-4"
-    ]
+    ],
+    "ercs_target": 1.0,
+    "ercs_budget": 200000.0,
+    "hq_target": 1.0,
+    "hq_budget": 200000.0,
+    "rb_target": 0.0,
+    "rb_budget": 0.0,
+    "regional_targets": {
+      "reg-oromia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-addis-ababa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-amhara": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-central-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-west-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-sidama": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-tigray": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-gambella": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-benishangul-gumuz": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-harar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-dire-dawa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-somali": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-afar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-moyale": {
+        "target": 0.0,
+        "budget": 0.0
+      }
+    }
   },
   {
     "id": "na-7-4-2",
@@ -7608,7 +21820,75 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "proj-2",
       "proj-3",
       "proj-4"
-    ]
+    ],
+    "ercs_target": 1.0,
+    "ercs_budget": 4000000.0,
+    "hq_target": 1.0,
+    "hq_budget": 4000000.0,
+    "rb_target": 0.0,
+    "rb_budget": 0.0,
+    "regional_targets": {
+      "reg-oromia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-addis-ababa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-amhara": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-central-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-west-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-sidama": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-tigray": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-gambella": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-benishangul-gumuz": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-harar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-dire-dawa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-somali": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-afar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-moyale": {
+        "target": 0.0,
+        "budget": 0.0
+      }
+    }
   },
   {
     "id": "na-7-4-3",
@@ -7643,7 +21923,75 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "proj-2",
       "proj-3",
       "proj-4"
-    ]
+    ],
+    "ercs_target": 14.0,
+    "ercs_budget": 2000000.0,
+    "hq_target": 14.0,
+    "hq_budget": 2000000.0,
+    "rb_target": 0.0,
+    "rb_budget": 0.0,
+    "regional_targets": {
+      "reg-oromia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-addis-ababa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-amhara": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-central-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-west-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-sidama": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-tigray": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-gambella": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-benishangul-gumuz": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-harar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-dire-dawa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-somali": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-afar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-moyale": {
+        "target": 0.0,
+        "budget": 0.0
+      }
+    }
   },
   {
     "id": "na-7-4-4",
@@ -7678,7 +22026,75 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "proj-2",
       "proj-3",
       "proj-4"
-    ]
+    ],
+    "ercs_target": 0.0,
+    "ercs_budget": 0.0,
+    "hq_target": 0.0,
+    "hq_budget": 0.0,
+    "rb_target": 0.0,
+    "rb_budget": 0.0,
+    "regional_targets": {
+      "reg-oromia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-addis-ababa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-amhara": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-central-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-west-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-sidama": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-tigray": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-gambella": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-benishangul-gumuz": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-harar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-dire-dawa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-somali": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-afar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-moyale": {
+        "target": 0.0,
+        "budget": 0.0
+      }
+    }
   },
   {
     "id": "na-7-4-5",
@@ -7713,7 +22129,75 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "proj-2",
       "proj-3",
       "proj-4"
-    ]
+    ],
+    "ercs_target": 2.0,
+    "ercs_budget": 20000000.0,
+    "hq_target": 2.0,
+    "hq_budget": 20000000.0,
+    "rb_target": 0.0,
+    "rb_budget": 0.0,
+    "regional_targets": {
+      "reg-oromia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-addis-ababa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-amhara": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-central-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-west-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-sidama": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-tigray": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-gambella": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-benishangul-gumuz": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-harar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-dire-dawa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-somali": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-afar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-moyale": {
+        "target": 0.0,
+        "budget": 0.0
+      }
+    }
   },
   {
     "id": "na-7-4-6",
@@ -7748,7 +22232,75 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "proj-2",
       "proj-3",
       "proj-4"
-    ]
+    ],
+    "ercs_target": 14.0,
+    "ercs_budget": 1600000.0,
+    "hq_target": 14.0,
+    "hq_budget": 1600000.0,
+    "rb_target": 0.0,
+    "rb_budget": 0.0,
+    "regional_targets": {
+      "reg-oromia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-addis-ababa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-amhara": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-central-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-west-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-sidama": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-tigray": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-gambella": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-benishangul-gumuz": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-harar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-dire-dawa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-somali": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-afar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-moyale": {
+        "target": 0.0,
+        "budget": 0.0
+      }
+    }
   },
   {
     "id": "na-7-4-7",
@@ -7783,7 +22335,75 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "proj-2",
       "proj-3",
       "proj-4"
-    ]
+    ],
+    "ercs_target": 0.0,
+    "ercs_budget": 0.0,
+    "hq_target": 0.0,
+    "hq_budget": 0.0,
+    "rb_target": 0.0,
+    "rb_budget": 0.0,
+    "regional_targets": {
+      "reg-oromia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-addis-ababa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-amhara": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-central-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-west-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-sidama": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-tigray": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-gambella": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-benishangul-gumuz": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-harar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-dire-dawa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-somali": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-afar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-moyale": {
+        "target": 0.0,
+        "budget": 0.0
+      }
+    }
   },
   {
     "id": "na-7-4-8",
@@ -7818,7 +22438,75 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "proj-2",
       "proj-3",
       "proj-4"
-    ]
+    ],
+    "ercs_target": 1.0,
+    "ercs_budget": 3000000.0,
+    "hq_target": 1.0,
+    "hq_budget": 3000000.0,
+    "rb_target": 0.0,
+    "rb_budget": 0.0,
+    "regional_targets": {
+      "reg-oromia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-addis-ababa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-amhara": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-central-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-west-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-sidama": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-tigray": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-gambella": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-benishangul-gumuz": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-harar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-dire-dawa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-somali": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-afar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-moyale": {
+        "target": 0.0,
+        "budget": 0.0
+      }
+    }
   },
   {
     "id": "na-7-4-9",
@@ -7853,7 +22541,75 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "proj-2",
       "proj-3",
       "proj-4"
-    ]
+    ],
+    "ercs_target": 1600.0,
+    "ercs_budget": 5500000.0,
+    "hq_target": 1600.0,
+    "hq_budget": 5500000.0,
+    "rb_target": 0.0,
+    "rb_budget": 0.0,
+    "regional_targets": {
+      "reg-oromia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-addis-ababa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-amhara": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-central-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-west-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-sidama": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-tigray": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-gambella": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-benishangul-gumuz": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-harar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-dire-dawa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-somali": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-afar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-moyale": {
+        "target": 0.0,
+        "budget": 0.0
+      }
+    }
   },
   {
     "id": "na-7-4-10",
@@ -7888,7 +22644,75 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "proj-2",
       "proj-3",
       "proj-4"
-    ]
+    ],
+    "ercs_target": 50.0,
+    "ercs_budget": 1600000.0,
+    "hq_target": 50.0,
+    "hq_budget": 1600000.0,
+    "rb_target": 0.0,
+    "rb_budget": 0.0,
+    "regional_targets": {
+      "reg-oromia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-addis-ababa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-amhara": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-central-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-west-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-sidama": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-tigray": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-gambella": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-benishangul-gumuz": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-harar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-dire-dawa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-somali": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-afar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-moyale": {
+        "target": 0.0,
+        "budget": 0.0
+      }
+    }
   },
   {
     "id": "na-7-4-11",
@@ -7923,7 +22747,75 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "proj-2",
       "proj-3",
       "proj-4"
-    ]
+    ],
+    "ercs_target": 4.0,
+    "ercs_budget": 2000000.0,
+    "hq_target": 4.0,
+    "hq_budget": 2000000.0,
+    "rb_target": 0.0,
+    "rb_budget": 0.0,
+    "regional_targets": {
+      "reg-oromia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-addis-ababa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-amhara": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-central-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-west-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-sidama": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-tigray": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-gambella": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-benishangul-gumuz": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-harar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-dire-dawa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-somali": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-afar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-moyale": {
+        "target": 0.0,
+        "budget": 0.0
+      }
+    }
   },
   {
     "id": "na-7-4-12",
@@ -7958,7 +22850,75 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "proj-2",
       "proj-3",
       "proj-4"
-    ]
+    ],
+    "ercs_target": 1.0,
+    "ercs_budget": 0.0,
+    "hq_target": 1.0,
+    "hq_budget": 0.0,
+    "rb_target": 0.0,
+    "rb_budget": 0.0,
+    "regional_targets": {
+      "reg-oromia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-addis-ababa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-amhara": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-central-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-west-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-sidama": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-tigray": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-gambella": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-benishangul-gumuz": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-harar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-dire-dawa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-somali": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-afar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-moyale": {
+        "target": 0.0,
+        "budget": 0.0
+      }
+    }
   },
   {
     "id": "na-7-4-13",
@@ -7993,7 +22953,75 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "proj-2",
       "proj-3",
       "proj-4"
-    ]
+    ],
+    "ercs_target": 1.0,
+    "ercs_budget": 0.0,
+    "hq_target": 1.0,
+    "hq_budget": 0.0,
+    "rb_target": 0.0,
+    "rb_budget": 0.0,
+    "regional_targets": {
+      "reg-oromia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-addis-ababa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-amhara": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-central-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-west-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-sidama": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-tigray": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-gambella": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-benishangul-gumuz": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-harar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-dire-dawa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-somali": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-afar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-moyale": {
+        "target": 0.0,
+        "budget": 0.0
+      }
+    }
   },
   {
     "id": "na-7-4-14",
@@ -8028,7 +23056,75 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "proj-2",
       "proj-3",
       "proj-4"
-    ]
+    ],
+    "ercs_target": 1.0,
+    "ercs_budget": 2000000.0,
+    "hq_target": 1.0,
+    "hq_budget": 2000000.0,
+    "rb_target": 0.0,
+    "rb_budget": 0.0,
+    "regional_targets": {
+      "reg-oromia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-addis-ababa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-amhara": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-central-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-west-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-sidama": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-tigray": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-gambella": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-benishangul-gumuz": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-harar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-dire-dawa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-somali": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-afar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-moyale": {
+        "target": 0.0,
+        "budget": 0.0
+      }
+    }
   },
   {
     "id": "na-7-4-15",
@@ -8063,7 +23159,75 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "proj-2",
       "proj-3",
       "proj-4"
-    ]
+    ],
+    "ercs_target": 1.0,
+    "ercs_budget": 4000000.0,
+    "hq_target": 1.0,
+    "hq_budget": 4000000.0,
+    "rb_target": 0.0,
+    "rb_budget": 0.0,
+    "regional_targets": {
+      "reg-oromia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-addis-ababa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-amhara": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-central-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-west-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-sidama": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-tigray": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-gambella": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-benishangul-gumuz": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-harar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-dire-dawa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-somali": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-afar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-moyale": {
+        "target": 0.0,
+        "budget": 0.0
+      }
+    }
   },
   {
     "id": "na-7-4-16",
@@ -8098,7 +23262,75 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "proj-2",
       "proj-3",
       "proj-4"
-    ]
+    ],
+    "ercs_target": 7.0,
+    "ercs_budget": 800000.0,
+    "hq_target": 7.0,
+    "hq_budget": 800000.0,
+    "rb_target": 0.0,
+    "rb_budget": 0.0,
+    "regional_targets": {
+      "reg-oromia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-addis-ababa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-amhara": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-central-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-west-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-sidama": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-tigray": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-gambella": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-benishangul-gumuz": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-harar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-dire-dawa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-somali": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-afar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-moyale": {
+        "target": 0.0,
+        "budget": 0.0
+      }
+    }
   },
   {
     "id": "na-7-4-17",
@@ -8133,7 +23365,75 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "proj-2",
       "proj-3",
       "proj-4"
-    ]
+    ],
+    "ercs_target": 20.0,
+    "ercs_budget": 0.0,
+    "hq_target": 20.0,
+    "hq_budget": 0.0,
+    "rb_target": 0.0,
+    "rb_budget": 0.0,
+    "regional_targets": {
+      "reg-oromia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-addis-ababa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-amhara": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-central-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-west-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-sidama": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-tigray": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-gambella": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-benishangul-gumuz": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-harar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-dire-dawa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-somali": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-afar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-moyale": {
+        "target": 0.0,
+        "budget": 0.0
+      }
+    }
   },
   {
     "id": "na-7-4-18",
@@ -8168,7 +23468,75 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "proj-2",
       "proj-3",
       "proj-4"
-    ]
+    ],
+    "ercs_target": 20.0,
+    "ercs_budget": 0.0,
+    "hq_target": 20.0,
+    "hq_budget": 0.0,
+    "rb_target": 0.0,
+    "rb_budget": 0.0,
+    "regional_targets": {
+      "reg-oromia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-addis-ababa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-amhara": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-central-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-west-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-sidama": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-tigray": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-gambella": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-benishangul-gumuz": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-harar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-dire-dawa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-somali": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-afar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-moyale": {
+        "target": 0.0,
+        "budget": 0.0
+      }
+    }
   },
   {
     "id": "na-7-4-19",
@@ -8203,7 +23571,75 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "proj-2",
       "proj-3",
       "proj-4"
-    ]
+    ],
+    "ercs_target": 10.0,
+    "ercs_budget": 0.0,
+    "hq_target": 10.0,
+    "hq_budget": 0.0,
+    "rb_target": 0.0,
+    "rb_budget": 0.0,
+    "regional_targets": {
+      "reg-oromia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-addis-ababa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-amhara": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-central-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-west-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-sidama": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-tigray": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-gambella": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-benishangul-gumuz": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-harar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-dire-dawa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-somali": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-afar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-moyale": {
+        "target": 0.0,
+        "budget": 0.0
+      }
+    }
   },
   {
     "id": "na-7-4-20",
@@ -8238,7 +23674,75 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "proj-2",
       "proj-3",
       "proj-4"
-    ]
+    ],
+    "ercs_target": 0.0,
+    "ercs_budget": 0.0,
+    "hq_target": 100.0,
+    "hq_budget": 0.0,
+    "rb_target": 0.0,
+    "rb_budget": 0.0,
+    "regional_targets": {
+      "reg-oromia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-addis-ababa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-amhara": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-central-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-west-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-sidama": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-tigray": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-gambella": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-benishangul-gumuz": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-harar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-dire-dawa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-somali": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-afar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-moyale": {
+        "target": 0.0,
+        "budget": 0.0
+      }
+    }
   },
   {
     "id": "na-7-4-21",
@@ -8273,7 +23777,75 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "proj-2",
       "proj-3",
       "proj-4"
-    ]
+    ],
+    "ercs_target": 0.0,
+    "ercs_budget": 0.0,
+    "hq_target": 100.0,
+    "hq_budget": 0.0,
+    "rb_target": 0.0,
+    "rb_budget": 0.0,
+    "regional_targets": {
+      "reg-oromia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-addis-ababa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-amhara": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-central-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-west-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-sidama": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-tigray": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-gambella": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-benishangul-gumuz": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-harar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-dire-dawa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-somali": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-afar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-moyale": {
+        "target": 0.0,
+        "budget": 0.0
+      }
+    }
   },
   {
     "id": "na-7-4-22",
@@ -8308,7 +23880,75 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "proj-2",
       "proj-3",
       "proj-4"
-    ]
+    ],
+    "ercs_target": 40.0,
+    "ercs_budget": 0.0,
+    "hq_target": 40.0,
+    "hq_budget": 0.0,
+    "rb_target": 0.0,
+    "rb_budget": 0.0,
+    "regional_targets": {
+      "reg-oromia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-addis-ababa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-amhara": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-central-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-west-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-sidama": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-tigray": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-gambella": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-benishangul-gumuz": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-harar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-dire-dawa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-somali": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-afar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-moyale": {
+        "target": 0.0,
+        "budget": 0.0
+      }
+    }
   },
   {
     "id": "na-7-4-23",
@@ -8343,7 +23983,75 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "proj-2",
       "proj-3",
       "proj-4"
-    ]
+    ],
+    "ercs_target": 1.0,
+    "ercs_budget": 0.0,
+    "hq_target": 1.0,
+    "hq_budget": 0.0,
+    "rb_target": 0.0,
+    "rb_budget": 0.0,
+    "regional_targets": {
+      "reg-oromia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-addis-ababa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-amhara": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-central-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-west-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-sidama": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-tigray": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-gambella": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-benishangul-gumuz": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-harar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-dire-dawa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-somali": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-afar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-moyale": {
+        "target": 0.0,
+        "budget": 0.0
+      }
+    }
   },
   {
     "id": "na-7-4-24",
@@ -8378,7 +24086,75 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "proj-2",
       "proj-3",
       "proj-4"
-    ]
+    ],
+    "ercs_target": 0.0,
+    "ercs_budget": 0.0,
+    "hq_target": 100.0,
+    "hq_budget": 0.0,
+    "rb_target": 0.0,
+    "rb_budget": 0.0,
+    "regional_targets": {
+      "reg-oromia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-addis-ababa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-amhara": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-central-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-west-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-sidama": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-tigray": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-gambella": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-benishangul-gumuz": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-harar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-dire-dawa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-somali": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-afar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-moyale": {
+        "target": 0.0,
+        "budget": 0.0
+      }
+    }
   },
   {
     "id": "na-7-4-25",
@@ -8413,7 +24189,75 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "proj-2",
       "proj-3",
       "proj-4"
-    ]
+    ],
+    "ercs_target": 20.0,
+    "ercs_budget": 0.0,
+    "hq_target": 20.0,
+    "hq_budget": 0.0,
+    "rb_target": 0.0,
+    "rb_budget": 0.0,
+    "regional_targets": {
+      "reg-oromia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-addis-ababa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-amhara": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-central-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-west-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-sidama": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-tigray": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-gambella": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-benishangul-gumuz": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-harar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-dire-dawa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-somali": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-afar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-moyale": {
+        "target": 0.0,
+        "budget": 0.0
+      }
+    }
   },
   {
     "id": "na-7-4-26",
@@ -8448,7 +24292,75 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "proj-2",
       "proj-3",
       "proj-4"
-    ]
+    ],
+    "ercs_target": 20.0,
+    "ercs_budget": 0.0,
+    "hq_target": 20.0,
+    "hq_budget": 0.0,
+    "rb_target": 0.0,
+    "rb_budget": 0.0,
+    "regional_targets": {
+      "reg-oromia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-addis-ababa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-amhara": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-central-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-west-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-sidama": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-tigray": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-gambella": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-benishangul-gumuz": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-harar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-dire-dawa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-somali": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-afar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-moyale": {
+        "target": 0.0,
+        "budget": 0.0
+      }
+    }
   },
   {
     "id": "na-7-4-27",
@@ -8483,7 +24395,75 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "proj-2",
       "proj-3",
       "proj-4"
-    ]
+    ],
+    "ercs_target": 1.0,
+    "ercs_budget": 20000.0,
+    "hq_target": 1.0,
+    "hq_budget": 20000.0,
+    "rb_target": 0.0,
+    "rb_budget": 0.0,
+    "regional_targets": {
+      "reg-oromia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-addis-ababa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-amhara": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-central-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-west-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-sidama": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-tigray": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-gambella": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-benishangul-gumuz": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-harar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-dire-dawa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-somali": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-afar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-moyale": {
+        "target": 0.0,
+        "budget": 0.0
+      }
+    }
   },
   {
     "id": "na-7-4-28",
@@ -8518,7 +24498,75 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "proj-2",
       "proj-3",
       "proj-4"
-    ]
+    ],
+    "ercs_target": 4.0,
+    "ercs_budget": 0.0,
+    "hq_target": 4.0,
+    "hq_budget": 0.0,
+    "rb_target": 0.0,
+    "rb_budget": 0.0,
+    "regional_targets": {
+      "reg-oromia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-addis-ababa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-amhara": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-central-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-west-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-sidama": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-tigray": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-gambella": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-benishangul-gumuz": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-harar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-dire-dawa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-somali": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-afar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-moyale": {
+        "target": 0.0,
+        "budget": 0.0
+      }
+    }
   },
   {
     "id": "na-7-5-1",
@@ -8553,7 +24601,75 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "proj-2",
       "proj-3",
       "proj-4"
-    ]
+    ],
+    "ercs_target": 40.0,
+    "ercs_budget": 800000.0,
+    "hq_target": 40.0,
+    "hq_budget": 800000.0,
+    "rb_target": 0.0,
+    "rb_budget": 0.0,
+    "regional_targets": {
+      "reg-oromia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-addis-ababa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-amhara": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-central-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-west-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-sidama": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-tigray": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-gambella": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-benishangul-gumuz": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-harar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-dire-dawa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-somali": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-afar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-moyale": {
+        "target": 0.0,
+        "budget": 0.0
+      }
+    }
   },
   {
     "id": "na-7-5-2",
@@ -8588,7 +24704,75 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "proj-2",
       "proj-3",
       "proj-4"
-    ]
+    ],
+    "ercs_target": 6.0,
+    "ercs_budget": 1000000.0,
+    "hq_target": 6.0,
+    "hq_budget": 1000000.0,
+    "rb_target": 0.0,
+    "rb_budget": 0.0,
+    "regional_targets": {
+      "reg-oromia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-addis-ababa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-amhara": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-central-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-west-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-sidama": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-tigray": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-gambella": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-benishangul-gumuz": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-harar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-dire-dawa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-somali": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-afar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-moyale": {
+        "target": 0.0,
+        "budget": 0.0
+      }
+    }
   },
   {
     "id": "na-7-5-3",
@@ -8623,7 +24807,75 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "proj-2",
       "proj-3",
       "proj-4"
-    ]
+    ],
+    "ercs_target": 20.0,
+    "ercs_budget": 0.0,
+    "hq_target": 20.0,
+    "hq_budget": 0.0,
+    "rb_target": 0.0,
+    "rb_budget": 0.0,
+    "regional_targets": {
+      "reg-oromia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-addis-ababa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-amhara": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-central-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-west-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-sidama": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-tigray": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-gambella": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-benishangul-gumuz": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-harar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-dire-dawa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-somali": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-afar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-moyale": {
+        "target": 0.0,
+        "budget": 0.0
+      }
+    }
   },
   {
     "id": "na-7-5-4",
@@ -8658,7 +24910,75 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "proj-2",
       "proj-3",
       "proj-4"
-    ]
+    ],
+    "ercs_target": 1.0,
+    "ercs_budget": 0.0,
+    "hq_target": 1.0,
+    "hq_budget": 0.0,
+    "rb_target": 0.0,
+    "rb_budget": 0.0,
+    "regional_targets": {
+      "reg-oromia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-addis-ababa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-amhara": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-central-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-west-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-sidama": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-tigray": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-gambella": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-benishangul-gumuz": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-harar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-dire-dawa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-somali": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-afar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-moyale": {
+        "target": 0.0,
+        "budget": 0.0
+      }
+    }
   },
   {
     "id": "na-7-5-5",
@@ -8693,7 +25013,75 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "proj-2",
       "proj-3",
       "proj-4"
-    ]
+    ],
+    "ercs_target": 18.0,
+    "ercs_budget": 6473700.0,
+    "hq_target": 2.0,
+    "hq_budget": 3000000.0,
+    "rb_target": 16.0,
+    "rb_budget": 3473700.0,
+    "regional_targets": {
+      "reg-oromia": {
+        "target": 2.0,
+        "budget": 2253200.0
+      },
+      "reg-addis-ababa": {
+        "target": 4.0,
+        "budget": 360000.0
+      },
+      "reg-amhara": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-central-ethiopia": {
+        "target": 2.0,
+        "budget": 165500.0
+      },
+      "reg-south-ethiopia": {
+        "target": 2.0,
+        "budget": 300000.0
+      },
+      "reg-south-west-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-sidama": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-tigray": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-gambella": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-benishangul-gumuz": {
+        "target": 2.0,
+        "budget": 100000.0
+      },
+      "reg-harar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-dire-dawa": {
+        "target": 0.0,
+        "budget": 30000.0
+      },
+      "reg-somali": {
+        "target": 2.0,
+        "budget": 200000.0
+      },
+      "reg-afar": {
+        "target": 2.0,
+        "budget": 65000.0
+      },
+      "reg-moyale": {
+        "target": 0.0,
+        "budget": 0.0
+      }
+    }
   },
   {
     "id": "na-7-5-6",
@@ -8728,7 +25116,75 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "proj-2",
       "proj-3",
       "proj-4"
-    ]
+    ],
+    "ercs_target": 1.0,
+    "ercs_budget": 0.0,
+    "hq_target": 1.0,
+    "hq_budget": 0.0,
+    "rb_target": 0.0,
+    "rb_budget": 0.0,
+    "regional_targets": {
+      "reg-oromia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-addis-ababa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-amhara": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-central-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-west-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-sidama": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-tigray": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-gambella": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-benishangul-gumuz": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-harar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-dire-dawa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-somali": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-afar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-moyale": {
+        "target": 0.0,
+        "budget": 0.0
+      }
+    }
   },
   {
     "id": "na-7-5-7",
@@ -8763,7 +25219,75 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "proj-2",
       "proj-3",
       "proj-4"
-    ]
+    ],
+    "ercs_target": 1.0,
+    "ercs_budget": 0.0,
+    "hq_target": 1.0,
+    "hq_budget": 0.0,
+    "rb_target": 0.0,
+    "rb_budget": 0.0,
+    "regional_targets": {
+      "reg-oromia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-addis-ababa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-amhara": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-central-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-west-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-sidama": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-tigray": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-gambella": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-benishangul-gumuz": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-harar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-dire-dawa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-somali": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-afar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-moyale": {
+        "target": 0.0,
+        "budget": 0.0
+      }
+    }
   },
   {
     "id": "na-7-5-8",
@@ -8798,7 +25322,75 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "proj-2",
       "proj-3",
       "proj-4"
-    ]
+    ],
+    "ercs_target": 87.0,
+    "ercs_budget": 0.0,
+    "hq_target": 5.0,
+    "hq_budget": 0.0,
+    "rb_target": 82.0,
+    "rb_budget": 0.0,
+    "regional_targets": {
+      "reg-oromia": {
+        "target": 42.0,
+        "budget": 0.0
+      },
+      "reg-addis-ababa": {
+        "target": 4.0,
+        "budget": 0.0
+      },
+      "reg-amhara": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-central-ethiopia": {
+        "target": 4.0,
+        "budget": 0.0
+      },
+      "reg-south-ethiopia": {
+        "target": 4.0,
+        "budget": 0.0
+      },
+      "reg-south-west-ethiopia": {
+        "target": 4.0,
+        "budget": 0.0
+      },
+      "reg-sidama": {
+        "target": 4.0,
+        "budget": 0.0
+      },
+      "reg-tigray": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-gambella": {
+        "target": 4.0,
+        "budget": 0.0
+      },
+      "reg-benishangul-gumuz": {
+        "target": 4.0,
+        "budget": 0.0
+      },
+      "reg-harar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-dire-dawa": {
+        "target": 4.0,
+        "budget": 0.0
+      },
+      "reg-somali": {
+        "target": 4.0,
+        "budget": 0.0
+      },
+      "reg-afar": {
+        "target": 4.0,
+        "budget": 0.0
+      },
+      "reg-moyale": {
+        "target": 0.0,
+        "budget": 0.0
+      }
+    }
   },
   {
     "id": "na-7-5-9",
@@ -8833,7 +25425,75 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "proj-2",
       "proj-3",
       "proj-4"
-    ]
+    ],
+    "ercs_target": 5.0,
+    "ercs_budget": 15000.0,
+    "hq_target": 1.0,
+    "hq_budget": 0.0,
+    "rb_target": 4.0,
+    "rb_budget": 15000.0,
+    "regional_targets": {
+      "reg-oromia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-addis-ababa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-amhara": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-central-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-west-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-sidama": {
+        "target": 1.0,
+        "budget": 0.0
+      },
+      "reg-tigray": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-gambella": {
+        "target": 2.0,
+        "budget": 0.0
+      },
+      "reg-benishangul-gumuz": {
+        "target": 1.0,
+        "budget": 15000.0
+      },
+      "reg-harar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-dire-dawa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-somali": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-afar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-moyale": {
+        "target": 0.0,
+        "budget": 0.0
+      }
+    }
   },
   {
     "id": "na-8-1-1",
@@ -8868,7 +25528,75 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "proj-2",
       "proj-3",
       "proj-4"
-    ]
+    ],
+    "ercs_target": 72516949.6,
+    "ercs_budget": 9017000.0,
+    "hq_target": 35000000.0,
+    "hq_budget": 5500000.0,
+    "rb_target": 37516949.6,
+    "rb_budget": 3517000.0,
+    "regional_targets": {
+      "reg-oromia": {
+        "target": 20037149.0,
+        "budget": 2737000.0
+      },
+      "reg-addis-ababa": {
+        "target": 6679800.6,
+        "budget": 0.0
+      },
+      "reg-amhara": {
+        "target": 500000.0,
+        "budget": 30000.0
+      },
+      "reg-central-ethiopia": {
+        "target": 650000.0,
+        "budget": 30000.0
+      },
+      "reg-south-ethiopia": {
+        "target": 3000000.0,
+        "budget": 0.0
+      },
+      "reg-south-west-ethiopia": {
+        "target": 150000.0,
+        "budget": 0.0
+      },
+      "reg-sidama": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-tigray": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-gambella": {
+        "target": 3000000.0,
+        "budget": 0.0
+      },
+      "reg-benishangul-gumuz": {
+        "target": 500000.0,
+        "budget": 75000.0
+      },
+      "reg-harar": {
+        "target": 300000.0,
+        "budget": 0.0
+      },
+      "reg-dire-dawa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-somali": {
+        "target": 100000.0,
+        "budget": 0.0
+      },
+      "reg-afar": {
+        "target": 1600000.0,
+        "budget": 220000.0
+      },
+      "reg-moyale": {
+        "target": 1000000.0,
+        "budget": 0.0
+      }
+    }
   },
   {
     "id": "na-8-1-2",
@@ -8903,7 +25631,75 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "proj-2",
       "proj-3",
       "proj-4"
-    ]
+    ],
+    "ercs_target": 1.0,
+    "ercs_budget": 50000.0,
+    "hq_target": 1.0,
+    "hq_budget": 50000.0,
+    "rb_target": 0.0,
+    "rb_budget": 0.0,
+    "regional_targets": {
+      "reg-oromia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-addis-ababa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-amhara": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-central-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-west-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-sidama": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-tigray": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-gambella": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-benishangul-gumuz": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-harar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-dire-dawa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-somali": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-afar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-moyale": {
+        "target": 0.0,
+        "budget": 0.0
+      }
+    }
   },
   {
     "id": "na-8-1-3",
@@ -8938,7 +25734,75 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "proj-2",
       "proj-3",
       "proj-4"
-    ]
+    ],
+    "ercs_target": 27.0,
+    "ercs_budget": 1150000.0,
+    "hq_target": 5.0,
+    "hq_budget": 1000000.0,
+    "rb_target": 22.0,
+    "rb_budget": 150000.0,
+    "regional_targets": {
+      "reg-oromia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-addis-ababa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-amhara": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-central-ethiopia": {
+        "target": 8.0,
+        "budget": 100000.0
+      },
+      "reg-south-ethiopia": {
+        "target": 4.0,
+        "budget": 0.0
+      },
+      "reg-south-west-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-sidama": {
+        "target": 4.0,
+        "budget": 0.0
+      },
+      "reg-tigray": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-gambella": {
+        "target": 2.0,
+        "budget": 0.0
+      },
+      "reg-benishangul-gumuz": {
+        "target": 1.0,
+        "budget": 50000.0
+      },
+      "reg-harar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-dire-dawa": {
+        "target": 3.0,
+        "budget": 0.0
+      },
+      "reg-somali": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-afar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-moyale": {
+        "target": 0.0,
+        "budget": 0.0
+      }
+    }
   },
   {
     "id": "na-8-1-4",
@@ -8973,7 +25837,75 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "proj-2",
       "proj-3",
       "proj-4"
-    ]
+    ],
+    "ercs_target": 1601916170.0,
+    "ercs_budget": 120432214.9,
+    "hq_target": 0.0,
+    "hq_budget": 0.0,
+    "rb_target": 1601916170.0,
+    "rb_budget": 120432214.9,
+    "regional_targets": {
+      "reg-oromia": {
+        "target": 894467373.0,
+        "budget": 54577430.0
+      },
+      "reg-addis-ababa": {
+        "target": 50521689.0,
+        "budget": 3678628.9
+      },
+      "reg-amhara": {
+        "target": 381188800.0,
+        "budget": 53210976.0
+      },
+      "reg-central-ethiopia": {
+        "target": 82543258.0,
+        "budget": 7715180.0
+      },
+      "reg-south-ethiopia": {
+        "target": 78154500.0,
+        "budget": 0.0
+      },
+      "reg-south-west-ethiopia": {
+        "target": 8497250.0,
+        "budget": 0.0
+      },
+      "reg-sidama": {
+        "target": 20715350.0,
+        "budget": 1000000.0
+      },
+      "reg-tigray": {
+        "target": 63700000.0,
+        "budget": 0.0
+      },
+      "reg-gambella": {
+        "target": 782750.0,
+        "budget": 0.0
+      },
+      "reg-benishangul-gumuz": {
+        "target": 3000000.0,
+        "budget": 250000.0
+      },
+      "reg-harar": {
+        "target": 1365950.0,
+        "budget": 0.0
+      },
+      "reg-dire-dawa": {
+        "target": 4320000.0,
+        "budget": 0.0
+      },
+      "reg-somali": {
+        "target": 4500000.0,
+        "budget": 0.0
+      },
+      "reg-afar": {
+        "target": 3659250.0,
+        "budget": 0.0
+      },
+      "reg-moyale": {
+        "target": 4500000.0,
+        "budget": 0.0
+      }
+    }
   },
   {
     "id": "na-8-1-5",
@@ -9008,7 +25940,75 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "proj-2",
       "proj-3",
       "proj-4"
-    ]
+    ],
+    "ercs_target": 179277360.67,
+    "ercs_budget": 2584400.0,
+    "hq_target": 23000000.0,
+    "hq_budget": 0.0,
+    "rb_target": 156277360.67,
+    "rb_budget": 2584400.0,
+    "regional_targets": {
+      "reg-oromia": {
+        "target": 62359547.0,
+        "budget": 2184400.0
+      },
+      "reg-addis-ababa": {
+        "target": 1236000.0,
+        "budget": 0.0
+      },
+      "reg-amhara": {
+        "target": 20858728.0,
+        "budget": 0.0
+      },
+      "reg-central-ethiopia": {
+        "target": 5120000.0,
+        "budget": 100000.0
+      },
+      "reg-south-ethiopia": {
+        "target": 6000000.0,
+        "budget": 0.0
+      },
+      "reg-south-west-ethiopia": {
+        "target": 5000000.0,
+        "budget": 0.0
+      },
+      "reg-sidama": {
+        "target": 4077066.67,
+        "budget": 0.0
+      },
+      "reg-tigray": {
+        "target": 5000000.0,
+        "budget": 0.0
+      },
+      "reg-gambella": {
+        "target": 5274019.0,
+        "budget": 0.0
+      },
+      "reg-benishangul-gumuz": {
+        "target": 8400000.0,
+        "budget": 300000.0
+      },
+      "reg-harar": {
+        "target": 3072000.0,
+        "budget": 0.0
+      },
+      "reg-dire-dawa": {
+        "target": 9100000.0,
+        "budget": 0.0
+      },
+      "reg-somali": {
+        "target": 20000000.0,
+        "budget": 0.0
+      },
+      "reg-afar": {
+        "target": 700000.0,
+        "budget": 0.0
+      },
+      "reg-moyale": {
+        "target": 80000.0,
+        "budget": 0.0
+      }
+    }
   },
   {
     "id": "na-8-1-6",
@@ -9043,7 +26043,75 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "proj-2",
       "proj-3",
       "proj-4"
-    ]
+    ],
+    "ercs_target": 409855305.0,
+    "ercs_budget": 380000.0,
+    "hq_target": 10000000.0,
+    "hq_budget": 100000.0,
+    "rb_target": 399855305.0,
+    "rb_budget": 280000.0,
+    "regional_targets": {
+      "reg-oromia": {
+        "target": 99752305.0,
+        "budget": 50000.0
+      },
+      "reg-addis-ababa": {
+        "target": 12500000.0,
+        "budget": 0.0
+      },
+      "reg-amhara": {
+        "target": 9570000.0,
+        "budget": 0.0
+      },
+      "reg-central-ethiopia": {
+        "target": 11200000.0,
+        "budget": 30000.0
+      },
+      "reg-south-ethiopia": {
+        "target": 10000000.0,
+        "budget": 0.0
+      },
+      "reg-south-west-ethiopia": {
+        "target": 5000000.0,
+        "budget": 0.0
+      },
+      "reg-sidama": {
+        "target": 11333000.0,
+        "budget": 0.0
+      },
+      "reg-tigray": {
+        "target": 200000000.0,
+        "budget": 0.0
+      },
+      "reg-gambella": {
+        "target": 6000000.0,
+        "budget": 0.0
+      },
+      "reg-benishangul-gumuz": {
+        "target": 5500000.0,
+        "budget": 200000.0
+      },
+      "reg-harar": {
+        "target": 1000000.0,
+        "budget": 0.0
+      },
+      "reg-dire-dawa": {
+        "target": 10000000.0,
+        "budget": 0.0
+      },
+      "reg-somali": {
+        "target": 4000000.0,
+        "budget": 0.0
+      },
+      "reg-afar": {
+        "target": 14000000.0,
+        "budget": 0.0
+      },
+      "reg-moyale": {
+        "target": 0.0,
+        "budget": 0.0
+      }
+    }
   },
   {
     "id": "na-8-1-7",
@@ -9078,7 +26146,75 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "proj-2",
       "proj-3",
       "proj-4"
-    ]
+    ],
+    "ercs_target": 105981616.6,
+    "ercs_budget": 43000.0,
+    "hq_target": 32000000.0,
+    "hq_budget": 0.0,
+    "rb_target": 73981616.6,
+    "rb_budget": 43000.0,
+    "regional_targets": {
+      "reg-oromia": {
+        "target": 16348779.0,
+        "budget": 5000.0
+      },
+      "reg-addis-ababa": {
+        "target": 3000000.0,
+        "budget": 0.0
+      },
+      "reg-amhara": {
+        "target": 26760100.0,
+        "budget": 0.0
+      },
+      "reg-central-ethiopia": {
+        "target": 970000.0,
+        "budget": 3000.0
+      },
+      "reg-south-ethiopia": {
+        "target": 870000.0,
+        "budget": 0.0
+      },
+      "reg-south-west-ethiopia": {
+        "target": 1500000.0,
+        "budget": 0.0
+      },
+      "reg-sidama": {
+        "target": 2000000.0,
+        "budget": 0.0
+      },
+      "reg-tigray": {
+        "target": 10000000.0,
+        "budget": 0.0
+      },
+      "reg-gambella": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-benishangul-gumuz": {
+        "target": 1014109.73,
+        "budget": 0.0
+      },
+      "reg-harar": {
+        "target": 10458627.87,
+        "budget": 0.0
+      },
+      "reg-dire-dawa": {
+        "target": 700000.0,
+        "budget": 0.0
+      },
+      "reg-somali": {
+        "target": 100000.0,
+        "budget": 0.0
+      },
+      "reg-afar": {
+        "target": 200000.0,
+        "budget": 35000.0
+      },
+      "reg-moyale": {
+        "target": 60000.0,
+        "budget": 0.0
+      }
+    }
   },
   {
     "id": "na-8-1-8",
@@ -9113,7 +26249,75 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "proj-2",
       "proj-3",
       "proj-4"
-    ]
+    ],
+    "ercs_target": 304000000.0,
+    "ercs_budget": 0.0,
+    "hq_target": 298000000.0,
+    "hq_budget": 0.0,
+    "rb_target": 6000000.0,
+    "rb_budget": 0.0,
+    "regional_targets": {
+      "reg-oromia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-addis-ababa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-amhara": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-central-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-west-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-sidama": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-tigray": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-gambella": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-benishangul-gumuz": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-harar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-dire-dawa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-somali": {
+        "target": 6000000.0,
+        "budget": 0.0
+      },
+      "reg-afar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-moyale": {
+        "target": 0.0,
+        "budget": 0.0
+      }
+    }
   },
   {
     "id": "na-8-1-9",
@@ -9148,7 +26352,75 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "proj-2",
       "proj-3",
       "proj-4"
-    ]
+    ],
+    "ercs_target": 40732000.0,
+    "ercs_budget": 432000.0,
+    "hq_target": 38000000.0,
+    "hq_budget": 0.0,
+    "rb_target": 2732000.0,
+    "rb_budget": 432000.0,
+    "regional_targets": {
+      "reg-oromia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-addis-ababa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-amhara": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-central-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-west-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-sidama": {
+        "target": 2000000.0,
+        "budget": 0.0
+      },
+      "reg-tigray": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-gambella": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-benishangul-gumuz": {
+        "target": 432000.0,
+        "budget": 0.0
+      },
+      "reg-harar": {
+        "target": 300000.0,
+        "budget": 0.0
+      },
+      "reg-dire-dawa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-somali": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-afar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-moyale": {
+        "target": 0.0,
+        "budget": 0.0
+      }
+    }
   },
   {
     "id": "na-8-1-10",
@@ -9183,7 +26455,75 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "proj-2",
       "proj-3",
       "proj-4"
-    ]
+    ],
+    "ercs_target": 120000000.0,
+    "ercs_budget": 79703089.29,
+    "hq_target": 120000000.0,
+    "hq_budget": 79703089.29,
+    "rb_target": 0.0,
+    "rb_budget": 0.0,
+    "regional_targets": {
+      "reg-oromia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-addis-ababa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-amhara": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-central-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-west-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-sidama": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-tigray": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-gambella": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-benishangul-gumuz": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-harar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-dire-dawa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-somali": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-afar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-moyale": {
+        "target": 0.0,
+        "budget": 0.0
+      }
+    }
   },
   {
     "id": "na-8-1-11",
@@ -9218,7 +26558,75 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "proj-2",
       "proj-3",
       "proj-4"
-    ]
+    ],
+    "ercs_target": 189279396.72,
+    "ercs_budget": 164693606.36,
+    "hq_target": 187279396.72,
+    "hq_budget": 162693606.36,
+    "rb_target": 2000000.0,
+    "rb_budget": 2000000.0,
+    "regional_targets": {
+      "reg-oromia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-addis-ababa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-amhara": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-central-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-west-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-sidama": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-tigray": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-gambella": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-benishangul-gumuz": {
+        "target": 2000000.0,
+        "budget": 0.0
+      },
+      "reg-harar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-dire-dawa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-somali": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-afar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-moyale": {
+        "target": 0.0,
+        "budget": 0.0
+      }
+    }
   },
   {
     "id": "na-8-1-12",
@@ -9253,7 +26661,75 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "proj-2",
       "proj-3",
       "proj-4"
-    ]
+    ],
+    "ercs_target": 48000000.0,
+    "ercs_budget": 29000000.0,
+    "hq_target": 48000000.0,
+    "hq_budget": 29000000.0,
+    "rb_target": 0.0,
+    "rb_budget": 0.0,
+    "regional_targets": {
+      "reg-oromia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-addis-ababa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-amhara": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-central-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-west-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-sidama": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-tigray": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-gambella": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-benishangul-gumuz": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-harar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-dire-dawa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-somali": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-afar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-moyale": {
+        "target": 0.0,
+        "budget": 0.0
+      }
+    }
   },
   {
     "id": "na-8-1-13",
@@ -9288,7 +26764,75 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "proj-2",
       "proj-3",
       "proj-4"
-    ]
+    ],
+    "ercs_target": 12000000.0,
+    "ercs_budget": 7000000.0,
+    "hq_target": 12000000.0,
+    "hq_budget": 7000000.0,
+    "rb_target": 0.0,
+    "rb_budget": 0.0,
+    "regional_targets": {
+      "reg-oromia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-addis-ababa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-amhara": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-central-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-west-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-sidama": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-tigray": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-gambella": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-benishangul-gumuz": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-harar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-dire-dawa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-somali": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-afar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-moyale": {
+        "target": 0.0,
+        "budget": 0.0
+      }
+    }
   },
   {
     "id": "na-8-1-14",
@@ -9323,7 +26867,75 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "proj-2",
       "proj-3",
       "proj-4"
-    ]
+    ],
+    "ercs_target": 1.0,
+    "ercs_budget": 1000000.0,
+    "hq_target": 1.0,
+    "hq_budget": 1000000.0,
+    "rb_target": 0.0,
+    "rb_budget": 0.0,
+    "regional_targets": {
+      "reg-oromia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-addis-ababa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-amhara": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-central-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-west-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-sidama": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-tigray": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-gambella": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-benishangul-gumuz": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-harar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-dire-dawa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-somali": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-afar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-moyale": {
+        "target": 0.0,
+        "budget": 0.0
+      }
+    }
   },
   {
     "id": "na-8-1-15",
@@ -9358,7 +26970,75 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "proj-2",
       "proj-3",
       "proj-4"
-    ]
+    ],
+    "ercs_target": 71642956.34,
+    "ercs_budget": 10084610.97,
+    "hq_target": 0.0,
+    "hq_budget": 8000000.0,
+    "rb_target": 71642956.34,
+    "rb_budget": 2084610.97,
+    "regional_targets": {
+      "reg-oromia": {
+        "target": 5575076.0,
+        "budget": 0.0
+      },
+      "reg-addis-ababa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-amhara": {
+        "target": 35118880.0,
+        "budget": 0.0
+      },
+      "reg-central-ethiopia": {
+        "target": 9761735.8,
+        "budget": 0.0
+      },
+      "reg-south-ethiopia": {
+        "target": 9602450.0,
+        "budget": 0.0
+      },
+      "reg-south-west-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-sidama": {
+        "target": 3412541.67,
+        "budget": 0.0
+      },
+      "reg-tigray": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-gambella": {
+        "target": 2065676.9,
+        "budget": 0.0
+      },
+      "reg-benishangul-gumuz": {
+        "target": 2084610.97,
+        "budget": 0.0
+      },
+      "reg-harar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-dire-dawa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-somali": {
+        "target": 4021985.0,
+        "budget": 0.0
+      },
+      "reg-afar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-moyale": {
+        "target": 0.0,
+        "budget": 0.0
+      }
+    }
   },
   {
     "id": "na-8-2-1",
@@ -9393,7 +27073,75 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "proj-2",
       "proj-3",
       "proj-4"
-    ]
+    ],
+    "ercs_target": 4681453711.2,
+    "ercs_budget": 30000000.0,
+    "hq_target": 4681453711.2,
+    "hq_budget": 30000000.0,
+    "rb_target": 0.0,
+    "rb_budget": 0.0,
+    "regional_targets": {
+      "reg-oromia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-addis-ababa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-amhara": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-central-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-west-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-sidama": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-tigray": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-gambella": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-benishangul-gumuz": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-harar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-dire-dawa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-somali": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-afar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-moyale": {
+        "target": 0.0,
+        "budget": 0.0
+      }
+    }
   },
   {
     "id": "na-8-2-2",
@@ -9428,7 +27176,75 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "proj-2",
       "proj-3",
       "proj-4"
-    ]
+    ],
+    "ercs_target": 2.0,
+    "ercs_budget": 0.0,
+    "hq_target": 2.0,
+    "hq_budget": 0.0,
+    "rb_target": 0.0,
+    "rb_budget": 0.0,
+    "regional_targets": {
+      "reg-oromia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-addis-ababa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-amhara": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-central-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-west-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-sidama": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-tigray": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-gambella": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-benishangul-gumuz": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-harar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-dire-dawa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-somali": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-afar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-moyale": {
+        "target": 0.0,
+        "budget": 0.0
+      }
+    }
   },
   {
     "id": "na-8-2-3",
@@ -9463,7 +27279,75 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "proj-2",
       "proj-3",
       "proj-4"
-    ]
+    ],
+    "ercs_target": 44.0,
+    "ercs_budget": 826345.0,
+    "hq_target": 10.0,
+    "hq_budget": 511345.0,
+    "rb_target": 34.0,
+    "rb_budget": 315000.0,
+    "regional_targets": {
+      "reg-oromia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-addis-ababa": {
+        "target": 5.0,
+        "budget": 125000.0
+      },
+      "reg-amhara": {
+        "target": 4.0,
+        "budget": 0.0
+      },
+      "reg-central-ethiopia": {
+        "target": 4.0,
+        "budget": 50000.0
+      },
+      "reg-south-ethiopia": {
+        "target": 4.0,
+        "budget": 40000.0
+      },
+      "reg-south-west-ethiopia": {
+        "target": 3.0,
+        "budget": 0.0
+      },
+      "reg-sidama": {
+        "target": 4.0,
+        "budget": 0.0
+      },
+      "reg-tigray": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-gambella": {
+        "target": 6.0,
+        "budget": 0.0
+      },
+      "reg-benishangul-gumuz": {
+        "target": 1.0,
+        "budget": 0.0
+      },
+      "reg-harar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-dire-dawa": {
+        "target": 2.0,
+        "budget": 0.0
+      },
+      "reg-somali": {
+        "target": 1.0,
+        "budget": 100000.0
+      },
+      "reg-afar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-moyale": {
+        "target": 0.0,
+        "budget": 0.0
+      }
+    }
   },
   {
     "id": "na-8-2-4",
@@ -9498,7 +27382,75 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "proj-2",
       "proj-3",
       "proj-4"
-    ]
+    ],
+    "ercs_target": 2.0,
+    "ercs_budget": 100000.0,
+    "hq_target": 2.0,
+    "hq_budget": 100000.0,
+    "rb_target": 0.0,
+    "rb_budget": 0.0,
+    "regional_targets": {
+      "reg-oromia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-addis-ababa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-amhara": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-central-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-west-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-sidama": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-tigray": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-gambella": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-benishangul-gumuz": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-harar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-dire-dawa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-somali": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-afar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-moyale": {
+        "target": 0.0,
+        "budget": 0.0
+      }
+    }
   },
   {
     "id": "na-8-2-5",
@@ -9533,7 +27485,75 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "proj-2",
       "proj-3",
       "proj-4"
-    ]
+    ],
+    "ercs_target": 1.0,
+    "ercs_budget": 2000000.0,
+    "hq_target": 1.0,
+    "hq_budget": 2000000.0,
+    "rb_target": 0.0,
+    "rb_budget": 0.0,
+    "regional_targets": {
+      "reg-oromia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-addis-ababa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-amhara": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-central-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-west-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-sidama": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-tigray": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-gambella": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-benishangul-gumuz": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-harar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-dire-dawa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-somali": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-afar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-moyale": {
+        "target": 0.0,
+        "budget": 0.0
+      }
+    }
   },
   {
     "id": "na-8-2-6",
@@ -9568,7 +27588,75 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "proj-2",
       "proj-3",
       "proj-4"
-    ]
+    ],
+    "ercs_target": 8.0,
+    "ercs_budget": 452000.0,
+    "hq_target": 1.0,
+    "hq_budget": 252000.0,
+    "rb_target": 7.0,
+    "rb_budget": 200000.0,
+    "regional_targets": {
+      "reg-oromia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-addis-ababa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-amhara": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-central-ethiopia": {
+        "target": 2.0,
+        "budget": 100000.0
+      },
+      "reg-south-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-west-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-sidama": {
+        "target": 2.0,
+        "budget": 0.0
+      },
+      "reg-tigray": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-gambella": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-benishangul-gumuz": {
+        "target": 2.0,
+        "budget": 100000.0
+      },
+      "reg-harar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-dire-dawa": {
+        "target": 1.0,
+        "budget": 0.0
+      },
+      "reg-somali": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-afar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-moyale": {
+        "target": 0.0,
+        "budget": 0.0
+      }
+    }
   },
   {
     "id": "na-8-3-1",
@@ -9603,7 +27691,75 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "proj-2",
       "proj-3",
       "proj-4"
-    ]
+    ],
+    "ercs_target": 5.0,
+    "ercs_budget": 8030000.0,
+    "hq_target": 1.0,
+    "hq_budget": 4000000.0,
+    "rb_target": 4.0,
+    "rb_budget": 4030000.0,
+    "regional_targets": {
+      "reg-oromia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-addis-ababa": {
+        "target": 1.0,
+        "budget": 30000.0
+      },
+      "reg-amhara": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-central-ethiopia": {
+        "target": 2.0,
+        "budget": 2000000.0
+      },
+      "reg-south-ethiopia": {
+        "target": 1.0,
+        "budget": 2000000.0
+      },
+      "reg-south-west-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-sidama": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-tigray": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-gambella": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-benishangul-gumuz": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-harar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-dire-dawa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-somali": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-afar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-moyale": {
+        "target": 0.0,
+        "budget": 0.0
+      }
+    }
   },
   {
     "id": "na-8-3-2",
@@ -9638,7 +27794,75 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "proj-2",
       "proj-3",
       "proj-4"
-    ]
+    ],
+    "ercs_target": 13.0,
+    "ercs_budget": 374500000.0,
+    "hq_target": 0.0,
+    "hq_budget": 0.0,
+    "rb_target": 13.0,
+    "rb_budget": 374500000.0,
+    "regional_targets": {
+      "reg-oromia": {
+        "target": 10.0,
+        "budget": 330000000.0
+      },
+      "reg-addis-ababa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-amhara": {
+        "target": 1.0,
+        "budget": 40000000.0
+      },
+      "reg-central-ethiopia": {
+        "target": 1.0,
+        "budget": 500000.0
+      },
+      "reg-south-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-west-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-sidama": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-tigray": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-gambella": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-benishangul-gumuz": {
+        "target": 1.0,
+        "budget": 4000000.0
+      },
+      "reg-harar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-dire-dawa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-somali": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-afar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-moyale": {
+        "target": 0.0,
+        "budget": 0.0
+      }
+    }
   },
   {
     "id": "na-8-3-3",
@@ -9673,7 +27897,75 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "proj-2",
       "proj-3",
       "proj-4"
-    ]
+    ],
+    "ercs_target": 13.0,
+    "ercs_budget": 6285000.0,
+    "hq_target": 2.0,
+    "hq_budget": 5000000.0,
+    "rb_target": 11.0,
+    "rb_budget": 1285000.0,
+    "regional_targets": {
+      "reg-oromia": {
+        "target": 1.0,
+        "budget": 320000.0
+      },
+      "reg-addis-ababa": {
+        "target": 1.0,
+        "budget": 0.0
+      },
+      "reg-amhara": {
+        "target": 4.0,
+        "budget": 0.0
+      },
+      "reg-central-ethiopia": {
+        "target": 1.0,
+        "budget": 40000.0
+      },
+      "reg-south-ethiopia": {
+        "target": 1.0,
+        "budget": 700000.0
+      },
+      "reg-south-west-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-sidama": {
+        "target": 1.0,
+        "budget": 50000.0
+      },
+      "reg-tigray": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-gambella": {
+        "target": 1.0,
+        "budget": 145000.0
+      },
+      "reg-benishangul-gumuz": {
+        "target": 1.0,
+        "budget": 30000.0
+      },
+      "reg-harar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-dire-dawa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-somali": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-afar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-moyale": {
+        "target": 0.0,
+        "budget": 0.0
+      }
+    }
   },
   {
     "id": "na-8-3-4",
@@ -9708,7 +28000,75 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "proj-2",
       "proj-3",
       "proj-4"
-    ]
+    ],
+    "ercs_target": 1.0,
+    "ercs_budget": 2500000.0,
+    "hq_target": 1.0,
+    "hq_budget": 2500000.0,
+    "rb_target": 0.0,
+    "rb_budget": 0.0,
+    "regional_targets": {
+      "reg-oromia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-addis-ababa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-amhara": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-central-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-west-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-sidama": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-tigray": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-gambella": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-benishangul-gumuz": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-harar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-dire-dawa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-somali": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-afar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-moyale": {
+        "target": 0.0,
+        "budget": 0.0
+      }
+    }
   },
   {
     "id": "na-8-3-5",
@@ -9743,7 +28103,75 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "proj-2",
       "proj-3",
       "proj-4"
-    ]
+    ],
+    "ercs_target": 8.0,
+    "ercs_budget": 64000000.0,
+    "hq_target": 1.0,
+    "hq_budget": 40000000.0,
+    "rb_target": 7.0,
+    "rb_budget": 24000000.0,
+    "regional_targets": {
+      "reg-oromia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-addis-ababa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-amhara": {
+        "target": 4.0,
+        "budget": 10000000.0
+      },
+      "reg-central-ethiopia": {
+        "target": 1.0,
+        "budget": 5000000.0
+      },
+      "reg-south-ethiopia": {
+        "target": 2.0,
+        "budget": 9000000.0
+      },
+      "reg-south-west-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-sidama": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-tigray": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-gambella": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-benishangul-gumuz": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-harar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-dire-dawa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-somali": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-afar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-moyale": {
+        "target": 0.0,
+        "budget": 0.0
+      }
+    }
   },
   {
     "id": "na-8-3-6",
@@ -9778,7 +28206,75 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "proj-2",
       "proj-3",
       "proj-4"
-    ]
+    ],
+    "ercs_target": 2.0,
+    "ercs_budget": 30000000.0,
+    "hq_target": 2.0,
+    "hq_budget": 30000000.0,
+    "rb_target": 0.0,
+    "rb_budget": 0.0,
+    "regional_targets": {
+      "reg-oromia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-addis-ababa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-amhara": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-central-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-west-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-sidama": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-tigray": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-gambella": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-benishangul-gumuz": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-harar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-dire-dawa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-somali": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-afar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-moyale": {
+        "target": 0.0,
+        "budget": 0.0
+      }
+    }
   },
   {
     "id": "na-8-3-7",
@@ -9813,7 +28309,75 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "proj-2",
       "proj-3",
       "proj-4"
-    ]
+    ],
+    "ercs_target": 6.0,
+    "ercs_budget": 3100000.0,
+    "hq_target": 5.0,
+    "hq_budget": 100000.0,
+    "rb_target": 1.0,
+    "rb_budget": 3000000.0,
+    "regional_targets": {
+      "reg-oromia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-addis-ababa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-amhara": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-central-ethiopia": {
+        "target": 1.0,
+        "budget": 3000000.0
+      },
+      "reg-south-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-west-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-sidama": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-tigray": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-gambella": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-benishangul-gumuz": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-harar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-dire-dawa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-somali": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-afar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-moyale": {
+        "target": 0.0,
+        "budget": 0.0
+      }
+    }
   },
   {
     "id": "na-8-4-1",
@@ -9848,7 +28412,75 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "proj-2",
       "proj-3",
       "proj-4"
-    ]
+    ],
+    "ercs_target": 3.0,
+    "ercs_budget": 3000000.0,
+    "hq_target": 3.0,
+    "hq_budget": 3000000.0,
+    "rb_target": 0.0,
+    "rb_budget": 0.0,
+    "regional_targets": {
+      "reg-oromia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-addis-ababa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-amhara": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-central-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-west-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-sidama": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-tigray": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-gambella": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-benishangul-gumuz": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-harar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-dire-dawa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-somali": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-afar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-moyale": {
+        "target": 0.0,
+        "budget": 0.0
+      }
+    }
   },
   {
     "id": "na-8-4-2",
@@ -9883,7 +28515,75 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "proj-2",
       "proj-3",
       "proj-4"
-    ]
+    ],
+    "ercs_target": 0.0,
+    "ercs_budget": 0.0,
+    "hq_target": 0.0,
+    "hq_budget": 0.0,
+    "rb_target": 0.0,
+    "rb_budget": 0.0,
+    "regional_targets": {
+      "reg-oromia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-addis-ababa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-amhara": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-central-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-west-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-sidama": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-tigray": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-gambella": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-benishangul-gumuz": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-harar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-dire-dawa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-somali": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-afar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-moyale": {
+        "target": 0.0,
+        "budget": 0.0
+      }
+    }
   },
   {
     "id": "na-8-4-3",
@@ -9918,7 +28618,75 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "proj-2",
       "proj-3",
       "proj-4"
-    ]
+    ],
+    "ercs_target": 1.0,
+    "ercs_budget": 2500000.0,
+    "hq_target": 1.0,
+    "hq_budget": 2500000.0,
+    "rb_target": 0.0,
+    "rb_budget": 0.0,
+    "regional_targets": {
+      "reg-oromia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-addis-ababa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-amhara": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-central-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-west-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-sidama": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-tigray": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-gambella": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-benishangul-gumuz": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-harar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-dire-dawa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-somali": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-afar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-moyale": {
+        "target": 0.0,
+        "budget": 0.0
+      }
+    }
   },
   {
     "id": "na-8-4-4",
@@ -9953,7 +28721,75 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "proj-2",
       "proj-3",
       "proj-4"
-    ]
+    ],
+    "ercs_target": 54.0,
+    "ercs_budget": 1575800.0,
+    "hq_target": 54.0,
+    "hq_budget": 1575800.0,
+    "rb_target": 0.0,
+    "rb_budget": 0.0,
+    "regional_targets": {
+      "reg-oromia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-addis-ababa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-amhara": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-central-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-west-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-sidama": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-tigray": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-gambella": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-benishangul-gumuz": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-harar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-dire-dawa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-somali": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-afar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-moyale": {
+        "target": 0.0,
+        "budget": 0.0
+      }
+    }
   },
   {
     "id": "na-8-4-5",
@@ -9988,7 +28824,75 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "proj-2",
       "proj-3",
       "proj-4"
-    ]
+    ],
+    "ercs_target": 54.0,
+    "ercs_budget": 765800.0,
+    "hq_target": 54.0,
+    "hq_budget": 765800.0,
+    "rb_target": 0.0,
+    "rb_budget": 0.0,
+    "regional_targets": {
+      "reg-oromia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-addis-ababa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-amhara": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-central-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-west-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-sidama": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-tigray": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-gambella": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-benishangul-gumuz": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-harar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-dire-dawa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-somali": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-afar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-moyale": {
+        "target": 0.0,
+        "budget": 0.0
+      }
+    }
   },
   {
     "id": "na-8-4-6",
@@ -10023,7 +28927,75 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "proj-2",
       "proj-3",
       "proj-4"
-    ]
+    ],
+    "ercs_target": 1.0,
+    "ercs_budget": 134800.0,
+    "hq_target": 1.0,
+    "hq_budget": 134800.0,
+    "rb_target": 0.0,
+    "rb_budget": 0.0,
+    "regional_targets": {
+      "reg-oromia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-addis-ababa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-amhara": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-central-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-west-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-sidama": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-tigray": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-gambella": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-benishangul-gumuz": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-harar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-dire-dawa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-somali": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-afar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-moyale": {
+        "target": 0.0,
+        "budget": 0.0
+      }
+    }
   },
   {
     "id": "na-8-4-7",
@@ -10058,7 +29030,75 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "proj-2",
       "proj-3",
       "proj-4"
-    ]
+    ],
+    "ercs_target": 1.0,
+    "ercs_budget": 2082200.0,
+    "hq_target": 1.0,
+    "hq_budget": 2082200.0,
+    "rb_target": 0.0,
+    "rb_budget": 0.0,
+    "regional_targets": {
+      "reg-oromia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-addis-ababa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-amhara": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-central-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-west-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-sidama": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-tigray": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-gambella": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-benishangul-gumuz": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-harar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-dire-dawa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-somali": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-afar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-moyale": {
+        "target": 0.0,
+        "budget": 0.0
+      }
+    }
   },
   {
     "id": "na-8-4-8",
@@ -10093,7 +29133,75 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "proj-2",
       "proj-3",
       "proj-4"
-    ]
+    ],
+    "ercs_target": 1.0,
+    "ercs_budget": 1200000.0,
+    "hq_target": 1.0,
+    "hq_budget": 1200000.0,
+    "rb_target": 0.0,
+    "rb_budget": 0.0,
+    "regional_targets": {
+      "reg-oromia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-addis-ababa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-amhara": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-central-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-west-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-sidama": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-tigray": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-gambella": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-benishangul-gumuz": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-harar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-dire-dawa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-somali": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-afar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-moyale": {
+        "target": 0.0,
+        "budget": 0.0
+      }
+    }
   },
   {
     "id": "na-8-4-9",
@@ -10128,7 +29236,75 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "proj-2",
       "proj-3",
       "proj-4"
-    ]
+    ],
+    "ercs_target": 56.0,
+    "ercs_budget": 0.0,
+    "hq_target": 56.0,
+    "hq_budget": 0.0,
+    "rb_target": 0.0,
+    "rb_budget": 0.0,
+    "regional_targets": {
+      "reg-oromia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-addis-ababa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-amhara": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-central-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-west-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-sidama": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-tigray": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-gambella": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-benishangul-gumuz": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-harar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-dire-dawa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-somali": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-afar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-moyale": {
+        "target": 0.0,
+        "budget": 0.0
+      }
+    }
   },
   {
     "id": "na-8-4-10",
@@ -10163,7 +29339,75 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "proj-2",
       "proj-3",
       "proj-4"
-    ]
+    ],
+    "ercs_target": 30.0,
+    "ercs_budget": 1800000.0,
+    "hq_target": 30.0,
+    "hq_budget": 1800000.0,
+    "rb_target": 0.0,
+    "rb_budget": 0.0,
+    "regional_targets": {
+      "reg-oromia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-addis-ababa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-amhara": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-central-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-west-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-sidama": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-tigray": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-gambella": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-benishangul-gumuz": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-harar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-dire-dawa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-somali": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-afar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-moyale": {
+        "target": 0.0,
+        "budget": 0.0
+      }
+    }
   },
   {
     "id": "na-8-4-11",
@@ -10198,7 +29442,75 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "proj-2",
       "proj-3",
       "proj-4"
-    ]
+    ],
+    "ercs_target": 11.0,
+    "ercs_budget": 0.0,
+    "hq_target": 11.0,
+    "hq_budget": 0.0,
+    "rb_target": 0.0,
+    "rb_budget": 0.0,
+    "regional_targets": {
+      "reg-oromia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-addis-ababa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-amhara": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-central-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-west-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-sidama": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-tigray": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-gambella": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-benishangul-gumuz": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-harar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-dire-dawa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-somali": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-afar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-moyale": {
+        "target": 0.0,
+        "budget": 0.0
+      }
+    }
   },
   {
     "id": "na-8-4-12",
@@ -10233,7 +29545,75 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "proj-2",
       "proj-3",
       "proj-4"
-    ]
+    ],
+    "ercs_target": 56.0,
+    "ercs_budget": 0.0,
+    "hq_target": 56.0,
+    "hq_budget": 0.0,
+    "rb_target": 0.0,
+    "rb_budget": 0.0,
+    "regional_targets": {
+      "reg-oromia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-addis-ababa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-amhara": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-central-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-west-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-sidama": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-tigray": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-gambella": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-benishangul-gumuz": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-harar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-dire-dawa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-somali": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-afar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-moyale": {
+        "target": 0.0,
+        "budget": 0.0
+      }
+    }
   },
   {
     "id": "na-8-4-13",
@@ -10268,7 +29648,75 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "proj-2",
       "proj-3",
       "proj-4"
-    ]
+    ],
+    "ercs_target": 1.0,
+    "ercs_budget": 0.0,
+    "hq_target": 1.0,
+    "hq_budget": 0.0,
+    "rb_target": 0.0,
+    "rb_budget": 0.0,
+    "regional_targets": {
+      "reg-oromia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-addis-ababa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-amhara": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-central-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-west-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-sidama": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-tigray": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-gambella": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-benishangul-gumuz": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-harar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-dire-dawa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-somali": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-afar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-moyale": {
+        "target": 0.0,
+        "budget": 0.0
+      }
+    }
   },
   {
     "id": "na-8-4-14",
@@ -10303,7 +29751,75 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "proj-2",
       "proj-3",
       "proj-4"
-    ]
+    ],
+    "ercs_target": 1.0,
+    "ercs_budget": 0.0,
+    "hq_target": 100.0,
+    "hq_budget": 0.0,
+    "rb_target": 0.0,
+    "rb_budget": 0.0,
+    "regional_targets": {
+      "reg-oromia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-addis-ababa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-amhara": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-central-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-west-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-sidama": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-tigray": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-gambella": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-benishangul-gumuz": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-harar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-dire-dawa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-somali": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-afar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-moyale": {
+        "target": 0.0,
+        "budget": 0.0
+      }
+    }
   },
   {
     "id": "na-8-4-15",
@@ -10338,7 +29854,75 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "proj-2",
       "proj-3",
       "proj-4"
-    ]
+    ],
+    "ercs_target": 15.0,
+    "ercs_budget": 3697500.0,
+    "hq_target": 15.0,
+    "hq_budget": 3697500.0,
+    "rb_target": 0.0,
+    "rb_budget": 0.0,
+    "regional_targets": {
+      "reg-oromia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-addis-ababa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-amhara": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-central-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-west-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-sidama": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-tigray": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-gambella": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-benishangul-gumuz": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-harar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-dire-dawa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-somali": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-afar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-moyale": {
+        "target": 0.0,
+        "budget": 0.0
+      }
+    }
   },
   {
     "id": "na-8-4-16",
@@ -10373,7 +29957,75 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "proj-2",
       "proj-3",
       "proj-4"
-    ]
+    ],
+    "ercs_target": 2.0,
+    "ercs_budget": 3000000.0,
+    "hq_target": 2.0,
+    "hq_budget": 3000000.0,
+    "rb_target": 0.0,
+    "rb_budget": 0.0,
+    "regional_targets": {
+      "reg-oromia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-addis-ababa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-amhara": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-central-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-west-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-sidama": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-tigray": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-gambella": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-benishangul-gumuz": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-harar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-dire-dawa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-somali": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-afar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-moyale": {
+        "target": 0.0,
+        "budget": 0.0
+      }
+    }
   },
   {
     "id": "na-8-4-17",
@@ -10408,7 +30060,75 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "proj-2",
       "proj-3",
       "proj-4"
-    ]
+    ],
+    "ercs_target": 1.0,
+    "ercs_budget": 1500000.0,
+    "hq_target": 1.0,
+    "hq_budget": 1500000.0,
+    "rb_target": 0.0,
+    "rb_budget": 0.0,
+    "regional_targets": {
+      "reg-oromia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-addis-ababa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-amhara": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-central-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-south-west-ethiopia": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-sidama": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-tigray": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-gambella": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-benishangul-gumuz": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-harar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-dire-dawa": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-somali": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-afar": {
+        "target": 0.0,
+        "budget": 0.0
+      },
+      "reg-moyale": {
+        "target": 0.0,
+        "budget": 0.0
+      }
+    }
   }
 ];
 

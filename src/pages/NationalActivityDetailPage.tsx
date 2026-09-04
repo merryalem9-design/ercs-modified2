@@ -69,13 +69,21 @@ export const NationalActivityDetailPage: React.FC = () => {
 
   const target = sumPlannedTarget(children, quarterlyPlans, quarterId);
   const actual = sumActual(children, quarterlyActuals, quarterId);
-  const pct = achievementPct(actual, target);
-  const budget = sumPlannedBudget(children, quarterlyPlans, quarterId);
+
+  // For the annual view, use the seeded AOP ercs_target as the authoritative
+  // planned target. For quarterly views, fall back to plan-entry quarterly targets.
+  const aopAnnualTarget = na.ercs_target ?? 0;
+  const aopAnnualBudget = na.ercs_budget ?? 0;
+  const effectiveTarget = quarterId === 'ALL' ? Math.max(aopAnnualTarget, target) : target;
+  const effectiveBudget = quarterId === 'ALL' ? Math.max(aopAnnualBudget, sumPlannedBudget(children, quarterlyPlans, quarterId)) : sumPlannedBudget(children, quarterlyPlans, quarterId);
+
+  const pct = achievementPct(actual, effectiveTarget);
+  const budget = effectiveBudget;
   const spent = sumExpenditure(children, quarterlyActuals, quarterId);
   const util = budgetUtilizationPct(spent, budget);
   const factor = uomConfigs.find(c => c.uom.toLowerCase() === na.uom.toLowerCase())?.factor ?? 0;
 
-  const totalBeneficiaries = convertToBeneficiaries(target, na.uom, uomConfigs);
+  const totalBeneficiaries = convertToBeneficiaries(effectiveTarget, na.uom, uomConfigs);
   const actualBeneficiaries = convertToBeneficiaries(actual, na.uom, uomConfigs);
 
   // ------------------------------------------------------------------
@@ -331,9 +339,11 @@ export const NationalActivityDetailPage: React.FC = () => {
         <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mt-4">
           <StatCard
             icon={Target}
-            label={quarterId === 'ALL' ? 'Aggregated Target' : `${quarterId} Target`}
-            value={`${target.toLocaleString()} ${na.uom}`}
-            sub={`${actual.toLocaleString()} achieved so far`}
+            label={quarterId === 'ALL' ? 'AOP National Target' : `${quarterId} Target`}
+            value={`${effectiveTarget.toLocaleString()} ${na.uom}`}
+            sub={quarterId === 'ALL' && target > 0 && target !== effectiveTarget
+              ? `${target.toLocaleString()} from plan entries`
+              : `${actual.toLocaleString()} achieved so far`}
           />
 
           <StatCard

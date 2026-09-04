@@ -14,6 +14,28 @@ type QuarterlyActualInput = Omit<QuarterlyActual, 'approval_status' | 'submitted
 type MonitoringRecordInput = Omit<MonitoringRecord, 'id'> & { id?: string };
 type KpiProgressEntryInput = Omit<KpiProgressEntry, 'id'>;
 
+/** Aggregated national AOP plan totals derived from seeded national activity targets. */
+export interface AopTotals {
+  /** Sum of na.ercs_target across included activities. */
+  ercsTarget: number;
+  /** Sum of na.ercs_budget across included activities. */
+  ercsBudget: number;
+  /** Sum of na.hq_target */
+  hqTarget: number;
+  /** Sum of na.hq_budget */
+  hqBudget: number;
+  /** Sum of na.rb_target */
+  rbTarget: number;
+  /** Sum of na.rb_budget */
+  rbBudget: number;
+  /** Per-region aggregated targets & budgets keyed by region_id. */
+  byRegion: Record<string, { target: number; budget: number }>;
+  /** Per-strategic-priority aggregated ercs target keyed by sp_id. */
+  byStrategicPriority: Record<string, { target: number; budget: number }>;
+  /** Per-strategic-objective aggregated ercs target keyed by so_id. */
+  byStrategicObjective: Record<string, { target: number; budget: number }>;
+}
+
 interface AppContextType {
   activeRoute: string; setActiveRoute: (r: string) => void;
   currentRole: UserRole; setCurrentRole: (role: UserRole) => void;
@@ -91,6 +113,19 @@ interface AppContextType {
 
   knowledgeDocuments: KnowledgeDocument[];
   addKnowledgeDocument: (doc: KnowledgeDocument) => void;
+
+  /**
+   * Compute aggregated AOP plan totals from seeded national activity data.
+   * Pass a subset of nationalActivities to scope it (e.g. filtered by SP/SO).
+   * Leave undefined to aggregate ALL national activities.
+   */
+  computeAopTotals: (activities?: NationalActivity[]) => AopTotals;
+
+  /**
+   * Return the seeded ercs_target and ercs_budget for one national activity.
+   * Falls back to plan-entry aggregation when the seeded value is 0.
+   */
+  getAopTargetForActivity: (naId: string) => { ercsTarget: number; ercsBudget: number; hqTarget: number; hqBudget: number; rbTarget: number; rbBudget: number };
 }
 
 const DEFAULT_FILTERS: FilterState = {
@@ -174,7 +209,7 @@ const normalizePersistedRole = (raw: UserRole, regions: Region[], projects: Proj
   return 'National Activity AOP';
 };
 
-const PERSISTENCE_KEY = 'ercs-aop-bottom-up-v10';
+const PERSISTENCE_KEY = 'ercs-aop-bottom-up-v11';
 
 const readPersisted = <T,>(key: string, fallback: T): T => {
   if (typeof window === 'undefined') return fallback;
@@ -412,7 +447,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   // -----------------------------------------------------------------------
   // QUARTERLY PLAN — Both Zone and Project rows now go through
   // Draft → Pending Approval → Approved/Rejected.
-  // Zone rows: approved by Branch Head. Project rows: approved by Program Manager.
+  // Zone rows: approved by Branch Head. Project rows: approved by Program Director.
   // -----------------------------------------------------------------------
   const upsertQuarterlyPlan = (qp: QuarterlyPlanInput) => {
     const parentEntry = planEntries.find(x => x.id === qp.plan_entry_id);
@@ -612,6 +647,73 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     showToast(`Document "${doc.title}" added to Knowledge Library.`);
   };
 
+  // -----------------------------------------------------------------------
+  // NATIONAL AOP PLAN TOTALS — aggregate the seeded targets from national
+  // activities. This is the authoritative planned-target data set, sourced
+  // directly from the ERCS 2019 AOP Excel file. Pages use these to compute
+  // achievement against the plan even before any user-entered plan entries
+  // exist, keeping the dashboard meaningful from day one.
+  // -----------------------------------------------------------------------
+  const computeAopTotals = (activities?: NationalActivity[]): AopTotals => {
+    const src = activities ?? nationalActivities;
+    const byRegion: Record<string, { target: number; budget: number }> = {};
+    const byStrategicPriority: Record<string, { target: number; budget: number }> = {};
+    const byStrategicObjective: Record<string, { target: number; budget: number }> = {};
+    regions.forEach(r => { byRegion[r.id] = { target: 0, budget: 0 }; });
+
+    let ercsTarget = 0, ercsBudget = 0, hqTarget = 0, hqBudget = 0, rbTarget = 0, rbBudget = 0;
+
+    src.forEach(na => {
+      ercsTarget += na.ercs_target ?? 0;
+      ercsBudget += na.ercs_budget ?? 0;
+      hqTarget += na.hq_target ?? 0;
+      hqBudget += na.hq_budget ?? 0;
+      rbTarget += na.rb_target ?? 0;
+      rbBudget += na.rb_budget ?? 0;
+
+      // Per-region
+      if (na.regional_targets) {
+        Object.entries(na.regional_targets).forEach(([regId, vals]) => {
+          if (!byRegion[regId]) byRegion[regId] = { target: 0, budget: 0 };
+          byRegion[regId].target += vals.target ?? 0;
+          byRegion[regId].budget += vals.budget ?? 0;
+        });
+      }
+
+      // Per-strategic-priority
+      const spId = na.strategic_priority_id;
+      if (spId) {
+        if (!byStrategicPriority[spId]) byStrategicPriority[spId] = { target: 0, budget: 0 };
+        byStrategicPriority[spId].target += na.ercs_target ?? 0;
+        byStrategicPriority[spId].budget += na.ercs_budget ?? 0;
+      }
+
+      // Per-strategic-objective
+      const soId = na.strategic_objective_id;
+      if (soId) {
+        if (!byStrategicObjective[soId]) byStrategicObjective[soId] = { target: 0, budget: 0 };
+        byStrategicObjective[soId].target += na.ercs_target ?? 0;
+        byStrategicObjective[soId].budget += na.ercs_budget ?? 0;
+      }
+    });
+
+    return { ercsTarget, ercsBudget, hqTarget, hqBudget, rbTarget, rbBudget, byRegion, byStrategicPriority, byStrategicObjective };
+  };
+
+  const getAopTargetForActivity = (naId: string) => {
+    const na = nationalActivities.find(n => n.id === naId);
+    if (!na) return { ercsTarget: 0, ercsBudget: 0, hqTarget: 0, hqBudget: 0, rbTarget: 0, rbBudget: 0 };
+    // Prefer seeded values; only fall back to 0 if truly absent
+    return {
+      ercsTarget: na.ercs_target ?? 0,
+      ercsBudget: na.ercs_budget ?? 0,
+      hqTarget: na.hq_target ?? 0,
+      hqBudget: na.hq_budget ?? 0,
+      rbTarget: na.rb_target ?? 0,
+      rbBudget: na.rb_budget ?? 0,
+    };
+  };
+
   return (
     <AppContext.Provider value={{
       activeRoute, setActiveRoute, currentRole, setCurrentRole, toastMessage, showToast,
@@ -631,6 +733,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       statusThresholds, setStatusThresholds, addStatusThresholdBand, saveStatusThresholds,
       quarterPeriodConfigs, setQuarterPeriodConfigs, updateQuarterPeriodConfig,
       filters, setFilters, resetFilters, getFilteredPlanEntries,
+      computeAopTotals, getAopTargetForActivity,
       strategicKpis, kpiProgressEntries, addKpiProgressEntry, getLatestKpiProgress,
       knowledgeDocuments, addKnowledgeDocument,
     }}>

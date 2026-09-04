@@ -62,12 +62,24 @@ export const StrategicPlanPage: React.FC = () => {
       if (filters.responsibility && filters.responsibility !== 'ALL') {
         const respUpper = (na.responsibility || '').toUpperCase();
         if (filters.responsibility === 'HQ') {
-          if (!respUpper.includes('HQ') && respUpper !== 'BOTH') return false;
+          if (na.responsibility !== 'HQ' && respUpper !== 'HQ') return false;
         } else if (filters.responsibility === 'Region') {
           if (!respUpper.includes('RB') && !respUpper.includes('BRANCH') && respUpper !== 'BOTH') return false;
+          // If a specific region is filtered
+          const rIds = filters.regionId;
+          if (!rIds.includes('ALL') && !rIds.includes('NONE')) {
+            const hasRegTarget = rIds.some(
+              rId => (na.regional_targets?.[rId]?.target || 0) > 0 || (na.regional_targets?.[rId]?.budget || 0) > 0
+            );
+            const isEligible = rIds.some(rId => na.eligible_region_ids.includes(rId));
+            if (!hasRegTarget && !isEligible) return false;
+          }
         } else if (filters.responsibility === 'Project') {
-          // Check if any project is eligible or linked
           if (na.eligible_project_ids.length === 0) return false;
+          const pIds = filters.projectId;
+          if (!pIds.includes('ALL') && !pIds.includes('NONE')) {
+            if (!pIds.some(pId => na.eligible_project_ids.includes(pId))) return false;
+          }
         }
       }
       return true;
@@ -91,31 +103,48 @@ export const StrategicPlanPage: React.FC = () => {
     });
   }, [strategicObjectives, filters, activeObjectiveIds]);
 
-  // Compute activity target & budget values from user-entered Plan Entries
+  // Compute activity target & budget values from seeded Excel data + any user-entered Plan Entries
   const computeActivityTotals = (naId: string) => {
+    const na = nationalActivities.find(n => n.id === naId);
     const entriesForNa = planEntries.filter(pe => pe.national_activity_id === naId);
 
-    // Total ERCS
-    const ercsTarget = entriesForNa.reduce((s, pe) => s + (pe.annual_target || 0), 0);
-    const ercsBudget = entriesForNa.reduce((s, pe) => s + (pe.annual_budget || 0), 0);
+    // Seeded values from Excel AOP framework
+    const seededErcsTarget = na?.ercs_target ?? 0;
+    const seededErcsBudget = na?.ercs_budget ?? 0;
+    const seededHqTarget = na?.hq_target ?? 0;
+    const seededHqBudget = na?.hq_budget ?? 0;
+    const seededRbTarget = na?.rb_target ?? 0;
+    const seededRbBudget = na?.rb_budget ?? 0;
 
-    // HQ (Project scoped or HQ executed)
+    // User-entered Plan Entries (if any exist for custom activities or updates)
+    const peErcsTarget = entriesForNa.reduce((s, pe) => s + (pe.annual_target || 0), 0);
+    const peErcsBudget = entriesForNa.reduce((s, pe) => s + (pe.annual_budget || 0), 0);
+
     const hqEntries = entriesForNa.filter(pe => pe.scope_type === 'Project');
-    const hqTarget = hqEntries.reduce((s, pe) => s + (pe.annual_target || 0), 0);
-    const hqBudget = hqEntries.reduce((s, pe) => s + (pe.annual_budget || 0), 0);
+    const peHqTarget = hqEntries.reduce((s, pe) => s + (pe.annual_target || 0), 0);
+    const peHqBudget = hqEntries.reduce((s, pe) => s + (pe.annual_budget || 0), 0);
 
-    // Summary RB (Regional)
     const rbEntries = entriesForNa.filter(pe => pe.scope_type === 'Regional');
-    const rbTarget = rbEntries.reduce((s, pe) => s + (pe.annual_target || 0), 0);
-    const rbBudget = rbEntries.reduce((s, pe) => s + (pe.annual_budget || 0), 0);
+    const peRbTarget = rbEntries.reduce((s, pe) => s + (pe.annual_target || 0), 0);
+    const peRbBudget = rbEntries.reduce((s, pe) => s + (pe.annual_budget || 0), 0);
+
+    const ercsTarget = seededErcsTarget !== 0 ? seededErcsTarget : peErcsTarget;
+    const ercsBudget = seededErcsBudget !== 0 ? seededErcsBudget : peErcsBudget;
+    const hqTarget = seededHqTarget !== 0 ? seededHqTarget : peHqTarget;
+    const hqBudget = seededHqBudget !== 0 ? seededHqBudget : peHqBudget;
+    const rbTarget = seededRbTarget !== 0 ? seededRbTarget : peRbTarget;
+    const rbBudget = seededRbBudget !== 0 ? seededRbBudget : peRbBudget;
 
     // Per-region calculations
     const perRegion = regions.map(reg => {
+      const seededReg = na?.regional_targets?.[reg.id];
       const regEntries = rbEntries.filter(pe => pe.region_id === reg.id);
+      const peRegTarget = regEntries.reduce((s, pe) => s + (pe.annual_target || 0), 0);
+      const peRegBudget = regEntries.reduce((s, pe) => s + (pe.annual_budget || 0), 0);
       return {
         regionId: reg.id,
-        target: regEntries.reduce((s, pe) => s + (pe.annual_target || 0), 0),
-        budget: regEntries.reduce((s, pe) => s + (pe.annual_budget || 0), 0),
+        target: (seededReg?.target ?? 0) !== 0 ? (seededReg?.target ?? 0) : peRegTarget,
+        budget: (seededReg?.budget ?? 0) !== 0 ? (seededReg?.budget ?? 0) : peRegBudget,
       };
     });
 
@@ -162,6 +191,38 @@ export const StrategicPlanPage: React.FC = () => {
 
     return { ercsTarget, ercsBudget, hqTarget, hqBudget, rbTarget, rbBudget, regionTotals };
   };
+
+  // Grand totals across all visible objectives
+  const grandTotals = useMemo(() => {
+    let ercsTarget = 0,
+      ercsBudget = 0,
+      hqTarget = 0,
+      hqBudget = 0,
+      rbTarget = 0,
+      rbBudget = 0;
+    const regionTotals: Record<string, { target: number; budget: number }> = {};
+    regions.forEach(r => {
+      regionTotals[r.id] = { target: 0, budget: 0 };
+    });
+
+    visibleObjectives.forEach(so => {
+      const soTotals = computeObjectiveTotals(so.id);
+      ercsTarget += soTotals.ercsTarget;
+      ercsBudget += soTotals.ercsBudget;
+      hqTarget += soTotals.hqTarget;
+      hqBudget += soTotals.hqBudget;
+      rbTarget += soTotals.rbTarget;
+      rbBudget += soTotals.rbBudget;
+      regions.forEach(r => {
+        if (soTotals.regionTotals[r.id]) {
+          regionTotals[r.id].target += soTotals.regionTotals[r.id].target;
+          regionTotals[r.id].budget += soTotals.regionTotals[r.id].budget;
+        }
+      });
+    });
+
+    return { ercsTarget, ercsBudget, hqTarget, hqBudget, rbTarget, rbBudget, regionTotals };
+  }, [visibleObjectives, filteredActivities, regions]);
 
   const formatNum = (val: number) => {
     if (val === 0) return '—';
@@ -418,6 +479,46 @@ export const StrategicPlanPage: React.FC = () => {
                 })
               )}
             </tbody>
+            {visibleObjectives.length > 0 && (
+              <tfoot className="bg-slate-900 text-white font-extrabold text-xs sticky bottom-0 z-20">
+                <tr className="border-t-2 border-slate-700">
+                  <td className="p-3 sticky left-0 bg-slate-900 z-30 border-r border-slate-700" colSpan={5}>
+                    GRAND TOTAL ({visibleObjectives.length} Objectives · {filteredActivities.length} Activities)
+                  </td>
+                  <td className="p-2.5 text-right border-r border-slate-700 font-mono">
+                    {formatNum(grandTotals.ercsTarget)}
+                  </td>
+                  <td className="p-2.5 text-right border-r border-slate-700 font-mono text-emerald-400">
+                    {formatNum(grandTotals.ercsBudget)}
+                  </td>
+                  <td className="p-2.5 text-right border-r border-slate-700 font-mono">
+                    {formatNum(grandTotals.hqTarget)}
+                  </td>
+                  <td className="p-2.5 text-right border-r border-slate-700 font-mono text-blue-300">
+                    {formatNum(grandTotals.hqBudget)}
+                  </td>
+                  <td className="p-2.5 text-right border-r border-slate-700 font-mono">
+                    {formatNum(grandTotals.rbTarget)}
+                  </td>
+                  <td className="p-2.5 text-right border-r border-slate-700 font-mono text-amber-300">
+                    {formatNum(grandTotals.rbBudget)}
+                  </td>
+                  {regions.map(r => {
+                    const rTotals = grandTotals.regionTotals[r.id] || { target: 0, budget: 0 };
+                    return (
+                      <React.Fragment key={`grand-reg-${r.id}`}>
+                        <td className="p-2.5 text-right border-r border-slate-700 font-mono text-slate-300">
+                          {formatNum(rTotals.target)}
+                        </td>
+                        <td className="p-2.5 text-right border-r border-slate-700 font-mono text-slate-200">
+                          {formatNum(rTotals.budget)}
+                        </td>
+                      </React.Fragment>
+                    );
+                  })}
+                </tr>
+              </tfoot>
+            )}
           </table>
         </div>
       </div>

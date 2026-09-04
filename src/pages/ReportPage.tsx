@@ -62,6 +62,7 @@ export const ReportPage: React.FC = () => {
     activeRoute,
     reportFocusSection,
     setReportFocusSection,
+    computeAopTotals,
   } = useApp();
 
   const [activeTab, setActiveTab] = useState<'all' | 'contributing' | 'non-contributing'>('all');
@@ -114,66 +115,56 @@ export const ReportPage: React.FC = () => {
       return sum + convertToBeneficiaries(a, e.uom || na?.uom || '', uomConfigs);
     }, 0);
 
-  const target = sumPlannedTarget(entries, quarterlyPlans, q);
-  const actual = sumActual(entries, quarterlyActuals, q);
-  const achievement = achievementPct(actual, target);
-  const budget = sumPlannedBudget(entries, quarterlyPlans, q);
-  const spent = sumExpenditure(entries, quarterlyActuals, q);
-  const utilization = budgetUtilizationPct(spent, budget);
-  const totalBeneficiaries = totalBeneficiariesFor(entries);
-  const actualBeneficiaries = actualBeneficiariesFor(entries);
+  // -------------------------------------------------------------------
+  // AOP plan totals from seeded national activity data — used as the
+  // authoritative "planned" side. Scoped to the same filters as plan entries
+  // so the KPI cards are consistent.
+  // -------------------------------------------------------------------
+  const filteredNas = nationalActivities.filter(na => {
+    if (filters.strategicPriorityId !== 'ALL' && na.strategic_priority_id !== filters.strategicPriorityId) return false;
+    if (filters.strategicObjectiveId !== 'ALL' && na.strategic_objective_id !== filters.strategicObjectiveId) return false;
+    if (filters.nationalActivityId !== 'ALL' && na.id !== filters.nationalActivityId) return false;
+    return true;
+  });
+  const aopTotals = computeAopTotals(filteredNas);
 
-  // Summary breakdown helpers
-  const buildScopeRows = (
-    scopes: { id: string; name: string }[],
-    matches: (e: PlanEntry, scopeId: string) => boolean
-  ) =>
-    scopes
-      .map(scope => {
-        const es = contributingEntries.filter(e => matches(e, scope.id));
-        if (es.length === 0) return null;
+  // AOP plan target = seeded ercs_target sum; actual = quarterly actuals from plan entries
+  const aopTarget = aopTotals.ercsTarget;
+  const aopBudget = aopTotals.ercsBudget;
+  const aopActual = sumActual(entries, quarterlyActuals, q);
+  const aopSpent = sumExpenditure(entries, quarterlyActuals, q);
+  const aopAchievement = achievementPct(aopActual, aopTarget);
+  const aopUtilization = budgetUtilizationPct(aopSpent, aopBudget);
 
-        const t = sumPlannedTarget(es, quarterlyPlans, q);
-        const a = sumActual(es, quarterlyActuals, q);
-        const b = sumPlannedBudget(es, quarterlyPlans, q);
-        const x = sumExpenditure(es, quarterlyActuals, q);
-        const tb = totalBeneficiariesFor(es);
-        const ab = actualBeneficiariesFor(es);
+  // AOP by region: seeded regional_targets as planned, actuals from plan entries
+  const aopByRegion = regions.map(r => {
+    const planned = aopTotals.byRegion[r.id]?.target ?? 0;
+    const plannedBudget = aopTotals.byRegion[r.id]?.budget ?? 0;
+    const es = contributingEntries.filter(e => e.region_id === r.id);
+    const actual = sumActual(es, quarterlyActuals, q);
+    const spent = sumExpenditure(es, quarterlyActuals, q);
+    return { name: r.name, planned, plannedBudget, actual, spent, achievement: achievementPct(actual, planned), utilization: budgetUtilizationPct(spent, plannedBudget) };
+  }).filter(r => r.planned > 0 || r.actual > 0);
 
-        return {
-          key: scope.id,
-          name: scope.name,
-          target: t,
-          actual: a,
-          achievement: achievementPct(a, t),
-          budget: b,
-          spent: x,
-          utilization: budgetUtilizationPct(x, b),
-          totalBeneficiaries: tb,
-          actualBeneficiaries: ab,
-          beneficiaryPct: beneficiaryPct(ab, tb),
-          uoms: uomsFor(es),
-          quarterlyData: buildQuarterlyData(es, quarterlyPlans),
-        };
-      })
-      .filter((r): r is NonNullable<typeof r> => r !== null);
+  // AOP by strategic priority: seeded ercs_target aggregated per SP, actuals from plan entries
+  const aopBySp = strategicPriorities.map(sp => {
+    const planned = aopTotals.byStrategicPriority[sp.id]?.target ?? 0;
+    const plannedBudget = aopTotals.byStrategicPriority[sp.id]?.budget ?? 0;
+    const es = contributingEntries.filter(e => nationalActivities.find(n => n.id === e.national_activity_id)?.strategic_priority_id === sp.id);
+    const actual = sumActual(es, quarterlyActuals, q);
+    const spent = sumExpenditure(es, quarterlyActuals, q);
+    return { name: `${sp.code} — ${sp.name}`, planned, plannedBudget, actual, spent, achievement: achievementPct(actual, planned), utilization: budgetUtilizationPct(spent, plannedBudget) };
+  }).filter(r => r.planned > 0 || r.actual > 0);
 
-  const byRegion = buildScopeRows(regions, (e, id) => e.region_id === id);
-  const byProject = buildScopeRows(projects, (e, id) => e.project_id === id);
-  const byStrategicPriority = buildScopeRows(
-    strategicPriorities.map(sp => ({ id: sp.id, name: `${sp.code} — ${sp.name}` })),
-    (e, id) => {
-      const na = nationalActivities.find(n => n.id === e.national_activity_id);
-      return na?.strategic_priority_id === id;
-    }
-  );
-  const byStrategicObjective = buildScopeRows(
-    strategicObjectives.map(so => ({ id: so.id, name: `${so.code} — ${so.name}` })),
-    (e, id) => {
-      const na = nationalActivities.find(n => n.id === e.national_activity_id);
-      return na?.strategic_objective_id === id;
-    }
-  );
+  // AOP by strategic objective
+  const aopBySo = strategicObjectives.map(so => {
+    const planned = aopTotals.byStrategicObjective[so.id]?.target ?? 0;
+    const plannedBudget = aopTotals.byStrategicObjective[so.id]?.budget ?? 0;
+    const es = contributingEntries.filter(e => nationalActivities.find(n => n.id === e.national_activity_id)?.strategic_objective_id === so.id);
+    const actual = sumActual(es, quarterlyActuals, q);
+    const spent = sumExpenditure(es, quarterlyActuals, q);
+    return { name: `${so.code} — ${so.name}`, planned, plannedBudget, actual, spent, achievement: achievementPct(actual, planned), utilization: budgetUtilizationPct(spent, plannedBudget) };
+  }).filter(r => r.planned > 0 || r.actual > 0);
 
   return (
     <div className="space-y-6">
@@ -186,26 +177,26 @@ export const ReportPage: React.FC = () => {
 
       <FilterBar allowNoneScope />
 
-      {/* KPI CARDS */}
+      {/* KPI CARDS — AOP Plan vs. Actual */}
       <div id="report-section-top" className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
         <KPICard
-          title="Achievement"
-          val={`${achievement.toFixed(1)}%`}
-          sub={`${actual.toLocaleString()} / ${target.toLocaleString()}${singleUom ? ` ${singleUom}` : ''}`}
+          title="AOP Achievement"
+          val={`${aopAchievement.toFixed(1)}%`}
+          sub={`${aopActual.toLocaleString()} actual / ${aopTarget.toLocaleString()} AOP target`}
           icon={Target}
-          statusBadge={achievement > 100 ? OVERACHIEVED_BADGE : undefined}
+          statusBadge={aopAchievement > 100 ? OVERACHIEVED_BADGE : undefined}
         />
         <KPICard
           title="Budget Utilization"
-          val={`${utilization.toFixed(1)}%`}
-          sub={`ETB ${spent.toLocaleString()} / ${budget.toLocaleString()}`}
+          val={`${aopUtilization.toFixed(1)}%`}
+          sub={`ETB ${aopSpent.toLocaleString()} spent / ${aopBudget.toLocaleString()} AOP budget`}
           icon={Wallet}
-          statusBadge={utilization > 100 ? OVER_BUDGET_BADGE : undefined}
+          statusBadge={aopUtilization > 100 ? OVER_BUDGET_BADGE : undefined}
         />
         <KPICard
           title="Beneficiaries Reached"
-          val={actualBeneficiaries.toLocaleString()}
-          sub={`of ${totalBeneficiaries.toLocaleString()} planned`}
+          val={actualBeneficiariesFor(entries).toLocaleString()}
+          sub={`of ${totalBeneficiariesFor(entries).toLocaleString()} planned`}
           icon={Users}
         />
         <KPICard
@@ -214,6 +205,123 @@ export const ReportPage: React.FC = () => {
           sub={`${contributingEntries.length} Contributing · ${nonContributingEntries.length} Standalone`}
           icon={TrendingUp}
         />
+      </div>
+
+      {/* AOP PLAN OVERVIEW — National targets from seeded data vs. actual delivery */}
+      <div className="space-y-4">
+        <h3 className="text-sm font-bold text-slate-700 uppercase tracking-wider">AOP Plan Overview</h3>
+        <p className="text-[11px] text-slate-500 -mt-2">Planned targets sourced from ERCS 2019 AOP (Excel). Actuals accumulate from user-entered quarterly reporting.</p>
+
+        {/* By Strategic Priority */}
+        {aopBySp.length > 0 && (
+          <div className="bg-white rounded-xl border shadow-sm overflow-hidden">
+            <div className="p-3 border-b bg-slate-50 text-xs font-bold text-slate-700 uppercase tracking-wider">By Strategic Priority</div>
+            <div className="overflow-x-auto">
+              <table className="w-full text-left text-xs">
+                <thead className="bg-slate-50 text-slate-500 font-bold uppercase border-b">
+                  <tr>
+                    <th className="p-3">Strategic Priority</th>
+                    <th className="p-3 text-right">AOP Target</th>
+                    <th className="p-3 text-right">Actual</th>
+                    <th className="p-3 text-right">Achievement %</th>
+                    <th className="p-3 text-right">AOP Budget (ETB)</th>
+                    <th className="p-3 text-right">Spent (ETB)</th>
+                    <th className="p-3 text-right">Utilization %</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y">
+                  {aopBySp.map(row => (
+                    <tr key={row.name} className="hover:bg-slate-50">
+                      <td className="p-3 font-semibold text-slate-800 max-w-xs">{row.name}</td>
+                      <td className="p-3 text-right">{row.planned.toLocaleString()}</td>
+                      <td className="p-3 text-right font-bold text-blue-700">{row.actual.toLocaleString()}</td>
+                      <td className={`p-3 text-right font-black ${row.achievement >= 100 ? 'text-emerald-600' : row.achievement >= 50 ? 'text-amber-600' : 'text-red-600'}`}>
+                        {row.achievement.toFixed(1)}%
+                      </td>
+                      <td className="p-3 text-right">{row.plannedBudget.toLocaleString()}</td>
+                      <td className="p-3 text-right">{row.spent.toLocaleString()}</td>
+                      <td className="p-3 text-right">{row.utilization.toFixed(1)}%</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        )}
+
+        {/* By Region */}
+        {aopByRegion.length > 0 && (
+          <div id="report-section-region" className="bg-white rounded-xl border shadow-sm overflow-hidden">
+            <div className="p-3 border-b bg-slate-50 text-xs font-bold text-slate-700 uppercase tracking-wider">By Region (AOP Plan)</div>
+            <div className="overflow-x-auto">
+              <table className="w-full text-left text-xs">
+                <thead className="bg-slate-50 text-slate-500 font-bold uppercase border-b">
+                  <tr>
+                    <th className="p-3">Region</th>
+                    <th className="p-3 text-right">AOP Target</th>
+                    <th className="p-3 text-right">Actual</th>
+                    <th className="p-3 text-right">Achievement %</th>
+                    <th className="p-3 text-right">AOP Budget (ETB)</th>
+                    <th className="p-3 text-right">Spent (ETB)</th>
+                    <th className="p-3 text-right">Utilization %</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y">
+                  {aopByRegion.map(row => (
+                    <tr key={row.name} className="hover:bg-slate-50">
+                      <td className="p-3 font-semibold text-slate-800">{row.name}</td>
+                      <td className="p-3 text-right">{row.planned.toLocaleString()}</td>
+                      <td className="p-3 text-right font-bold text-blue-700">{row.actual.toLocaleString()}</td>
+                      <td className={`p-3 text-right font-black ${row.achievement >= 100 ? 'text-emerald-600' : row.achievement >= 50 ? 'text-amber-600' : 'text-red-600'}`}>
+                        {row.achievement.toFixed(1)}%
+                      </td>
+                      <td className="p-3 text-right">{row.plannedBudget.toLocaleString()}</td>
+                      <td className="p-3 text-right">{row.spent.toLocaleString()}</td>
+                      <td className="p-3 text-right">{row.utilization.toFixed(1)}%</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        )}
+
+        {/* By Strategic Objective */}
+        {aopBySo.length > 0 && (
+          <div className="bg-white rounded-xl border shadow-sm overflow-hidden">
+            <div className="p-3 border-b bg-slate-50 text-xs font-bold text-slate-700 uppercase tracking-wider">By Strategic Objective</div>
+            <div className="overflow-x-auto">
+              <table className="w-full text-left text-xs">
+                <thead className="bg-slate-50 text-slate-500 font-bold uppercase border-b">
+                  <tr>
+                    <th className="p-3">Strategic Objective</th>
+                    <th className="p-3 text-right">AOP Target</th>
+                    <th className="p-3 text-right">Actual</th>
+                    <th className="p-3 text-right">Achievement %</th>
+                    <th className="p-3 text-right">AOP Budget (ETB)</th>
+                    <th className="p-3 text-right">Spent (ETB)</th>
+                    <th className="p-3 text-right">Utilization %</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y">
+                  {aopBySo.map(row => (
+                    <tr key={row.name} className="hover:bg-slate-50">
+                      <td className="p-3 font-semibold text-slate-800 max-w-xs">{row.name}</td>
+                      <td className="p-3 text-right">{row.planned.toLocaleString()}</td>
+                      <td className="p-3 text-right font-bold text-blue-700">{row.actual.toLocaleString()}</td>
+                      <td className={`p-3 text-right font-black ${row.achievement >= 100 ? 'text-emerald-600' : row.achievement >= 50 ? 'text-amber-600' : 'text-red-600'}`}>
+                        {row.achievement.toFixed(1)}%
+                      </td>
+                      <td className="p-3 text-right">{row.plannedBudget.toLocaleString()}</td>
+                      <td className="p-3 text-right">{row.spent.toLocaleString()}</td>
+                      <td className="p-3 text-right">{row.utilization.toFixed(1)}%</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        )}
       </div>
 
       {/* VIEW TABS */}
@@ -316,7 +424,14 @@ export const ReportPage: React.FC = () => {
                         {so ? `${so.code} — ${so.name}` : '—'}
                       </td>
                       <td className="p-3 font-bold text-ercs-red whitespace-nowrap">{na?.code || pe.activity_code || '—'}</td>
-                      <td className="p-3 font-bold text-slate-800">{pe.activity_name}</td>
+                      <td className="p-3 font-bold text-slate-800">
+                        <div>{pe.activity_name}</div>
+                        {na && (
+                          <div className="text-[10px] text-slate-400 font-normal truncate max-w-xs mt-0.5">
+                            Linked: {na.code} — {na.description}
+                          </div>
+                        )}
+                      </td>
                       <td className="p-3 text-slate-500">{pe.activity_description}</td>
                       <td className="p-3 whitespace-nowrap text-slate-500 font-semibold">{pe.uom || na?.uom || '—'}</td>
                       <td className="p-3 whitespace-nowrap">
@@ -462,18 +577,29 @@ export const ReportPage: React.FC = () => {
         </div>
       )}
 
-      {/* SUMMARY BREAKDOWNS SECTION */}
-      <div className="pt-4 border-t space-y-6">
-        <h3 className="text-sm font-bold text-slate-700 uppercase tracking-wider">Summary Breakdowns</h3>
-        <ScopeReportTable title="By Strategic Priority" rows={byStrategicPriority} visibleQuarters={visibleQuarters} />
-        <ScopeReportTable title="By Strategic Objective" rows={byStrategicObjective} visibleQuarters={visibleQuarters} />
-        <div id="report-section-region">
-          <ScopeReportTable title="By Region" rows={byRegion} visibleQuarters={visibleQuarters} />
+      {/* SUMMARY BREAKDOWNS — Plan Entry based (project scope) */}
+      {contributingEntries.length > 0 && (
+        <div className="pt-4 border-t space-y-6">
+          <h3 className="text-sm font-bold text-slate-700 uppercase tracking-wider">Plan Entry Breakdowns</h3>
+          <p className="text-[11px] text-slate-500 -mt-2">Aggregated from user-entered plan entries and approved quarterly data.</p>
+          <div id="report-section-project">
+            <AopBreakdownTable
+              title="By Project (Plan Entries)"
+              rows={projects
+                .map(p => {
+                  const es = contributingEntries.filter(e => e.project_id === p.id);
+                  if (es.length === 0) return null;
+                  const t = sumPlannedTarget(es, quarterlyPlans, q);
+                  const a = sumActual(es, quarterlyActuals, q);
+                  const b = sumPlannedBudget(es, quarterlyPlans, q);
+                  const x = sumExpenditure(es, quarterlyActuals, q);
+                  return { name: p.name, planned: t, plannedBudget: b, actual: a, spent: x, achievement: achievementPct(a, t), utilization: budgetUtilizationPct(x, b) };
+                })
+                .filter((r): r is NonNullable<typeof r> => r !== null)}
+            />
+          </div>
         </div>
-        <div id="report-section-project">
-          <ScopeReportTable title="By Project" rows={byProject} visibleQuarters={visibleQuarters} />
-        </div>
-      </div>
+      )}
     </div>
   );
 };
@@ -502,6 +628,59 @@ const KPICard: React.FC<{
       )}
     </div>
     <div className="text-[10px] mt-1 text-slate-500">{sub}</div>
+  </div>
+);
+
+// ===========================================================================
+// AOP BREAKDOWN TABLE — simple planned vs actual table for AOP plan overview
+// and plan-entry project breakdowns.
+// ===========================================================================
+interface AopBreakdownRow {
+  name: string;
+  planned: number;
+  plannedBudget: number;
+  actual: number;
+  spent: number;
+  achievement: number;
+  utilization: number;
+}
+
+const AopBreakdownTable: React.FC<{ title: string; rows: AopBreakdownRow[] }> = ({ title, rows }) => (
+  <div className="bg-white rounded-xl border shadow-sm overflow-hidden">
+    <div className="p-3 border-b bg-slate-50 text-xs font-bold text-slate-700 uppercase tracking-wider">{title} ({rows.length})</div>
+    <div className="overflow-x-auto">
+      <table className="w-full text-left text-xs">
+        <thead className="bg-slate-50 text-slate-500 font-bold uppercase border-b">
+          <tr>
+            <th className="p-3">Name</th>
+            <th className="p-3 text-right">Planned Target</th>
+            <th className="p-3 text-right">Actual</th>
+            <th className="p-3 text-right">Achievement %</th>
+            <th className="p-3 text-right">Planned Budget (ETB)</th>
+            <th className="p-3 text-right">Spent (ETB)</th>
+            <th className="p-3 text-right">Utilization %</th>
+          </tr>
+        </thead>
+        <tbody className="divide-y">
+          {rows.map(row => (
+            <tr key={row.name} className="hover:bg-slate-50">
+              <td className="p-3 font-semibold text-slate-800 max-w-xs">{row.name}</td>
+              <td className="p-3 text-right">{row.planned.toLocaleString()}</td>
+              <td className="p-3 text-right font-bold text-blue-700">{row.actual.toLocaleString()}</td>
+              <td className={`p-3 text-right font-black ${row.achievement >= 100 ? 'text-emerald-600' : row.achievement >= 50 ? 'text-amber-600' : 'text-red-600'}`}>
+                {row.achievement.toFixed(1)}%
+              </td>
+              <td className="p-3 text-right">{row.plannedBudget.toLocaleString()}</td>
+              <td className="p-3 text-right">{row.spent.toLocaleString()}</td>
+              <td className="p-3 text-right">{row.utilization.toFixed(1)}%</td>
+            </tr>
+          ))}
+          {rows.length === 0 && (
+            <tr><td colSpan={7} className="p-6 text-center text-slate-400">No data for this filter yet.</td></tr>
+          )}
+        </tbody>
+      </table>
+    </div>
   </div>
 );
 

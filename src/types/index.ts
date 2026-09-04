@@ -38,6 +38,13 @@ export interface NationalActivity {
   activity_description: string;
   eligible_region_ids: string[];
   eligible_project_ids: string[];
+  ercs_target?: number;
+  ercs_budget?: number;
+  hq_target?: number;
+  hq_budget?: number;
+  rb_target?: number;
+  rb_budget?: number;
+  regional_targets?: Record<string, { target: number; budget: number }>;
 }
 
 /**
