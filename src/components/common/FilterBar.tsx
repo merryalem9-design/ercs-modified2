@@ -401,7 +401,7 @@ export const FilterBar: React.FC<FilterBarProps> = ({
                 />
               </button>
               {regionOpen && !isRegionScoped && (
-                <div className="absolute z-20 mt-1 bg-white border border-slate-200 rounded-lg shadow-lg w-full min-w-max max-h-52 overflow-y-auto">
+                <div className="absolute z-50 mt-1 bg-white border border-slate-200 rounded-lg shadow-lg w-full min-w-max max-h-52 overflow-y-auto">
                   <label className="flex items-center gap-2 px-3 py-2 hover:bg-slate-50 cursor-pointer text-xs font-medium border-b border-slate-100">
                     <input
                       type="checkbox"
@@ -477,7 +477,7 @@ export const FilterBar: React.FC<FilterBarProps> = ({
                 />
               </button>
               {projectOpen && (
-                <div className="absolute z-20 mt-1 bg-white border border-slate-200 rounded-lg shadow-lg w-full min-w-max max-h-52 overflow-y-auto">
+                <div className="absolute z-50 mt-1 bg-white border border-slate-200 rounded-lg shadow-lg w-full min-w-max max-h-52 overflow-y-auto">
                   <label className="flex items-center gap-2 px-3 py-2 hover:bg-slate-50 cursor-pointer text-xs font-medium border-b border-slate-100">
                     <input
                       type="checkbox"
