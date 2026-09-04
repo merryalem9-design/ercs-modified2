@@ -30,6 +30,8 @@ export interface AopTotals {
   rbBudget: number;
   /** Per-region aggregated targets & budgets keyed by region_id. */
   byRegion: Record<string, { target: number; budget: number }>;
+  /** Per-project aggregated targets & budgets keyed by project_id. */
+  byProject: Record<string, { target: number; budget: number }>;
   /** Per-strategic-priority aggregated ercs target keyed by sp_id. */
   byStrategicPriority: Record<string, { target: number; budget: number }>;
   /** Per-strategic-objective aggregated ercs target keyed by so_id. */
@@ -126,6 +128,11 @@ interface AppContextType {
    * Falls back to plan-entry aggregation when the seeded value is 0.
    */
   getAopTargetForActivity: (naId: string) => { ercsTarget: number; ercsBudget: number; hqTarget: number; hqBudget: number; rbTarget: number; rbBudget: number };
+
+  /**
+   * Return the even share of hq_target and hq_budget for one national activity and project pair.
+   */
+  getProjectAopShare: (nationalActivityId: string, projectId: string) => { target: number; budget: number };
 }
 
 const DEFAULT_FILTERS: FilterState = {
@@ -658,9 +665,11 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   const computeAopTotals = (activities?: NationalActivity[]): AopTotals => {
     const src = activities ?? nationalActivities;
     const byRegion: Record<string, { target: number; budget: number }> = {};
+    const byProject: Record<string, { target: number; budget: number }> = {};
     const byStrategicPriority: Record<string, { target: number; budget: number }> = {};
     const byStrategicObjective: Record<string, { target: number; budget: number }> = {};
     regions.forEach(r => { byRegion[r.id] = { target: 0, budget: 0 }; });
+    projects.forEach(p => { byProject[p.id] = { target: 0, budget: 0 }; });
 
     let ercsTarget = 0, ercsBudget = 0, hqTarget = 0, hqBudget = 0, rbTarget = 0, rbBudget = 0;
 
@@ -681,6 +690,18 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
         });
       }
 
+      // Per-project: evenly split hq_target and hq_budget across eligible_project_ids
+      if (na.eligible_project_ids && na.eligible_project_ids.length > 0) {
+        const count = na.eligible_project_ids.length;
+        const targetShare = (na.hq_target ?? 0) / count;
+        const budgetShare = (na.hq_budget ?? 0) / count;
+        na.eligible_project_ids.forEach(projId => {
+          if (!byProject[projId]) byProject[projId] = { target: 0, budget: 0 };
+          byProject[projId].target += targetShare;
+          byProject[projId].budget += budgetShare;
+        });
+      }
+
       // Per-strategic-priority
       const spId = na.strategic_priority_id;
       if (spId) {
@@ -698,7 +719,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       }
     });
 
-    return { ercsTarget, ercsBudget, hqTarget, hqBudget, rbTarget, rbBudget, byRegion, byStrategicPriority, byStrategicObjective };
+    return { ercsTarget, ercsBudget, hqTarget, hqBudget, rbTarget, rbBudget, byRegion, byProject, byStrategicPriority, byStrategicObjective };
   };
 
   const getAopTargetForActivity = (naId: string) => {
@@ -712,6 +733,18 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       hqBudget: na.hq_budget ?? 0,
       rbTarget: na.rb_target ?? 0,
       rbBudget: na.rb_budget ?? 0,
+    };
+  };
+
+  const getProjectAopShare = (nationalActivityId: string, projectId: string): { target: number; budget: number } => {
+    const na = nationalActivities.find(n => n.id === nationalActivityId);
+    if (!na || !na.eligible_project_ids || na.eligible_project_ids.length === 0 || !na.eligible_project_ids.includes(projectId)) {
+      return { target: 0, budget: 0 };
+    }
+    const count = na.eligible_project_ids.length;
+    return {
+      target: (na.hq_target ?? 0) / count,
+      budget: (na.hq_budget ?? 0) / count,
     };
   };
 
@@ -734,7 +767,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       statusThresholds, setStatusThresholds, addStatusThresholdBand, saveStatusThresholds,
       quarterPeriodConfigs, setQuarterPeriodConfigs, updateQuarterPeriodConfig,
       filters, setFilters, resetFilters, getFilteredPlanEntries,
-      computeAopTotals, getAopTargetForActivity,
+      computeAopTotals, getAopTargetForActivity, getProjectAopShare,
       strategicKpis, kpiProgressEntries, addKpiProgressEntry, getLatestKpiProgress,
       knowledgeDocuments, addKnowledgeDocument,
     }}>

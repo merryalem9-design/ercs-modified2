@@ -45,6 +45,7 @@ export const NationalActivityDetailPage: React.FC = () => {
     uomConfigs,
     regionActivityLinks,
     getFilteredPlanEntries,
+    getProjectAopShare,
   } = useApp();
 
   const [peWizard, setPeWizard] = useState<null | { initial: PeWizardFormState; startStep: 1 | 2 }>(null);
@@ -80,6 +81,14 @@ export const NationalActivityDetailPage: React.FC = () => {
   const currentZone = isZoneCoordinator ? zones.find(z => `${z.name} coordinators` === currentRole) : undefined;
   const activeRegion = assignedRegion || (isZoneCoordinator && currentZone ? regions.find(r => r.id === currentZone.region_id) : undefined);
 
+  // filterProject: only resolves when exactly one specific project is selected
+  // (not ALL/NONE, not 2+ projects).
+  const filterProject = (filters.projectId.length === 1 && !filters.projectId.includes('ALL') && !filters.projectId.includes('NONE'))
+    ? projects.find(p => p.id === filters.projectId[0])
+    : undefined;
+  const activeProject = assignedProject || filterProject;
+  const projectShare = activeProject ? getProjectAopShare(na.id, activeProject.id) : { target: 0, budget: 0 };
+
   const roleVisibleEntries = getFilteredPlanEntries();
   const allChildren = roleVisibleEntries.filter(pe => pe.national_activity_id === na.id);
   const regionalChildren = allChildren.filter(c => c.scope_type === 'Regional');
@@ -91,19 +100,24 @@ export const NationalActivityDetailPage: React.FC = () => {
 
   // For the annual view, use the seeded AOP target scoped to the user's role:
   // - Regional role: regional_targets for their region
-  // - Project role: hq_target (HQ means projects)
+  // - Specific Project resolved: that project's even AOP share
+  // - Project role (aggregate): hq_target (HQ means projects)
   // - National: full national ercs_target
   const aopAnnualTarget = isRegionalRole && activeRegion
     ? (na.regional_targets?.[activeRegion.id]?.target ?? 0)
-    : isProjectRole
-      ? (na.hq_target ?? 0)
-      : (na.ercs_target ?? 0);
+    : activeProject
+      ? projectShare.target
+      : isProjectRole
+        ? (na.hq_target ?? 0)
+        : (na.ercs_target ?? 0);
 
   const aopAnnualBudget = isRegionalRole && activeRegion
     ? (na.regional_targets?.[activeRegion.id]?.budget ?? 0)
-    : isProjectRole
-      ? (na.hq_budget ?? 0)
-      : (na.ercs_budget ?? 0);
+    : activeProject
+      ? projectShare.budget
+      : isProjectRole
+        ? (na.hq_budget ?? 0)
+        : (na.ercs_budget ?? 0);
 
   const effectiveTarget = quarterId === 'ALL' ? Math.max(aopAnnualTarget, target) : target;
   const effectiveBudget = quarterId === 'ALL' ? Math.max(aopAnnualBudget, sumPlannedBudget(children, quarterlyPlans, quarterId)) : sumPlannedBudget(children, quarterlyPlans, quarterId);
@@ -116,12 +130,6 @@ export const NationalActivityDetailPage: React.FC = () => {
 
   const totalBeneficiaries = convertToBeneficiaries(effectiveTarget, na.uom, uomConfigs);
   const actualBeneficiaries = convertToBeneficiaries(actual, na.uom, uomConfigs);
-
-  // filterProject: only resolves when exactly one specific project is selected
-  // (not ALL/NONE, not 2+ projects).
-  const filterProject = (filters.projectId.length === 1 && !filters.projectId.includes('ALL') && !filters.projectId.includes('NONE'))
-    ? projects.find(p => p.id === filters.projectId[0])
-    : undefined;
 
   // Each of these is true only when: (a) this exact National Activity is
   // eligible for that scope, and (b) nothing is linked/entered there yet

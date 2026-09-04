@@ -209,9 +209,9 @@ export const ReportPage: React.FC = () => {
       return true;
     })
     .map(p => {
+      const planned = aopTotals.byProject[p.id]?.target ?? 0;
+      const plannedBudget = aopTotals.byProject[p.id]?.budget ?? 0;
       const es = contributingEntries.filter(e => e.project_id === p.id);
-      const planned = sumPlannedTarget(es, quarterlyPlans, q);
-      const plannedBudget = sumPlannedBudget(es, quarterlyPlans, q);
       const actual = sumActual(es, quarterlyActuals, q);
       const spent = sumExpenditure(es, quarterlyActuals, q);
       return { name: p.name, planned, plannedBudget, actual, spent, achievement: achievementPct(actual, planned), utilization: budgetUtilizationPct(spent, plannedBudget) };
@@ -389,17 +389,17 @@ export const ReportPage: React.FC = () => {
         {!isRegionalRole && aopByProject.length > 0 && (
           <div id="report-section-project" className="bg-white rounded-xl border shadow-sm overflow-hidden">
             <div className="p-3 border-b bg-slate-50 text-xs font-bold text-slate-700 uppercase tracking-wider">
-              {isProjectRole && assignedProject ? `By Project (${assignedProject.name})` : 'By Project (Execution Plans)'}
+              {isProjectRole && assignedProject ? `By Project (${assignedProject.name})` : 'By Project (AOP Plan)'}
             </div>
             <div className="overflow-x-auto">
               <table className="w-full text-left text-xs">
                 <thead className="bg-slate-50 text-slate-500 font-bold uppercase border-b">
                   <tr>
                     <th className="p-3">Project</th>
-                    <th className="p-3 text-right">Planned Target</th>
+                    <th className="p-3 text-right">AOP Target</th>
                     <th className="p-3 text-right">Actual</th>
                     <th className="p-3 text-right">Achievement %</th>
-                    <th className="p-3 text-right">Planned Budget (ETB)</th>
+                    <th className="p-3 text-right">AOP Budget (ETB)</th>
                     <th className="p-3 text-right">Spent (ETB)</th>
                     <th className="p-3 text-right">Utilization %</th>
                   </tr>

@@ -87,10 +87,12 @@ export const PerformancePage: React.FC = () => {
 
   const targetActualByProject = projects
     .map(p => {
+      const aopProjTarget = aopTotals.byProject[p.id]?.target ?? 0;
       const es = projectEntries.filter(e => e.project_id === p.id);
-      return { name: p.name, count: es.length, Target: sumPlannedTarget(es, quarterlyPlans, 'ALL'), Actual: sumActual(es, quarterlyActuals, 'ALL') };
+      const actual = sumActual(es, quarterlyActuals, 'ALL');
+      return { name: p.name, count: aopProjTarget > 0 ? 1 : es.length, Target: aopProjTarget, Actual: actual };
     })
-    .filter(row => row.count > 0);
+    .filter(row => row.Target > 0 || row.Actual > 0);
 
   const targetActualByHq = Array.from(new Set(hqEntries.map(e => nationalActivities.find(n => n.id === e.national_activity_id)?.department || 'HQ Operations')))
     .map(dept => {
