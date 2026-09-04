@@ -62,18 +62,49 @@ export const NationalActivityDetailPage: React.FC = () => {
     );
   }
 
+  // ------------------------------------------------------------------
+  // Role resolution
+  // ------------------------------------------------------------------
+  const isAop = currentRole === 'National Activity AOP';
+  const isMonitor = currentRole === 'PMER Officer';
+  const isBranchHead = currentRole.startsWith('Branch Head — ');
+  const isProjectCoordinator = currentRole.startsWith('Project Coordinator — ');
+  const isProgramDirector = currentRole === 'Program Director';
+  const isProjectRole = isProjectCoordinator || isProgramDirector;
+  const isZoneCoordinator = currentRole.endsWith(' coordinators');
+  const isRegionalRole = isBranchHead || isZoneCoordinator;
+  const roleIsCoordinator = !isAop && !isMonitor;
+
+  const assignedRegion = isBranchHead ? regions.find(r => `Branch Head — ${r.name}` === currentRole) : undefined;
+  const assignedProject = isProjectCoordinator ? projects.find(p => p.name === currentRole.slice('Project Coordinator — '.length)) : undefined;
+  const currentZone = isZoneCoordinator ? zones.find(z => `${z.name} coordinators` === currentRole) : undefined;
+  const activeRegion = assignedRegion || (isZoneCoordinator && currentZone ? regions.find(r => r.id === currentZone.region_id) : undefined);
+
   const roleVisibleEntries = getFilteredPlanEntries();
-  const children = roleVisibleEntries.filter(pe => pe.national_activity_id === na.id);
-  const regionalChildren = children.filter(c => c.scope_type === 'Regional');
-  const projectChildren = children.filter(c => c.scope_type === 'Project');
+  const allChildren = roleVisibleEntries.filter(pe => pe.national_activity_id === na.id);
+  const regionalChildren = allChildren.filter(c => c.scope_type === 'Regional');
+  const projectChildren = allChildren.filter(c => c.scope_type === 'Project');
+  const children = isRegionalRole ? regionalChildren : isProjectRole ? projectChildren : allChildren;
 
   const target = sumPlannedTarget(children, quarterlyPlans, quarterId);
   const actual = sumActual(children, quarterlyActuals, quarterId);
 
-  // For the annual view, use the seeded AOP ercs_target as the authoritative
-  // planned target. For quarterly views, fall back to plan-entry quarterly targets.
-  const aopAnnualTarget = na.ercs_target ?? 0;
-  const aopAnnualBudget = na.ercs_budget ?? 0;
+  // For the annual view, use the seeded AOP target scoped to the user's role:
+  // - Regional role: regional_targets for their region
+  // - Project role: hq_target (HQ means projects)
+  // - National: full national ercs_target
+  const aopAnnualTarget = isRegionalRole && activeRegion
+    ? (na.regional_targets?.[activeRegion.id]?.target ?? 0)
+    : isProjectRole
+      ? (na.hq_target ?? 0)
+      : (na.ercs_target ?? 0);
+
+  const aopAnnualBudget = isRegionalRole && activeRegion
+    ? (na.regional_targets?.[activeRegion.id]?.budget ?? 0)
+    : isProjectRole
+      ? (na.hq_budget ?? 0)
+      : (na.ercs_budget ?? 0);
+
   const effectiveTarget = quarterId === 'ALL' ? Math.max(aopAnnualTarget, target) : target;
   const effectiveBudget = quarterId === 'ALL' ? Math.max(aopAnnualBudget, sumPlannedBudget(children, quarterlyPlans, quarterId)) : sumPlannedBudget(children, quarterlyPlans, quarterId);
 
@@ -86,26 +117,6 @@ export const NationalActivityDetailPage: React.FC = () => {
   const totalBeneficiaries = convertToBeneficiaries(effectiveTarget, na.uom, uomConfigs);
   const actualBeneficiaries = convertToBeneficiaries(actual, na.uom, uomConfigs);
 
-  // ------------------------------------------------------------------
-  // Role resolution — matches the ACTUAL role-naming scheme used
-  // everywhere else in the app ('Branch Head — X', 'X coordinators',
-  // 'Project Coordinator — X'). The previous version of this page checked
-  // for a 'Regional Coordinator — ' prefix that no role ever has, which
-  // silently broke "Add Plan Entry" here for Branch Heads: the wizard
-  // opened with no Region resolved, no National Activity options, and
-  // nothing they could actually save.
-  // ------------------------------------------------------------------
-  const isAop = currentRole === 'National Activity AOP';
-  const isMonitor = currentRole === 'PMER Officer';
-  const isBranchHead = currentRole.startsWith('Branch Head — ');
-  const isProjectCoordinator = currentRole.startsWith('Project Coordinator — ');
-  const isZoneCoordinator = currentRole.endsWith(' coordinators');
-  const roleIsCoordinator = !isAop && !isMonitor;
-
-  const assignedRegion = isBranchHead ? regions.find(r => `Branch Head — ${r.name}` === currentRole) : undefined;
-  const assignedProject = isProjectCoordinator ? projects.find(p => p.name === currentRole.slice('Project Coordinator — '.length)) : undefined;
-  const currentZone = isZoneCoordinator ? zones.find(z => `${z.name} coordinators` === currentRole) : undefined;
-
   // filterProject: only resolves when exactly one specific project is selected
   // (not ALL/NONE, not 2+ projects).
   const filterProject = (filters.projectId.length === 1 && !filters.projectId.includes('ALL') && !filters.projectId.includes('NONE'))
@@ -114,25 +125,23 @@ export const NationalActivityDetailPage: React.FC = () => {
 
   // Each of these is true only when: (a) this exact National Activity is
   // eligible for that scope, and (b) nothing is linked/entered there yet
-  // — once something exists, the button disappears rather than opening a
-  // wizard that just shows a "duplicate" error.
   const branchHeadEligible = isBranchHead && !!assignedRegion
     && na.eligible_region_ids.includes(assignedRegion.id)
     && !regionActivityLinks.some(l => l.national_activity_id === na.id && l.region_id === assignedRegion.id);
 
   const zoneAlreadyHasEntry = isZoneCoordinator && !!currentZone
-    && children.some(pe => pe.scope_type === 'Regional' && pe.zone_id === currentZone.id);
+    && allChildren.some(pe => pe.scope_type === 'Regional' && pe.zone_id === currentZone.id);
   const zoneEligibleLink = (isZoneCoordinator && currentZone && !zoneAlreadyHasEntry)
     ? regionActivityLinks.find(l => l.national_activity_id === na.id && l.region_id === currentZone.region_id && l.eligible_zone_ids.includes(currentZone.id))
     : undefined;
 
   const projectAlreadyHasEntry = isProjectCoordinator && !!assignedProject
-    && children.some(pe => pe.scope_type === 'Project' && pe.project_id === assignedProject.id);
+    && allChildren.some(pe => pe.scope_type === 'Project' && pe.project_id === assignedProject.id);
   const projectEligible = isProjectCoordinator && !!assignedProject
     && na.eligible_project_ids.includes(assignedProject.id) && !projectAlreadyHasEntry;
 
   const aopAlreadyHasEntry = isAop && !!filterProject
-    && children.some(pe => pe.scope_type === 'Project' && pe.project_id === filterProject.id);
+    && allChildren.some(pe => pe.scope_type === 'Project' && pe.project_id === filterProject.id);
   // AOP only adds Plan Entries when drilled into a PROJECT — never a Region.
   const aopEligible = isAop && !!filterProject
     && na.eligible_project_ids.includes(filterProject.id) && !aopAlreadyHasEntry;
@@ -339,7 +348,7 @@ export const NationalActivityDetailPage: React.FC = () => {
         <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mt-4">
           <StatCard
             icon={Target}
-            label={quarterId === 'ALL' ? 'AOP National Target' : `${quarterId} Target`}
+            label={quarterId === 'ALL' ? (isRegionalRole ? 'AOP Regional Target' : isProjectRole ? 'AOP Project Target' : 'AOP National Target') : `${quarterId} Target`}
             value={`${effectiveTarget.toLocaleString()} ${na.uom}`}
             sub={quarterId === 'ALL' && target > 0 && target !== effectiveTarget
               ? `${target.toLocaleString()} from plan entries`
@@ -360,7 +369,7 @@ export const NationalActivityDetailPage: React.FC = () => {
 
           <StatCard
             icon={Wallet}
-            label={quarterId === 'ALL' ? 'Aggregated Budget' : `${quarterId} Budget`}
+            label={quarterId === 'ALL' ? (isRegionalRole ? 'AOP Regional Budget' : isProjectRole ? 'AOP Project Budget' : 'AOP National Budget') : `${quarterId} Budget`}
             value={`ETB ${budget.toLocaleString()}`}
             sub={
               <div className="flex items-center gap-1.5 flex-wrap">

@@ -209,7 +209,7 @@ const normalizePersistedRole = (raw: UserRole, regions: Region[], projects: Proj
   return 'National Activity AOP';
 };
 
-const PERSISTENCE_KEY = 'ercs-aop-bottom-up-v11';
+const PERSISTENCE_KEY = 'ercs-aop-bottom-up-v12';
 
 const readPersisted = <T,>(key: string, fallback: T): T => {
   if (typeof window === 'undefined') return fallback;
@@ -282,7 +282,8 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       if (filters.responsibility === 'Region' && pe.scope_type !== 'Regional') return false;
       if (filters.responsibility === 'Project' && pe.scope_type !== 'Project') return false;
       if (filters.responsibility === 'HQ') {
-        if (!na || na.responsibility !== 'HQ') return false;
+        if (pe.scope_type !== 'Project') return false;
+        if (!na || (na.hq_target === 0 && na.hq_budget === 0 && !na.responsibility.toUpperCase().includes('HQ') && na.responsibility.toLowerCase() !== 'both')) return false;
       }
     }
 

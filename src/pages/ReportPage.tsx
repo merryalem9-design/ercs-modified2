@@ -63,7 +63,27 @@ export const ReportPage: React.FC = () => {
     reportFocusSection,
     setReportFocusSection,
     computeAopTotals,
+    currentRole,
+    zones,
   } = useApp();
+
+  const isBranchHead = currentRole.startsWith('Branch Head — ');
+  const isZoneCoordinator = currentRole.endsWith(' coordinators');
+  const isRegionalRole = isBranchHead || isZoneCoordinator;
+  const isProjectCoordinator = currentRole.startsWith('Project Coordinator — ');
+  const isProgramDirector = currentRole === 'Program Director';
+  const isProjectCoordinatorHQ = currentRole === 'Project Coordinator — HQ';
+  const isProjectRole = isProjectCoordinator || isProgramDirector || isProjectCoordinatorHQ;
+
+  const currentZone = isZoneCoordinator ? zones.find(z => `${z.name} coordinators` === currentRole) : undefined;
+  const assignedRegion = isBranchHead
+    ? regions.find(r => `Branch Head — ${r.name}` === currentRole)
+    : isZoneCoordinator
+    ? regions.find(r => r.id === currentZone?.region_id)
+    : undefined;
+  const assignedProject = isProjectCoordinator
+    ? projects.find(p => p.name === currentRole.slice('Project Coordinator — '.length))
+    : undefined;
 
   const [activeTab, setActiveTab] = useState<'all' | 'contributing' | 'non-contributing'>('all');
 
@@ -124,32 +144,96 @@ export const ReportPage: React.FC = () => {
     if (filters.strategicPriorityId !== 'ALL' && na.strategic_priority_id !== filters.strategicPriorityId) return false;
     if (filters.strategicObjectiveId !== 'ALL' && na.strategic_objective_id !== filters.strategicObjectiveId) return false;
     if (filters.nationalActivityId !== 'ALL' && na.id !== filters.nationalActivityId) return false;
+    if (filters.department && filters.department !== 'ALL' && na.department !== filters.department) return false;
+    if (filters.year && filters.year !== 'ALL' && na.year && String(na.year) !== String(filters.year)) return false;
     return true;
   });
   const aopTotals = computeAopTotals(filteredNas);
 
-  // AOP plan target = seeded ercs_target sum; actual = quarterly actuals from plan entries
-  const aopTarget = aopTotals.ercsTarget;
-  const aopBudget = aopTotals.ercsBudget;
+  // AOP plan target and budget scoped by role / responsibility filter
+  const aopTarget = isRegionalRole
+    ? (assignedRegion ? (aopTotals.byRegion[assignedRegion.id]?.target ?? 0) : aopTotals.rbTarget)
+    : isProjectRole
+    ? aopTotals.hqTarget
+    : (filters.responsibility === 'Region'
+        ? (filters.regionId.length > 0 && !filters.regionId.includes('ALL') && !filters.regionId.includes('NONE')
+            ? filters.regionId.reduce((s, rId) => s + (aopTotals.byRegion[rId]?.target ?? 0), 0)
+            : aopTotals.rbTarget)
+        : (filters.responsibility === 'Project' || filters.responsibility === 'HQ')
+        ? aopTotals.hqTarget
+        : aopTotals.ercsTarget);
+
+  const aopBudget = isRegionalRole
+    ? (assignedRegion ? (aopTotals.byRegion[assignedRegion.id]?.budget ?? 0) : aopTotals.rbBudget)
+    : isProjectRole
+    ? aopTotals.hqBudget
+    : (filters.responsibility === 'Region'
+        ? (filters.regionId.length > 0 && !filters.regionId.includes('ALL') && !filters.regionId.includes('NONE')
+            ? filters.regionId.reduce((s, rId) => s + (aopTotals.byRegion[rId]?.budget ?? 0), 0)
+            : aopTotals.rbBudget)
+        : (filters.responsibility === 'Project' || filters.responsibility === 'HQ')
+        ? aopTotals.hqBudget
+        : aopTotals.ercsBudget);
+
   const aopActual = sumActual(entries, quarterlyActuals, q);
   const aopSpent = sumExpenditure(entries, quarterlyActuals, q);
   const aopAchievement = achievementPct(aopActual, aopTarget);
   const aopUtilization = budgetUtilizationPct(aopSpent, aopBudget);
 
   // AOP by region: seeded regional_targets as planned, actuals from plan entries
-  const aopByRegion = regions.map(r => {
-    const planned = aopTotals.byRegion[r.id]?.target ?? 0;
-    const plannedBudget = aopTotals.byRegion[r.id]?.budget ?? 0;
-    const es = contributingEntries.filter(e => e.region_id === r.id);
-    const actual = sumActual(es, quarterlyActuals, q);
-    const spent = sumExpenditure(es, quarterlyActuals, q);
-    return { name: r.name, planned, plannedBudget, actual, spent, achievement: achievementPct(actual, planned), utilization: budgetUtilizationPct(spent, plannedBudget) };
-  }).filter(r => r.planned > 0 || r.actual > 0);
+  // Project roles must NEVER see region data!
+  const aopByRegion = isProjectRole ? [] : regions
+    .filter(r => {
+      if (isRegionalRole && assignedRegion) return r.id === assignedRegion.id;
+      if (filters.regionId.length > 0 && !filters.regionId.includes('ALL') && !filters.regionId.includes('NONE')) {
+        return filters.regionId.includes(r.id);
+      }
+      return true;
+    })
+    .map(r => {
+      const planned = aopTotals.byRegion[r.id]?.target ?? 0;
+      const plannedBudget = aopTotals.byRegion[r.id]?.budget ?? 0;
+      const es = contributingEntries.filter(e => e.region_id === r.id);
+      const actual = sumActual(es, quarterlyActuals, q);
+      const spent = sumExpenditure(es, quarterlyActuals, q);
+      return { name: r.name, planned, plannedBudget, actual, spent, achievement: achievementPct(actual, planned), utilization: budgetUtilizationPct(spent, plannedBudget) };
+    }).filter(r => r.planned > 0 || r.actual > 0);
 
-  // AOP by strategic priority: seeded ercs_target aggregated per SP, actuals from plan entries
+  // AOP by project (visible to project roles or when responsibility is Project/HQ)
+  const aopByProject = isRegionalRole ? [] : projects
+    .filter(p => {
+      if (assignedProject) return p.id === assignedProject.id;
+      if (filters.projectId.length > 0 && !filters.projectId.includes('ALL') && !filters.projectId.includes('NONE')) {
+        return filters.projectId.includes(p.id);
+      }
+      return true;
+    })
+    .map(p => {
+      const es = contributingEntries.filter(e => e.project_id === p.id);
+      const planned = sumPlannedTarget(es, quarterlyPlans, q);
+      const plannedBudget = sumPlannedBudget(es, quarterlyPlans, q);
+      const actual = sumActual(es, quarterlyActuals, q);
+      const spent = sumExpenditure(es, quarterlyActuals, q);
+      return { name: p.name, planned, plannedBudget, actual, spent, achievement: achievementPct(actual, planned), utilization: budgetUtilizationPct(spent, plannedBudget) };
+    }).filter(r => r.planned > 0 || r.actual > 0);
+
+  // AOP by strategic priority: planned scoped to role
   const aopBySp = strategicPriorities.map(sp => {
-    const planned = aopTotals.byStrategicPriority[sp.id]?.target ?? 0;
-    const plannedBudget = aopTotals.byStrategicPriority[sp.id]?.budget ?? 0;
+    let planned = aopTotals.byStrategicPriority[sp.id]?.target ?? 0;
+    let plannedBudget = aopTotals.byStrategicPriority[sp.id]?.budget ?? 0;
+    if (isRegionalRole && assignedRegion) {
+      const nasUnderSp = filteredNas.filter(na => na.strategic_priority_id === sp.id);
+      planned = nasUnderSp.reduce((s, na) => s + (na.regional_targets?.[assignedRegion.id]?.target || 0), 0);
+      plannedBudget = nasUnderSp.reduce((s, na) => s + (na.regional_targets?.[assignedRegion.id]?.budget || 0), 0);
+    } else if (isRegionalRole) {
+      const nasUnderSp = filteredNas.filter(na => na.strategic_priority_id === sp.id);
+      planned = nasUnderSp.reduce((s, na) => s + (na.rb_target || 0), 0);
+      plannedBudget = nasUnderSp.reduce((s, na) => s + (na.rb_budget || 0), 0);
+    } else if (isProjectRole || filters.responsibility === 'Project' || filters.responsibility === 'HQ') {
+      const nasUnderSp = filteredNas.filter(na => na.strategic_priority_id === sp.id);
+      planned = nasUnderSp.reduce((s, na) => s + (na.hq_target || 0), 0);
+      plannedBudget = nasUnderSp.reduce((s, na) => s + (na.hq_budget || 0), 0);
+    }
     const es = contributingEntries.filter(e => nationalActivities.find(n => n.id === e.national_activity_id)?.strategic_priority_id === sp.id);
     const actual = sumActual(es, quarterlyActuals, q);
     const spent = sumExpenditure(es, quarterlyActuals, q);
@@ -158,8 +242,21 @@ export const ReportPage: React.FC = () => {
 
   // AOP by strategic objective
   const aopBySo = strategicObjectives.map(so => {
-    const planned = aopTotals.byStrategicObjective[so.id]?.target ?? 0;
-    const plannedBudget = aopTotals.byStrategicObjective[so.id]?.budget ?? 0;
+    let planned = aopTotals.byStrategicObjective[so.id]?.target ?? 0;
+    let plannedBudget = aopTotals.byStrategicObjective[so.id]?.budget ?? 0;
+    if (isRegionalRole && assignedRegion) {
+      const nasUnderSo = filteredNas.filter(na => na.strategic_objective_id === so.id);
+      planned = nasUnderSo.reduce((s, na) => s + (na.regional_targets?.[assignedRegion.id]?.target || 0), 0);
+      plannedBudget = nasUnderSo.reduce((s, na) => s + (na.regional_targets?.[assignedRegion.id]?.budget || 0), 0);
+    } else if (isRegionalRole) {
+      const nasUnderSo = filteredNas.filter(na => na.strategic_objective_id === so.id);
+      planned = nasUnderSo.reduce((s, na) => s + (na.rb_target || 0), 0);
+      plannedBudget = nasUnderSo.reduce((s, na) => s + (na.rb_budget || 0), 0);
+    } else if (isProjectRole || filters.responsibility === 'Project' || filters.responsibility === 'HQ') {
+      const nasUnderSo = filteredNas.filter(na => na.strategic_objective_id === so.id);
+      planned = nasUnderSo.reduce((s, na) => s + (na.hq_target || 0), 0);
+      plannedBudget = nasUnderSo.reduce((s, na) => s + (na.hq_budget || 0), 0);
+    }
     const es = contributingEntries.filter(e => nationalActivities.find(n => n.id === e.national_activity_id)?.strategic_objective_id === so.id);
     const actual = sumActual(es, quarterlyActuals, q);
     const spent = sumExpenditure(es, quarterlyActuals, q);
@@ -180,16 +277,16 @@ export const ReportPage: React.FC = () => {
       {/* KPI CARDS — AOP Plan vs. Actual */}
       <div id="report-section-top" className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
         <KPICard
-          title="AOP Achievement"
+          title={isRegionalRole ? 'AOP Regional Achievement' : isProjectRole ? 'AOP Project Achievement' : 'AOP Achievement'}
           val={`${aopAchievement.toFixed(1)}%`}
-          sub={`${aopActual.toLocaleString()} actual / ${aopTarget.toLocaleString()} AOP target`}
+          sub={`${aopActual.toLocaleString()} actual / ${aopTarget.toLocaleString()} ${isRegionalRole ? 'regional' : isProjectRole ? 'project' : 'AOP'} target`}
           icon={Target}
           statusBadge={aopAchievement > 100 ? OVERACHIEVED_BADGE : undefined}
         />
         <KPICard
-          title="Budget Utilization"
+          title={isRegionalRole ? 'Regional Budget Utilization' : isProjectRole ? 'Project Budget Utilization' : 'Budget Utilization'}
           val={`${aopUtilization.toFixed(1)}%`}
-          sub={`ETB ${aopSpent.toLocaleString()} spent / ${aopBudget.toLocaleString()} AOP budget`}
+          sub={`ETB ${aopSpent.toLocaleString()} spent / ${aopBudget.toLocaleString()} ${isRegionalRole ? 'regional' : isProjectRole ? 'project' : 'AOP'} budget`}
           icon={Wallet}
           statusBadge={aopUtilization > 100 ? OVER_BUDGET_BADGE : undefined}
         />
@@ -202,7 +299,7 @@ export const ReportPage: React.FC = () => {
         <KPICard
           title="Plan Entries in Scope"
           val={String(entries.length)}
-          sub={`${contributingEntries.length} Contributing · ${nonContributingEntries.length} Standalone`}
+          sub={isRegionalRole ? `${contributingEntries.length} Regional Entries` : `${contributingEntries.length} Contributing · ${nonContributingEntries.length} Standalone`}
           icon={TrendingUp}
         />
       </div>
@@ -249,10 +346,12 @@ export const ReportPage: React.FC = () => {
           </div>
         )}
 
-        {/* By Region */}
-        {aopByRegion.length > 0 && (
+        {/* By Region (Hidden for Project roles) */}
+        {!isProjectRole && aopByRegion.length > 0 && (
           <div id="report-section-region" className="bg-white rounded-xl border shadow-sm overflow-hidden">
-            <div className="p-3 border-b bg-slate-50 text-xs font-bold text-slate-700 uppercase tracking-wider">By Region (AOP Plan)</div>
+            <div className="p-3 border-b bg-slate-50 text-xs font-bold text-slate-700 uppercase tracking-wider">
+              {isRegionalRole && assignedRegion ? `By Region (${assignedRegion.name})` : 'By Region (AOP Plan)'}
+            </div>
             <div className="overflow-x-auto">
               <table className="w-full text-left text-xs">
                 <thead className="bg-slate-50 text-slate-500 font-bold uppercase border-b">
@@ -268,6 +367,45 @@ export const ReportPage: React.FC = () => {
                 </thead>
                 <tbody className="divide-y">
                   {aopByRegion.map(row => (
+                    <tr key={row.name} className="hover:bg-slate-50">
+                      <td className="p-3 font-semibold text-slate-800">{row.name}</td>
+                      <td className="p-3 text-right">{row.planned.toLocaleString()}</td>
+                      <td className="p-3 text-right font-bold text-blue-700">{row.actual.toLocaleString()}</td>
+                      <td className={`p-3 text-right font-black ${row.achievement >= 100 ? 'text-emerald-600' : row.achievement >= 50 ? 'text-amber-600' : 'text-red-600'}`}>
+                        {row.achievement.toFixed(1)}%
+                      </td>
+                      <td className="p-3 text-right">{row.plannedBudget.toLocaleString()}</td>
+                      <td className="p-3 text-right">{row.spent.toLocaleString()}</td>
+                      <td className="p-3 text-right">{row.utilization.toFixed(1)}%</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        )}
+
+        {/* By Project (Hidden for Regional roles) */}
+        {!isRegionalRole && aopByProject.length > 0 && (
+          <div id="report-section-project" className="bg-white rounded-xl border shadow-sm overflow-hidden">
+            <div className="p-3 border-b bg-slate-50 text-xs font-bold text-slate-700 uppercase tracking-wider">
+              {isProjectRole && assignedProject ? `By Project (${assignedProject.name})` : 'By Project (Execution Plans)'}
+            </div>
+            <div className="overflow-x-auto">
+              <table className="w-full text-left text-xs">
+                <thead className="bg-slate-50 text-slate-500 font-bold uppercase border-b">
+                  <tr>
+                    <th className="p-3">Project</th>
+                    <th className="p-3 text-right">Planned Target</th>
+                    <th className="p-3 text-right">Actual</th>
+                    <th className="p-3 text-right">Achievement %</th>
+                    <th className="p-3 text-right">Planned Budget (ETB)</th>
+                    <th className="p-3 text-right">Spent (ETB)</th>
+                    <th className="p-3 text-right">Utilization %</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y">
+                  {aopByProject.map(row => (
                     <tr key={row.name} className="hover:bg-slate-50">
                       <td className="p-3 font-semibold text-slate-800">{row.name}</td>
                       <td className="p-3 text-right">{row.planned.toLocaleString()}</td>
@@ -346,16 +484,18 @@ export const ReportPage: React.FC = () => {
         >
           <CheckCircle2 className="w-3.5 h-3.5" /> Contributing Activities ({contributingEntries.length})
         </button>
-        <button
-          onClick={() => setActiveTab('non-contributing')}
-          className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all flex items-center gap-1.5 ${
-            activeTab === 'non-contributing'
-              ? 'bg-amber-600 text-white shadow-sm'
-              : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
-          }`}
-        >
-          <AlertCircle className="w-3.5 h-3.5" /> Non-Contributing Project Activities ({nonContributingEntries.length})
-        </button>
+        {!isRegionalRole && (
+          <button
+            onClick={() => setActiveTab('non-contributing')}
+            className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all flex items-center gap-1.5 ${
+              activeTab === 'non-contributing'
+                ? 'bg-amber-600 text-white shadow-sm'
+                : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
+            }`}
+          >
+            <AlertCircle className="w-3.5 h-3.5" /> Non-Contributing Project Activities ({nonContributingEntries.length})
+          </button>
+        )}
       </div>
 
       {/* CONSOLIDATED CONTRIBUTING TABLE */}
@@ -483,7 +623,7 @@ export const ReportPage: React.FC = () => {
       )}
 
       {/* DEDICATED NON-CONTRIBUTING PROJECT ACTIVITIES TABLE */}
-      {(activeTab === 'all' || activeTab === 'non-contributing') && (
+      {!isRegionalRole && (activeTab === 'all' || activeTab === 'non-contributing') && (
         <div id="report-section-non-contributing" className="bg-white rounded-xl border border-amber-200 shadow-sm overflow-hidden">
           <div className="p-4 border-b bg-amber-50 flex items-center justify-between">
             <div className="flex items-center gap-2 text-xs font-bold text-amber-900 uppercase tracking-wider">
@@ -578,7 +718,7 @@ export const ReportPage: React.FC = () => {
       )}
 
       {/* SUMMARY BREAKDOWNS — Plan Entry based (project scope) */}
-      {contributingEntries.length > 0 && (
+      {!isRegionalRole && contributingEntries.length > 0 && (
         <div className="pt-4 border-t space-y-6">
           <h3 className="text-sm font-bold text-slate-700 uppercase tracking-wider">Plan Entry Breakdowns</h3>
           <p className="text-[11px] text-slate-500 -mt-2">Aggregated from user-entered plan entries and approved quarterly data.</p>

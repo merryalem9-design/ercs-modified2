@@ -11,9 +11,43 @@ export const StrategicPlanPage: React.FC = () => {
     strategicObjectives,
     nationalActivities,
     regions,
+    projects,
+    zones,
     planEntries,
     filters,
+    currentRole,
   } = useApp();
+
+  const isBranchHead = currentRole.startsWith('Branch Head — ');
+  const isZoneCoordinator = currentRole.endsWith(' coordinators');
+  const isRegionalRole = isBranchHead || isZoneCoordinator;
+  const isProjectCoordinator = currentRole.startsWith('Project Coordinator — ');
+  const isProgramDirector = currentRole === 'Program Director';
+  const isProjectCoordinatorHQ = currentRole === 'Project Coordinator — HQ';
+  const isProjectRole = isProjectCoordinator || isProgramDirector || isProjectCoordinatorHQ;
+
+  const currentZone = isZoneCoordinator ? zones.find(z => `${z.name} coordinators` === currentRole) : undefined;
+  const assignedRegion = isBranchHead
+    ? regions.find(r => `Branch Head — ${r.name}` === currentRole)
+    : isZoneCoordinator
+    ? regions.find(r => r.id === currentZone?.region_id)
+    : undefined;
+  const assignedProject = isProjectCoordinator
+    ? projects.find(p => p.name === currentRole.slice('Project Coordinator — '.length))
+    : undefined;
+
+  const visibleRegions = useMemo(() => {
+    if (isProjectRole) return [];
+    if (isRegionalRole && assignedRegion) return regions.filter(r => r.id === assignedRegion.id);
+    const rIds = filters.regionId;
+    if (!rIds.includes('ALL') && !rIds.includes('NONE')) {
+      return regions.filter(r => rIds.includes(r.id));
+    }
+    return regions;
+  }, [regions, isProjectRole, isRegionalRole, assignedRegion, filters.regionId]);
+
+  const showHqColumns = !isRegionalRole;
+  const showRbColumns = !isProjectRole;
 
   // Collapsed / expanded state for objectives (collapsed by default)
   const [expandedObjectiveIds, setExpandedObjectiveIds] = useState<Set<string>>(new Set());
@@ -35,9 +69,19 @@ export const StrategicPlanPage: React.FC = () => {
     setExpandedObjectiveIds(new Set());
   };
 
-  // Filtered National Activities based on filters
+  // Filtered National Activities based on filters and role scope
   const filteredActivities = useMemo(() => {
     return nationalActivities.filter(na => {
+      // Role scope isolation: Regional roles see regions only; Project roles see projects only
+      if (isRegionalRole) {
+        if (na.eligible_region_ids.length === 0) return false;
+        if (assignedRegion && !na.eligible_region_ids.includes(assignedRegion.id)) return false;
+      }
+      if (isProjectRole) {
+        if (na.eligible_project_ids.length === 0) return false;
+        if (assignedProject && !na.eligible_project_ids.includes(assignedProject.id)) return false;
+      }
+
       // Strategic Priority
       if (filters.strategicPriorityId !== 'ALL' && na.strategic_priority_id !== filters.strategicPriorityId) {
         return false;
@@ -62,9 +106,10 @@ export const StrategicPlanPage: React.FC = () => {
       if (filters.responsibility && filters.responsibility !== 'ALL') {
         const respUpper = (na.responsibility || '').toUpperCase();
         if (filters.responsibility === 'HQ') {
-          if (na.responsibility !== 'HQ' && respUpper !== 'HQ') return false;
+          if (na.eligible_project_ids.length === 0) return false;
+          if (na.hq_target === 0 && na.hq_budget === 0 && !respUpper.includes('HQ') && respUpper !== 'BOTH') return false;
         } else if (filters.responsibility === 'Region') {
-          if (!respUpper.includes('RB') && !respUpper.includes('BRANCH') && respUpper !== 'BOTH') return false;
+          if (na.eligible_region_ids.length === 0) return false;
           // If a specific region is filtered
           const rIds = filters.regionId;
           if (!rIds.includes('ALL') && !rIds.includes('NONE')) {
@@ -84,7 +129,7 @@ export const StrategicPlanPage: React.FC = () => {
       }
       return true;
     });
-  }, [nationalActivities, filters]);
+  }, [nationalActivities, filters, isRegionalRole, isProjectRole, assignedRegion, assignedProject]);
 
   // Group filtered activities by objective
   const activeObjectiveIds = useMemo(() => {
@@ -289,32 +334,44 @@ export const StrategicPlanPage: React.FC = () => {
                   Departments
                 </th>
                 <th className="p-2 border-r border-slate-700 text-center bg-slate-900" colSpan={2}>
-                  ERCS Total
+                  {isRegionalRole ? 'Regional Total' : isProjectRole ? 'Project Total' : 'ERCS Total'}
                 </th>
-                <th className="p-2 border-r border-slate-700 text-center bg-slate-900" colSpan={2}>
-                  HQ
-                </th>
-                <th className="p-2 border-r border-slate-700 text-center bg-slate-900" colSpan={2}>
-                  Summary RB
-                </th>
-                {regions.map(r => (
+                {showHqColumns && (
+                  <th className="p-2 border-r border-slate-700 text-center bg-slate-900" colSpan={2}>
+                    HQ
+                  </th>
+                )}
+                {showRbColumns && (
+                  <th className="p-2 border-r border-slate-700 text-center bg-slate-900" colSpan={2}>
+                    Summary RB
+                  </th>
+                )}
+                {visibleRegions.map(r => (
                   <th key={r.id} className="p-2 border-r border-slate-700 text-center min-w-[180px] bg-slate-900/90" colSpan={2}>
                     {r.name}
                   </th>
                 ))}
               </tr>
               <tr className="bg-slate-900/80 text-[10px] text-slate-300">
-                {/* ERCS Subheaders */}
+                {/* Total Subheaders */}
                 <th className="p-2 border-r border-slate-700 text-right min-w-[85px]">Target</th>
                 <th className="p-2 border-r border-slate-700 text-right min-w-[100px]">Budget</th>
                 {/* HQ Subheaders */}
-                <th className="p-2 border-r border-slate-700 text-right min-w-[85px]">Target</th>
-                <th className="p-2 border-r border-slate-700 text-right min-w-[100px]">Budget</th>
+                {showHqColumns && (
+                  <>
+                    <th className="p-2 border-r border-slate-700 text-right min-w-[85px]">Target</th>
+                    <th className="p-2 border-r border-slate-700 text-right min-w-[100px]">Budget</th>
+                  </>
+                )}
                 {/* Summary RB Subheaders */}
-                <th className="p-2 border-r border-slate-700 text-right min-w-[85px]">Target</th>
-                <th className="p-2 border-r border-slate-700 text-right min-w-[100px]">Budget</th>
+                {showRbColumns && (
+                  <>
+                    <th className="p-2 border-r border-slate-700 text-right min-w-[85px]">Target</th>
+                    <th className="p-2 border-r border-slate-700 text-right min-w-[100px]">Budget</th>
+                  </>
+                )}
                 {/* Regions Subheaders */}
-                {regions.map(r => (
+                {visibleRegions.map(r => (
                   <React.Fragment key={`sub-${r.id}`}>
                     <th className="p-2 border-r border-slate-700 text-right min-w-[85px]">Target</th>
                     <th className="p-2 border-r border-slate-700 text-right min-w-[95px]">Budget</th>
@@ -326,7 +383,7 @@ export const StrategicPlanPage: React.FC = () => {
             <tbody className="divide-y divide-slate-100 text-slate-700">
               {visibleObjectives.length === 0 ? (
                 <tr>
-                  <td colSpan={11 + regions.length * 2} className="p-12 text-center text-slate-400">
+                  <td colSpan={5 + 2 + (showHqColumns ? 2 : 0) + (showRbColumns ? 2 : 0) + visibleRegions.length * 2} className="p-12 text-center text-slate-400">
                     No strategic objectives or activities match the selected filters.
                   </td>
                 </tr>
@@ -371,29 +428,37 @@ export const StrategicPlanPage: React.FC = () => {
                         <td className="p-3 border-r border-slate-300 text-slate-500 font-semibold">
                           {parentSp ? parentSp.code : '—'}
                         </td>
-                        {/* ERCS Total */}
+                        {/* Scoped Total */}
                         <td className="p-2.5 text-right border-r border-slate-300 font-mono text-slate-900">
-                          {formatNum(soTotals.ercsTarget)}
+                          {formatNum(isRegionalRole ? soTotals.rbTarget : isProjectRole ? soTotals.hqTarget : soTotals.ercsTarget)}
                         </td>
                         <td className="p-2.5 text-right border-r border-slate-300 font-mono text-slate-900 font-bold">
-                          {formatNum(soTotals.ercsBudget)}
+                          {formatNum(isRegionalRole ? soTotals.rbBudget : isProjectRole ? soTotals.hqBudget : soTotals.ercsBudget)}
                         </td>
                         {/* HQ */}
-                        <td className="p-2.5 text-right border-r border-slate-300 font-mono text-slate-700">
-                          {formatNum(soTotals.hqTarget)}
-                        </td>
-                        <td className="p-2.5 text-right border-r border-slate-300 font-mono text-slate-700">
-                          {formatNum(soTotals.hqBudget)}
-                        </td>
+                        {showHqColumns && (
+                          <>
+                            <td className="p-2.5 text-right border-r border-slate-300 font-mono text-slate-700">
+                              {formatNum(soTotals.hqTarget)}
+                            </td>
+                            <td className="p-2.5 text-right border-r border-slate-300 font-mono text-slate-700">
+                              {formatNum(soTotals.hqBudget)}
+                            </td>
+                          </>
+                        )}
                         {/* Summary RB */}
-                        <td className="p-2.5 text-right border-r border-slate-300 font-mono text-slate-700">
-                          {formatNum(soTotals.rbTarget)}
-                        </td>
-                        <td className="p-2.5 text-right border-r border-slate-300 font-mono text-slate-700">
-                          {formatNum(soTotals.rbBudget)}
-                        </td>
+                        {showRbColumns && (
+                          <>
+                            <td className="p-2.5 text-right border-r border-slate-300 font-mono text-slate-700">
+                              {formatNum(soTotals.rbTarget)}
+                            </td>
+                            <td className="p-2.5 text-right border-r border-slate-300 font-mono text-slate-700">
+                              {formatNum(soTotals.rbBudget)}
+                            </td>
+                          </>
+                        )}
                         {/* Per-Region columns */}
-                        {regions.map(r => {
+                        {visibleRegions.map(r => {
                           const rTotals = soTotals.regionTotals[r.id] || { target: 0, budget: 0 };
                           return (
                             <React.Fragment key={`so-reg-${r.id}`}>
@@ -436,29 +501,37 @@ export const StrategicPlanPage: React.FC = () => {
                               <td className="p-2.5 border-r border-slate-200 text-slate-600 font-medium">
                                 {na.department || '—'}
                               </td>
-                              {/* ERCS Total */}
+                              {/* Scoped Total */}
                               <td className="p-2 text-right border-r border-slate-200 font-mono text-slate-800 font-semibold">
-                                {formatNum(actTotals.ercsTarget)}
+                                {formatNum(isRegionalRole ? actTotals.rbTarget : isProjectRole ? actTotals.hqTarget : actTotals.ercsTarget)}
                               </td>
                               <td className="p-2 text-right border-r border-slate-200 font-mono text-slate-900 font-bold">
-                                {formatNum(actTotals.ercsBudget)}
+                                {formatNum(isRegionalRole ? actTotals.rbBudget : isProjectRole ? actTotals.hqBudget : actTotals.ercsBudget)}
                               </td>
                               {/* HQ */}
-                              <td className="p-2 text-right border-r border-slate-200 font-mono text-slate-600">
-                                {formatNum(actTotals.hqTarget)}
-                              </td>
-                              <td className="p-2 text-right border-r border-slate-200 font-mono text-slate-600">
-                                {formatNum(actTotals.hqBudget)}
-                              </td>
+                              {showHqColumns && (
+                                <>
+                                  <td className="p-2 text-right border-r border-slate-200 font-mono text-slate-600">
+                                    {formatNum(actTotals.hqTarget)}
+                                  </td>
+                                  <td className="p-2 text-right border-r border-slate-200 font-mono text-slate-600">
+                                    {formatNum(actTotals.hqBudget)}
+                                  </td>
+                                </>
+                              )}
                               {/* Summary RB */}
-                              <td className="p-2 text-right border-r border-slate-200 font-mono text-slate-600">
-                                {formatNum(actTotals.rbTarget)}
-                              </td>
-                              <td className="p-2 text-right border-r border-slate-200 font-mono text-slate-600">
-                                {formatNum(actTotals.rbBudget)}
-                              </td>
+                              {showRbColumns && (
+                                <>
+                                  <td className="p-2 text-right border-r border-slate-200 font-mono text-slate-600">
+                                    {formatNum(actTotals.rbTarget)}
+                                  </td>
+                                  <td className="p-2 text-right border-r border-slate-200 font-mono text-slate-600">
+                                    {formatNum(actTotals.rbBudget)}
+                                  </td>
+                                </>
+                              )}
                               {/* Per-Region */}
-                              {regions.map(r => {
+                              {visibleRegions.map(r => {
                                 const regData = actTotals.perRegion.find(pr => pr.regionId === r.id);
                                 return (
                                   <React.Fragment key={`act-${na.id}-${r.id}`}>
@@ -486,24 +559,32 @@ export const StrategicPlanPage: React.FC = () => {
                     GRAND TOTAL ({visibleObjectives.length} Objectives · {filteredActivities.length} Activities)
                   </td>
                   <td className="p-2.5 text-right border-r border-slate-700 font-mono">
-                    {formatNum(grandTotals.ercsTarget)}
+                    {formatNum(isRegionalRole ? grandTotals.rbTarget : isProjectRole ? grandTotals.hqTarget : grandTotals.ercsTarget)}
                   </td>
                   <td className="p-2.5 text-right border-r border-slate-700 font-mono text-emerald-400">
-                    {formatNum(grandTotals.ercsBudget)}
+                    {formatNum(isRegionalRole ? grandTotals.rbBudget : isProjectRole ? grandTotals.hqBudget : grandTotals.ercsBudget)}
                   </td>
-                  <td className="p-2.5 text-right border-r border-slate-700 font-mono">
-                    {formatNum(grandTotals.hqTarget)}
-                  </td>
-                  <td className="p-2.5 text-right border-r border-slate-700 font-mono text-blue-300">
-                    {formatNum(grandTotals.hqBudget)}
-                  </td>
-                  <td className="p-2.5 text-right border-r border-slate-700 font-mono">
-                    {formatNum(grandTotals.rbTarget)}
-                  </td>
-                  <td className="p-2.5 text-right border-r border-slate-700 font-mono text-amber-300">
-                    {formatNum(grandTotals.rbBudget)}
-                  </td>
-                  {regions.map(r => {
+                  {showHqColumns && (
+                    <>
+                      <td className="p-2.5 text-right border-r border-slate-700 font-mono">
+                        {formatNum(grandTotals.hqTarget)}
+                      </td>
+                      <td className="p-2.5 text-right border-r border-slate-700 font-mono text-blue-300">
+                        {formatNum(grandTotals.hqBudget)}
+                      </td>
+                    </>
+                  )}
+                  {showRbColumns && (
+                    <>
+                      <td className="p-2.5 text-right border-r border-slate-700 font-mono">
+                        {formatNum(grandTotals.rbTarget)}
+                      </td>
+                      <td className="p-2.5 text-right border-r border-slate-700 font-mono text-amber-300">
+                        {formatNum(grandTotals.rbBudget)}
+                      </td>
+                    </>
+                  )}
+                  {visibleRegions.map(r => {
                     const rTotals = grandTotals.regionTotals[r.id] || { target: 0, budget: 0 };
                     return (
                       <React.Fragment key={`grand-reg-${r.id}`}>

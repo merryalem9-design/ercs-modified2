@@ -191,7 +191,7 @@ export const ProjectConfigurationPage: React.FC = () => {
                     required={contributesToNa}
                   >
                     <option value="">Select National Activity…</option>
-                    {nationalActivities.map(na => (
+                    {nationalActivities.filter(na => na.eligible_project_ids.length > 0).map(na => (
                       <option key={na.id} value={na.id}>
                         {na.code} — {na.description}
                       </option>

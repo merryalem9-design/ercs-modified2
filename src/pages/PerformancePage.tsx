@@ -38,7 +38,8 @@ export const PerformancePage: React.FC = () => {
   const projectEntries = entries.filter(e => e.scope_type === 'Project');
   const hqEntries = entries.filter(e => {
     const na = nationalActivities.find(n => n.id === e.national_activity_id);
-    return na?.responsibility === 'HQ' || na?.responsibility === 'Both';
+    const resp = (na?.responsibility || '').toUpperCase();
+    return e.scope_type === 'Project' && (resp.includes('HQ') || resp === 'BOTH');
   });
 
   const departments = Array.from(new Set(nationalActivities.map(na => na.department).filter(Boolean))) as string[];

@@ -931,7 +931,7 @@ export const PlanEntryWizardModal: React.FC<{
                   <span className="block text-[10px] font-bold text-slate-500 mb-1">National Activity (Parent)</span>
                   <select value={form.national_activity_id} onChange={e => setForm(f => ({ ...f, national_activity_id: e.target.value }))} disabled={isEditing} className="w-full text-xs border border-slate-200 rounded p-2 bg-slate-50 disabled:opacity-60">
                     <option value="">Select the National Activity this plan entry belongs to…</option>
-                    {nationalActivities.map(na => <option key={na.id} value={na.id}>{na.code} — {na.description}</option>)}
+                    {nationalActivities.filter(na => form.project_id ? na.eligible_project_ids.includes(form.project_id) : na.eligible_project_ids.length > 0).map(na => <option key={na.id} value={na.id}>{na.code} — {na.description}</option>)}
                   </select>
                 </div>
                 <div className="flex justify-end">

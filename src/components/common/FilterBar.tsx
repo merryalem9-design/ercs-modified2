@@ -87,7 +87,9 @@ export const FilterBar: React.FC<FilterBarProps> = ({
     if (filters.strategicObjectiveId !== 'ALL' && na.strategic_objective_id !== filters.strategicObjectiveId) return false;
     if (filters.year && filters.year !== 'ALL' && na.year && String(na.year) !== String(filters.year)) return false;
     if (filters.department && filters.department !== 'ALL' && na.department !== filters.department) return false;
-    if (currentResp === 'HQ' && na.responsibility !== 'HQ') return false;
+    if (currentResp === 'Region' && na.eligible_region_ids.length === 0) return false;
+    if (currentResp === 'Project' && na.eligible_project_ids.length === 0) return false;
+    if (currentResp === 'HQ' && (na.eligible_project_ids.length === 0 || (na.hq_target === 0 && na.hq_budget === 0 && !na.responsibility.toUpperCase().includes('HQ') && na.responsibility.toLowerCase() !== 'both'))) return false;
     const rIds = filters.regionId;
     if (!rIds.includes('ALL') && !rIds.includes('NONE') && !rIds.some(id => na.eligible_region_ids.includes(id))) return false;
     const pIds = filters.projectId;
