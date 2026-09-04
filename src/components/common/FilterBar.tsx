@@ -239,16 +239,16 @@ export const FilterBar: React.FC<FilterBarProps> = ({
   };
 
   // Conditional visibility rules based on Responsibility filter
-  // When "Region" is selected → show Zone filter & Region filter.
-  // When "Project" is selected → show Project list filter.
-  // When "HQ" is selected → show only HQ-executed activities (hide Zone/Project).
-  // When "ALL" is selected → show default layout.
-  const showRegionControl = !isProjectRole && (currentResp === 'ALL' || currentResp === 'Region');
+  // Region/Zone appear ONLY when Responsibility = "Region" is explicitly selected.
+  // Project list appears ONLY when Responsibility = "Project" is explicitly selected.
+  // Department shows for HQ and ALL.
+  // This keeps the default filter set clean: Responsibility, Year, Department, SP, SO, NA.
+  const showRegionControl = !isProjectRole && currentResp === 'Region';
   const showZoneControl =
-    (currentResp === 'Region' || zoneFilterRegion !== undefined) &&
-    currentResp !== 'HQ' &&
-    currentResp !== 'Project';
-  const showProjectControl = !isRegionScoped && (currentResp === 'ALL' || currentResp === 'Project');
+    currentResp === 'Region' &&
+    !filters.regionId.includes('ALL') &&
+    !filters.regionId.includes('NONE');
+  const showProjectControl = !isRegionScoped && currentResp === 'Project';
   const showDepartmentControl =
     showDepartmentFilter && (currentResp === 'ALL' || currentResp === 'HQ');
 

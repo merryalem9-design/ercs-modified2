@@ -22,7 +22,10 @@ export const QuarterlyPlanPage: React.FC = () => {
           Zone-scoped rows go through Draft → Pending Approval → Approved/Rejected with the Branch Head; Project-scoped rows go through approval with the Program Director.
         </p>
       </div>
-      <FilterBar />
+      <FilterBar
+        showResponsibilityFilter={true}
+        showDepartmentFilter={true}
+      />
       <section className="bg-white rounded-xl border shadow-sm overflow-hidden">
         <div className="overflow-x-auto">
           <table className="w-full text-left text-xs">
