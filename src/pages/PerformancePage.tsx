@@ -19,7 +19,7 @@ const ACTUAL_COLOR = '#C8102E';
 const ACHIEVEMENT_ACCENT = '#0D9488';
 
 export const PerformancePage: React.FC = () => {
-  const { nationalActivities, regions, projects, strategicPriorities, strategicObjectives, quarterlyPlans, quarterlyActuals, uomConfigs, getFilteredPlanEntries, setReportFocusSection, setActiveRoute, computeAopTotals, filters } = useApp();
+  const { nationalActivities, regions, projects, strategicPriorities, strategicObjectives, quarterlyPlans, quarterlyActuals, uomConfigs, getFilteredPlanEntries, setReportFocusSection, setActiveRoute, computeAopTotals, filters, statusThresholds } = useApp();
   const entries = getFilteredPlanEntries();
   const [groupBy, setGroupBy] = useState<'region' | 'project' | 'hq' | 'department'>('region');
 
@@ -34,9 +34,11 @@ export const PerformancePage: React.FC = () => {
   });
   const aopTotals = computeAopTotals(filteredNas);
 
-  const regionalEntries = entries.filter(e => e.scope_type === 'Regional');
-  const projectEntries = entries.filter(e => e.scope_type === 'Project');
-  const hqEntries = entries.filter(e => {
+  const contributingEntries = entries.filter(e => e.is_contributing !== false);
+
+  const regionalEntries = contributingEntries.filter(e => e.scope_type === 'Regional');
+  const projectEntries = contributingEntries.filter(e => e.scope_type === 'Project');
+  const hqEntries = contributingEntries.filter(e => {
     const na = nationalActivities.find(n => n.id === e.national_activity_id);
     const resp = (na?.responsibility || '').toUpperCase();
     return e.scope_type === 'Project' && (resp.includes('HQ') || resp === 'BOTH');
@@ -48,7 +50,7 @@ export const PerformancePage: React.FC = () => {
   //             actual = sum of quarterly actuals from plan entries
   const nationalTarget = aopTotals.ercsTarget;
   const nationalBudget = aopTotals.ercsBudget;
-  const nationalActual = sumActual(entries, quarterlyActuals, 'ALL');
+  const nationalActual = sumActual(contributingEntries, quarterlyActuals, 'ALL');
   const nationalAchievement = achievementPct(nationalActual, nationalTarget);
 
   // Regional: use sum of regional seeded targets across all regions
@@ -64,7 +66,7 @@ export const PerformancePage: React.FC = () => {
   const projectAchievement = achievementPct(projectActual, projectAopTarget);
 
   const budget = nationalBudget;
-  const spent = sumExpenditure(entries, quarterlyActuals, 'ALL');
+  const spent = sumExpenditure(contributingEntries, quarterlyActuals, 'ALL');
   const utilization = budgetUtilizationPct(spent, budget);
 
   const beneficiariesFor = (es: typeof entries) => es.reduce((sum, e) => {
@@ -72,7 +74,7 @@ export const PerformancePage: React.FC = () => {
     const a = sumActual([e], quarterlyActuals, 'ALL');
     return sum + convertToBeneficiaries(a, na?.uom || '', uomConfigs);
   }, 0);
-  const totalBeneficiaries = beneficiariesFor(entries);
+  const totalBeneficiaries = beneficiariesFor(contributingEntries);
 
   // Panel 1 — Target vs Actual, toggleable between Region, Project, HQ, and Department
   // For region/hq: use AOP seeded targets as "Target"; for project: use plan entry targets.
@@ -103,7 +105,7 @@ export const PerformancePage: React.FC = () => {
 
   const targetActualByDepartment = departments
     .map(dept => {
-      const es = entries.filter(e => {
+      const es = contributingEntries.filter(e => {
         const na = nationalActivities.find(n => n.id === e.national_activity_id);
         return na?.department === dept;
       });
@@ -140,8 +142,8 @@ export const PerformancePage: React.FC = () => {
   QUARTER_ORDER.forEach((q, idx) => { if (reportedQuarters.has(q)) currentQuarterIdx = idx; });
 
   const lineData = QUARTER_ORDER.map((q, idx) => {
-    const planned = sumPlannedTarget(entries, quarterlyPlans, q);
-    const actual = idx <= currentQuarterIdx ? sumActual(entries, quarterlyActuals, q) : null;
+    const planned = sumPlannedTarget(contributingEntries, quarterlyPlans, q);
+    const actual = idx <= currentQuarterIdx ? sumActual(contributingEntries, quarterlyActuals, q) : null;
     return { quarter: q, Planned: planned, Actual: actual };
   });
 
@@ -162,10 +164,12 @@ export const PerformancePage: React.FC = () => {
     ...projects
       .map(p => {
         const es = projectEntries.filter(e => e.project_id === p.id);
-        if (es.length === 0) return null;
+        const aopProjTarget = aopTotals.byProject[p.id]?.target ?? 0;
+        const actual = sumActual(es, quarterlyActuals, 'ALL');
+        if (aopProjTarget === 0 && es.length === 0) return null;
         return {
           name: p.name,
-          achievement: Number(achievementPct(sumActual(es, quarterlyActuals, 'ALL'), sumPlannedTarget(es, quarterlyPlans, 'ALL')).toFixed(1)),
+          achievement: Number(achievementPct(actual, aopProjTarget).toFixed(1)),
         };
       })
       .filter((row): row is { name: string; achievement: number } => row !== null),
@@ -188,7 +192,7 @@ export const PerformancePage: React.FC = () => {
       <FilterBar />
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
-        <KPICard icon={Target} title="National Achievement" val={`${nationalAchievement.toFixed(1)}%`} sub={`${nationalActual.toLocaleString()} actual / ${nationalTarget.toLocaleString()} AOP target`} badge={getStatusBadge(nationalAchievement, nationalActual > 0)}
+        <KPICard icon={Target} title="National Achievement" val={`${nationalAchievement.toFixed(1)}%`} sub={`${nationalActual.toLocaleString()} actual / ${nationalTarget.toLocaleString()} AOP target`} badge={getStatusBadge(nationalAchievement, nationalActual > 0, statusThresholds)}
           onClick={() => { setReportFocusSection('national'); setActiveRoute('report'); }}
         />
         <KPICard icon={MapPin} title="Regional Achievement" val={`${regionalAchievement.toFixed(1)}%`} sub={`${regionalActual.toLocaleString()} actual / ${regionalAopTarget.toLocaleString()} AOP target`}

@@ -69,9 +69,10 @@ export const NationalActivityDetailPage: React.FC = () => {
   const isAop = currentRole === 'National Activity AOP';
   const isMonitor = currentRole === 'PMER Officer';
   const isBranchHead = currentRole.startsWith('Branch Head — ');
-  const isProjectCoordinator = currentRole.startsWith('Project Coordinator — ');
+  const isProjectCoordinatorHQ = currentRole === 'Project Coordinator — HQ';
+  const isProjectCoordinator = currentRole.startsWith('Project Coordinator — ') && !isProjectCoordinatorHQ;
   const isProgramDirector = currentRole === 'Program Director';
-  const isProjectRole = isProjectCoordinator || isProgramDirector;
+  const isProjectRole = isProjectCoordinator || isProjectCoordinatorHQ || isProgramDirector;
   const isZoneCoordinator = currentRole.endsWith(' coordinators');
   const isRegionalRole = isBranchHead || isZoneCoordinator;
   const roleIsCoordinator = !isAop && !isMonitor;
@@ -148,13 +149,18 @@ export const NationalActivityDetailPage: React.FC = () => {
   const projectEligible = isProjectCoordinator && !!assignedProject
     && na.eligible_project_ids.includes(assignedProject.id) && !projectAlreadyHasEntry;
 
+  const hqEligibleProjects = na.eligible_project_ids.filter(pId =>
+    !allChildren.some(pe => pe.scope_type === 'Project' && pe.project_id === pId)
+  );
+  const hqProjectEligible = isProjectCoordinatorHQ && hqEligibleProjects.length > 0;
+
   const aopAlreadyHasEntry = isAop && !!filterProject
     && allChildren.some(pe => pe.scope_type === 'Project' && pe.project_id === filterProject.id);
   // AOP only adds Plan Entries when drilled into a PROJECT — never a Region.
   const aopEligible = isAop && !!filterProject
     && na.eligible_project_ids.includes(filterProject.id) && !aopAlreadyHasEntry;
 
-  const canAddPlanEntry = branchHeadEligible || !!zoneEligibleLink || projectEligible || aopEligible;
+  const canAddPlanEntry = branchHeadEligible || !!zoneEligibleLink || projectEligible || hqProjectEligible || aopEligible;
 
   const setParentFilter = (scopeType: 'Regional' | 'Project' | null = null, scopeId?: string) => {
     setFilters(prev => ({
@@ -219,6 +225,24 @@ export const NationalActivityDetailPage: React.FC = () => {
           project_id: assignedProject.id,
           annual_target: '', annual_budget: '', activity_name: '', activity_description: '',
           lockScope: true,
+        },
+        startStep: 2,
+      });
+      return;
+    }
+    if (hqProjectEligible) {
+      const defaultProjId = (filterProject && hqEligibleProjects.includes(filterProject.id))
+        ? filterProject.id
+        : hqEligibleProjects[0];
+      setPeWizard({
+        initial: {
+          strategicPriorityId: na.strategic_priority_id,
+          national_activity_id: na.id,
+          scope_type: 'Project',
+          region_id: '',
+          project_id: defaultProjId,
+          annual_target: '', annual_budget: '', activity_name: '', activity_description: '',
+          lockScope: false,
         },
         startStep: 2,
       });

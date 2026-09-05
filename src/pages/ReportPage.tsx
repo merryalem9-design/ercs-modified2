@@ -175,8 +175,8 @@ export const ReportPage: React.FC = () => {
         ? aopTotals.hqBudget
         : aopTotals.ercsBudget);
 
-  const aopActual = sumActual(entries, quarterlyActuals, q);
-  const aopSpent = sumExpenditure(entries, quarterlyActuals, q);
+  const aopActual = sumActual(contributingEntries, quarterlyActuals, q);
+  const aopSpent = sumExpenditure(contributingEntries, quarterlyActuals, q);
   const aopAchievement = achievementPct(aopActual, aopTarget);
   const aopUtilization = budgetUtilizationPct(aopSpent, aopBudget);
 
@@ -214,7 +214,7 @@ export const ReportPage: React.FC = () => {
       const es = contributingEntries.filter(e => e.project_id === p.id);
       const actual = sumActual(es, quarterlyActuals, q);
       const spent = sumExpenditure(es, quarterlyActuals, q);
-      return { name: p.name, planned, plannedBudget, actual, spent, achievement: achievementPct(actual, planned), utilization: budgetUtilizationPct(spent, plannedBudget) };
+      return { id: p.id, name: p.name, currency: p.currency || 'ETB', planned, plannedBudget, actual, spent, achievement: achievementPct(actual, planned), utilization: budgetUtilizationPct(spent, plannedBudget) };
     }).filter(r => r.planned > 0 || r.actual > 0);
 
   // AOP by strategic priority: planned scoped to role
@@ -292,8 +292,8 @@ export const ReportPage: React.FC = () => {
         />
         <KPICard
           title="Beneficiaries Reached"
-          val={actualBeneficiariesFor(entries).toLocaleString()}
-          sub={`of ${totalBeneficiariesFor(entries).toLocaleString()} planned`}
+          val={actualBeneficiariesFor(contributingEntries).toLocaleString()}
+          sub={`of ${totalBeneficiariesFor(contributingEntries).toLocaleString()} planned`}
           icon={Users}
         />
         <KPICard
@@ -399,22 +399,33 @@ export const ReportPage: React.FC = () => {
                     <th className="p-3 text-right">AOP Target</th>
                     <th className="p-3 text-right">Actual</th>
                     <th className="p-3 text-right">Achievement %</th>
-                    <th className="p-3 text-right">AOP Budget (ETB)</th>
-                    <th className="p-3 text-right">Spent (ETB)</th>
+                    <th className="p-3 text-right">AOP Budget</th>
+                    <th className="p-3 text-right">Spent</th>
                     <th className="p-3 text-right">Utilization %</th>
                   </tr>
                 </thead>
                 <tbody className="divide-y">
                   {aopByProject.map(row => (
                     <tr key={row.name} className="hover:bg-slate-50">
-                      <td className="p-3 font-semibold text-slate-800">{row.name}</td>
+                      <td className="p-3 font-semibold text-slate-800">
+                        <div className="flex items-center gap-2">
+                          <span>{row.name}</span>
+                          <span className={`text-[9px] px-1.5 py-0.2 rounded font-bold border ${row.currency === 'EUR' ? 'bg-blue-50 text-blue-700 border-blue-200' : 'bg-emerald-50 text-emerald-700 border-emerald-200'}`}>
+                            {row.currency}
+                          </span>
+                        </div>
+                      </td>
                       <td className="p-3 text-right">{row.planned.toLocaleString()}</td>
                       <td className="p-3 text-right font-bold text-blue-700">{row.actual.toLocaleString()}</td>
                       <td className={`p-3 text-right font-black ${row.achievement >= 100 ? 'text-emerald-600' : row.achievement >= 50 ? 'text-amber-600' : 'text-red-600'}`}>
                         {row.achievement.toFixed(1)}%
                       </td>
-                      <td className="p-3 text-right">{row.plannedBudget.toLocaleString()}</td>
-                      <td className="p-3 text-right">{row.spent.toLocaleString()}</td>
+                      <td className="p-3 text-right font-medium">
+                        {row.currency === 'EUR' ? `€${row.plannedBudget.toLocaleString()}` : `${row.plannedBudget.toLocaleString()} ETB`}
+                      </td>
+                      <td className="p-3 text-right">
+                        {row.currency === 'EUR' ? `€${row.spent.toLocaleString()}` : `${row.spent.toLocaleString()} ETB`}
+                      </td>
                       <td className="p-3 text-right">{row.utilization.toFixed(1)}%</td>
                     </tr>
                   ))}

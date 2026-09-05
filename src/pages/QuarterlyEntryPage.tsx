@@ -8,7 +8,7 @@ import { PlanEntry, QuarterId } from '../types';
 import { AlertTriangle, ArrowRight } from 'lucide-react';
 
 export const QuarterlyEntryPage: React.FC = () => {
-  const { nationalActivities, zones, projects, quarters, getFilteredPlanEntries } = useApp();
+  const { nationalActivities, zones, projects, quarters, quarterPeriodConfigs, getFilteredPlanEntries } = useApp();
   const [quarter, setQuarter] = useState<QuarterId>('Q1');
   const entries = getFilteredPlanEntries();
 
@@ -20,9 +20,14 @@ export const QuarterlyEntryPage: React.FC = () => {
       </div>
       <FilterBar />
       <div className="bg-white p-1.5 rounded-lg border inline-flex gap-1">
-        {quarters.map(q => (
-          <button key={q.id} onClick={() => setQuarter(q.id)} className={`px-4 py-1.5 rounded text-xs font-bold ${quarter === q.id ? 'bg-ercs-red text-white' : 'text-slate-600 hover:bg-slate-50'}`}>{q.label}</button>
-        ))}
+        {quarters.map(q => {
+          const cfg = quarterPeriodConfigs.find(c => c.id === q.id);
+          return (
+            <button key={q.id} onClick={() => setQuarter(q.id)} className={`px-4 py-1.5 rounded text-xs font-bold ${quarter === q.id ? 'bg-ercs-red text-white' : 'text-slate-600 hover:bg-slate-50'}`}>
+              {q.label}{cfg?.date_range ? ` (${cfg.date_range})` : ''}
+            </button>
+          );
+        })}
       </div>
       <div className="space-y-4">
         {entries.map(pe => (

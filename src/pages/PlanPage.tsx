@@ -66,7 +66,8 @@ export const PlanPage: React.FC = () => {
   };
 
   const isAop = currentRole === 'National Activity AOP';
-  const isProjectCoordinator = currentRole.startsWith('Project Coordinator — ');
+  const isProjectCoordinatorHQ = currentRole === 'Project Coordinator — HQ';
+  const isProjectCoordinator = currentRole.startsWith('Project Coordinator — ') && !isProjectCoordinatorHQ;
   const isBranchHead = currentRole.startsWith('Branch Head — ');
   const isZoneCoordinator = currentRole.endsWith(' coordinators');
 
@@ -95,7 +96,7 @@ export const PlanPage: React.FC = () => {
     : undefined;
 
   const showAggregatedView = isAop && !hasRegionOrProjectFilter;
-  const canAddPlanEntry = isProjectCoordinator || isZoneCoordinator || (isAop && !!filterProject);
+  const canAddPlanEntry = isProjectCoordinator || isProjectCoordinatorHQ || isZoneCoordinator || (isAop && !!filterProject);
 
   const roleScopedNationalActivities = getNationalActivitiesForRole();
 
@@ -137,12 +138,10 @@ export const PlanPage: React.FC = () => {
     });
   };
 
-  // ------------------------------------------------------------------
   // PROJECT COORDINATOR / AOP: add a Project-scope Plan Entry.
-  // ------------------------------------------------------------------
   const openAddPlanWizard = () => {
     const targetProject = assignedProject || filterProject;
-    if (!targetProject) return; // AOP only adds Plan Entries once drilled into a Project
+    if (!targetProject && !isProjectCoordinatorHQ) return; // AOP only adds Plan Entries once drilled into a Project
 
     const naFilterActive = filters.nationalActivityId !== 'ALL';
     const naId = naFilterActive ? filters.nationalActivityId : '';
@@ -154,9 +153,9 @@ export const PlanPage: React.FC = () => {
         national_activity_id: naId,
         scope_type: 'Project',
         region_id: '',
-        project_id: targetProject.id,
+        project_id: targetProject?.id || (projects[0]?.id ?? ''),
         annual_target: '', annual_budget: '', activity_name: '', activity_description: '',
-        lockScope: true,
+        lockScope: !isProjectCoordinatorHQ,
       },
       startStep: naFilterActive && na ? 2 : 1,
     });
@@ -300,7 +299,7 @@ export const PlanPage: React.FC = () => {
                   <Plus className="w-3.5 h-3.5" /> Add Plan Entry
                 </button>
               )}
-              {(isProjectCoordinator || isAop) && canAddPlanEntry && (
+              {(isProjectCoordinator || isProjectCoordinatorHQ || isAop) && canAddPlanEntry && (
                 <button onClick={openAddPlanWizard} className="flex items-center gap-1.5 bg-ercs-red text-white px-3 py-1.5 rounded-lg text-xs font-bold">
                   <Plus className="w-3.5 h-3.5" /> Add Plan Entry
                 </button>
@@ -412,7 +411,7 @@ export const PlanPage: React.FC = () => {
                       <th className="p-3">Code</th><th className="p-3">Activity Name</th><th className="p-3">Executed By</th>
                       <th className="p-3 text-right">Target</th><th className="p-3 text-right">Budget (ETB)</th>
                       <th className="p-3 text-center">Status</th>
-                      {(isProjectCoordinator || isZoneCoordinator) && <th className="p-3 text-center">Actions</th>}
+                      {(isProjectCoordinator || isProjectCoordinatorHQ || isZoneCoordinator) && <th className="p-3 text-center">Actions</th>}
                       {visibleQuarters.map(qId => (
                         <th key={qId} className="p-2 text-center bg-blue-50 border-l whitespace-nowrap" colSpan={2}>
                           {qId} Target / Budget
@@ -444,7 +443,7 @@ export const PlanPage: React.FC = () => {
                           <td className="p-3 text-right font-bold whitespace-nowrap">{row.target.toLocaleString()} {row.pe.uom || row.na?.uom || ''}</td>
                           <td className="p-3 text-right whitespace-nowrap">{row.budget.toLocaleString()}</td>
                           <td className="p-3 text-center"><StatusBadge achievementPct={row.achievement} hasActuals={row.actual > 0} /></td>
-                          {(isProjectCoordinator || isZoneCoordinator) && (
+                          {(isProjectCoordinator || isProjectCoordinatorHQ || isZoneCoordinator) && (
                             <td className="p-3">
                               <div className="flex items-center justify-center gap-2 flex-wrap">
                                 <button onClick={() => openEditPlanWizard(row.pe)} className="px-2.5 py-1 rounded bg-blue-50 text-blue-700 font-bold">Edit</button>
@@ -471,7 +470,7 @@ export const PlanPage: React.FC = () => {
                       <td className="p-3" colSpan={3}>TOTAL</td>
                       <td className="p-3 text-right text-slate-300">—</td>
                       <td className="p-3 text-right">{executionTotalBudget.toLocaleString()}</td>
-                      <td className="p-3" colSpan={(isProjectCoordinator || isZoneCoordinator) ? 2 : 1}></td>
+                      <td className="p-3" colSpan={(isProjectCoordinator || isProjectCoordinatorHQ || isZoneCoordinator) ? 2 : 1}></td>
                       {/* Quarter footer — one empty pair per visible quarter */}
                       {visibleQuarters.map(qId => (
                         <React.Fragment key={qId}>

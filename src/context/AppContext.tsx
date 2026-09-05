@@ -31,7 +31,7 @@ export interface AopTotals {
   /** Per-region aggregated targets & budgets keyed by region_id. */
   byRegion: Record<string, { target: number; budget: number }>;
   /** Per-project aggregated targets & budgets keyed by project_id. */
-  byProject: Record<string, { target: number; budget: number }>;
+  byProject: Record<string, { target: number; budget: number; currency?: 'ETB' | 'EUR' }>;
   /** Per-strategic-priority aggregated ercs target keyed by sp_id. */
   byStrategicPriority: Record<string, { target: number; budget: number }>;
   /** Per-strategic-objective aggregated ercs target keyed by so_id. */
@@ -665,11 +665,11 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   const computeAopTotals = (activities?: NationalActivity[]): AopTotals => {
     const src = activities ?? nationalActivities;
     const byRegion: Record<string, { target: number; budget: number }> = {};
-    const byProject: Record<string, { target: number; budget: number }> = {};
+    const byProject: Record<string, { target: number; budget: number; currency?: 'ETB' | 'EUR' }> = {};
     const byStrategicPriority: Record<string, { target: number; budget: number }> = {};
     const byStrategicObjective: Record<string, { target: number; budget: number }> = {};
     regions.forEach(r => { byRegion[r.id] = { target: 0, budget: 0 }; });
-    projects.forEach(p => { byProject[p.id] = { target: 0, budget: 0 }; });
+    projects.forEach(p => { byProject[p.id] = { target: 0, budget: 0, currency: p.currency || 'ETB' }; });
 
     let ercsTarget = 0, ercsBudget = 0, hqTarget = 0, hqBudget = 0, rbTarget = 0, rbBudget = 0;
 
@@ -690,15 +690,17 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
         });
       }
 
-      // Per-project: evenly split hq_target and hq_budget across eligible_project_ids
-      if (na.eligible_project_ids && na.eligible_project_ids.length > 0) {
-        const count = na.eligible_project_ids.length;
-        const targetShare = (na.hq_target ?? 0) / count;
-        const budgetShare = (na.hq_budget ?? 0) / count;
-        na.eligible_project_ids.forEach(projId => {
-          if (!byProject[projId]) byProject[projId] = { target: 0, budget: 0 };
-          byProject[projId].target += targetShare;
-          byProject[projId].budget += budgetShare;
+      // Per-project: direct accumulation from na.project_targets (from AOP_alignment.xlsx)
+      // Note: Non-contributing project activities are intentionally stored on project.project_only_activities
+      // and are NOT in nationalActivities, ensuring they are excluded from AOP aggregations.
+      if (na.project_targets) {
+        Object.entries(na.project_targets).forEach(([projId, vals]) => {
+          if (!byProject[projId]) {
+            const p = projects.find(proj => proj.id === projId);
+            byProject[projId] = { target: 0, budget: 0, currency: p?.currency || 'ETB' };
+          }
+          byProject[projId].target += vals.target ?? 0;
+          byProject[projId].budget += vals.budget ?? 0;
         });
       }
 
@@ -738,13 +740,12 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
 
   const getProjectAopShare = (nationalActivityId: string, projectId: string): { target: number; budget: number } => {
     const na = nationalActivities.find(n => n.id === nationalActivityId);
-    if (!na || !na.eligible_project_ids || na.eligible_project_ids.length === 0 || !na.eligible_project_ids.includes(projectId)) {
+    if (!na || !na.project_targets || !na.project_targets[projectId]) {
       return { target: 0, budget: 0 };
     }
-    const count = na.eligible_project_ids.length;
     return {
-      target: (na.hq_target ?? 0) / count,
-      budget: (na.hq_budget ?? 0) / count,
+      target: na.project_targets[projectId].target ?? 0,
+      budget: na.project_targets[projectId].budget ?? 0,
     };
   };
 

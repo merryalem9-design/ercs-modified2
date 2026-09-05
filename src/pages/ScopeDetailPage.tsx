@@ -6,7 +6,7 @@ import {
 } from '../utils/calculations';
 import { PlanEntry, QuarterFilterValue } from '../types';
 import { PlanEntryWizardModal, ConfirmDeleteModal, type PeWizardFormState } from './PlanPage';
-import { ArrowLeft, CalendarCheck2, CalendarClock, FolderGit2, Layers, Plus, Target, Trash2, Users, Wallet } from 'lucide-react';
+import { ArrowLeft, CalendarCheck2, CalendarClock, FileText, FolderGit2, Layers, Plus, Target, Trash2, Users, Wallet } from 'lucide-react';
 
 const beneficiaryPct = (actualBen: number, totalBen: number): number => totalBen === 0 ? 0 : (actualBen / totalBen) * 100;
 
@@ -39,17 +39,22 @@ export const ScopeDetailPage: React.FC = () => {
   }
 
   const entries = getFilteredPlanEntries();
-  const roleIsCoordinator = currentRole !== 'National Activity AOP';
+  const isOwningProjectCoordinator =
+    currentRole === `Project Coordinator — ${project.name}` ||
+    currentRole === 'Project Coordinator — HQ';
+  const roleIsCoordinator = isOwningProjectCoordinator;
 
   const totalBeneficiariesFor = (es: PlanEntry[]) => es.reduce((sum, e) => {
     const na = nationalActivities.find(n => n.id === e.national_activity_id);
+    const uom = e.uom || na?.uom || '';
     const t = sumPlannedTarget([e], quarterlyPlans, quarterId);
-    return sum + convertToBeneficiaries(t, na?.uom || '', uomConfigs);
+    return sum + convertToBeneficiaries(t, uom, uomConfigs);
   }, 0);
   const actualBeneficiariesFor = (es: PlanEntry[]) => es.reduce((sum, e) => {
     const na = nationalActivities.find(n => n.id === e.national_activity_id);
+    const uom = e.uom || na?.uom || '';
     const a = sumActual([e], quarterlyActuals, quarterId);
-    return sum + convertToBeneficiaries(a, na?.uom || '', uomConfigs);
+    return sum + convertToBeneficiaries(a, uom, uomConfigs);
   }, 0);
 
   const target = sumPlannedTarget(entries, quarterlyPlans, quarterId);
@@ -93,10 +98,28 @@ export const ScopeDetailPage: React.FC = () => {
       <div className="bg-white p-5 rounded-xl border shadow-sm">
         <div className="flex flex-wrap items-start justify-between gap-4">
           <div>
-            <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-purple-50 text-purple-700">Project</span>
+            <div className="flex items-center gap-2 flex-wrap">
+              <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-purple-50 text-purple-700">Project</span>
+              {project.currency && (
+                <span className={`px-2 py-0.5 rounded-full text-[10px] font-bold border ${project.currency === 'EUR' ? 'bg-blue-50 text-blue-700 border-blue-200' : 'bg-emerald-50 text-emerald-700 border-emerald-200'}`}>
+                  {project.currency}
+                </span>
+              )}
+              {project.donor && (
+                <span className="px-2 py-0.5 rounded-full text-[10px] font-semibold bg-slate-100 text-slate-700">
+                  Donor: {project.donor}
+                </span>
+              )}
+            </div>
             <h2 className="text-lg font-black text-slate-800 mt-1 flex items-center gap-2">
               <FolderGit2 className="w-4 h-4 text-purple-400" /> {project.name}
             </h2>
+            <div className="flex items-center gap-4 text-xs text-slate-500 mt-2 flex-wrap">
+              {project.location && <span>📍 {project.location}</span>}
+              {project.totalBudget && <span>💰 Budget: <strong className="text-slate-700">{project.totalBudget}</strong></span>}
+              {project.startDate && project.endDate && <span>📅 {project.startDate} – {project.endDate}</span>}
+              {project.target && <span>👥 Target: <strong className="text-slate-700">{project.target}</strong></span>}
+            </div>
           </div>
           <div className="flex gap-2 flex-wrap">
             {roleIsCoordinator && (
@@ -107,11 +130,11 @@ export const ScopeDetailPage: React.FC = () => {
                 <button onClick={() => setActiveRoute('quarterly')} className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-purple-50 text-purple-700 font-bold text-xs">
                   <CalendarCheck2 className="w-3.5 h-3.5" /> Quarterly Actuals
                 </button>
+                <button onClick={openAddPlanWizard} className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-ercs-red text-white font-bold text-xs">
+                  <Plus className="w-3.5 h-3.5" /> Add Plan Entry
+                </button>
               </>
             )}
-            <button onClick={openAddPlanWizard} className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-ercs-red text-white font-bold text-xs">
-              <Plus className="w-3.5 h-3.5" /> Add Plan Entry
-            </button>
           </div>
         </div>
 
@@ -141,9 +164,11 @@ export const ScopeDetailPage: React.FC = () => {
         {entries.length === 0 ? (
           <div className="p-8 text-center">
             <p className="text-xs text-slate-500 mb-3">No Plan Entries are linked to {project.name} yet.</p>
-            <button onClick={openAddPlanWizard} className="inline-flex items-center gap-1.5 bg-ercs-red text-white px-3 py-1.5 rounded-lg text-xs font-bold">
-              <Plus className="w-3.5 h-3.5" /> Add Plan Entry
-            </button>
+            {roleIsCoordinator && (
+              <button onClick={openAddPlanWizard} className="inline-flex items-center gap-1.5 bg-ercs-red text-white px-3 py-1.5 rounded-lg text-xs font-bold">
+                <Plus className="w-3.5 h-3.5" /> Add Plan Entry
+              </button>
+            )}
           </div>
         ) : (
           <div className="overflow-x-auto">
@@ -166,15 +191,17 @@ export const ScopeDetailPage: React.FC = () => {
                   const peSpent = sumExpenditure([pe], quarterlyActuals, quarterId);
                   const peAchievement = achievementPct(peActual, peTarget);
                   const peUtil = budgetUtilizationPct(peSpent, peBudget);
-                  const peTotalBen = convertToBeneficiaries(peTarget, na?.uom || '', uomConfigs);
-                  const peActualBen = convertToBeneficiaries(peActual, na?.uom || '', uomConfigs);
+                  const peUom = pe.uom || na?.uom || '';
+                  const peTotalBen = convertToBeneficiaries(peTarget, peUom, uomConfigs);
+                  const peActualBen = convertToBeneficiaries(peActual, peUom, uomConfigs);
                   const peBenPct = beneficiaryPct(peActualBen, peTotalBen);
+                  const displayCode = na?.code || pe.activity_code || '—';
                   return (
                     <tr key={pe.id} className="hover:bg-slate-50">
-                      <td className="p-3 font-bold text-ercs-red whitespace-nowrap">{na?.code}</td>
+                      <td className="p-3 font-bold text-ercs-red whitespace-nowrap">{displayCode}</td>
                       <td className="p-3 min-w-40 font-bold text-slate-800">{pe.activity_name}</td>
                       <td className="p-3 min-w-56 text-slate-500">{pe.activity_description}</td>
-                      <td className="p-3 whitespace-nowrap text-slate-500 font-semibold">{na?.uom}</td>
+                      <td className="p-3 whitespace-nowrap text-slate-500 font-semibold">{peUom || '—'}</td>
                       <td className="p-3 text-right font-bold whitespace-nowrap">{peTarget.toLocaleString()}</td>
                       <td className="p-3 text-right whitespace-nowrap">{peActual.toLocaleString()}</td>
                       <td className="p-3 text-right font-bold whitespace-nowrap">{peAchievement.toFixed(1)}%</td>
@@ -188,7 +215,7 @@ export const ScopeDetailPage: React.FC = () => {
                         <td className="p-3">
                           <div className="flex items-center justify-center gap-2 flex-wrap">
                             <button onClick={() => openEditPlanWizard(pe)} className="px-2.5 py-1 rounded bg-blue-50 text-blue-700 font-bold">Edit</button>
-                            <button onClick={() => setDeleteTarget({ id: pe.id, label: `${na?.code || ''} / ${project.name}` })} className="px-2.5 py-1 rounded bg-red-50 text-red-700 font-bold"><Trash2 className="w-3 h-3" /></button>
+                            <button onClick={() => setDeleteTarget({ id: pe.id, label: `${displayCode} / ${project.name}` })} className="px-2.5 py-1 rounded bg-red-50 text-red-700 font-bold"><Trash2 className="w-3 h-3" /></button>
                           </div>
                         </td>
                       )}
@@ -200,6 +227,48 @@ export const ScopeDetailPage: React.FC = () => {
           </div>
         )}
       </section>
+
+      {/* Project-Only (Non-AOP) Activities Table */}
+      {project.project_only_activities && project.project_only_activities.length > 0 && (
+        <section className="bg-white rounded-xl border shadow-sm overflow-hidden">
+          <div className="p-4 border-b flex items-center justify-between bg-slate-50">
+            <div>
+              <div className="flex items-center gap-2 text-xs font-bold text-slate-800 uppercase tracking-wider">
+                <FileText className="w-4 h-4 text-purple-600" /> Project-Only Activities ({project.project_only_activities.length})
+              </div>
+              <p className="text-[11px] text-slate-500 mt-0.5">
+                Contractual project activities not linked to AOP — preserved for project-level tracking and excluded from National AOP aggregations.
+              </p>
+            </div>
+          </div>
+          <div className="overflow-x-auto">
+            <table className="w-full text-left text-xs">
+              <thead className="bg-slate-50 text-slate-500 font-bold uppercase border-b">
+                <tr>
+                  <th className="p-3 w-12">#</th>
+                  <th className="p-3">Activity Name</th>
+                  <th className="p-3">UOM</th>
+                  <th className="p-3 text-right">Target</th>
+                  <th className="p-3 text-right">Budget ({project.currency || 'ETB'})</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y">
+                {project.project_only_activities.map((act, idx) => (
+                  <tr key={act.id} className="hover:bg-slate-50">
+                    <td className="p-3 text-slate-400 font-medium">{idx + 1}</td>
+                    <td className="p-3 font-semibold text-slate-800">{act.name}</td>
+                    <td className="p-3 text-slate-500">{act.uom || '—'}</td>
+                    <td className="p-3 text-right font-medium">{act.target > 0 ? act.target.toLocaleString() : '—'}</td>
+                    <td className="p-3 text-right font-medium text-slate-700">
+                      {act.budget > 0 ? (project.currency === 'EUR' ? `€${act.budget.toLocaleString()}` : `${act.budget.toLocaleString()} ETB`) : '—'}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </section>
+      )}
 
       {peWizard && <PlanEntryWizardModal initial={peWizard.initial} startStep={peWizard.startStep} onClose={() => setPeWizard(null)} onSaved={() => setPeWizard(null)} />}
       {deleteTarget && <ConfirmDeleteModal label={deleteTarget.label} onCancel={() => setDeleteTarget(null)} onConfirm={() => { deletePlanEntry(deleteTarget.id); setDeleteTarget(null); }} />}

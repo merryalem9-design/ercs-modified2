@@ -28,6 +28,7 @@ export const FilterBar: React.FC<FilterBarProps> = ({
     zones,
     projects,
     quarters,
+    quarterPeriodConfigs,
     strategicPriorities,
     strategicObjectives,
     nationalActivities,
@@ -540,11 +541,14 @@ export const FilterBar: React.FC<FilterBarProps> = ({
                 className="w-full text-xs font-medium border-slate-200 rounded-lg bg-slate-50 py-1.5 focus:bg-white focus:outline-none focus:border-ercs-red"
               >
                 <option value="">Select Quarter…</option>
-                {quarters.map(q => (
-                  <option key={q.id} value={q.id}>
-                    {q.id}
-                  </option>
-                ))}
+                {quarters.map(q => {
+                  const cfg = quarterPeriodConfigs.find(c => c.id === q.id);
+                  return (
+                    <option key={q.id} value={q.id}>
+                      {q.id}{cfg?.date_range ? ` (${cfg.date_range})` : ''}
+                    </option>
+                  );
+                })}
               </select>
             </div>
           </>

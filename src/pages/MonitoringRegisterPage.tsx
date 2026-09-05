@@ -131,7 +131,7 @@ export const MonitoringRegisterPage: React.FC = () => {
                       key={pe.id}
                       entry={pe}
                       record={record}
-                      naCode={na?.code || ''}
+                      naCode={na?.code || pe.activity_code || '—'}
                       activityName={pe.activity_name}
                       scopeType={pe.scope_type}
                       scopeLabel={scopeLabel}

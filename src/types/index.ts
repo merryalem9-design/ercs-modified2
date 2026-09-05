@@ -45,6 +45,7 @@ export interface NationalActivity {
   rb_target?: number;
   rb_budget?: number;
   regional_targets?: Record<string, { target: number; budget: number }>;
+  project_targets?: Record<string, { target: number; budget: number }>;
 }
 
 /**
@@ -62,15 +63,31 @@ export interface RegionActivityLink {
   eligible_zone_ids: string[];
 }
 
+export interface ProjectOnlyActivity {
+  id: string;
+  name: string;
+  uom: string;
+  target: number;
+  budget: number;
+  raw_code?: string | null;
+}
+
 export interface Project {
   id: string;
   name: string;
   description?: string;
   budget?: number;
   donor?: string;
-  target?: string;
+  target?: string | null;
   start_date?: string;
   end_date?: string;
+  location?: string;
+  totalBudget?: string | number;
+  startDate?: string;
+  endDate?: string;
+  totalBeneficiaries?: number | null;
+  currency?: 'ETB' | 'EUR';
+  project_only_activities?: ProjectOnlyActivity[];
 }
 
 export type ScopeType = 'Regional' | 'Project';

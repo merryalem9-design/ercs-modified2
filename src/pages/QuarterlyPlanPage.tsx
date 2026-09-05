@@ -11,7 +11,7 @@ const clampNonNegative = (raw: string): number => { const p = Number(raw); retur
 const RECONCILE_EPSILON = 1e-6;
 
 export const QuarterlyPlanPage: React.FC = () => {
-  const { quarters, getFilteredPlanEntries } = useApp();
+  const { quarters, quarterPeriodConfigs, getFilteredPlanEntries } = useApp();
   const entries = getFilteredPlanEntries();
 
   return (
@@ -33,7 +33,14 @@ export const QuarterlyPlanPage: React.FC = () => {
               <tr>
                 <th className="p-3">Activity Code</th><th className="p-3">Activity Description</th><th className="p-3">Executed By</th>
                 <th className="p-3 text-right">Annual Target</th><th className="p-3 text-right">Annual Budget</th>
-                {quarters.map(q => <th key={q.id} className="p-2 text-center bg-slate-100 border-l whitespace-nowrap">{q.id} (Tgt | Bgt | Ben)</th>)}
+                {quarters.map(q => {
+                  const cfg = quarterPeriodConfigs.find(c => c.id === q.id);
+                  return (
+                    <th key={q.id} className="p-2 text-center bg-slate-100 border-l whitespace-nowrap">
+                      {q.id}{cfg?.date_range ? ` (${cfg.date_range})` : ''} (Tgt | Bgt | Ben)
+                    </th>
+                  );
+                })}
                 <th className="p-3 text-center">Reconciliation</th>
               </tr>
             </thead>
