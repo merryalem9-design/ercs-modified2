@@ -3,12 +3,17 @@ import { useApp } from '../../context/AppContext';
 import { Filter, RotateCcw, ChevronDown } from 'lucide-react';
 import { FilterState, QuarterFilterValue } from '../../types';
 
-interface FilterBarProps {
+export interface FilterBarProps {
   allowNoneScope?: boolean;
   hideQuarterFilter?: boolean;
   showYearFilter?: boolean;
   showDepartmentFilter?: boolean;
   showResponsibilityFilter?: boolean;
+  customVisibleFields?: ('quarter' | 'region' | 'priority' | 'objective' | 'activity' | 'department' | 'responsibility' | 'year' | 'project' | 'zone')[];
+  allowedPriorityIds?: string[];
+  singleRegionSelect?: boolean;
+  title?: string;
+  hideReset?: boolean;
 }
 
 export const FilterBar: React.FC<FilterBarProps> = ({
@@ -17,6 +22,11 @@ export const FilterBar: React.FC<FilterBarProps> = ({
   showYearFilter = false,
   showDepartmentFilter = true,
   showResponsibilityFilter = true,
+  customVisibleFields,
+  allowedPriorityIds,
+  singleRegionSelect = false,
+  title = 'Filters',
+  hideReset = false,
 }) => {
   const {
     filters,
@@ -91,6 +101,7 @@ export const FilterBar: React.FC<FilterBarProps> = ({
     if (currentResp === 'Region' && na.eligible_region_ids.length === 0) return false;
     if (currentResp === 'Project' && na.eligible_project_ids.length === 0) return false;
     if (currentResp === 'HQ' && (na.eligible_project_ids.length === 0 || (na.hq_target === 0 && na.hq_budget === 0 && !na.responsibility.toUpperCase().includes('HQ') && na.responsibility.toLowerCase() !== 'both'))) return false;
+    if (currentResp === 'Both' && (na.responsibility || '').trim().toLowerCase() !== 'both') return false;
     const rIds = filters.regionId;
     if (!rIds.includes('ALL') && !rIds.includes('NONE') && !rIds.some(id => na.eligible_region_ids.includes(id))) return false;
     const pIds = filters.projectId;
@@ -141,7 +152,7 @@ export const FilterBar: React.FC<FilterBarProps> = ({
     if (name === 'responsibility') {
       setFilters(prev => ({
         ...prev,
-        responsibility: value as 'ALL' | 'Region' | 'Project' | 'HQ',
+        responsibility: value as 'ALL' | 'Region' | 'Project' | 'HQ' | 'Both',
         // Reset subfilters accordingly
         zoneId: 'ALL',
         regionId: ['ALL'],
@@ -241,38 +252,65 @@ export const FilterBar: React.FC<FilterBarProps> = ({
     setFilters(prev => ({ ...prev, quarterId: value as QuarterFilterValue }));
   };
 
-  // Conditional visibility rules based on Responsibility filter
-  // Region/Zone appear ONLY when Responsibility = "Region" is explicitly selected.
-  // Project list appears ONLY when Responsibility = "Project" is explicitly selected.
-  // Department shows for HQ and ALL.
-  // This keeps the default filter set clean: Responsibility, Year, Department, SP, SO, NA.
-  const showRegionControl = !isProjectRole && currentResp === 'Region';
-  const showZoneControl =
-    currentResp === 'Region' &&
-    !filters.regionId.includes('ALL') &&
-    !filters.regionId.includes('NONE');
-  const showProjectControl = !isRegionScoped && currentResp === 'Project';
-  const showDepartmentControl =
-    showDepartmentFilter && (currentResp === 'ALL' || currentResp === 'HQ');
+  // Conditional visibility rules based on Responsibility filter or customVisibleFields
+  const showRespControl = customVisibleFields
+    ? customVisibleFields.includes('responsibility')
+    : showResponsibilityFilter;
+  const showYearControl = customVisibleFields
+    ? customVisibleFields.includes('year')
+    : showYearFilter;
+  const showDepartmentControl = customVisibleFields
+    ? customVisibleFields.includes('department')
+    : (showDepartmentFilter && (currentResp === 'ALL' || currentResp === 'HQ' || currentResp === 'Both'));
+  const showPriorityControl = customVisibleFields ? customVisibleFields.includes('priority') : true;
+  const showObjectiveControl = customVisibleFields ? customVisibleFields.includes('objective') : true;
+  const showActivityControl = customVisibleFields ? customVisibleFields.includes('activity') : true;
+  const showRegionControl = customVisibleFields
+    ? customVisibleFields.includes('region')
+    : (!isProjectRole && (currentResp === 'Region' || currentResp === 'Both'));
+  const showZoneControl = customVisibleFields
+    ? customVisibleFields.includes('zone')
+    : (currentResp === 'Region' && !filters.regionId.includes('ALL') && !filters.regionId.includes('NONE'));
+  const showProjectControl = customVisibleFields
+    ? customVisibleFields.includes('project')
+    : (!isRegionScoped && (currentResp === 'Project' || currentResp === 'Both'));
+  const showQuarterControl = customVisibleFields
+    ? customVisibleFields.includes('quarter')
+    : (!hideQuarterFilter && !showYearFilter);
+
+  const visiblePriorities = allowedPriorityIds && allowedPriorityIds.length > 0
+    ? strategicPriorities.filter(sp => allowedPriorityIds.includes(sp.id))
+    : strategicPriorities;
+
+  const handleSingleRegionSelect = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const val = e.target.value;
+    setFilters(prev => ({
+      ...prev,
+      regionId: val === 'ALL' ? ['ALL'] : [val],
+      zoneId: 'ALL',
+    }));
+  };
 
   return (
     <div className="bg-white p-4 rounded-xl border border-slate-200 shadow-sm mb-6">
       <div className="flex items-center justify-between mb-3">
         <div className="flex items-center gap-2 text-xs font-bold text-slate-700 uppercase tracking-wider">
           <Filter className="w-3.5 h-3.5 text-ercs-red" />
-          <span>Filters</span>
+          <span>{title}</span>
         </div>
-        <button
-          onClick={resetFilters}
-          className="flex items-center gap-1 text-xs font-semibold text-slate-600 hover:text-ercs-red cursor-pointer"
-        >
-          <RotateCcw className="w-3 h-3" /> Reset
-        </button>
+        {!hideReset && (
+          <button
+            onClick={resetFilters}
+            className="flex items-center gap-1 text-xs font-semibold text-slate-600 hover:text-ercs-red cursor-pointer"
+          >
+            <RotateCcw className="w-3 h-3" /> Reset
+          </button>
+        )}
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-3">
         {/* Responsibility filter (Region / Project / HQ) */}
-        {showResponsibilityFilter && (
+        {showRespControl && (
           <div>
             <label className="block text-[10px] font-bold text-slate-500 mb-1">Responsibility</label>
             <select
@@ -285,12 +323,13 @@ export const FilterBar: React.FC<FilterBarProps> = ({
               <option value="Region">Region</option>
               <option value="Project">Project</option>
               <option value="HQ">HQ</option>
+              <option value="Both">Both</option>
             </select>
           </div>
         )}
 
         {/* Year Filter (Replaces Period on Strategic Plan page or when showYearFilter is true) */}
-        {showYearFilter ? (
+        {showYearControl ? (
           <div>
             <label className="block text-[10px] font-bold text-slate-500 mb-1">Year</label>
             <select
@@ -330,64 +369,87 @@ export const FilterBar: React.FC<FilterBarProps> = ({
         )}
 
         {/* Strategic Priority */}
-        <div>
-          <label className="block text-[10px] font-bold text-slate-500 mb-1">Strategic Priority</label>
-          <select
-            name="strategicPriorityId"
-            value={filters.strategicPriorityId}
-            onChange={handleChange}
-            className="w-full text-xs font-medium border-slate-200 rounded-lg bg-slate-50 py-1.5 focus:bg-white focus:outline-none focus:border-ercs-red"
-          >
-            <option value="ALL">All Strategic Priorities</option>
-            {strategicPriorities.map(sp => (
-              <option key={sp.id} value={sp.id}>
-                {sp.code} — {sp.name}
-              </option>
-            ))}
-          </select>
-        </div>
+        {showPriorityControl && (
+          <div>
+            <label className="block text-[10px] font-bold text-slate-500 mb-1">Strategic Priority</label>
+            <select
+              name="strategicPriorityId"
+              value={filters.strategicPriorityId}
+              onChange={handleChange}
+              className="w-full text-xs font-medium border-slate-200 rounded-lg bg-slate-50 py-1.5 focus:bg-white focus:outline-none focus:border-ercs-red"
+            >
+              <option value="ALL">All Strategic Priorities</option>
+              {visiblePriorities.map(sp => (
+                <option key={sp.id} value={sp.id}>
+                  {sp.code} — {sp.name}
+                </option>
+              ))}
+            </select>
+          </div>
+        )}
 
         {/* Strategic Objective */}
-        <div>
-          <label className="block text-[10px] font-bold text-slate-500 mb-1">Strategic Objective</label>
-          <select
-            name="strategicObjectiveId"
-            value={filters.strategicObjectiveId}
-            onChange={handleChange}
-            className="w-full text-xs font-medium border-slate-200 rounded-lg bg-slate-50 py-1.5 focus:bg-white focus:outline-none focus:border-ercs-red"
-          >
-            <option value="ALL">All Strategic Objectives</option>
-            {objectivesInScope.map(so => (
-              <option key={so.id} value={so.id}>
-                {so.code} — {so.name}
-              </option>
-            ))}
-          </select>
-        </div>
+        {showObjectiveControl && (
+          <div>
+            <label className="block text-[10px] font-bold text-slate-500 mb-1">Strategic Objective</label>
+            <select
+              name="strategicObjectiveId"
+              value={filters.strategicObjectiveId}
+              onChange={handleChange}
+              className="w-full text-xs font-medium border-slate-200 rounded-lg bg-slate-50 py-1.5 focus:bg-white focus:outline-none focus:border-ercs-red"
+            >
+              <option value="ALL">All Strategic Objectives</option>
+              {objectivesInScope.map(so => (
+                <option key={so.id} value={so.id}>
+                  {so.code} — {so.name}
+                </option>
+              ))}
+            </select>
+          </div>
+        )}
 
         {/* National Activity */}
-        <div>
-          <label className="block text-[10px] font-bold text-slate-500 mb-1">National Activity</label>
-          <select
-            name="nationalActivityId"
-            value={filters.nationalActivityId}
-            onChange={handleChange}
-            className="w-full text-xs font-medium border-slate-200 rounded-lg bg-slate-50 py-1.5 focus:bg-white focus:outline-none focus:border-ercs-red"
-          >
-            <option value="ALL">All National Activities</option>
-            {nationalActivitiesInScope.map(na => (
-              <option key={na.id} value={na.id}>
-                {na.code}
-              </option>
-            ))}
-          </select>
-        </div>
+        {showActivityControl && (
+          <div>
+            <label className="block text-[10px] font-bold text-slate-500 mb-1">National Activity</label>
+            <select
+              name="nationalActivityId"
+              value={filters.nationalActivityId}
+              onChange={handleChange}
+              className="w-full text-xs font-medium border-slate-200 rounded-lg bg-slate-50 py-1.5 focus:bg-white focus:outline-none focus:border-ercs-red"
+            >
+              <option value="ALL">All National Activities</option>
+              {nationalActivitiesInScope.map(na => (
+                <option key={na.id} value={na.id}>
+                  {na.code}
+                </option>
+              ))}
+            </select>
+          </div>
+        )}
 
         {/* Region Dropdown */}
         {showRegionControl && (
-          <div>
-            <label className="block text-[10px] font-bold text-slate-500 mb-1">Region</label>
-            <div ref={regionRef} className="relative">
+          singleRegionSelect ? (
+            <div>
+              <label className="block text-[10px] font-bold text-slate-500 mb-1">Region / Branch</label>
+              <select
+                value={filters.regionId.length === 1 ? filters.regionId[0] : (filters.regionId.includes('ALL') ? 'ALL' : filters.regionId[0] || 'ALL')}
+                onChange={handleSingleRegionSelect}
+                className="w-full text-xs font-medium border-slate-200 rounded-lg bg-slate-50 py-1.5 focus:bg-white focus:outline-none focus:border-ercs-red"
+              >
+                <option value="ALL">All Regions (Branches)</option>
+                {visibleRegions.map(r => (
+                  <option key={r.id} value={r.id}>
+                    {r.name}
+                  </option>
+                ))}
+              </select>
+            </div>
+          ) : (
+            <div>
+              <label className="block text-[10px] font-bold text-slate-500 mb-1">Region</label>
+              <div ref={regionRef} className="relative">
               <button
                 type="button"
                 disabled={isRegionScoped}
@@ -438,7 +500,8 @@ export const FilterBar: React.FC<FilterBarProps> = ({
               )}
             </div>
           </div>
-        )}
+        )
+      )}
 
         {/* Zone Dropdown */}
         {showZoneControl && (
@@ -517,7 +580,7 @@ export const FilterBar: React.FC<FilterBarProps> = ({
         )}
 
         {/* Period and Quarter Filters (hidden when showYearFilter or hideQuarterFilter) */}
-        {!hideQuarterFilter && !showYearFilter && (
+        {showQuarterControl && (
           <>
             <div>
               <label className="block text-[10px] font-bold text-slate-500 mb-1">Period</label>

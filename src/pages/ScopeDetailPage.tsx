@@ -248,6 +248,7 @@ export const ScopeDetailPage: React.FC = () => {
                   <th className="p-3 w-12">#</th>
                   <th className="p-3">Activity Name</th>
                   <th className="p-3">UOM</th>
+                  <th className="p-3">AOP Linkage (Raw Code)</th>
                   <th className="p-3 text-right">Target</th>
                   <th className="p-3 text-right">Budget ({project.currency || 'ETB'})</th>
                 </tr>
@@ -258,6 +259,11 @@ export const ScopeDetailPage: React.FC = () => {
                     <td className="p-3 text-slate-400 font-medium">{idx + 1}</td>
                     <td className="p-3 font-semibold text-slate-800">{act.name}</td>
                     <td className="p-3 text-slate-500">{act.uom || '—'}</td>
+                    <td className="p-3 text-slate-500 font-mono text-[11px]">
+                      <span className="px-2 py-0.5 rounded bg-slate-100 border border-slate-200 text-slate-600">
+                        {act.raw_code || 'Not linked to AOP'}
+                      </span>
+                    </td>
                     <td className="p-3 text-right font-medium">{act.target > 0 ? act.target.toLocaleString() : '—'}</td>
                     <td className="p-3 text-right font-medium text-slate-700">
                       {act.budget > 0 ? (project.currency === 'EUR' ? `€${act.budget.toLocaleString()}` : `${act.budget.toLocaleString()} ETB`) : '—'}

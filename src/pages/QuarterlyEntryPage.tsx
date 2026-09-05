@@ -51,9 +51,17 @@ const EntryRow: React.FC<{ entry: PlanEntry; quarter: QuarterId; nationalActivit
   const [actualVal, setActualVal] = useState<number>(existing?.actual ?? 0);
   const [expVal, setExpVal] = useState<number>(existing?.expenditure ?? 0);
   const [commentVal, setCommentVal] = useState<string>(existing?.comment ?? '');
+  const [actualFemale, setActualFemale] = useState<string>(existing?.actual_female != null ? String(existing.actual_female) : '');
+  const [actualMale, setActualMale] = useState<string>(existing?.actual_male != null ? String(existing.actual_male) : '');
+  const [actualYouth, setActualYouth] = useState<string>(existing?.actual_youth != null ? String(existing.actual_youth) : '');
 
   React.useEffect(() => {
-    setActualVal(existing?.actual ?? 0); setExpVal(existing?.expenditure ?? 0); setCommentVal(existing?.comment ?? '');
+    setActualVal(existing?.actual ?? 0);
+    setExpVal(existing?.expenditure ?? 0);
+    setCommentVal(existing?.comment ?? '');
+    setActualFemale(existing?.actual_female != null ? String(existing.actual_female) : '');
+    setActualMale(existing?.actual_male != null ? String(existing.actual_male) : '');
+    setActualYouth(existing?.actual_youth != null ? String(existing.actual_youth) : '');
   }, [entry.id, quarter, existing]);
 
   const planForQuarter = quarterlyPlans.find(qp => qp.plan_entry_id === entry.id && qp.quarter_id === quarter);
@@ -77,9 +85,26 @@ const EntryRow: React.FC<{ entry: PlanEntry; quarter: QuarterId; nationalActivit
     : isCoordinatedEntry && currentRole === `Project Coordinator — ${scopeLabel}`;
   const actualBadge = getApprovalBadge(actualStatus);
 
-  const sync = (nextActual: number, nextExp: number, nextComment = commentVal) => {
+  const sync = (
+    nextActual: number,
+    nextExp: number,
+    nextComment = commentVal,
+    fStr = actualFemale,
+    mStr = actualMale,
+    yStr = actualYouth,
+  ) => {
     if (inputsDisabled) return;
-    upsertQuarterlyActual({ id: existing?.id || `qa-${entry.id}-${quarter}`, plan_entry_id: entry.id, quarter_id: quarter, actual: nextActual, expenditure: nextExp, comment: nextComment });
+    upsertQuarterlyActual({
+      id: existing?.id || `qa-${entry.id}-${quarter}`,
+      plan_entry_id: entry.id,
+      quarter_id: quarter,
+      actual: nextActual,
+      expenditure: nextExp,
+      comment: nextComment,
+      actual_female: fStr.trim() !== '' ? Number(fStr) : undefined,
+      actual_male: mStr.trim() !== '' ? Number(mStr) : undefined,
+      actual_youth: yStr.trim() !== '' ? Number(yStr) : undefined,
+    });
   };
   const handleActualChange = (raw: string) => { const v = clampNonNegative(raw); setActualVal(v); sync(v, expVal); };
   const handleExpChange = (raw: string) => { const v = clampNonNegative(raw); setExpVal(v); sync(actualVal, v); };
@@ -175,6 +200,61 @@ const EntryRow: React.FC<{ entry: PlanEntry; quarter: QuarterId; nationalActivit
           <div className="rounded-lg bg-slate-50 border px-3 py-2 text-center min-w-24"><div className="text-[9px] font-black uppercase text-slate-500">Cumulative Ach.</div><div className="text-sm font-black text-slate-800">{cumulativeAchievement.toFixed(1)}%</div></div>
         </div>
       </div>
+
+      {entry.scope_type === 'Project' && (
+        <div className="pt-2 border-t border-slate-100 flex flex-col sm:flex-row sm:items-center gap-3">
+          <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400 shrink-0">
+            Demographic Reach (Optional):
+          </span>
+          <div className="flex items-center gap-3 flex-wrap">
+            <div className="flex items-center gap-1.5">
+              <label className="text-[10px] font-bold text-slate-500">Female:</label>
+              <input
+                type="number"
+                min="0"
+                placeholder="—"
+                disabled={inputsDisabled}
+                value={actualFemale}
+                onChange={e => {
+                  setActualFemale(e.target.value);
+                  sync(actualVal, expVal, commentVal, e.target.value, actualMale, actualYouth);
+                }}
+                className="w-20 text-xs p-1.5 border rounded disabled:opacity-50 disabled:bg-slate-50"
+              />
+            </div>
+            <div className="flex items-center gap-1.5">
+              <label className="text-[10px] font-bold text-slate-500">Male:</label>
+              <input
+                type="number"
+                min="0"
+                placeholder="—"
+                disabled={inputsDisabled}
+                value={actualMale}
+                onChange={e => {
+                  setActualMale(e.target.value);
+                  sync(actualVal, expVal, commentVal, actualFemale, e.target.value, actualYouth);
+                }}
+                className="w-20 text-xs p-1.5 border rounded disabled:opacity-50 disabled:bg-slate-50"
+              />
+            </div>
+            <div className="flex items-center gap-1.5">
+              <label className="text-[10px] font-bold text-slate-500">Youth:</label>
+              <input
+                type="number"
+                min="0"
+                placeholder="—"
+                disabled={inputsDisabled}
+                value={actualYouth}
+                onChange={e => {
+                  setActualYouth(e.target.value);
+                  sync(actualVal, expVal, commentVal, actualFemale, actualMale, e.target.value);
+                }}
+                className="w-20 text-xs p-1.5 border rounded disabled:opacity-50 disabled:bg-slate-50"
+              />
+            </div>
+          </div>
+        </div>
+      )}
 
       {isCoordinatedEntry && !zoneBlocked && isOwningCoordinator && (actualStatus === 'Draft' || actualStatus === 'Rejected') && (
         <div className="flex justify-end">

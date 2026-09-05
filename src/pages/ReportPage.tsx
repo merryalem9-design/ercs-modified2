@@ -146,6 +146,14 @@ export const ReportPage: React.FC = () => {
     if (filters.nationalActivityId !== 'ALL' && na.id !== filters.nationalActivityId) return false;
     if (filters.department && filters.department !== 'ALL' && na.department !== filters.department) return false;
     if (filters.year && filters.year !== 'ALL' && na.year && String(na.year) !== String(filters.year)) return false;
+    if (filters.responsibility && filters.responsibility !== 'ALL') {
+      const resp = filters.responsibility.toLowerCase();
+      const naResp = (na.responsibility || '').toLowerCase();
+      if (resp === 'region' && na.eligible_region_ids.length === 0) return false;
+      if (resp === 'project' && na.eligible_project_ids.length === 0) return false;
+      if (resp === 'hq' && (na.eligible_project_ids.length === 0 || (na.hq_target === 0 && na.hq_budget === 0 && !na.responsibility.toUpperCase().includes('HQ') && na.responsibility.toLowerCase() !== 'both'))) return false;
+      if (resp === 'both' && naResp !== 'both') return false;
+    }
     return true;
   });
   const aopTotals = computeAopTotals(filteredNas);
@@ -531,7 +539,13 @@ export const ReportPage: React.FC = () => {
                   <th className="p-3">UOM</th>
                   <th className="p-3">Executed By</th>
                   <th className="p-3 text-right">Target</th>
+                  <th className="p-3 text-right whitespace-nowrap">Target F</th>
+                  <th className="p-3 text-right whitespace-nowrap">Target M</th>
+                  <th className="p-3 text-right whitespace-nowrap">Target Y</th>
                   <th className="p-3 text-right">Actual</th>
+                  <th className="p-3 text-right whitespace-nowrap">Actual F</th>
+                  <th className="p-3 text-right whitespace-nowrap">Actual M</th>
+                  <th className="p-3 text-right whitespace-nowrap">Actual Y</th>
                   <th className="p-3 text-right">Achievement %</th>
                   <th className="p-3 text-right">Budget (ETB)</th>
                   <th className="p-3 text-right">Spent (ETB)</th>
@@ -565,6 +579,17 @@ export const ReportPage: React.FC = () => {
                   const tb = convertToBeneficiaries(t, pe.uom || na?.uom || '', uomConfigs);
                   const ab = convertToBeneficiaries(a, pe.uom || na?.uom || '', uomConfigs);
                   const bp = beneficiaryPct(ab, tb);
+                  const actF = quarterlyActuals
+                        .filter(a => a.plan_entry_id === pe.id && (q === 'ALL' || a.quarter_id === q))
+                        .reduce((sum, a) => sum + (a.actual_female || 0), 0);
+                  const actM = quarterlyActuals
+                        .filter(a => a.plan_entry_id === pe.id && (q === 'ALL' || a.quarter_id === q))
+                        .reduce((sum, a) => sum + (a.actual_male || 0), 0);
+                  const actY = quarterlyActuals
+                        .filter(a => a.plan_entry_id === pe.id && (q === 'ALL' || a.quarter_id === q))
+                        .reduce((sum, a) => sum + (a.actual_youth || 0), 0);
+                  const hasActDemographics = quarterlyActuals
+                        .some(a => a.plan_entry_id === pe.id && (q === 'ALL' || a.quarter_id === q) && (a.actual_female != null || a.actual_male != null || a.actual_youth != null));
 
                   return (
                     <tr key={pe.id} className="hover:bg-slate-50">
@@ -596,7 +621,13 @@ export const ReportPage: React.FC = () => {
                         <span className="ml-2 font-semibold">{scopeName || '—'}</span>
                       </td>
                       <td className="p-3 text-right font-bold whitespace-nowrap">{t.toLocaleString()}</td>
+                      <td className="p-3 text-right whitespace-nowrap text-slate-600">{pe.target_female != null ? pe.target_female.toLocaleString() : '—'}</td>
+                      <td className="p-3 text-right whitespace-nowrap text-slate-600">{pe.target_male != null ? pe.target_male.toLocaleString() : '—'}</td>
+                      <td className="p-3 text-right whitespace-nowrap text-slate-600">{pe.target_youth != null ? pe.target_youth.toLocaleString() : '—'}</td>
                       <td className="p-3 text-right whitespace-nowrap">{a.toLocaleString()}</td>
+                      <td className="p-3 text-right whitespace-nowrap text-slate-600">{hasActDemographics ? actF.toLocaleString() : '—'}</td>
+                      <td className="p-3 text-right whitespace-nowrap text-slate-600">{hasActDemographics ? actM.toLocaleString() : '—'}</td>
+                      <td className="p-3 text-right whitespace-nowrap text-slate-600">{hasActDemographics ? actY.toLocaleString() : '—'}</td>
                       <td className="p-3 text-right font-bold whitespace-nowrap">{ach.toFixed(1)}%</td>
                       <td className="p-3 text-right whitespace-nowrap">{b.toLocaleString()}</td>
                       <td className="p-3 text-right whitespace-nowrap">{s.toLocaleString()}</td>
@@ -622,7 +653,7 @@ export const ReportPage: React.FC = () => {
                 })}
                 {contributingEntries.length === 0 && (
                   <tr>
-                    <td colSpan={16 + visibleQuarters.length * 2} className="p-8 text-center text-slate-400">
+                    <td colSpan={22 + visibleQuarters.length * 2} className="p-8 text-center text-slate-400">
                       No contributing plan entries match this filter.
                     </td>
                   </tr>

@@ -1,7 +1,7 @@
 import React from 'react';
 import { useApp } from '../../context/AppContext';
 import {
-  ClipboardList, CalendarClock, CalendarCheck2, BarChart3, ShieldCheck, LayoutDashboard, TrendingUp, Compass, Target, BookOpen, Settings, Bell, Calendar, CheckSquare,
+  ClipboardList, CalendarClock, CalendarCheck2, BarChart3, ShieldCheck, LayoutDashboard, TrendingUp, Compass, Target, BookOpen, Settings, Bell, Calendar, CheckSquare, Building2,
 } from 'lucide-react';
 
 const BASE_NAV = [
@@ -22,11 +22,12 @@ const MONITOR_NAV = [
 ];
 
 // "Dashboard" (route id 'performance') is now the FIRST item, followed by
-// "Strategic Plan", then the rest of the base plan/report flow, then the
+// "Strategic Plan", then "Non-Programmatic", then the rest of the base plan/report flow, then the
 // existing (unchanged) Monitoring Dashboard read-only entry.
 const AOP_NAV = [
   { id: 'performance', label: 'Dashboard', sub: 'National KPIs & trends', icon: TrendingUp },
   { id: 'strategic-plan', label: 'Strategic Plan', sub: 'Priorities & Objectives overview', icon: Compass },
+  { id: 'non-programmatic', label: 'Non-Programmatic', sub: 'Institutional activities & budgets', icon: Building2 },
   ...BASE_NAV.filter(item => item.id !== 'knowledge-library' && item.id !== 'notifications'),
   { id: 'monitoring-dashboard', label: 'Monitoring Dashboard', sub: 'Coverage & findings overview (view only)', icon: LayoutDashboard },
   { id: 'strategic-kpi', label: 'Strategic KPI Tracking', sub: 'Five-Year Plan indicators (view only)', icon: Target },

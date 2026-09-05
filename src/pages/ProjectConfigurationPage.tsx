@@ -10,6 +10,7 @@ export const ProjectConfigurationPage: React.FC = () => {
   const [projectDescription, setProjectDescription] = useState('');
   const [projectBudget, setProjectBudget] = useState('');
   const [projectDonor, setProjectDonor] = useState('');
+  const [projectLocation, setProjectLocation] = useState('');
   const [projectTarget, setProjectTarget] = useState('');
   const [projectStartDate, setProjectStartDate] = useState('');
   const [projectEndDate, setProjectEndDate] = useState('');
@@ -29,6 +30,7 @@ export const ProjectConfigurationPage: React.FC = () => {
       description: projectDescription.trim() || undefined,
       budget: Number.isFinite(parsedBudget) ? parsedBudget : undefined,
       donor: projectDonor.trim() || undefined,
+      location: projectLocation.trim() || undefined,
       target: projectTarget.trim() || undefined,
       start_date: projectStartDate || undefined,
       end_date: projectEndDate || undefined,
@@ -44,6 +46,7 @@ export const ProjectConfigurationPage: React.FC = () => {
     setProjectDescription('');
     setProjectBudget('');
     setProjectDonor('');
+    setProjectLocation('');
     setProjectTarget('');
     setProjectStartDate('');
     setProjectEndDate('');
@@ -132,6 +135,19 @@ export const ProjectConfigurationPage: React.FC = () => {
                   className="w-full text-xs border border-slate-200 rounded-lg p-2.5 bg-slate-50 focus:bg-white focus:border-ercs-red focus:outline-none transition-colors"
                 />
               </div>
+            </div>
+
+            <div>
+              <label className="block text-[10px] font-bold text-slate-600 uppercase mb-1">
+                Location / Target Areas (Optional)
+              </label>
+              <input
+                type="text"
+                value={projectLocation}
+                onChange={e => setProjectLocation(e.target.value)}
+                placeholder="e.g. Benishangul Gumuz (Asosa & Kamashi Zones)"
+                className="w-full text-xs border border-slate-200 rounded-lg p-2.5 bg-slate-50 focus:bg-white focus:border-ercs-red focus:outline-none transition-colors"
+              />
             </div>
 
             <div>
@@ -265,6 +281,12 @@ export const ProjectConfigurationPage: React.FC = () => {
                         : '—'}
                     </span>
                   </div>
+                  {p.location && (
+                    <div className="col-span-2 sm:col-span-4 bg-slate-50 p-2 rounded border border-slate-100 mt-1">
+                      <span className="text-[10px] text-slate-400 block uppercase font-bold">Location</span>
+                      <span className="font-semibold text-slate-700">{p.location}</span>
+                    </div>
+                  )}
                 </div>
               </div>
             ))}

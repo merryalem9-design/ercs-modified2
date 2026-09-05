@@ -25,14 +25,15 @@ import { KnowledgeLibraryPage } from './pages/KnowledgeLibraryPage';
 import { AdminSettingsPage } from './pages/AdminSettingsPage';
 import { NotificationsPage } from './pages/NotificationsPage';
 import { ProjectConfigurationPage } from './pages/ProjectConfigurationPage';
+import { NonProgrammaticActivitiesPage } from './pages/NonProgrammaticActivitiesPage';
 
 const RESTRICTED_FOR_AOP = new Set(['quarterly-plan', 'quarterly']);
 
 // AOP creates activities; Zone/Project coordinators plan & enter. AOP is
-// blocked from 'monitoring' (the Register). 'performance' (Dashboard) and
-// 'strategic-plan' are AOP-only.
+// blocked from 'monitoring' (the Register). 'performance' (Dashboard),
+// 'strategic-plan' and 'non-programmatic' are AOP-only.
 const MONITOR_ONLY_ROUTES = new Set(['monitoring']);
-const AOP_ONLY_ROUTES = new Set(['performance', 'strategic-plan']);
+const AOP_ONLY_ROUTES = new Set(['performance', 'strategic-plan', 'non-programmatic']);
 // Branch Head no longer plans/enters quarterly figures or uses the generic
 // Submissions list — they use 'quarterly-plan-submissions' and
 // 'quarterly-actual-submissions' instead.
@@ -113,6 +114,7 @@ const MainLayout: React.FC = () => {
       case 'monitoring-dashboard': return <MonitoringDashboardPage />;
       case 'performance': return <PerformancePage />;
       case 'strategic-plan': return <StrategicPlanPage />;
+      case 'non-programmatic': return <NonProgrammaticActivitiesPage />;
       case 'strategic-kpi': return <StrategicKpiPage />;
       case 'knowledge-library': return <KnowledgeLibraryPage />;
       case 'admin-settings': return <AdminSettingsPage />;

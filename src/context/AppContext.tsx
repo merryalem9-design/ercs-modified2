@@ -1,12 +1,12 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import {
   StrategicPriority, StrategicObjective, NationalActivity, Region, Zone, Project, PlanEntry, Quarter, QuarterId, QuarterlyPlan, QuarterlyActual, UomFactorConfig, FilterState, UserRole, ScopeType, MonitoringRecord, RegionActivityLink, StrategicKpi, KpiProgressEntry, KnowledgeDocument,
-  StatusThresholdBand, QuarterPeriodConfig,
+  StatusThresholdBand, QuarterPeriodConfig, NonProgrammaticActivity,
 } from '../types';
 import {
   INITIAL_STRATEGIC_PRIORITIES, INITIAL_STRATEGIC_OBJECTIVES, INITIAL_NATIONAL_ACTIVITIES, INITIAL_REGIONS, INITIAL_ZONES, INITIAL_PROJECTS, INITIAL_PLAN_ENTRIES,
   FISCAL_QUARTERS, INITIAL_QUARTERLY_PLANS, INITIAL_QUARTERLY_ACTUALS, INITIAL_UOM_CONFIGS, INITIAL_MONITORING_RECORDS, INITIAL_REGION_ACTIVITY_LINKS, INITIAL_STRATEGIC_KPIS, INITIAL_KPI_PROGRESS_ENTRIES, INITIAL_KNOWLEDGE_DOCUMENTS,
-  INITIAL_STATUS_THRESHOLDS, INITIAL_QUARTER_PERIOD_CONFIGS,
+  INITIAL_STATUS_THRESHOLDS, INITIAL_QUARTER_PERIOD_CONFIGS, INITIAL_NON_PROGRAMMATIC_ACTIVITIES,
 } from '../data/seedData';
 
 type QuarterlyPlanInput = Omit<QuarterlyPlan, 'approval_status' | 'submitted_at' | 'reviewed_at' | 'rejection_reason'>;
@@ -51,6 +51,8 @@ interface AppContextType {
 
   strategicPriorities: StrategicPriority[];
   strategicObjectives: StrategicObjective[];
+
+  nonProgrammaticActivities: NonProgrammaticActivity[];
 
   nationalActivities: NationalActivity[];
   addNationalActivity: (na: NationalActivity) => void;
@@ -245,6 +247,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   const [strategicPriorities] = useState<StrategicPriority[]>(INITIAL_STRATEGIC_PRIORITIES);
   const [strategicObjectives] = useState<StrategicObjective[]>(INITIAL_STRATEGIC_OBJECTIVES);
   const [strategicKpis] = useState<StrategicKpi[]>(INITIAL_STRATEGIC_KPIS);
+  const [nonProgrammaticActivities] = useState<NonProgrammaticActivity[]>(INITIAL_NON_PROGRAMMATIC_ACTIVITIES);
   const [nationalActivities, setNationalActivities] = useState<NationalActivity[]>(() => readPersisted('nationalActivities', INITIAL_NATIONAL_ACTIVITIES));
   const [regionActivityLinks, setRegionActivityLinks] = useState<RegionActivityLink[]>(() => readPersisted('regionActivityLinks', INITIAL_REGION_ACTIVITY_LINKS));
   const [quarters] = useState<Quarter[]>(FISCAL_QUARTERS);
@@ -284,13 +287,17 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
 
     const na = nationalActivities.find(n => n.id === pe.national_activity_id);
 
-    // Responsibility filter (Region / Project / HQ)
+    // Responsibility filter (Region / Project / HQ / Both)
     if (filters.responsibility && filters.responsibility !== 'ALL') {
-      if (filters.responsibility === 'Region' && pe.scope_type !== 'Regional') return false;
-      if (filters.responsibility === 'Project' && pe.scope_type !== 'Project') return false;
-      if (filters.responsibility === 'HQ') {
+      const resp = filters.responsibility.toLowerCase();
+      if (resp === 'region' && pe.scope_type !== 'Regional') return false;
+      if (resp === 'project' && pe.scope_type !== 'Project') return false;
+      if (resp === 'hq') {
         if (pe.scope_type !== 'Project') return false;
         if (!na || (na.hq_target === 0 && na.hq_budget === 0 && !na.responsibility.toUpperCase().includes('HQ') && na.responsibility.toLowerCase() !== 'both')) return false;
+      }
+      if (resp === 'both') {
+        if (!na || na.responsibility.trim().toLowerCase() !== 'both') return false;
       }
     }
 
@@ -755,6 +762,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       reportFocusSection, setReportFocusSection,
       selectedNationalActivityId, setSelectedNationalActivityId,
       strategicPriorities, strategicObjectives,
+      nonProgrammaticActivities,
       nationalActivities, addNationalActivity, deleteNationalActivity, addEligibleScope, getNationalActivitiesForRole,
       regions, addRegion,
       zones, addZone,

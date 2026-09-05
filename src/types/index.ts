@@ -23,6 +23,21 @@ export interface Zone {
   name: string;
 }
 
+export type NonProgrammaticDepartment =
+  | 'Legal & Contract Administrator Department'
+  | 'Humanitarian Supply Chain Department'
+  | 'SG Office';
+
+export interface NonProgrammaticActivity {
+  id: string;
+  department: NonProgrammaticDepartment;
+  name: string;              // e.g. "Defend the Society from any legal claims"
+  uom?: string;               // e.g. "Percentage", "No. of procurements" — some rows have no UOM (admin budget lines)
+  annual_target?: number;     // OPTIONAL — several rows have no target, only budget.
+  annual_budget: number;
+  is_admin_budget_line?: boolean; // true for rows like "Administrative budget" that have no measurable target
+}
+
 export interface NationalActivity {
   id: string;
   strategic_priority_id: string;
@@ -126,6 +141,10 @@ export interface PlanEntry {
   /** Non-contributing project activities */
   is_contributing?: boolean;
   uom?: string;
+  /** Optional beneficiary demographics breakdown (Project scope) */
+  target_female?: number;
+  target_male?: number;
+  target_youth?: number;
 }
 
 export type QuarterId = 'Q1' | 'Q2' | 'Q3' | 'Q4';
@@ -157,6 +176,10 @@ export interface QuarterlyActual {
   submitted_at?: string;
   reviewed_at?: string;
   rejection_reason?: string;
+  /** Optional beneficiary demographics breakdown (Project scope) */
+  actual_female?: number;
+  actual_male?: number;
+  actual_youth?: number;
 }
 
 export interface UomFactorConfig {
@@ -204,7 +227,7 @@ export interface FilterState {
   /** NEW — filters PlanEntries/QuarterlyPlans down to a single Zone. 'ALL' means no zone restriction. */
   zoneId: string;
   quarterId: QuarterFilterValue;
-  responsibility?: 'ALL' | 'Region' | 'Project' | 'HQ';
+  responsibility?: 'ALL' | 'Region' | 'Project' | 'HQ' | 'Both';
   department?: string;
   year?: string;
   contributionType?: 'ALL' | 'Contributing' | 'Non-Contributing';

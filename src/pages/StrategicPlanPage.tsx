@@ -36,7 +36,22 @@ export const StrategicPlanPage: React.FC = () => {
     ? projects.find(p => p.name === currentRole.slice('Project Coordinator — '.length))
     : undefined;
 
+  const respFilter = filters.responsibility || 'ALL';
+
+  const showHqColumns = useMemo(() => {
+    if (isRegionalRole) return false;
+    if (respFilter === 'Region') return false;
+    return true;
+  }, [isRegionalRole, respFilter]);
+
+  const showRbColumns = useMemo(() => {
+    if (isProjectRole) return false;
+    if (respFilter === 'HQ' || respFilter === 'Project') return false;
+    return true;
+  }, [isProjectRole, respFilter]);
+
   const visibleRegions = useMemo(() => {
+    if (!showRbColumns) return [];
     if (isProjectRole) return [];
     if (isRegionalRole && assignedRegion) return regions.filter(r => r.id === assignedRegion.id);
     const rIds = filters.regionId;
@@ -44,10 +59,7 @@ export const StrategicPlanPage: React.FC = () => {
       return regions.filter(r => rIds.includes(r.id));
     }
     return regions;
-  }, [regions, isProjectRole, isRegionalRole, assignedRegion, filters.regionId]);
-
-  const showHqColumns = !isRegionalRole;
-  const showRbColumns = !isProjectRole;
+  }, [regions, isProjectRole, isRegionalRole, assignedRegion, filters.regionId, showRbColumns]);
 
   // Collapsed / expanded state for objectives (collapsed by default)
   const [expandedObjectiveIds, setExpandedObjectiveIds] = useState<Set<string>>(new Set());
@@ -125,6 +137,8 @@ export const StrategicPlanPage: React.FC = () => {
           if (!pIds.includes('ALL') && !pIds.includes('NONE')) {
             if (!pIds.some(pId => na.eligible_project_ids.includes(pId))) return false;
           }
+        } else if (filters.responsibility === 'Both') {
+          if (respUpper !== 'BOTH') return false;
         }
       }
       return true;

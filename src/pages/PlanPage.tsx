@@ -26,6 +26,9 @@ export interface PeWizardFormState {
   is_contributing?: boolean;
   uom?: string;
   lockScope?: boolean;
+  target_female?: string;
+  target_male?: string;
+  target_youth?: string;
 }
 
 export const PlanPage: React.FC = () => {
@@ -153,7 +156,7 @@ export const PlanPage: React.FC = () => {
         national_activity_id: naId,
         scope_type: 'Project',
         region_id: '',
-        project_id: targetProject?.id || (projects[0]?.id ?? ''),
+        project_id: targetProject?.id || (isProjectCoordinatorHQ ? '' : (projects[0]?.id ?? '')),
         annual_target: '', annual_budget: '', activity_name: '', activity_description: '',
         lockScope: !isProjectCoordinatorHQ,
       },
@@ -180,6 +183,9 @@ export const PlanPage: React.FC = () => {
         is_contributing: pe.is_contributing !== false,
         uom: pe.uom || na?.uom || '',
         lockScope: true,
+        target_female: pe.target_female != null ? String(pe.target_female) : '',
+        target_male: pe.target_male != null ? String(pe.target_male) : '',
+        target_youth: pe.target_youth != null ? String(pe.target_youth) : '',
       },
       startStep: 2,
     });
@@ -838,17 +844,22 @@ export const PlanEntryWizardModal: React.FC<{
     const numbersValid = thisTarget >= 0 && thisBudget >= 0;
     const isDuplicateLink = !!selectedNa && planEntries.some(pe => pe.id !== form.id && pe.national_activity_id === selectedNa.id && pe.scope_type === 'Project' && pe.project_id === form.project_id);
 
-    const canContinue = !!form.national_activity_id;
-    const canSaveContributing = !!form.national_activity_id && isEligibleScope && !!form.activity_name.trim() && !!form.activity_description.trim() && numbersValid && !isDuplicateLink;
+    const canContinue = form.lockScope ? !!form.national_activity_id : (!!form.project_id && !!form.national_activity_id);
+    const effectiveActivityName = (form.activity_name || selectedNa?.description || '').trim();
+    const canSaveContributing = !!form.national_activity_id && isEligibleScope && !!effectiveActivityName && !!form.activity_description.trim() && numbersValid && !isDuplicateLink;
     const canSaveNonContributing = !!form.project_id && !!form.activity_name.trim() && !!form.uom && numbersValid;
 
     const activityCode = selectedNa?.code || '';
 
     React.useEffect(() => {
-      if (form.activity_name.trim()) return;
-      const label = projects.find(p => p.id === form.project_id)?.name;
-      if (label && isContributing) setForm(f => ({ ...f, activity_name: label }));
-    }, [form.activity_name, form.project_id, projects, isContributing]);
+      if (isContributing && selectedNa) {
+        setForm(f => ({
+          ...f,
+          activity_name: selectedNa.description || '',
+          activity_code: selectedNa.code || '',
+        }));
+      }
+    }, [isContributing, form.national_activity_id, selectedNa]);
 
     const handleAddProject = () => {
       const name = newProjectName.trim();
@@ -866,10 +877,13 @@ export const PlanEntryWizardModal: React.FC<{
       const pe: PlanEntry = {
         id: form.id || `pe-${Date.now()}`, national_activity_id: form.national_activity_id, scope_type: 'Project',
         project_id: form.project_id, annual_target: thisTarget, annual_budget: thisBudget,
-        activity_code: selectedNa?.code || '', activity_name: form.activity_name.trim(), activity_description: form.activity_description.trim(),
+        activity_code: selectedNa?.code || '', activity_name: effectiveActivityName, activity_description: form.activity_description.trim(),
         approval_status: 'Approved',
         is_contributing: true,
         uom: selectedNa?.uom,
+        target_female: form.target_female ? Number(form.target_female) : undefined,
+        target_male: form.target_male ? Number(form.target_male) : undefined,
+        target_youth: form.target_youth ? Number(form.target_youth) : undefined,
       };
       if (isEditing) updatePlanEntry(pe); else addPlanEntry(pe);
       onSaved();
@@ -926,11 +940,55 @@ export const PlanEntryWizardModal: React.FC<{
             </div>
             {step === 1 && (
               <div className="space-y-4">
+                {!form.lockScope && (
+                  <div>
+                    <div className="flex items-center justify-between mb-1">
+                      <span className="block text-[10px] font-bold text-slate-500">Project</span>
+                      <button type="button" onClick={() => setAddingProject(a => !a)} className="text-[10px] font-bold text-ercs-red">+ Add Project</button>
+                    </div>
+                    <select
+                      value={form.project_id}
+                      onChange={e => {
+                        const newPid = e.target.value;
+                        setForm(f => {
+                          const currentNa = nationalActivities.find(n => n.id === f.national_activity_id);
+                          const keepNa = currentNa && currentNa.eligible_project_ids.includes(newPid);
+                          return {
+                            ...f,
+                            project_id: newPid,
+                            national_activity_id: keepNa ? f.national_activity_id : '',
+                          };
+                        });
+                      }}
+                      className="w-full text-xs border rounded p-2 bg-slate-50"
+                    >
+                      <option value="">Select project first…</option>
+                      {projects.map(p => <option key={p.id} value={p.id}>{p.name}</option>)}
+                    </select>
+                    {addingProject && (
+                      <div className="mt-2 flex gap-1.5">
+                        <input value={newProjectName} onChange={e => setNewProjectName(e.target.value)} placeholder="New project name" className="flex-1 text-xs border border-slate-200 rounded p-1.5 bg-white" />
+                        <button type="button" onClick={handleAddProject} className="px-2.5 py-1 rounded bg-ercs-red text-white text-[10px] font-bold">Add</button>
+                      </div>
+                    )}
+                  </div>
+                )}
                 <div>
                   <span className="block text-[10px] font-bold text-slate-500 mb-1">National Activity (Parent)</span>
-                  <select value={form.national_activity_id} onChange={e => setForm(f => ({ ...f, national_activity_id: e.target.value }))} disabled={isEditing} className="w-full text-xs border border-slate-200 rounded p-2 bg-slate-50 disabled:opacity-60">
-                    <option value="">Select the National Activity this plan entry belongs to…</option>
-                    {nationalActivities.filter(na => form.project_id ? na.eligible_project_ids.includes(form.project_id) : na.eligible_project_ids.length > 0).map(na => <option key={na.id} value={na.id}>{na.code} — {na.description}</option>)}
+                  <select
+                    value={form.national_activity_id}
+                    onChange={e => setForm(f => ({ ...f, national_activity_id: e.target.value }))}
+                    disabled={isEditing || (!form.lockScope && !form.project_id)}
+                    className="w-full text-xs border border-slate-200 rounded p-2 bg-slate-50 disabled:opacity-60"
+                  >
+                    <option value="">
+                      {!form.lockScope && !form.project_id
+                        ? 'Select a project first to see linked National Activities…'
+                        : 'Select the National Activity this plan entry belongs to…'}
+                    </option>
+                    {nationalActivities
+                      .filter(na => form.project_id ? na.eligible_project_ids.includes(form.project_id) : na.eligible_project_ids.length > 0)
+                      .map(na => <option key={na.id} value={na.id}>{na.code} — {na.description}</option>)}
                   </select>
                 </div>
                 <div className="flex justify-end">
@@ -958,10 +1016,13 @@ export const PlanEntryWizardModal: React.FC<{
                 </div>
                 <div className="grid grid-cols-2 gap-3">
                   <div className="col-span-2 bg-slate-50 border rounded-lg p-3">
-                    <div className="text-[10px] uppercase font-extrabold text-slate-400">Activity Code</div>
+                    <div className="text-[10px] uppercase font-extrabold text-slate-400">Activity Code (inherited, read-only)</div>
                     <div className="text-sm font-black text-ercs-red mt-1">{activityCode || '—'}</div>
                   </div>
-                  <LabeledInput label="Activity Name" value={form.activity_name} onChange={v => setForm(f => ({ ...f, activity_name: v }))} />
+                  <div className="col-span-2 bg-slate-50 border rounded-lg p-3">
+                    <div className="text-[10px] uppercase font-extrabold text-slate-400">Activity Name (inherited, read-only)</div>
+                    <div className="text-xs font-bold text-slate-800 mt-1">{effectiveActivityName || '—'}</div>
+                  </div>
                   <div className="col-span-2">
                     <label className="block">
                       <span className="block text-[10px] font-bold text-slate-500 mb-1">Activity Description</span>
@@ -984,6 +1045,44 @@ export const PlanEntryWizardModal: React.FC<{
                       disabled={Number(form.annual_target) <= 0}
                       className="w-full text-xs border border-slate-200 rounded p-2 bg-slate-50 focus:outline-none focus:ring-2 focus:ring-red-100 disabled:opacity-50"
                     />
+                  </div>
+                  <div className="col-span-2 border-t border-slate-200 pt-3">
+                    <div className="text-[10px] uppercase font-extrabold text-slate-500 mb-2">Demographic Target Breakdown (Optional)</div>
+                    <div className="grid grid-cols-3 gap-3">
+                      <div>
+                        <label className="block text-[10px] font-bold text-slate-500 mb-1">Female</label>
+                        <input
+                          type="number"
+                          min="0"
+                          placeholder="—"
+                          value={form.target_female || ''}
+                          onChange={e => setForm(f => ({ ...f, target_female: e.target.value }))}
+                          className="w-full text-xs border border-slate-200 rounded p-2 bg-slate-50 focus:bg-white focus:outline-none focus:border-ercs-red"
+                        />
+                      </div>
+                      <div>
+                        <label className="block text-[10px] font-bold text-slate-500 mb-1">Male</label>
+                        <input
+                          type="number"
+                          min="0"
+                          placeholder="—"
+                          value={form.target_male || ''}
+                          onChange={e => setForm(f => ({ ...f, target_male: e.target.value }))}
+                          className="w-full text-xs border border-slate-200 rounded p-2 bg-slate-50 focus:bg-white focus:border-ercs-red"
+                        />
+                      </div>
+                      <div>
+                        <label className="block text-[10px] font-bold text-slate-500 mb-1">Youth</label>
+                        <input
+                          type="number"
+                          min="0"
+                          placeholder="—"
+                          value={form.target_youth || ''}
+                          onChange={e => setForm(f => ({ ...f, target_youth: e.target.value }))}
+                          className="w-full text-xs border border-slate-200 rounded p-2 bg-slate-50 focus:bg-white focus:border-ercs-red"
+                        />
+                      </div>
+                    </div>
                   </div>
                 </div>
                 {isDuplicateLink && <div className="bg-rose-50 border border-rose-200 rounded-lg p-3 text-[11px] text-rose-700 font-semibold">This Project is already linked to {selectedNa.code}.</div>}
