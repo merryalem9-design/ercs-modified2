@@ -37,8 +37,10 @@ const emptyMonitoringForm = (planEntryId: string): Omit<MonitoringRecord, 'id'> 
   evidence_checked: '',
   quality_rating: undefined,
   finding: '',
+  finding_reason: '',
   severity: undefined,
   recommendation: '',
+  recommendation_corrective_action: '',
   responsible: '',
   due_date: '',
   status: undefined,
@@ -171,6 +173,10 @@ const MonitoringRegisterRow: React.FC<{
 
   const update = (patch: Partial<Omit<MonitoringRecord, 'id'>>) => {
     const next = { ...form, ...patch };
+    if (patch.finding !== undefined) next.finding_reason = patch.finding;
+    if (patch.finding_reason !== undefined) next.finding = patch.finding_reason;
+    if (patch.recommendation !== undefined) next.recommendation_corrective_action = patch.recommendation;
+    if (patch.recommendation_corrective_action !== undefined) next.recommendation = patch.recommendation_corrective_action;
     setForm(next);
     if (!isMonitor) return;
     upsertMonitoringRecord({ ...next, id: record?.id });

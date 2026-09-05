@@ -208,8 +208,10 @@ export interface MonitoringRecord {
   evidence_checked?: string;
   quality_rating?: QualityRating;
   finding?: string;
+  finding_reason?: string;
   severity?: FindingSeverity;
   recommendation?: string;
+  recommendation_corrective_action?: string;
   responsible?: string;
   due_date?: string;
   status?: MonitoringStatus;
@@ -258,14 +260,17 @@ export interface StrategicKpi {
   id: string;
   strategic_priority_id: string;
   strategic_objective_id: string;
+  /** Key Performance Indicator (KPI) title / name from Column 2 */
+  kpi: string;
+  /** Narrative description / indicator definition from Column 3 */
   description: string;
-  notes: string;
   /** Free text, not a number — source values mix numbers, "TBD", "NA", and descriptive strings. */
   baseline: string;
   /** Free text — same reasoning as baseline. */
   target_2030: string;
   means_of_verification: string;
   frequency: string;
+  notes?: string;
 }
 
 export interface KpiProgressEntry {
@@ -275,6 +280,7 @@ export interface KpiProgressEntry {
   period: string;
   /** Free text — may include units/commentary. */
   value: string;
+  means_of_verification?: string;
   recorded_by: string;
   /** ISO format YYYY-MM-DD. */
   date: string;

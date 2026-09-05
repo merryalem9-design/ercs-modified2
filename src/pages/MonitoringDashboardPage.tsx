@@ -4,7 +4,7 @@ import { useApp } from '../context/AppContext';
 import { FilterBar } from '../components/common/FilterBar';
 import { sumActual } from '../utils/calculations';
 import {
-  DataQualityConcern, FindingSeverity, MonitoringStatus, QualityRating, VerificationResult,
+  DataQualityConcern, FindingSeverity, MonitoringStatus, QualityRating, VerificationResult, MonitoringMethod,
 } from '../types';
 import {
   ShieldCheck, AlertTriangle, CheckCircle2, Clock, Layers, Gauge, Award, ListChecks, AlertOctagon, ClipboardList,
@@ -38,6 +38,9 @@ export const MonitoringDashboardPage: React.FC = () => {
   const verificationCounts: Record<VerificationResult, number> = {
     'Fully verified': 0, 'Partially verified': 0, 'Not verified': 0, 'Unable to verify': 0,
   };
+  const methodCounts: Record<MonitoringMethod, number> = {
+    'Desk review': 0, 'Field visit': 0, Remote: 0, Joint: 0,
+  };
   const concernCounts: Record<Exclude<DataQualityConcern, 'None'>, number> = {
     Validity: 0, Integrity: 0, Precision: 0, Reliability: 0, Timeliness: 0,
   };
@@ -58,6 +61,7 @@ export const MonitoringDashboardPage: React.FC = () => {
     if (r.quarter_id !== '') monitoredRecords += 1;
 
     if (r.verification_result) verificationCounts[r.verification_result] += 1;
+    if (r.monitoring_method) methodCounts[r.monitoring_method] += 1;
     if (r.data_quality_concern && r.data_quality_concern !== 'None') concernCounts[r.data_quality_concern] += 1;
     if (r.quality_rating) ratingCounts[r.quality_rating] += 1;
 
@@ -85,6 +89,8 @@ export const MonitoringDashboardPage: React.FC = () => {
   });
 
   const coveragePct = totalRecords === 0 ? 0 : (monitoredRecords / totalRecords) * 100;
+  const verificationTotal = sumOf(verificationCounts);
+  const methodTotal = sumOf(methodCounts);
   const dataQualityConcernCount = sumOf(concernCounts);
   const ratingTotal = sumOf(ratingCounts);
   const statusTotal = sumOf(statusCounts);
@@ -199,7 +205,31 @@ export const MonitoringDashboardPage: React.FC = () => {
         />
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        <BreakdownCard
+          icon={CheckCircle2}
+          title="Verification Results"
+          total={verificationTotal}
+          emptyHint="No verification results logged for this filter."
+          rows={[
+            { label: 'Fully verified', count: verificationCounts['Fully verified'], barColor: 'bg-emerald-500' },
+            { label: 'Partially verified', count: verificationCounts['Partially verified'], barColor: 'bg-blue-500' },
+            { label: 'Not verified', count: verificationCounts['Not verified'], barColor: 'bg-amber-500' },
+            { label: 'Unable to verify', count: verificationCounts['Unable to verify'], barColor: 'bg-slate-400' },
+          ]}
+        />
+        <BreakdownCard
+          icon={ClipboardList}
+          title="Monitoring Methods by Type"
+          total={methodTotal}
+          emptyHint="No monitoring methods logged for this filter."
+          rows={[
+            { label: 'Desk review', count: methodCounts['Desk review'], barColor: 'bg-blue-500' },
+            { label: 'Field visit', count: methodCounts['Field visit'], barColor: 'bg-emerald-500' },
+            { label: 'Remote', count: methodCounts.Remote, barColor: 'bg-purple-500' },
+            { label: 'Joint', count: methodCounts.Joint, barColor: 'bg-amber-500' },
+          ]}
+        />
         <BreakdownCard
           icon={AlertTriangle}
           title="Data Quality Concerns by Type"

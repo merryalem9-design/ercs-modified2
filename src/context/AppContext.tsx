@@ -609,7 +609,16 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     if (!parentEntry) { showToast('Plan entry not found for this monitoring record.'); return; }
     setMonitoringRecords(prev => {
       const idx = prev.findIndex(m => m.plan_entry_id === input.plan_entry_id);
-      const merged: MonitoringRecord = { ...input, id: input.id || prev[idx]?.id || `mr-${input.plan_entry_id}` };
+      const findingVal = input.finding_reason ?? input.finding;
+      const recVal = input.recommendation_corrective_action ?? input.recommendation;
+      const normalized: MonitoringRecordInput = {
+        ...input,
+        finding: findingVal,
+        finding_reason: findingVal,
+        recommendation: recVal,
+        recommendation_corrective_action: recVal,
+      };
+      const merged: MonitoringRecord = { ...normalized, id: input.id || prev[idx]?.id || `mr-${input.plan_entry_id}` };
       if (idx >= 0) { const copy = [...prev]; copy[idx] = merged; return copy; }
       return [...prev, merged];
     });
