@@ -1,5 +1,5 @@
 // src/pages/ReportPage.tsx
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useMemo } from 'react';
 import { useApp } from '../context/AppContext';
 import { FilterBar } from '../components/common/FilterBar';
 import {
@@ -13,10 +13,10 @@ import {
 } from '../utils/calculations';
 import {
   PlanEntry,
-  QuarterlyPlan,
   QuarterId,
+  NationalActivity,
 } from '../types';
-import { Target, Wallet, Users, TrendingUp, Layers, CheckCircle2, AlertCircle } from 'lucide-react';
+import { Target, Wallet, Users, TrendingUp, Layers, CheckCircle2, AlertCircle, Info } from 'lucide-react';
 
 /** Beneficiary % = beneficiaries actually reached vs. beneficiaries planned. */
 const beneficiaryPct = (actualBen: number, totalBen: number): number =>
@@ -28,24 +28,14 @@ const OVER_BUDGET_BADGE: KpiBadge = { label: 'Over Budget', color: 'bg-rose-100 
 
 const ALL_QUARTER_IDS: QuarterId[] = ['Q1', 'Q2', 'Q3', 'Q4'];
 
-interface QuarterlyBreakdown {
-  qId: QuarterId;
+interface ColumnGroupResult {
   target: number;
+  actual: number;
+  achievement: number;
   budget: number;
+  spent: number;
+  utilization: number;
 }
-
-const buildQuarterlyData = (es: PlanEntry[], quarterlyPlans: QuarterlyPlan[]): QuarterlyBreakdown[] =>
-  ALL_QUARTER_IDS.map(qId => ({
-    qId,
-    target: es.reduce(
-      (s, e) => s + (quarterlyPlans.find(qp => qp.plan_entry_id === e.id && qp.quarter_id === qId)?.target ?? 0),
-      0
-    ),
-    budget: es.reduce(
-      (s, e) => s + (quarterlyPlans.find(qp => qp.plan_entry_id === e.id && qp.quarter_id === qId)?.budget ?? 0),
-      0
-    ),
-  }));
 
 export const ReportPage: React.FC = () => {
   const {
@@ -109,18 +99,6 @@ export const ReportPage: React.FC = () => {
   const contributingEntries = entries.filter(e => e.is_contributing !== false);
   const nonContributingEntries = entries.filter(e => e.is_contributing === false);
 
-  const uomsFor = (es: PlanEntry[]) =>
-    Array.from(
-      new Set(
-        es
-          .map(e => e.uom || nationalActivities.find(na => na.id === e.national_activity_id)?.uom)
-          .filter((u): u is string => !!u)
-      )
-    );
-
-  const uomsInScope = uomsFor(entries);
-  const singleUom = uomsInScope.length === 1 ? uomsInScope[0] : null;
-
   const totalBeneficiariesFor = (es: PlanEntry[]) =>
     es.reduce((sum, e) => {
       const na = nationalActivities.find(n => n.id === e.national_activity_id);
@@ -136,143 +114,433 @@ export const ReportPage: React.FC = () => {
     }, 0);
 
   // -------------------------------------------------------------------
-  // AOP plan totals from seeded national activity data — used as the
-  // authoritative "planned" side. Scoped to the same filters as plan entries
-  // so the KPI cards are consistent.
+  // AOP Plan Filtering & Consistency Fix (Section 4)
+  // Scopes national activities against region & project filters regardless
+  // of responsibility value.
   // -------------------------------------------------------------------
-  const filteredNas = nationalActivities.filter(na => {
-    if (filters.strategicPriorityId !== 'ALL' && na.strategic_priority_id !== filters.strategicPriorityId) return false;
-    if (filters.strategicObjectiveId !== 'ALL' && na.strategic_objective_id !== filters.strategicObjectiveId) return false;
-    if (filters.nationalActivityId !== 'ALL' && na.id !== filters.nationalActivityId) return false;
-    if (filters.department && filters.department !== 'ALL' && na.department !== filters.department) return false;
-    if (filters.year && filters.year !== 'ALL' && na.year && String(na.year) !== String(filters.year)) return false;
-    if (filters.responsibility && filters.responsibility !== 'ALL') {
-      const resp = filters.responsibility.toLowerCase();
-      const naResp = (na.responsibility || '').toLowerCase();
-      if (resp === 'region' && na.eligible_region_ids.length === 0) return false;
-      if (resp === 'project' && na.eligible_project_ids.length === 0) return false;
-      if (resp === 'hq' && (na.eligible_project_ids.length === 0 || (na.hq_target === 0 && na.hq_budget === 0 && !na.responsibility.toUpperCase().includes('HQ') && na.responsibility.toLowerCase() !== 'both'))) return false;
-      if (resp === 'both' && naResp !== 'both') return false;
+  const isRegionFilterActive = filters.regionId.length > 0 && !filters.regionId.includes('ALL') && !filters.regionId.includes('NONE');
+  const isProjectFilterActive = filters.projectId.length > 0 && !filters.projectId.includes('ALL') && !filters.projectId.includes('NONE');
+
+  const filteredNas = useMemo(() => {
+    return nationalActivities.filter(na => {
+      if (filters.strategicPriorityId !== 'ALL' && na.strategic_priority_id !== filters.strategicPriorityId) return false;
+      if (filters.strategicObjectiveId !== 'ALL' && na.strategic_objective_id !== filters.strategicObjectiveId) return false;
+      if (filters.nationalActivityId !== 'ALL' && na.id !== filters.nationalActivityId) return false;
+      if (filters.department && filters.department !== 'ALL' && na.department !== filters.department) return false;
+      if (filters.year && filters.year !== 'ALL' && na.year && String(na.year) !== String(filters.year)) return false;
+      if (filters.responsibility && filters.responsibility !== 'ALL') {
+        const resp = filters.responsibility.toLowerCase();
+        const naResp = (na.responsibility || '').toLowerCase();
+        if (resp === 'region' && na.eligible_region_ids.length === 0) return false;
+        if (resp === 'project' && na.eligible_project_ids.length === 0) return false;
+        if (resp === 'hq' && (na.eligible_project_ids.length === 0 || (na.hq_target === 0 && na.hq_budget === 0 && !na.responsibility.toUpperCase().includes('HQ') && na.responsibility.toLowerCase() !== 'both'))) return false;
+        if (resp === 'both' && naResp !== 'both') return false;
+      }
+
+      // NEW — must hold regardless of the Responsibility dropdown's value
+      if (isRegionFilterActive) {
+        const matches = filters.regionId.some(rId =>
+          na.eligible_region_ids.includes(rId) ||
+          (na.regional_targets?.[rId]?.target ?? 0) > 0 ||
+          (na.regional_targets?.[rId]?.budget ?? 0) > 0
+        );
+        if (!matches) return false;
+      }
+
+      // NEW — must hold regardless of the Responsibility dropdown's value
+      if (isProjectFilterActive) {
+        const matches = filters.projectId.some(pId =>
+          na.eligible_project_ids.includes(pId) ||
+          (na.project_targets?.[pId]?.target ?? 0) > 0 ||
+          (na.project_targets?.[pId]?.budget ?? 0) > 0
+        );
+        if (!matches) return false;
+      }
+
+      return true;
+    });
+  }, [
+    nationalActivities,
+    filters.strategicPriorityId,
+    filters.strategicObjectiveId,
+    filters.nationalActivityId,
+    filters.department,
+    filters.year,
+    filters.responsibility,
+    isRegionFilterActive,
+    isProjectFilterActive,
+    filters.regionId,
+    filters.projectId,
+  ]);
+
+  const aopTotals = useMemo(() => computeAopTotals(filteredNas), [computeAopTotals, filteredNas]);
+
+  function resolveAopTargetBudget(): { target: number; budget: number; label: string } {
+    if (isRegionalRole && assignedRegion) {
+      return {
+        target: aopTotals.byRegion[assignedRegion.id]?.target ?? 0,
+        budget: aopTotals.byRegion[assignedRegion.id]?.budget ?? 0,
+        label: `AOP Regional Target (${assignedRegion.name})`,
+      };
     }
-    return true;
-  });
-  const aopTotals = computeAopTotals(filteredNas);
+    if (isProjectCoordinator && assignedProject) {
+      return {
+        target: aopTotals.byProject[assignedProject.id]?.target ?? 0,
+        budget: aopTotals.byProject[assignedProject.id]?.budget ?? 0,
+        label: `AOP Project Target (${assignedProject.name})`,
+      };
+    }
+    if (isProjectRole) { // Program Director / Project Coordinator — HQ (oversee all projects)
+      if (isProjectFilterActive) {
+        const ids = filters.projectId;
+        return {
+          target: ids.reduce((s, id) => s + (aopTotals.byProject[id]?.target ?? 0), 0),
+          budget: ids.reduce((s, id) => s + (aopTotals.byProject[id]?.budget ?? 0), 0),
+          label: ids.length === 1
+            ? `AOP Project Target (${projects.find(p => p.id === ids[0])?.name ?? ''})`
+            : 'AOP Project Target (Selected Projects)',
+        };
+      }
+      return { target: aopTotals.hqTarget, budget: aopTotals.hqBudget, label: 'AOP HQ Target (All Projects)' };
+    }
+    // National-level roles: National Activity AOP, PMER Officer, System Admin
+    if (isRegionFilterActive) {
+      const ids = filters.regionId;
+      return {
+        target: ids.reduce((s, id) => s + (aopTotals.byRegion[id]?.target ?? 0), 0),
+        budget: ids.reduce((s, id) => s + (aopTotals.byRegion[id]?.budget ?? 0), 0),
+        label: ids.length === 1
+          ? `AOP Regional Target (${regions.find(r => r.id === ids[0])?.name ?? ''})`
+          : 'AOP Regional Target (Selected Regions)',
+      };
+    }
+    if (isProjectFilterActive) {
+      const ids = filters.projectId;
+      return {
+        target: ids.reduce((s, id) => s + (aopTotals.byProject[id]?.target ?? 0), 0),
+        budget: ids.reduce((s, id) => s + (aopTotals.byProject[id]?.budget ?? 0), 0),
+        label: ids.length === 1
+          ? `AOP Project Target (${projects.find(p => p.id === ids[0])?.name ?? ''})`
+          : 'AOP Project Target (Selected Projects)',
+      };
+    }
+    if (filters.responsibility === 'Region') {
+      return { target: aopTotals.rbTarget, budget: aopTotals.rbBudget, label: 'AOP RB Target (All Regions)' };
+    }
+    if (filters.responsibility === 'Project' || filters.responsibility === 'HQ') {
+      return { target: aopTotals.hqTarget, budget: aopTotals.hqBudget, label: 'AOP HQ Target (All Projects)' };
+    }
+    return { target: aopTotals.ercsTarget, budget: aopTotals.ercsBudget, label: 'AOP National Target' };
+  }
 
-  // AOP plan target and budget scoped by role / responsibility filter
-  const aopTarget = isRegionalRole
-    ? (assignedRegion ? (aopTotals.byRegion[assignedRegion.id]?.target ?? 0) : aopTotals.rbTarget)
-    : isProjectRole
-    ? aopTotals.hqTarget
-    : (filters.responsibility === 'Region'
-        ? (filters.regionId.length > 0 && !filters.regionId.includes('ALL') && !filters.regionId.includes('NONE')
-            ? filters.regionId.reduce((s, rId) => s + (aopTotals.byRegion[rId]?.target ?? 0), 0)
-            : aopTotals.rbTarget)
-        : (filters.responsibility === 'Project' || filters.responsibility === 'HQ')
-        ? aopTotals.hqTarget
-        : aopTotals.ercsTarget);
-
-  const aopBudget = isRegionalRole
-    ? (assignedRegion ? (aopTotals.byRegion[assignedRegion.id]?.budget ?? 0) : aopTotals.rbBudget)
-    : isProjectRole
-    ? aopTotals.hqBudget
-    : (filters.responsibility === 'Region'
-        ? (filters.regionId.length > 0 && !filters.regionId.includes('ALL') && !filters.regionId.includes('NONE')
-            ? filters.regionId.reduce((s, rId) => s + (aopTotals.byRegion[rId]?.budget ?? 0), 0)
-            : aopTotals.rbBudget)
-        : (filters.responsibility === 'Project' || filters.responsibility === 'HQ')
-        ? aopTotals.hqBudget
-        : aopTotals.ercsBudget);
-
+  const resolvedAop = resolveAopTargetBudget();
+  const aopTarget = resolvedAop.target;
+  const aopBudget = resolvedAop.budget;
   const aopActual = sumActual(contributingEntries, quarterlyActuals, q);
   const aopSpent = sumExpenditure(contributingEntries, quarterlyActuals, q);
   const aopAchievement = achievementPct(aopActual, aopTarget);
   const aopUtilization = budgetUtilizationPct(aopSpent, aopBudget);
 
-  // AOP by region: seeded regional_targets as planned, actuals from plan entries
-  // Project roles must NEVER see region data!
-  const aopByRegion = isProjectRole ? [] : regions
-    .filter(r => {
-      if (isRegionalRole && assignedRegion) return r.id === assignedRegion.id;
-      if (filters.regionId.length > 0 && !filters.regionId.includes('ALL') && !filters.regionId.includes('NONE')) {
-        return filters.regionId.includes(r.id);
+  // -------------------------------------------------------------------
+  // Section 3.3 — The Big Consolidated Table ("AOP Plan Overview")
+  // -------------------------------------------------------------------
+  const respFilter = filters.responsibility || 'ALL';
+  const showHqColumns = !isRegionalRole && respFilter !== 'Region' && !isRegionFilterActive;
+  const showRbColumns = !isProjectRole && respFilter !== 'HQ' && respFilter !== 'Project' && !isProjectFilterActive;
+
+  const visibleRegionsForTable = !showRbColumns
+    ? []
+    : (isRegionalRole && assignedRegion)
+      ? [assignedRegion]
+      : isRegionFilterActive
+        ? regions.filter(r => filters.regionId.includes(r.id))
+        : regions; // default: show every region, exactly like StrategicPlanPage
+
+  const totalColHeader = isRegionalRole ? 'Regional Total' : isProjectRole ? 'Project Total' : 'ERCS Total';
+
+  function computeGroupForActivities(
+    activitiesInGroup: NationalActivity[],
+    scopeKind: 'total' | 'hq' | 'rb' | 'region',
+    regionId?: string,
+  ): ColumnGroupResult {
+    let target = 0, budget = 0;
+
+    activitiesInGroup.forEach(na => {
+      if (scopeKind === 'hq') {
+        target += na.hq_target ?? 0;
+        budget += na.hq_budget ?? 0;
+      } else if (scopeKind === 'rb') {
+        target += na.rb_target ?? 0;
+        budget += na.rb_budget ?? 0;
+      } else if (scopeKind === 'region' && regionId) {
+        target += na.regional_targets?.[regionId]?.target ?? 0;
+        budget += na.regional_targets?.[regionId]?.budget ?? 0;
+      } else if (scopeKind === 'total') {
+        if (isRegionalRole && assignedRegion) {
+          target += na.regional_targets?.[assignedRegion.id]?.target ?? 0;
+          budget += na.regional_targets?.[assignedRegion.id]?.budget ?? 0;
+        } else if (isProjectCoordinator && assignedProject) {
+          target += na.project_targets?.[assignedProject.id]?.target ?? 0;
+          budget += na.project_targets?.[assignedProject.id]?.budget ?? 0;
+        } else if (isProjectRole) {
+          if (isProjectFilterActive) {
+            filters.projectId.forEach(pId => {
+              target += na.project_targets?.[pId]?.target ?? 0;
+              budget += na.project_targets?.[pId]?.budget ?? 0;
+            });
+          } else {
+            target += na.hq_target ?? 0;
+            budget += na.hq_budget ?? 0;
+          }
+        } else if (isRegionFilterActive) {
+          filters.regionId.forEach(rId => {
+            target += na.regional_targets?.[rId]?.target ?? 0;
+            budget += na.regional_targets?.[rId]?.budget ?? 0;
+          });
+        } else if (isProjectFilterActive) {
+          filters.projectId.forEach(pId => {
+            target += na.project_targets?.[pId]?.target ?? 0;
+            budget += na.project_targets?.[pId]?.budget ?? 0;
+          });
+        } else if (respFilter === 'Region') {
+          target += na.rb_target ?? 0;
+          budget += na.rb_budget ?? 0;
+        } else if (respFilter === 'Project' || respFilter === 'HQ') {
+          target += na.hq_target ?? 0;
+          budget += na.hq_budget ?? 0;
+        } else {
+          target += na.ercs_target ?? 0;
+          budget += na.ercs_budget ?? 0;
+        }
       }
-      return true;
-    })
-    .map(r => {
-      const planned = aopTotals.byRegion[r.id]?.target ?? 0;
-      const plannedBudget = aopTotals.byRegion[r.id]?.budget ?? 0;
-      const es = contributingEntries.filter(e => e.region_id === r.id);
-      const actual = sumActual(es, quarterlyActuals, q);
-      const spent = sumExpenditure(es, quarterlyActuals, q);
-      return { name: r.name, planned, plannedBudget, actual, spent, achievement: achievementPct(actual, planned), utilization: budgetUtilizationPct(spent, plannedBudget) };
-    }).filter(r => r.planned > 0 || r.actual > 0);
+    });
 
-  // AOP by project (visible to project roles or when responsibility is Project/HQ)
-  const aopByProject = isRegionalRole ? [] : projects
-    .filter(p => {
-      if (assignedProject) return p.id === assignedProject.id;
-      if (filters.projectId.length > 0 && !filters.projectId.includes('ALL') && !filters.projectId.includes('NONE')) {
-        return filters.projectId.includes(p.id);
+    const activityIds = new Set(activitiesInGroup.map(na => na.id));
+    const relevantEntries = contributingEntries.filter(e => {
+      if (!activityIds.has(e.national_activity_id)) return false;
+      if (scopeKind === 'hq') return e.scope_type === 'Project';
+      if (scopeKind === 'rb') return e.scope_type === 'Regional';
+      if (scopeKind === 'region') return e.scope_type === 'Regional' && e.region_id === regionId;
+      // scopeKind === 'total'
+      if (isRegionalRole && assignedRegion) return e.scope_type === 'Regional' && e.region_id === assignedRegion.id;
+      if (isProjectCoordinator && assignedProject) return e.scope_type === 'Project' && e.project_id === assignedProject.id;
+      if (isProjectRole) {
+        if (isProjectFilterActive) return e.scope_type === 'Project' && !!e.project_id && filters.projectId.includes(e.project_id);
+        return e.scope_type === 'Project';
       }
-      return true;
-    })
-    .map(p => {
-      const planned = aopTotals.byProject[p.id]?.target ?? 0;
-      const plannedBudget = aopTotals.byProject[p.id]?.budget ?? 0;
-      const es = contributingEntries.filter(e => e.project_id === p.id);
-      const actual = sumActual(es, quarterlyActuals, q);
-      const spent = sumExpenditure(es, quarterlyActuals, q);
-      return { id: p.id, name: p.name, currency: p.currency || 'ETB', planned, plannedBudget, actual, spent, achievement: achievementPct(actual, planned), utilization: budgetUtilizationPct(spent, plannedBudget) };
-    }).filter(r => r.planned > 0 || r.actual > 0);
+      if (isRegionFilterActive) return e.scope_type === 'Regional' && !!e.region_id && filters.regionId.includes(e.region_id);
+      if (isProjectFilterActive) return e.scope_type === 'Project' && !!e.project_id && filters.projectId.includes(e.project_id);
+      if (respFilter === 'Region') return e.scope_type === 'Regional';
+      if (respFilter === 'Project' || respFilter === 'HQ') return e.scope_type === 'Project';
+      return true; // national-level roles: every contributing entry under this NA set counts
+    });
 
-  // AOP by strategic priority: planned scoped to role
-  const aopBySp = strategicPriorities.map(sp => {
-    let planned = aopTotals.byStrategicPriority[sp.id]?.target ?? 0;
-    let plannedBudget = aopTotals.byStrategicPriority[sp.id]?.budget ?? 0;
-    if (isRegionalRole && assignedRegion) {
-      const nasUnderSp = filteredNas.filter(na => na.strategic_priority_id === sp.id);
-      planned = nasUnderSp.reduce((s, na) => s + (na.regional_targets?.[assignedRegion.id]?.target || 0), 0);
-      plannedBudget = nasUnderSp.reduce((s, na) => s + (na.regional_targets?.[assignedRegion.id]?.budget || 0), 0);
-    } else if (isRegionalRole) {
-      const nasUnderSp = filteredNas.filter(na => na.strategic_priority_id === sp.id);
-      planned = nasUnderSp.reduce((s, na) => s + (na.rb_target || 0), 0);
-      plannedBudget = nasUnderSp.reduce((s, na) => s + (na.rb_budget || 0), 0);
-    } else if (isProjectRole || filters.responsibility === 'Project' || filters.responsibility === 'HQ') {
-      const nasUnderSp = filteredNas.filter(na => na.strategic_priority_id === sp.id);
-      planned = nasUnderSp.reduce((s, na) => s + (na.hq_target || 0), 0);
-      plannedBudget = nasUnderSp.reduce((s, na) => s + (na.hq_budget || 0), 0);
-    }
-    const es = contributingEntries.filter(e => nationalActivities.find(n => n.id === e.national_activity_id)?.strategic_priority_id === sp.id);
-    const actual = sumActual(es, quarterlyActuals, q);
-    const spent = sumExpenditure(es, quarterlyActuals, q);
-    return { name: `${sp.code} — ${sp.name}`, planned, plannedBudget, actual, spent, achievement: achievementPct(actual, planned), utilization: budgetUtilizationPct(spent, plannedBudget) };
-  }).filter(r => r.planned > 0 || r.actual > 0);
+    const actual = sumActual(relevantEntries, quarterlyActuals, q);
+    const spent = sumExpenditure(relevantEntries, quarterlyActuals, q);
+    return {
+      target,
+      budget,
+      actual,
+      spent,
+      achievement: achievementPct(actual, target),
+      utilization: budgetUtilizationPct(spent, budget),
+    };
+  }
 
-  // AOP by strategic objective
-  const aopBySo = strategicObjectives.map(so => {
-    let planned = aopTotals.byStrategicObjective[so.id]?.target ?? 0;
-    let plannedBudget = aopTotals.byStrategicObjective[so.id]?.budget ?? 0;
-    if (isRegionalRole && assignedRegion) {
-      const nasUnderSo = filteredNas.filter(na => na.strategic_objective_id === so.id);
-      planned = nasUnderSo.reduce((s, na) => s + (na.regional_targets?.[assignedRegion.id]?.target || 0), 0);
-      plannedBudget = nasUnderSo.reduce((s, na) => s + (na.regional_targets?.[assignedRegion.id]?.budget || 0), 0);
-    } else if (isRegionalRole) {
-      const nasUnderSo = filteredNas.filter(na => na.strategic_objective_id === so.id);
-      planned = nasUnderSo.reduce((s, na) => s + (na.rb_target || 0), 0);
-      plannedBudget = nasUnderSo.reduce((s, na) => s + (na.rb_budget || 0), 0);
-    } else if (isProjectRole || filters.responsibility === 'Project' || filters.responsibility === 'HQ') {
-      const nasUnderSo = filteredNas.filter(na => na.strategic_objective_id === so.id);
-      planned = nasUnderSo.reduce((s, na) => s + (na.hq_target || 0), 0);
-      plannedBudget = nasUnderSo.reduce((s, na) => s + (na.hq_budget || 0), 0);
-    }
-    const es = contributingEntries.filter(e => nationalActivities.find(n => n.id === e.national_activity_id)?.strategic_objective_id === so.id);
-    const actual = sumActual(es, quarterlyActuals, q);
-    const spent = sumExpenditure(es, quarterlyActuals, q);
-    return { name: `${so.code} — ${so.name}`, planned, plannedBudget, actual, spent, achievement: achievementPct(actual, planned), utilization: budgetUtilizationPct(spent, plannedBudget) };
-  }).filter(r => r.planned > 0 || r.actual > 0);
+  const bigTableData = useMemo(() => {
+    const visibleObjectivesInScope = strategicObjectives.filter(so =>
+      filteredNas.some(na => na.strategic_objective_id === so.id)
+    );
+    const visiblePrioritiesInScope = strategicPriorities.filter(sp =>
+      visibleObjectivesInScope.some(so => so.strategic_priority_id === sp.id)
+    );
+
+    const priorities = visiblePrioritiesInScope.map(sp => {
+      const nasForSp = filteredNas.filter(na => na.strategic_priority_id === sp.id);
+      const spTotal = computeGroupForActivities(nasForSp, 'total');
+      const spHq = showHqColumns ? computeGroupForActivities(nasForSp, 'hq') : null;
+      const spRb = showRbColumns ? computeGroupForActivities(nasForSp, 'rb') : null;
+      const spByRegion = visibleRegionsForTable.map(r => ({
+        region: r,
+        ...computeGroupForActivities(nasForSp, 'region', r.id),
+      }));
+
+      const objectives = visibleObjectivesInScope
+        .filter(so => so.strategic_priority_id === sp.id)
+        .map(so => {
+          const nasForSo = filteredNas.filter(na => na.strategic_objective_id === so.id);
+          const soTotal = computeGroupForActivities(nasForSo, 'total');
+          const soHq = showHqColumns ? computeGroupForActivities(nasForSo, 'hq') : null;
+          const soRb = showRbColumns ? computeGroupForActivities(nasForSo, 'rb') : null;
+          const soByRegion = visibleRegionsForTable.map(r => ({
+            region: r,
+            ...computeGroupForActivities(nasForSo, 'region', r.id),
+          }));
+          return {
+            objective: so,
+            total: soTotal,
+            hq: soHq,
+            rb: soRb,
+            byRegion: soByRegion,
+          };
+        });
+
+      return {
+        priority: sp,
+        total: spTotal,
+        hq: spHq,
+        rb: spRb,
+        byRegion: spByRegion,
+        objectives,
+      };
+    });
+
+    const grandTotal = computeGroupForActivities(filteredNas, 'total');
+    const grandHq = showHqColumns ? computeGroupForActivities(filteredNas, 'hq') : null;
+    const grandRb = showRbColumns ? computeGroupForActivities(filteredNas, 'rb') : null;
+    const grandByRegion = visibleRegionsForTable.map(r => ({
+      region: r,
+      ...computeGroupForActivities(filteredNas, 'region', r.id),
+    }));
+
+    return {
+      priorities,
+      grandTotal,
+      grandHq,
+      grandRb,
+      grandByRegion,
+    };
+  }, [
+    entries,
+    contributingEntries,
+    filteredNas,
+    filters,
+    quarterlyActuals,
+    regions,
+    strategicPriorities,
+    strategicObjectives,
+    showHqColumns,
+    showRbColumns,
+    visibleRegionsForTable,
+    isRegionalRole,
+    assignedRegion,
+    isProjectCoordinator,
+    assignedProject,
+    isProjectRole,
+    isRegionFilterActive,
+    isProjectFilterActive,
+    respFilter,
+    q,
+  ]);
+
+  // -------------------------------------------------------------------
+  // Section 3.4 — "By Project (AOP Plan)" Table
+  // Sourced strictly from aopTotals.byProject with filteredNas
+  // -------------------------------------------------------------------
+  const aopByProject = useMemo(() => {
+    if (isRegionalRole) return [];
+    return projects
+      .filter(p => {
+        if (assignedProject) return p.id === assignedProject.id;
+        if (isProjectFilterActive) return filters.projectId.includes(p.id);
+        return true;
+      })
+      .map(p => {
+        const planned = aopTotals.byProject[p.id]?.target ?? 0;
+        const plannedBudget = aopTotals.byProject[p.id]?.budget ?? 0;
+        const es = contributingEntries.filter(e => e.project_id === p.id);
+        const actual = sumActual(es, quarterlyActuals, q);
+        const spent = sumExpenditure(es, quarterlyActuals, q);
+        return {
+          id: p.id,
+          name: p.name,
+          currency: p.currency || 'ETB',
+          planned,
+          plannedBudget,
+          actual,
+          spent,
+          achievement: achievementPct(actual, planned),
+          utilization: budgetUtilizationPct(spent, plannedBudget),
+        };
+      })
+      .filter(r => r.planned > 0 || r.actual > 0 || r.plannedBudget > 0 || r.spent > 0);
+  }, [
+    isRegionalRole,
+    projects,
+    assignedProject,
+    isProjectFilterActive,
+    filters.projectId,
+    aopTotals,
+    contributingEntries,
+    quarterlyActuals,
+    q,
+  ]);
+
+  // -------------------------------------------------------------------
+  // Sub-column table cells renderer
+  // -------------------------------------------------------------------
+  const renderSubColumns = (res: ColumnGroupResult | null, isSpRow = false) => {
+    if (!res) return null;
+    const achColor = res.achievement >= 100 ? 'text-emerald-700' : res.achievement >= 50 ? 'text-amber-700' : 'text-rose-700';
+    const utilColor = res.utilization > 100 ? 'text-rose-700' : res.utilization >= 50 ? 'text-emerald-700' : 'text-slate-700';
+    const fontClass = isSpRow ? 'font-bold' : '';
+
+    return (
+      <>
+        <td className={`p-2.5 text-right border-r border-slate-200 whitespace-nowrap ${fontClass}`}>
+          {Math.round(res.target).toLocaleString()}
+        </td>
+        <td className={`p-2.5 text-right border-r border-slate-200 whitespace-nowrap ${fontClass} text-slate-900`}>
+          {Math.round(res.actual).toLocaleString()}
+        </td>
+        <td className={`p-2.5 text-right border-r border-slate-200 whitespace-nowrap font-black ${achColor}`}>
+          {res.achievement.toFixed(1)}%
+        </td>
+        <td className={`p-2.5 text-right border-r border-slate-200 whitespace-nowrap ${fontClass}`}>
+          {Math.round(res.budget).toLocaleString()}
+        </td>
+        <td className={`p-2.5 text-right border-r border-slate-200 whitespace-nowrap ${fontClass} text-slate-900`}>
+          {Math.round(res.spent).toLocaleString()}
+        </td>
+        <td className={`p-2.5 text-right border-r border-slate-200 whitespace-nowrap font-black ${utilColor}`}>
+          {res.utilization.toFixed(1)}%
+        </td>
+      </>
+    );
+  };
+
+  const renderFooterSubColumns = (res: ColumnGroupResult | null) => {
+    if (!res) return null;
+    const achColor = res.achievement >= 100 ? 'text-emerald-400' : res.achievement >= 50 ? 'text-amber-400' : 'text-rose-400';
+    const utilColor = res.utilization > 100 ? 'text-rose-400' : res.utilization >= 50 ? 'text-emerald-400' : 'text-slate-300';
+
+    return (
+      <>
+        <td className="p-2.5 text-right border-r border-slate-700 whitespace-nowrap font-bold text-slate-100">
+          {Math.round(res.target).toLocaleString()}
+        </td>
+        <td className="p-2.5 text-right border-r border-slate-700 whitespace-nowrap font-bold text-white">
+          {Math.round(res.actual).toLocaleString()}
+        </td>
+        <td className={`p-2.5 text-right border-r border-slate-700 whitespace-nowrap font-black ${achColor}`}>
+          {res.achievement.toFixed(1)}%
+        </td>
+        <td className="p-2.5 text-right border-r border-slate-700 whitespace-nowrap font-bold text-slate-100">
+          {Math.round(res.budget).toLocaleString()}
+        </td>
+        <td className="p-2.5 text-right border-r border-slate-700 whitespace-nowrap font-bold text-white">
+          {Math.round(res.spent).toLocaleString()}
+        </td>
+        <td className={`p-2.5 text-right border-r border-slate-700 whitespace-nowrap font-black ${utilColor}`}>
+          {res.utilization.toFixed(1)}%
+        </td>
+      </>
+    );
+  };
 
   return (
     <div className="space-y-6">
+      {/* 1. Page Heading */}
       <div>
         <h2 className="text-xl font-black text-slate-800">Aggregated Report</h2>
         <p className="text-xs text-slate-500 mt-1">
@@ -280,128 +548,251 @@ export const ReportPage: React.FC = () => {
         </p>
       </div>
 
+      {/* 2. FilterBar */}
       <FilterBar allowNoneScope />
 
-      {/* KPI CARDS — AOP Plan vs. Actual */}
+      {/* 3. KPI Cards */}
       <div id="report-section-top" className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
         <KPICard
           title={isRegionalRole ? 'AOP Regional Achievement' : isProjectRole ? 'AOP Project Achievement' : 'AOP Achievement'}
           val={`${aopAchievement.toFixed(1)}%`}
-          sub={`${aopActual.toLocaleString()} actual / ${aopTarget.toLocaleString()} ${isRegionalRole ? 'regional' : isProjectRole ? 'project' : 'AOP'} target`}
+          sub={`${Math.round(aopActual).toLocaleString()} actual / ${Math.round(aopTarget).toLocaleString()} (${resolvedAop.label})`}
           icon={Target}
+          accent="red"
           statusBadge={aopAchievement > 100 ? OVERACHIEVED_BADGE : undefined}
         />
         <KPICard
           title={isRegionalRole ? 'Regional Budget Utilization' : isProjectRole ? 'Project Budget Utilization' : 'Budget Utilization'}
           val={`${aopUtilization.toFixed(1)}%`}
-          sub={`ETB ${aopSpent.toLocaleString()} spent / ${aopBudget.toLocaleString()} ${isRegionalRole ? 'regional' : isProjectRole ? 'project' : 'AOP'} budget`}
+          sub={`ETB ${Math.round(aopSpent).toLocaleString()} spent / ${Math.round(aopBudget).toLocaleString()} (${resolvedAop.label.replace('Target', 'Budget')})`}
           icon={Wallet}
+          accent="blue"
           statusBadge={aopUtilization > 100 ? OVER_BUDGET_BADGE : undefined}
         />
         <KPICard
           title="Beneficiaries Reached"
-          val={actualBeneficiariesFor(contributingEntries).toLocaleString()}
-          sub={`of ${totalBeneficiariesFor(contributingEntries).toLocaleString()} planned`}
+          val={Math.round(actualBeneficiariesFor(contributingEntries)).toLocaleString()}
+          sub={`of ${Math.round(totalBeneficiariesFor(contributingEntries)).toLocaleString()} planned`}
           icon={Users}
+          accent="emerald"
         />
         <KPICard
           title="Plan Entries in Scope"
           val={String(entries.length)}
           sub={isRegionalRole ? `${contributingEntries.length} Regional Entries` : `${contributingEntries.length} Contributing · ${nonContributingEntries.length} Standalone`}
           icon={TrendingUp}
+          accent="amber"
         />
       </div>
 
-      {/* AOP PLAN OVERVIEW — National targets from seeded data vs. actual delivery */}
-      <div className="space-y-4">
-        <h3 className="text-sm font-bold text-slate-700 uppercase tracking-wider">AOP Plan Overview</h3>
-        <p className="text-[11px] text-slate-500 -mt-2">Planned targets sourced from ERCS 2019 AOP (Excel). Actuals accumulate from user-entered quarterly reporting.</p>
+      {/* 4. One Consolidated Excel-Style Table: AOP Plan Overview */}
+      <div className="space-y-3">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+          <div>
+            <h3 className="text-sm font-bold text-slate-800 uppercase tracking-wider">
+              AOP Plan Overview — by Strategic Priority & Objective
+            </h3>
+            <p className="text-[11px] text-slate-500 mt-0.5">
+              Consolidated authoritative baseline targets and budgets from ERCS 2019 AOP vs actual delivery and utilization.
+            </p>
+          </div>
+          <div className="text-xs font-semibold text-slate-500">
+            {bigTableData.priorities.length} Priorities · {bigTableData.priorities.reduce((s, p) => s + p.objectives.length, 0)} Objectives
+          </div>
+        </div>
 
-        {/* By Strategic Priority */}
-        {aopBySp.length > 0 && (
-          <div className="bg-white rounded-xl border shadow-sm overflow-hidden">
-            <div className="p-3 border-b bg-slate-50 text-xs font-bold text-slate-700 uppercase tracking-wider">By Strategic Priority</div>
-            <div className="overflow-x-auto">
-              <table className="w-full text-left text-xs">
-                <thead className="bg-slate-50 text-slate-500 font-bold uppercase border-b">
-                  <tr>
-                    <th className="p-3">Strategic Priority</th>
-                    <th className="p-3 text-right">AOP Target</th>
-                    <th className="p-3 text-right">Actual</th>
-                    <th className="p-3 text-right">Achievement %</th>
-                    <th className="p-3 text-right">AOP Budget (ETB)</th>
-                    <th className="p-3 text-right">Spent (ETB)</th>
-                    <th className="p-3 text-right">Utilization %</th>
-                  </tr>
-                </thead>
-                <tbody className="divide-y">
-                  {aopBySp.map(row => (
-                    <tr key={row.name} className="hover:bg-slate-50">
-                      <td className="p-3 font-semibold text-slate-800 max-w-xs">{row.name}</td>
-                      <td className="p-3 text-right">{row.planned.toLocaleString()}</td>
-                      <td className="p-3 text-right font-bold text-blue-700">{row.actual.toLocaleString()}</td>
-                      <td className={`p-3 text-right font-black ${row.achievement >= 100 ? 'text-emerald-600' : row.achievement >= 50 ? 'text-amber-600' : 'text-red-600'}`}>
-                        {row.achievement.toFixed(1)}%
-                      </td>
-                      <td className="p-3 text-right">{row.plannedBudget.toLocaleString()}</td>
-                      <td className="p-3 text-right">{row.spent.toLocaleString()}</td>
-                      <td className="p-3 text-right">{row.utilization.toFixed(1)}%</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
+        {filters.zoneId && filters.zoneId !== 'ALL' && (
+          <div className="flex items-center gap-2 p-2.5 px-3 rounded-lg bg-amber-50 border border-amber-200 text-xs font-semibold text-amber-900">
+            <Info className="w-4 h-4 text-amber-700 shrink-0" />
+            <span>Target/Budget reflect the full Region. Actual/Spent reflect only the selected Zone.</span>
           </div>
         )}
 
-        {/* By Region (Hidden for Project roles) */}
-        {!isProjectRole && aopByRegion.length > 0 && (
-          <div id="report-section-region" className="bg-white rounded-xl border shadow-sm overflow-hidden">
-            <div className="p-3 border-b bg-slate-50 text-xs font-bold text-slate-700 uppercase tracking-wider">
-              {isRegionalRole && assignedRegion ? `By Region (${assignedRegion.name})` : 'By Region (AOP Plan)'}
-            </div>
-            <div className="overflow-x-auto">
-              <table className="w-full text-left text-xs">
-                <thead className="bg-slate-50 text-slate-500 font-bold uppercase border-b">
-                  <tr>
-                    <th className="p-3">Region</th>
-                    <th className="p-3 text-right">AOP Target</th>
-                    <th className="p-3 text-right">Actual</th>
-                    <th className="p-3 text-right">Achievement %</th>
-                    <th className="p-3 text-right">AOP Budget (ETB)</th>
-                    <th className="p-3 text-right">Spent (ETB)</th>
-                    <th className="p-3 text-right">Utilization %</th>
-                  </tr>
-                </thead>
-                <tbody className="divide-y">
-                  {aopByRegion.map(row => (
-                    <tr key={row.name} className="hover:bg-slate-50">
-                      <td className="p-3 font-semibold text-slate-800">{row.name}</td>
-                      <td className="p-3 text-right">{row.planned.toLocaleString()}</td>
-                      <td className="p-3 text-right font-bold text-blue-700">{row.actual.toLocaleString()}</td>
-                      <td className={`p-3 text-right font-black ${row.achievement >= 100 ? 'text-emerald-600' : row.achievement >= 50 ? 'text-amber-600' : 'text-red-600'}`}>
-                        {row.achievement.toFixed(1)}%
-                      </td>
-                      <td className="p-3 text-right">{row.plannedBudget.toLocaleString()}</td>
-                      <td className="p-3 text-right">{row.spent.toLocaleString()}</td>
-                      <td className="p-3 text-right">{row.utilization.toFixed(1)}%</td>
-                    </tr>
+        <div className="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden">
+          <div className="overflow-x-auto max-h-[750px] relative">
+            <table className="w-full text-left text-xs border-collapse">
+              {/* Header Row 1 */}
+              <thead className="bg-slate-800 text-white sticky top-0 z-20 text-[11px] font-bold tracking-wider">
+                <tr>
+                  <th className="p-3 border-r border-slate-700 min-w-[130px] sticky left-0 bg-slate-800 z-30" rowSpan={2}>
+                    Strategies Code
+                  </th>
+                  <th className="p-3 border-r border-slate-700 min-w-[300px] sticky left-[130px] bg-slate-800 z-30" rowSpan={2}>
+                    Intervention Logic
+                  </th>
+                  <th className="p-2 border-r border-slate-700 text-center bg-slate-900" colSpan={6}>
+                    {totalColHeader}
+                  </th>
+                  {showHqColumns && (
+                    <th className="p-2 border-r border-slate-700 text-center bg-slate-900" colSpan={6}>
+                      HQ
+                    </th>
+                  )}
+                  {showRbColumns && (
+                    <th className="p-2 border-r border-slate-700 text-center bg-slate-900" colSpan={6}>
+                      Summary RB
+                    </th>
+                  )}
+                  {visibleRegionsForTable.map(reg => (
+                    <th key={reg.id} className="p-2 border-r border-slate-700 text-center bg-slate-900" colSpan={6}>
+                      {reg.name}
+                    </th>
                   ))}
-                </tbody>
-              </table>
-            </div>
-          </div>
-        )}
+                </tr>
 
-        {/* By Project (Hidden for Regional roles) */}
-        {!isRegionalRole && aopByProject.length > 0 && (
-          <div id="report-section-project" className="bg-white rounded-xl border shadow-sm overflow-hidden">
-            <div className="p-3 border-b bg-slate-50 text-xs font-bold text-slate-700 uppercase tracking-wider">
-              {isProjectRole && assignedProject ? `By Project (${assignedProject.name})` : 'By Project (AOP Plan)'}
+                {/* Sub-header Row 2 */}
+                <tr className="border-t border-slate-700 text-[10px] text-slate-300">
+                  {/* Total subheaders */}
+                  <th className="p-2 text-right border-r border-slate-700 bg-slate-800">Target</th>
+                  <th className="p-2 text-right border-r border-slate-700 bg-slate-800">Actual</th>
+                  <th className="p-2 text-right border-r border-slate-700 bg-slate-800">Achv %</th>
+                  <th className="p-2 text-right border-r border-slate-700 bg-slate-800">Budget</th>
+                  <th className="p-2 text-right border-r border-slate-700 bg-slate-800">Spent</th>
+                  <th className="p-2 text-right border-r border-slate-700 bg-slate-800">Util %</th>
+
+                  {/* HQ subheaders */}
+                  {showHqColumns && (
+                    <>
+                      <th className="p-2 text-right border-r border-slate-700 bg-slate-800">Target</th>
+                      <th className="p-2 text-right border-r border-slate-700 bg-slate-800">Actual</th>
+                      <th className="p-2 text-right border-r border-slate-700 bg-slate-800">Achv %</th>
+                      <th className="p-2 text-right border-r border-slate-700 bg-slate-800">Budget</th>
+                      <th className="p-2 text-right border-r border-slate-700 bg-slate-800">Spent</th>
+                      <th className="p-2 text-right border-r border-slate-700 bg-slate-800">Util %</th>
+                    </>
+                  )}
+
+                  {/* RB subheaders */}
+                  {showRbColumns && (
+                    <>
+                      <th className="p-2 text-right border-r border-slate-700 bg-slate-800">Target</th>
+                      <th className="p-2 text-right border-r border-slate-700 bg-slate-800">Actual</th>
+                      <th className="p-2 text-right border-r border-slate-700 bg-slate-800">Achv %</th>
+                      <th className="p-2 text-right border-r border-slate-700 bg-slate-800">Budget</th>
+                      <th className="p-2 text-right border-r border-slate-700 bg-slate-800">Spent</th>
+                      <th className="p-2 text-right border-r border-slate-700 bg-slate-800">Util %</th>
+                    </>
+                  )}
+
+                  {/* Per-Region subheaders */}
+                  {visibleRegionsForTable.map(reg => (
+                    <React.Fragment key={reg.id}>
+                      <th className="p-2 text-right border-r border-slate-700 bg-slate-800">Target</th>
+                      <th className="p-2 text-right border-r border-slate-700 bg-slate-800">Actual</th>
+                      <th className="p-2 text-right border-r border-slate-700 bg-slate-800">Achv %</th>
+                      <th className="p-2 text-right border-r border-slate-700 bg-slate-800">Budget</th>
+                      <th className="p-2 text-right border-r border-slate-700 bg-slate-800">Spent</th>
+                      <th className="p-2 text-right border-r border-slate-700 bg-slate-800">Util %</th>
+                    </React.Fragment>
+                  ))}
+                </tr>
+              </thead>
+
+              {/* Table Body */}
+              <tbody className="divide-y divide-slate-200">
+                {bigTableData.priorities.map(item => (
+                  <React.Fragment key={item.priority.id}>
+                    {/* Level 1: Strategic Priority Row */}
+                    <tr className="bg-slate-100/90 font-bold text-slate-900 border-t-2 border-slate-300">
+                      <td className="p-2.5 border-r border-slate-300 sticky left-0 bg-slate-100 z-10 whitespace-nowrap">
+                        <span className="inline-block px-2 py-0.5 rounded text-[11px] font-bold text-white bg-slate-800">
+                          {item.priority.code}
+                        </span>
+                      </td>
+                      <td className="p-2.5 border-r border-slate-300 sticky left-[130px] bg-slate-100 z-10">
+                        <div className="font-bold text-slate-900">{item.priority.name}</div>
+                      </td>
+                      {renderSubColumns(item.total, true)}
+                      {showHqColumns && renderSubColumns(item.hq, true)}
+                      {showRbColumns && renderSubColumns(item.rb, true)}
+                      {item.byRegion.map(regRes => (
+                        <React.Fragment key={regRes.region.id}>
+                          {renderSubColumns(regRes, true)}
+                        </React.Fragment>
+                      ))}
+                    </tr>
+
+                    {/* Level 2: Strategic Objective Rows (nested under parent SP) */}
+                    {item.objectives.map(objRow => (
+                      <tr key={objRow.objective.id} className="hover:bg-slate-50 border-b border-slate-100 text-slate-700">
+                        <td className="p-2.5 border-r border-slate-200 sticky left-0 bg-white hover:bg-slate-50 z-10 whitespace-nowrap pl-4">
+                          <span className="font-semibold text-slate-600 text-[11px]">
+                            {objRow.objective.code}
+                          </span>
+                        </td>
+                        <td className="p-2.5 border-r border-slate-200 sticky left-[130px] bg-white hover:bg-slate-50 z-10 pl-6">
+                          <div className="font-medium text-slate-800 text-xs">{objRow.objective.name}</div>
+                        </td>
+                        {renderSubColumns(objRow.total)}
+                        {showHqColumns && renderSubColumns(objRow.hq)}
+                        {showRbColumns && renderSubColumns(objRow.rb)}
+                        {objRow.byRegion.map(regRes => (
+                          <React.Fragment key={regRes.region.id}>
+                            {renderSubColumns(regRes)}
+                          </React.Fragment>
+                        ))}
+                      </tr>
+                    ))}
+                  </React.Fragment>
+                ))}
+
+                {bigTableData.priorities.length === 0 && (
+                  <tr>
+                    <td
+                      colSpan={2 + 6 + (showHqColumns ? 6 : 0) + (showRbColumns ? 6 : 0) + visibleRegionsForTable.length * 6}
+                      className="p-8 text-center text-slate-400 font-medium"
+                    >
+                      No strategic objectives or priorities match this filter.
+                    </td>
+                  </tr>
+                )}
+              </tbody>
+
+              {/* Grand Total Footer Row */}
+              {bigTableData.priorities.length > 0 && (
+                <tfoot className="sticky bottom-0 z-20">
+                  <tr className="bg-slate-900 text-white font-bold border-t-2 border-slate-700 text-[11px]">
+                    <td className="p-3 border-r border-slate-800 sticky left-0 bg-slate-900 z-30 uppercase tracking-wider">
+                      Grand Total
+                    </td>
+                    <td className="p-3 border-r border-slate-800 sticky left-[130px] bg-slate-900 z-30 text-slate-400 font-normal">
+                      All in-scope priorities & objectives
+                    </td>
+                    {renderFooterSubColumns(bigTableData.grandTotal)}
+                    {showHqColumns && renderFooterSubColumns(bigTableData.grandHq)}
+                    {showRbColumns && renderFooterSubColumns(bigTableData.grandRb)}
+                    {bigTableData.grandByRegion.map(regRes => (
+                      <React.Fragment key={regRes.region.id}>
+                        {renderFooterSubColumns(regRes)}
+                      </React.Fragment>
+                    ))}
+                  </tr>
+                </tfoot>
+              )}
+            </table>
+          </div>
+        </div>
+      </div>
+
+      {/* 5. "By Project (AOP Plan)" Table */}
+      {!isRegionalRole && aopByProject.length > 0 && (
+        <div className="space-y-3">
+          {filters.zoneId && filters.zoneId !== 'ALL' && (
+            <div className="flex items-center gap-2 p-2.5 px-3 rounded-lg bg-amber-50 border border-amber-200 text-xs font-semibold text-amber-900">
+              <Info className="w-4 h-4 text-amber-700 shrink-0" />
+              <span>Target/Budget reflect the full Region. Actual/Spent reflect only the selected Zone.</span>
+            </div>
+          )}
+          <div id="report-section-project" className="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden">
+            <div className="p-3 border-b bg-slate-50 flex items-center justify-between">
+              <div className="text-xs font-bold text-slate-800 uppercase tracking-wider">
+                {isProjectRole && assignedProject ? `By Project (${assignedProject.name})` : 'By Project (AOP Plan)'} ({aopByProject.length})
+              </div>
+              <span className="text-[11px] text-slate-500 font-medium">Planned targets & budgets from AOP seed</span>
             </div>
             <div className="overflow-x-auto">
               <table className="w-full text-left text-xs">
-                <thead className="bg-slate-50 text-slate-500 font-bold uppercase border-b">
+                <thead className="bg-slate-50 text-slate-600 font-bold uppercase border-b border-slate-200">
                   <tr>
                     <th className="p-3">Project</th>
                     <th className="p-3 text-right">AOP Target</th>
@@ -412,80 +803,51 @@ export const ReportPage: React.FC = () => {
                     <th className="p-3 text-right">Utilization %</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y">
+                <tbody className="divide-y divide-slate-100">
                   {aopByProject.map(row => (
-                    <tr key={row.name} className="hover:bg-slate-50">
+                    <tr key={row.id} className="hover:bg-slate-50">
                       <td className="p-3 font-semibold text-slate-800">
                         <div className="flex items-center gap-2">
                           <span>{row.name}</span>
-                          <span className={`text-[9px] px-1.5 py-0.2 rounded font-bold border ${row.currency === 'EUR' ? 'bg-blue-50 text-blue-700 border-blue-200' : 'bg-emerald-50 text-emerald-700 border-emerald-200'}`}>
+                          <span className={`text-[9px] px-1.5 py-0.5 rounded font-bold border ${
+                            row.currency === 'EUR' ? 'bg-blue-50 text-blue-700 border-blue-200' : 'bg-emerald-50 text-emerald-700 border-emerald-200'
+                          }`}>
                             {row.currency}
                           </span>
                         </div>
                       </td>
-                      <td className="p-3 text-right">{row.planned.toLocaleString()}</td>
-                      <td className="p-3 text-right font-bold text-blue-700">{row.actual.toLocaleString()}</td>
-                      <td className={`p-3 text-right font-black ${row.achievement >= 100 ? 'text-emerald-600' : row.achievement >= 50 ? 'text-amber-600' : 'text-red-600'}`}>
+                      <td className="p-3 text-right font-semibold text-slate-700">{Math.round(row.planned).toLocaleString()}</td>
+                      <td className="p-3 text-right font-bold text-blue-700">{Math.round(row.actual).toLocaleString()}</td>
+                      <td className={`p-3 text-right font-black ${
+                        row.achievement >= 100 ? 'text-emerald-700' : row.achievement >= 50 ? 'text-amber-700' : 'text-rose-700'
+                      }`}>
                         {row.achievement.toFixed(1)}%
                       </td>
-                      <td className="p-3 text-right font-medium">
-                        {row.currency === 'EUR' ? `€${row.plannedBudget.toLocaleString()}` : `${row.plannedBudget.toLocaleString()} ETB`}
+                      <td className="p-3 text-right font-medium text-slate-700">
+                        {row.currency === 'EUR' ? `€${Math.round(row.plannedBudget).toLocaleString()}` : `${Math.round(row.plannedBudget).toLocaleString()} ETB`}
                       </td>
-                      <td className="p-3 text-right">
-                        {row.currency === 'EUR' ? `€${row.spent.toLocaleString()}` : `${row.spent.toLocaleString()} ETB`}
+                      <td className="p-3 text-right text-slate-900 font-semibold">
+                        {row.currency === 'EUR' ? `€${Math.round(row.spent).toLocaleString()}` : `${Math.round(row.spent).toLocaleString()} ETB`}
                       </td>
-                      <td className="p-3 text-right">{row.utilization.toFixed(1)}%</td>
+                      <td className={`p-3 text-right font-black ${
+                        row.utilization > 100 ? 'text-rose-700' : row.utilization >= 50 ? 'text-emerald-700' : 'text-slate-700'
+                      }`}>
+                        {row.utilization.toFixed(1)}%
+                      </td>
                     </tr>
                   ))}
                 </tbody>
               </table>
             </div>
           </div>
-        )}
+        </div>
+      )}
 
-        {/* By Strategic Objective */}
-        {aopBySo.length > 0 && (
-          <div className="bg-white rounded-xl border shadow-sm overflow-hidden">
-            <div className="p-3 border-b bg-slate-50 text-xs font-bold text-slate-700 uppercase tracking-wider">By Strategic Objective</div>
-            <div className="overflow-x-auto">
-              <table className="w-full text-left text-xs">
-                <thead className="bg-slate-50 text-slate-500 font-bold uppercase border-b">
-                  <tr>
-                    <th className="p-3">Strategic Objective</th>
-                    <th className="p-3 text-right">AOP Target</th>
-                    <th className="p-3 text-right">Actual</th>
-                    <th className="p-3 text-right">Achievement %</th>
-                    <th className="p-3 text-right">AOP Budget (ETB)</th>
-                    <th className="p-3 text-right">Spent (ETB)</th>
-                    <th className="p-3 text-right">Utilization %</th>
-                  </tr>
-                </thead>
-                <tbody className="divide-y">
-                  {aopBySo.map(row => (
-                    <tr key={row.name} className="hover:bg-slate-50">
-                      <td className="p-3 font-semibold text-slate-800 max-w-xs">{row.name}</td>
-                      <td className="p-3 text-right">{row.planned.toLocaleString()}</td>
-                      <td className="p-3 text-right font-bold text-blue-700">{row.actual.toLocaleString()}</td>
-                      <td className={`p-3 text-right font-black ${row.achievement >= 100 ? 'text-emerald-600' : row.achievement >= 50 ? 'text-amber-600' : 'text-red-600'}`}>
-                        {row.achievement.toFixed(1)}%
-                      </td>
-                      <td className="p-3 text-right">{row.plannedBudget.toLocaleString()}</td>
-                      <td className="p-3 text-right">{row.spent.toLocaleString()}</td>
-                      <td className="p-3 text-right">{row.utilization.toFixed(1)}%</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          </div>
-        )}
-      </div>
-
-      {/* VIEW TABS */}
-      <div className="flex items-center gap-2 border-b pb-2">
+      {/* 6. View Tabs */}
+      <div className="flex items-center gap-2 border-b border-slate-200 pb-2">
         <button
           onClick={() => setActiveTab('all')}
-          className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all flex items-center gap-1.5 ${
+          className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all flex items-center gap-1.5 cursor-pointer ${
             activeTab === 'all'
               ? 'bg-slate-800 text-white shadow-sm'
               : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
@@ -495,7 +857,7 @@ export const ReportPage: React.FC = () => {
         </button>
         <button
           onClick={() => setActiveTab('contributing')}
-          className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all flex items-center gap-1.5 ${
+          className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all flex items-center gap-1.5 cursor-pointer ${
             activeTab === 'contributing'
               ? 'bg-ercs-red text-white shadow-sm'
               : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
@@ -506,7 +868,7 @@ export const ReportPage: React.FC = () => {
         {!isRegionalRole && (
           <button
             onClick={() => setActiveTab('non-contributing')}
-            className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all flex items-center gap-1.5 ${
+            className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all flex items-center gap-1.5 cursor-pointer ${
               activeTab === 'non-contributing'
                 ? 'bg-amber-600 text-white shadow-sm'
                 : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
@@ -517,9 +879,9 @@ export const ReportPage: React.FC = () => {
         )}
       </div>
 
-      {/* CONSOLIDATED CONTRIBUTING TABLE */}
+      {/* 7. Consolidated Contributing Table */}
       {(activeTab === 'all' || activeTab === 'contributing') && (
-        <div id="report-section-national" className="bg-white rounded-xl border shadow-sm overflow-hidden">
+        <div id="report-section-national" className="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden">
           <div className="p-4 border-b bg-slate-50 flex items-center justify-between">
             <div className="flex items-center gap-2 text-xs font-bold text-slate-800 uppercase tracking-wider">
               <Layers className="w-4 h-4 text-ercs-red" />
@@ -529,7 +891,7 @@ export const ReportPage: React.FC = () => {
           </div>
           <div className="overflow-x-auto">
             <table className="w-full text-left text-xs">
-              <thead className="bg-slate-50 text-slate-600 font-bold uppercase border-b">
+              <thead className="bg-slate-50 text-slate-600 font-bold uppercase border-b border-slate-200">
                 <tr>
                   <th className="p-3 whitespace-nowrap">Strategic Priority</th>
                   <th className="p-3 whitespace-nowrap">Strategic Objective</th>
@@ -554,13 +916,13 @@ export const ReportPage: React.FC = () => {
                   <th className="p-3 text-right">Actual Beneficiaries</th>
                   <th className="p-3 text-right">Beneficiary %</th>
                   {visibleQuarters.map(qId => (
-                    <th key={qId} className="p-2 text-center bg-blue-50 border-l whitespace-nowrap" colSpan={2}>
+                    <th key={qId} className="p-2 text-center bg-blue-50 border-l border-slate-200 whitespace-nowrap" colSpan={2}>
                       {qId} Target / Budget
                     </th>
                   ))}
                 </tr>
               </thead>
-              <tbody className="divide-y">
+              <tbody className="divide-y divide-slate-100">
                 {contributingEntries.map(pe => {
                   const na = nationalActivities.find(n => n.id === pe.national_activity_id);
                   const sp = strategicPriorities.find(p => p.id === na?.strategic_priority_id);
@@ -580,16 +942,16 @@ export const ReportPage: React.FC = () => {
                   const ab = convertToBeneficiaries(a, pe.uom || na?.uom || '', uomConfigs);
                   const bp = beneficiaryPct(ab, tb);
                   const actF = quarterlyActuals
-                        .filter(a => a.plan_entry_id === pe.id && (q === 'ALL' || a.quarter_id === q))
-                        .reduce((sum, a) => sum + (a.actual_female || 0), 0);
+                        .filter(actItem => actItem.plan_entry_id === pe.id && (q === 'ALL' || actItem.quarter_id === q))
+                        .reduce((sum, actItem) => sum + (actItem.actual_female || 0), 0);
                   const actM = quarterlyActuals
-                        .filter(a => a.plan_entry_id === pe.id && (q === 'ALL' || a.quarter_id === q))
-                        .reduce((sum, a) => sum + (a.actual_male || 0), 0);
+                        .filter(actItem => actItem.plan_entry_id === pe.id && (q === 'ALL' || actItem.quarter_id === q))
+                        .reduce((sum, actItem) => sum + (actItem.actual_male || 0), 0);
                   const actY = quarterlyActuals
-                        .filter(a => a.plan_entry_id === pe.id && (q === 'ALL' || a.quarter_id === q))
-                        .reduce((sum, a) => sum + (a.actual_youth || 0), 0);
+                        .filter(actItem => actItem.plan_entry_id === pe.id && (q === 'ALL' || actItem.quarter_id === q))
+                        .reduce((sum, actItem) => sum + (actItem.actual_youth || 0), 0);
                   const hasActDemographics = quarterlyActuals
-                        .some(a => a.plan_entry_id === pe.id && (q === 'ALL' || a.quarter_id === q) && (a.actual_female != null || a.actual_male != null || a.actual_youth != null));
+                        .some(actItem => actItem.plan_entry_id === pe.id && (q === 'ALL' || actItem.quarter_id === q) && (actItem.actual_female != null || actItem.actual_male != null || actItem.actual_youth != null));
 
                   return (
                     <tr key={pe.id} className="hover:bg-slate-50">
@@ -620,30 +982,30 @@ export const ReportPage: React.FC = () => {
                         </span>
                         <span className="ml-2 font-semibold">{scopeName || '—'}</span>
                       </td>
-                      <td className="p-3 text-right font-bold whitespace-nowrap">{t.toLocaleString()}</td>
-                      <td className="p-3 text-right whitespace-nowrap text-slate-600">{pe.target_female != null ? pe.target_female.toLocaleString() : '—'}</td>
-                      <td className="p-3 text-right whitespace-nowrap text-slate-600">{pe.target_male != null ? pe.target_male.toLocaleString() : '—'}</td>
-                      <td className="p-3 text-right whitespace-nowrap text-slate-600">{pe.target_youth != null ? pe.target_youth.toLocaleString() : '—'}</td>
-                      <td className="p-3 text-right whitespace-nowrap">{a.toLocaleString()}</td>
-                      <td className="p-3 text-right whitespace-nowrap text-slate-600">{hasActDemographics ? actF.toLocaleString() : '—'}</td>
-                      <td className="p-3 text-right whitespace-nowrap text-slate-600">{hasActDemographics ? actM.toLocaleString() : '—'}</td>
-                      <td className="p-3 text-right whitespace-nowrap text-slate-600">{hasActDemographics ? actY.toLocaleString() : '—'}</td>
+                      <td className="p-3 text-right font-bold whitespace-nowrap">{Math.round(t).toLocaleString()}</td>
+                      <td className="p-3 text-right whitespace-nowrap text-slate-600">{pe.target_female != null ? Math.round(pe.target_female).toLocaleString() : '—'}</td>
+                      <td className="p-3 text-right whitespace-nowrap text-slate-600">{pe.target_male != null ? Math.round(pe.target_male).toLocaleString() : '—'}</td>
+                      <td className="p-3 text-right whitespace-nowrap text-slate-600">{pe.target_youth != null ? Math.round(pe.target_youth).toLocaleString() : '—'}</td>
+                      <td className="p-3 text-right whitespace-nowrap">{Math.round(a).toLocaleString()}</td>
+                      <td className="p-3 text-right whitespace-nowrap text-slate-600">{hasActDemographics ? Math.round(actF).toLocaleString() : '—'}</td>
+                      <td className="p-3 text-right whitespace-nowrap text-slate-600">{hasActDemographics ? Math.round(actM).toLocaleString() : '—'}</td>
+                      <td className="p-3 text-right whitespace-nowrap text-slate-600">{hasActDemographics ? Math.round(actY).toLocaleString() : '—'}</td>
                       <td className="p-3 text-right font-bold whitespace-nowrap">{ach.toFixed(1)}%</td>
-                      <td className="p-3 text-right whitespace-nowrap">{b.toLocaleString()}</td>
-                      <td className="p-3 text-right whitespace-nowrap">{s.toLocaleString()}</td>
+                      <td className="p-3 text-right whitespace-nowrap">{Math.round(b).toLocaleString()}</td>
+                      <td className="p-3 text-right whitespace-nowrap">{Math.round(s).toLocaleString()}</td>
                       <td className="p-3 text-right font-bold whitespace-nowrap">{ut.toFixed(1)}%</td>
-                      <td className="p-3 text-right whitespace-nowrap">{tb.toLocaleString()}</td>
-                      <td className="p-3 text-right whitespace-nowrap">{ab.toLocaleString()}</td>
+                      <td className="p-3 text-right whitespace-nowrap">{Math.round(tb).toLocaleString()}</td>
+                      <td className="p-3 text-right whitespace-nowrap">{Math.round(ab).toLocaleString()}</td>
                       <td className="p-3 text-right whitespace-nowrap">{bp.toFixed(1)}%</td>
                       {visibleQuarters.map(qId => {
                         const qp = quarterlyPlans.find(p => p.plan_entry_id === pe.id && p.quarter_id === qId);
                         return (
                           <React.Fragment key={qId}>
-                            <td className="p-2 text-right whitespace-nowrap bg-blue-50 border-l text-[11px]">
-                              {(qp?.target ?? 0).toLocaleString()}
+                            <td className="p-2 text-right whitespace-nowrap bg-blue-50 border-l border-slate-200 text-[11px]">
+                              {Math.round(qp?.target ?? 0).toLocaleString()}
                             </td>
                             <td className="p-2 text-right whitespace-nowrap bg-blue-50 text-[11px]">
-                              {(qp?.budget ?? 0).toLocaleString()}
+                              {Math.round(qp?.budget ?? 0).toLocaleString()}
                             </td>
                           </React.Fragment>
                         );
@@ -664,7 +1026,7 @@ export const ReportPage: React.FC = () => {
         </div>
       )}
 
-      {/* DEDICATED NON-CONTRIBUTING PROJECT ACTIVITIES TABLE */}
+      {/* 8. Dedicated Non-Contributing Activities Table */}
       {!isRegionalRole && (activeTab === 'all' || activeTab === 'non-contributing') && (
         <div id="report-section-non-contributing" className="bg-white rounded-xl border border-amber-200 shadow-sm overflow-hidden">
           <div className="p-4 border-b bg-amber-50 flex items-center justify-between">
@@ -721,24 +1083,24 @@ export const ReportPage: React.FC = () => {
                       <td className="p-3 font-bold text-slate-800">{pe.activity_name}</td>
                       <td className="p-3 text-slate-600">{pe.activity_description}</td>
                       <td className="p-3 whitespace-nowrap text-slate-500 font-semibold">{pe.uom || 'Number'}</td>
-                      <td className="p-3 text-right font-bold whitespace-nowrap">{t.toLocaleString()}</td>
-                      <td className="p-3 text-right whitespace-nowrap">{a.toLocaleString()}</td>
+                      <td className="p-3 text-right font-bold whitespace-nowrap">{Math.round(t).toLocaleString()}</td>
+                      <td className="p-3 text-right whitespace-nowrap">{Math.round(a).toLocaleString()}</td>
                       <td className="p-3 text-right font-bold whitespace-nowrap">{ach.toFixed(1)}%</td>
-                      <td className="p-3 text-right whitespace-nowrap">{b.toLocaleString()}</td>
-                      <td className="p-3 text-right whitespace-nowrap">{s.toLocaleString()}</td>
+                      <td className="p-3 text-right whitespace-nowrap">{Math.round(b).toLocaleString()}</td>
+                      <td className="p-3 text-right whitespace-nowrap">{Math.round(s).toLocaleString()}</td>
                       <td className="p-3 text-right font-bold whitespace-nowrap">{ut.toFixed(1)}%</td>
-                      <td className="p-3 text-right whitespace-nowrap">{tb.toLocaleString()}</td>
-                      <td className="p-3 text-right whitespace-nowrap">{ab.toLocaleString()}</td>
+                      <td className="p-3 text-right whitespace-nowrap">{Math.round(tb).toLocaleString()}</td>
+                      <td className="p-3 text-right whitespace-nowrap">{Math.round(ab).toLocaleString()}</td>
                       <td className="p-3 text-right whitespace-nowrap">{bp.toFixed(1)}%</td>
                       {visibleQuarters.map(qId => {
                         const qp = quarterlyPlans.find(p => p.plan_entry_id === pe.id && p.quarter_id === qId);
                         return (
                           <React.Fragment key={qId}>
                             <td className="p-2 text-right whitespace-nowrap bg-amber-50/60 border-l border-amber-200 text-[11px]">
-                              {(qp?.target ?? 0).toLocaleString()}
+                              {Math.round(qp?.target ?? 0).toLocaleString()}
                             </td>
                             <td className="p-2 text-right whitespace-nowrap bg-amber-50/60 text-[11px]">
-                              {(qp?.budget ?? 0).toLocaleString()}
+                              {Math.round(qp?.budget ?? 0).toLocaleString()}
                             </td>
                           </React.Fragment>
                         );
@@ -758,30 +1120,6 @@ export const ReportPage: React.FC = () => {
           </div>
         </div>
       )}
-
-      {/* SUMMARY BREAKDOWNS — Plan Entry based (project scope) */}
-      {!isRegionalRole && contributingEntries.length > 0 && (
-        <div className="pt-4 border-t space-y-6">
-          <h3 className="text-sm font-bold text-slate-700 uppercase tracking-wider">Plan Entry Breakdowns</h3>
-          <p className="text-[11px] text-slate-500 -mt-2">Aggregated from user-entered plan entries and approved quarterly data.</p>
-          <div id="report-section-project">
-            <AopBreakdownTable
-              title="By Project (Plan Entries)"
-              rows={projects
-                .map(p => {
-                  const es = contributingEntries.filter(e => e.project_id === p.id);
-                  if (es.length === 0) return null;
-                  const t = sumPlannedTarget(es, quarterlyPlans, q);
-                  const a = sumActual(es, quarterlyActuals, q);
-                  const b = sumPlannedBudget(es, quarterlyPlans, q);
-                  const x = sumExpenditure(es, quarterlyActuals, q);
-                  return { name: p.name, planned: t, plannedBudget: b, actual: a, spent: x, achievement: achievementPct(a, t), utilization: budgetUtilizationPct(x, b) };
-                })
-                .filter((r): r is NonNullable<typeof r> => r !== null)}
-            />
-          </div>
-        </div>
-      )}
     </div>
   );
 };
@@ -789,175 +1127,51 @@ export const ReportPage: React.FC = () => {
 // ===========================================================================
 // KPI CARD
 // ===========================================================================
+const ACCENT_STYLES = {
+  red: {
+    border: 'border-l-4 border-l-ercs-red',
+    chip: 'bg-red-50 text-ercs-red',
+  },
+  blue: {
+    border: 'border-l-4 border-l-blue-500',
+    chip: 'bg-blue-50 text-blue-700',
+  },
+  emerald: {
+    border: 'border-l-4 border-l-emerald-500',
+    chip: 'bg-emerald-50 text-emerald-700',
+  },
+  amber: {
+    border: 'border-l-4 border-l-amber-500',
+    chip: 'bg-amber-50 text-amber-700',
+  },
+};
+
 const KPICard: React.FC<{
   title: string;
   val: React.ReactNode;
   sub: React.ReactNode;
   icon: any;
+  accent?: 'red' | 'blue' | 'emerald' | 'amber';
   statusBadge?: KpiBadge;
-}> = ({ title, val, sub, icon: Icon, statusBadge }) => (
-  <div className="bg-white p-4 rounded-xl border shadow-sm">
-    <div className="flex justify-between mb-2 text-xs font-bold text-slate-500">
-      <span>{title}</span>
-      <Icon className="w-4 h-4" />
+}> = ({ title, val, sub, icon: Icon, accent = 'red', statusBadge }) => {
+  const styles = ACCENT_STYLES[accent];
+  return (
+    <div className={`bg-white p-4 rounded-xl border border-slate-200 shadow-sm ${styles.border}`}>
+      <div className="flex justify-between items-center mb-2 text-xs font-bold text-slate-500">
+        <span>{title}</span>
+        <div className={`p-1.5 rounded-lg ${styles.chip}`}>
+          <Icon className="w-4 h-4" />
+        </div>
+      </div>
+      <div className="flex items-center gap-2 flex-wrap">
+        <div className="text-2xl font-black text-slate-800">{val}</div>
+        {statusBadge && (
+          <span className={`inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-bold border ${statusBadge.color}`}>
+            {statusBadge.label}
+          </span>
+        )}
+      </div>
+      <div className="text-[10px] mt-1 text-slate-500 font-medium">{sub}</div>
     </div>
-    <div className="flex items-center gap-2 flex-wrap">
-      <div className="text-2xl font-black text-slate-800">{val}</div>
-      {statusBadge && (
-        <span className={`inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-bold border ${statusBadge.color}`}>
-          {statusBadge.label}
-        </span>
-      )}
-    </div>
-    <div className="text-[10px] mt-1 text-slate-500">{sub}</div>
-  </div>
-);
-
-// ===========================================================================
-// AOP BREAKDOWN TABLE — simple planned vs actual table for AOP plan overview
-// and plan-entry project breakdowns.
-// ===========================================================================
-interface AopBreakdownRow {
-  name: string;
-  planned: number;
-  plannedBudget: number;
-  actual: number;
-  spent: number;
-  achievement: number;
-  utilization: number;
-}
-
-const AopBreakdownTable: React.FC<{ title: string; rows: AopBreakdownRow[] }> = ({ title, rows }) => (
-  <div className="bg-white rounded-xl border shadow-sm overflow-hidden">
-    <div className="p-3 border-b bg-slate-50 text-xs font-bold text-slate-700 uppercase tracking-wider">{title} ({rows.length})</div>
-    <div className="overflow-x-auto">
-      <table className="w-full text-left text-xs">
-        <thead className="bg-slate-50 text-slate-500 font-bold uppercase border-b">
-          <tr>
-            <th className="p-3">Name</th>
-            <th className="p-3 text-right">Planned Target</th>
-            <th className="p-3 text-right">Actual</th>
-            <th className="p-3 text-right">Achievement %</th>
-            <th className="p-3 text-right">Planned Budget (ETB)</th>
-            <th className="p-3 text-right">Spent (ETB)</th>
-            <th className="p-3 text-right">Utilization %</th>
-          </tr>
-        </thead>
-        <tbody className="divide-y">
-          {rows.map(row => (
-            <tr key={row.name} className="hover:bg-slate-50">
-              <td className="p-3 font-semibold text-slate-800 max-w-xs">{row.name}</td>
-              <td className="p-3 text-right">{row.planned.toLocaleString()}</td>
-              <td className="p-3 text-right font-bold text-blue-700">{row.actual.toLocaleString()}</td>
-              <td className={`p-3 text-right font-black ${row.achievement >= 100 ? 'text-emerald-600' : row.achievement >= 50 ? 'text-amber-600' : 'text-red-600'}`}>
-                {row.achievement.toFixed(1)}%
-              </td>
-              <td className="p-3 text-right">{row.plannedBudget.toLocaleString()}</td>
-              <td className="p-3 text-right">{row.spent.toLocaleString()}</td>
-              <td className="p-3 text-right">{row.utilization.toFixed(1)}%</td>
-            </tr>
-          ))}
-          {rows.length === 0 && (
-            <tr><td colSpan={7} className="p-6 text-center text-slate-400">No data for this filter yet.</td></tr>
-          )}
-        </tbody>
-      </table>
-    </div>
-  </div>
-);
-
-// ===========================================================================
-// SCOPE REPORT TABLE
-// ===========================================================================
-interface ScopeRow {
-  key: string;
-  name: string;
-  target: number;
-  actual: number;
-  achievement: number;
-  budget: number;
-  spent: number;
-  utilization: number;
-  totalBeneficiaries: number;
-  actualBeneficiaries: number;
-  beneficiaryPct: number;
-  uoms: string[];
-  quarterlyData: QuarterlyBreakdown[];
-}
-
-const ScopeReportTable: React.FC<{ title: string; rows: ScopeRow[]; visibleQuarters: QuarterId[] }> = ({ title, rows, visibleQuarters }) => (
-  <div className="bg-white rounded-xl border shadow-sm overflow-hidden">
-    <div className="p-4 border-b bg-slate-50 text-xs font-bold text-slate-800 uppercase tracking-wider">
-      {title} ({rows.length})
-    </div>
-    <div className="overflow-x-auto">
-      <table className="w-full text-left text-xs">
-        <thead className="bg-slate-50 text-slate-600 font-bold uppercase border-b">
-          <tr>
-            <th className="p-3">Name</th>
-            <th className="p-3 text-right">Target</th>
-            <th className="p-3 text-right">Actual</th>
-            <th className="p-3 text-right">Achievement %</th>
-            <th className="p-3 text-right">Budget (ETB)</th>
-            <th className="p-3 text-right">Spent (ETB)</th>
-            <th className="p-3 text-right">Utilization %</th>
-            <th className="p-3 text-right">Total Beneficiaries</th>
-            <th className="p-3 text-right">Actual Beneficiaries</th>
-            <th className="p-3 text-right">Beneficiary %</th>
-            {visibleQuarters.map(qId => (
-              <th key={qId} className="p-2 text-center bg-blue-50 border-l whitespace-nowrap" colSpan={2}>
-                {qId} Target / Budget
-              </th>
-            ))}
-          </tr>
-        </thead>
-        <tbody className="divide-y">
-          {rows.map(r => {
-            const unitSuffix = r.uoms.length === 1 ? ` ${r.uoms[0]}` : '';
-            return (
-              <tr key={r.key} className="hover:bg-slate-50">
-                <td className="p-3 font-bold text-slate-800">
-                  <div>{r.name}</div>
-                  {r.uoms.length > 1 && (
-                    <div className="mt-1 inline-flex items-center gap-1 text-[9px] font-semibold text-amber-700 bg-amber-50 border border-amber-200 rounded px-1.5 py-0.5">
-                      ⚠ Mixed Units ({r.uoms.join(', ')})
-                    </div>
-                  )}
-                </td>
-                <td className="p-3 text-right">{r.target.toLocaleString()}{unitSuffix}</td>
-                <td className="p-3 text-right font-bold">{r.actual.toLocaleString()}{unitSuffix}</td>
-                <td className="p-3 text-right font-black">{r.achievement.toFixed(1)}%</td>
-                <td className="p-3 text-right">{r.budget.toLocaleString()}</td>
-                <td className="p-3 text-right">{r.spent.toLocaleString()}</td>
-                <td className="p-3 text-right font-black">{r.utilization.toFixed(1)}%</td>
-                <td className="p-3 text-right">{r.totalBeneficiaries.toLocaleString()}</td>
-                <td className="p-3 text-right font-black text-blue-600">{r.actualBeneficiaries.toLocaleString()}</td>
-                <td className="p-3 text-right">{r.beneficiaryPct.toFixed(1)}%</td>
-                {visibleQuarters.map(qId => {
-                  const qd = r.quarterlyData.find(d => d.qId === qId);
-                  return (
-                    <React.Fragment key={qId}>
-                      <td className="p-2 text-right whitespace-nowrap bg-blue-50 border-l text-[11px]">
-                        {(qd?.target ?? 0).toLocaleString()}
-                      </td>
-                      <td className="p-2 text-right whitespace-nowrap bg-blue-50 text-[11px]">
-                        {(qd?.budget ?? 0).toLocaleString()}
-                      </td>
-                    </React.Fragment>
-                  );
-                })}
-              </tr>
-            );
-          })}
-          {rows.length === 0 && (
-            <tr>
-              <td colSpan={10 + visibleQuarters.length * 2} className="p-6 text-center text-slate-500">
-                No data for this filter yet.
-              </td>
-            </tr>
-          )}
-        </tbody>
-      </table>
-    </div>
-  </div>
-);
+  );
+};
