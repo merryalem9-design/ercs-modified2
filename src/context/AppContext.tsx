@@ -218,7 +218,7 @@ const normalizePersistedRole = (raw: UserRole, regions: Region[], projects: Proj
   return 'National Activity AOP';
 };
 
-const PERSISTENCE_KEY = 'ercs-aop-bottom-up-v12';
+const PERSISTENCE_KEY = 'ercs-aop-bottom-up-v13';
 
 const readPersisted = <T,>(key: string, fallback: T): T => {
   if (typeof window === 'undefined') return fallback;

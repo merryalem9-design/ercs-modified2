@@ -81,7 +81,7 @@ export interface RegionActivityLink {
 export interface ProjectOnlyActivity {
   id: string;
   name: string;
-  uom: string;
+  uom?: string;
   target: number;
   budget: number;
   raw_code?: string | null;

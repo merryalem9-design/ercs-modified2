@@ -2333,7 +2333,9 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "reg-afar",
       "reg-moyale"
     ],
-    "eligible_project_ids": [],
+    "eligible_project_ids": [
+      "akobo"
+    ],
     "ercs_target": 12294.0,
     "ercs_budget": 141762230.0,
     "hq_target": 8164.0,
@@ -2402,7 +2404,12 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
         "budget": 0.0
       }
     },
-    "project_targets": {}
+    "project_targets": {
+      "akobo": {
+        "target": 1350.0,
+        "budget": 48237895.774647884
+      }
+    }
   },
   {
     "id": "na-1-3-4",
@@ -2433,7 +2440,8 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "reg-moyale"
     ],
     "eligible_project_ids": [
-      "grc-hacap3"
+      "grc-hacap3",
+      "akobo"
     ],
     "ercs_target": 22650.0,
     "ercs_budget": 123570000.0,
@@ -2507,6 +2515,10 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "grc-hacap3": {
         "target": 500.0,
         "budget": 2670000.0
+      },
+      "akobo": {
+        "target": 6750.0,
+        "budget": 9989264.25
       }
     }
   },
@@ -2539,7 +2551,8 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "reg-moyale"
     ],
     "eligible_project_ids": [
-      "grc-hacap3"
+      "grc-hacap3",
+      "akobo"
     ],
     "ercs_target": 2453.0,
     "ercs_budget": 208986000.0,
@@ -2613,6 +2626,10 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "grc-hacap3": {
         "target": 100.0,
         "budget": 15753000.0
+      },
+      "akobo": {
+        "target": 4500.0,
+        "budget": 44713849.5
       }
     }
   },
@@ -6581,7 +6598,9 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
     "eligible_project_ids": [
       "sraps",
       "cidca",
-      "ec2r-health"
+      "ec2r-health",
+      "akobo",
+      "eccmp-malaria"
     ],
     "ercs_target": 125630.0,
     "ercs_budget": 35410000.0,
@@ -6663,6 +6682,14 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "ec2r-health": {
         "target": 0.0,
         "budget": 115900920.69818176
+      },
+      "akobo": {
+        "target": 2.0,
+        "budget": 31711950.0
+      },
+      "eccmp-malaria": {
+        "target": 250051.0,
+        "budget": 117500000.0
       }
     }
   },
@@ -6907,7 +6934,8 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
     ],
     "eligible_project_ids": [
       "sraps",
-      "cidca"
+      "cidca",
+      "eccmp-malaria"
     ],
     "ercs_target": 1185.0,
     "ercs_budget": 10685000.0,
@@ -6985,6 +7013,10 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "cidca": {
         "target": 0.0,
         "budget": 47455609.0
+      },
+      "eccmp-malaria": {
+        "target": 107.0,
+        "budget": 67665698.79471229
       }
     }
   },
@@ -7018,7 +7050,8 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
     ],
     "eligible_project_ids": [
       "sraps",
-      "ehppr"
+      "ehppr",
+      "eccmp-malaria"
     ],
     "ercs_target": 8324.0,
     "ercs_budget": 4910000.0,
@@ -7096,6 +7129,10 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "ehppr": {
         "target": 1.0,
         "budget": 5339179.0
+      },
+      "eccmp-malaria": {
+        "target": 5657.0,
+        "budget": 41966577.48833592
       }
     }
   },
@@ -7427,7 +7464,9 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "reg-afar",
       "reg-moyale"
     ],
-    "eligible_project_ids": [],
+    "eligible_project_ids": [
+      "akobo"
+    ],
     "ercs_target": 10200.0,
     "ercs_budget": 4125000.0,
     "hq_target": 8000.0,
@@ -7496,7 +7535,12 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
         "budget": 0.0
       }
     },
-    "project_targets": {}
+    "project_targets": {
+      "akobo": {
+        "target": 1350.0,
+        "budget": 3995705.7
+      }
+    }
   },
   {
     "id": "na-3-2-6",
@@ -7741,7 +7785,8 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
     "eligible_project_ids": [
       "cidca",
       "seap",
-      "ec2r-health"
+      "ec2r-health",
+      "akobo"
     ],
     "ercs_target": 977900.0,
     "ercs_budget": 13877100.0,
@@ -7823,6 +7868,10 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "ec2r-health": {
         "target": 400.0,
         "budget": 4000000.0
+      },
+      "akobo": {
+        "target": 55.0,
+        "budget": 3382608.0
       }
     }
   },
@@ -7859,7 +7908,8 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "sraps",
       "tesfa",
       "seap",
-      "ec2r-health"
+      "ec2r-health",
+      "akobo"
     ],
     "ercs_target": 85300.0,
     "ercs_budget": 7290000.0,
@@ -7949,6 +7999,10 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "ec2r-health": {
         "target": 410.0,
         "budget": 8000000.0
+      },
+      "akobo": {
+        "target": 50.0,
+        "budget": 14798910.0
       }
     }
   },
@@ -8542,7 +8596,8 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
     "eligible_project_ids": [
       "l4r",
       "sraps",
-      "ec2r-wash"
+      "ec2r-wash",
+      "akobo"
     ],
     "ercs_target": 24.0,
     "ercs_budget": 42800000.0,
@@ -8624,6 +8679,10 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "ec2r-wash": {
         "target": 10.0,
         "budget": 25000000.0
+      },
+      "akobo": {
+        "target": 10.0,
+        "budget": 4016847.0
       }
     }
   },
@@ -8829,7 +8888,8 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
     "year": 2019,
     "eligible_region_ids": [],
     "eligible_project_ids": [
-      "cidca"
+      "cidca",
+      "eccmp-malaria"
     ],
     "ercs_target": 27.0,
     "ercs_budget": 135000000.0,
@@ -8903,6 +8963,10 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "cidca": {
         "target": 2.0,
         "budget": 19950361.0
+      },
+      "eccmp-malaria": {
+        "target": 2.0,
+        "budget": 19000000.0
       }
     }
   },
@@ -8918,7 +8982,9 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
     "activity_description": "Establish  ambulance call and dispatch center at each  regional branch level and integrate with MoH",
     "year": 2019,
     "eligible_region_ids": [],
-    "eligible_project_ids": [],
+    "eligible_project_ids": [
+      "dhis2"
+    ],
     "ercs_target": 15.0,
     "ercs_budget": 2400000.0,
     "hq_target": 15.0,
@@ -8987,7 +9053,12 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
         "budget": 0.0
       }
     },
-    "project_targets": {}
+    "project_targets": {
+      "dhis2": {
+        "target": 2.0,
+        "budget": 6233828.0547
+      }
+    }
   },
   {
     "id": "na-3-4-4",
@@ -9809,7 +9880,8 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "reg-moyale"
     ],
     "eligible_project_ids": [
-      "ehppr"
+      "ehppr",
+      "eccmp-malaria"
     ],
     "ercs_target": 449802.0,
     "ercs_budget": 249900716.9,
@@ -9883,6 +9955,10 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "ehppr": {
         "target": 20.0,
         "budget": 15828631.0
+      },
+      "eccmp-malaria": {
+        "target": 57.0,
+        "budget": 24720000.0
       }
     }
   },
@@ -31239,6 +31315,1394 @@ export const INITIAL_PROJECTS: Project[] = [
     "start_date": "2026-06-01",
     "endDate": "2027-03-31",
     "end_date": "2027-03-31"
+  },
+  {
+    "id": "wash-localization",
+    "name": "WASH Localization",
+    "description": "WASH Localization",
+    "currency": "ETB",
+    "project_only_activities": [
+      {
+        "id": "wash-localization-nc-1",
+        "name": "IT related equipments, furniture etc for WASH Unit\nGashaw not sure who is utilizing this budget",
+        "target": 1.0,
+        "budget": 178097.808,
+        "raw_code": "Not linked to AOP",
+        "uom": "Lumbsum"
+      },
+      {
+        "id": "wash-localization-nc-2",
+        "name": "Senior WASH Coordinators\nGashaw to deduct 1,5million birr and add to the Surge Training",
+        "target": 2.0,
+        "budget": 3430000.0,
+        "raw_code": "Not linked to AOP",
+        "uom": "Person"
+      },
+      {
+        "id": "wash-localization-nc-3",
+        "name": "WASH: Contribute to Pilot of Water and Sanitation Services  on a cost recovery basis as part of initial investment towards Developments ERCS Water and Utility Service Provider Unit\nrunning cost for rig and transport services (IGA unit)",
+        "target": 12.0,
+        "budget": 0.0,
+        "raw_code": "Not linked to AOP",
+        "uom": "Month"
+      },
+      {
+        "id": "wash-localization-nc-4",
+        "name": "WASH: Contribute to strengthening the technical exchange visits skills and knowledge sharing, dissemination, SOP development and validation workshop",
+        "target": 2.0,
+        "budget": 2279424.0,
+        "raw_code": "Not linked to AOP",
+        "uom": "number"
+      },
+      {
+        "id": "wash-localization-nc-5",
+        "name": "WASH: Create online Training Platforms for WASH Training (including licencing)\nOngoing",
+        "target": 1.0,
+        "budget": 2049971.48,
+        "raw_code": "Not linked to AOP",
+        "uom": "plateform"
+      },
+      {
+        "id": "wash-localization-nc-6",
+        "name": "WASH: Develop  WASH training equipments and tools  (training kits) for practicals\nOngoing",
+        "target": 1.0,
+        "budget": 2564352.0,
+        "raw_code": "Not linked to AOP",
+        "uom": "Lumbsum"
+      },
+      {
+        "id": "wash-localization-nc-7",
+        "name": "WASH: Development of SOPs to integrate climate smart WASH technology in all WASH programming (solarisation)\nThe budget will be used for a workshop with multiple stakeholders",
+        "target": 1.0,
+        "budget": 256435.2,
+        "raw_code": "Not linked to AOP",
+        "uom": "SOP"
+      },
+      {
+        "id": "wash-localization-nc-8",
+        "name": "WASH: Establish and training  of ERCS National Surge for WASH that is regionally represented\nDone in 2025 and plan to have additional training in 2026",
+        "target": 25.0,
+        "budget": 1575000.0,
+        "raw_code": "Not linked to AOP",
+        "uom": "partaiapants"
+      },
+      {
+        "id": "wash-localization-nc-9",
+        "name": "WASH: Training Modules to be incorporated as part of  courses offered by the  ERCS Training Institute\nConsultant revised the WASH modules and have been validated - these are to be part of what TC uses for WASH trainings",
+        "target": 1.0,
+        "budget": 997248.0000000001,
+        "raw_code": "Not linked to AOP",
+        "uom": "Module"
+      },
+      {
+        "id": "wash-localization-nc-10",
+        "name": "WASH: Update and orientation of Standard Operating Procedures (SOP) in WASH emergency\nTechnical working group to finalise the SOP\nInvitation to stakeholders for a validation workshop will be organized",
+        "target": 1.0,
+        "budget": 284928.0,
+        "raw_code": "Not linked to AOP",
+        "uom": "SOP"
+      }
+    ],
+    "budget": 13007358.68,
+    "donor": "Netherlands RC",
+    "location": "National level",
+    "totalBudget": "13,007,358.68 ETB",
+    "startDate": "2024-06-01",
+    "start_date": "2024-06-01",
+    "endDate": "2026-12-31",
+    "end_date": "2026-12-31"
+  },
+  {
+    "id": "akobo",
+    "name": "Emergency humanitarian response to the South Sudan population influx in Akobo border areas of Ethiopia and South Sudan",
+    "description": "Emergency humanitarian response to the South Sudan population influx in Akobo border areas of Ethiopia and South Sudan (Option A: Seeded as separate project; pending client confirmation to verify potential double-counting with EC2R WASH)",
+    "currency": "ETB",
+    "project_only_activities": [
+      {
+        "id": "akobo-nc-1",
+        "name": "Training of HEW , ERCS vols & VHLs  eCBHFA (Communty Based Health and First Aid), community-based disease and event surveillance including alert reporting, early warning,  SGBV, MHPSS, PGI and Hygiene promotion in emergency",
+        "target": 50.0,
+        "budget": 2008423.5,
+        "raw_code": "Not linked to AOP",
+        "uom": "#people"
+      },
+      {
+        "id": "akobo-nc-5",
+        "name": "Health centre outreach teams support for health service utilization and referral linkage including SGBV by HEWs in the catchment health facility to undertake routine outreach service",
+        "target": 6.0,
+        "budget": 19027170.0,
+        "raw_code": "Not linked to AOP",
+        "uom": "#months"
+      },
+      {
+        "id": "akobo-nc-13",
+        "name": "Joint Monitoring for ERCS HQ every quarter",
+        "target": 3.0,
+        "budget": 945174.66975,
+        "raw_code": "Not linked to AOP",
+        "uom": "#visit"
+      },
+      {
+        "id": "akobo-nc-14",
+        "name": "Joint Monitoring to Zonal branches every month",
+        "target": 9.0,
+        "budget": 951358.5,
+        "raw_code": "Not linked to AOP",
+        "uom": "#visit"
+      },
+      {
+        "id": "akobo-nc-15",
+        "name": "Best practice documentation, sharing and lessons learnt/case studies compilation and dissemination",
+        "target": 1.0,
+        "budget": 211413.0,
+        "raw_code": "Not linked to AOP",
+        "uom": "Lumpsum"
+      },
+      {
+        "id": "akobo-nc-16",
+        "name": "Scaleup community feedback and response mechanism (organize community meetings to provide updates and feedback establish call toll free/Hotline and Community conversation )",
+        "target": 6.0,
+        "budget": 2917499.4000000004,
+        "raw_code": "Not linked to AOP",
+        "uom": "#meeting"
+      },
+      {
+        "id": "akobo-nc-17",
+        "name": "Salary contribution for ERCS program and support staff (2 HQ & 2 Regional for 9 months)",
+        "target": 9.0,
+        "budget": 3780698.679,
+        "raw_code": "Not linked to AOP",
+        "uom": "#months"
+      },
+      {
+        "id": "akobo-nc-18",
+        "name": "Car rent / milage/ fuel/ maintenance (HQ,Region, Zone)",
+        "target": 1.0,
+        "budget": 1289619.3,
+        "raw_code": "Not linked to AOP",
+        "uom": "lUMPSUM"
+      },
+      {
+        "id": "akobo-nc-19",
+        "name": "Visibility (T-shirt, Cape, for volunteers/HEWs, banners, etc) for volunteers in 20 woredas",
+        "target": 1.0,
+        "budget": 843303.3937636336,
+        "raw_code": "Not linked to AOP",
+        "uom": "Lumpsum"
+      }
+    ],
+    "budget": 212103859.73,
+    "donor": "FCDO",
+    "location": "Gambella",
+    "totalBudget": "212,103,859.73 ETB",
+    "startDate": "2026-06-01",
+    "start_date": "2026-06-01",
+    "endDate": "2027-03-31",
+    "end_date": "2027-03-31"
+  },
+  {
+    "id": "eccmp-malaria",
+    "name": "Ethiopia Community Centered Malaria Prevention Initiative (ECCMPI)",
+    "description": "Ethiopia Community Centered Malaria Prevention Initiative (ECCMPI)",
+    "currency": "ETB",
+    "project_only_activities": [
+      {
+        "id": "eccmp-malaria-nc-1",
+        "name": "Conduct micro-planning and mapping of target communities and schools in high-risk malaria areas.",
+        "target": 7.0,
+        "budget": 6300000.0,
+        "raw_code": "not linked with AOP",
+        "uom": "#  of region"
+      },
+      {
+        "id": "eccmp-malaria-nc-3",
+        "name": "Implement community and school-based social mobilization/sensitisation on malaria prevention and control measures, such as LLINs utilization, environmental management, and early health-seeking behavior",
+        "target": 600.0,
+        "budget": 58440000.0,
+        "raw_code": "not linked with AOP",
+        "uom": "# of Persons"
+      },
+      {
+        "id": "eccmp-malaria-nc-5",
+        "name": "Conduct post-distribution monitoring on LLIN use at the household level",
+        "target": 100.0,
+        "budget": 420000.0,
+        "raw_code": "not linked with AOP",
+        "uom": "#  of region"
+      },
+      {
+        "id": "eccmp-malaria-nc-6",
+        "name": "Project technical support, Document coverage, gaps, and lessons learned from malaria prevention campaigns.",
+        "target": 7.0,
+        "budget": 13690575.0,
+        "raw_code": "not linked with AOP",
+        "uom": "#  of region"
+      },
+      {
+        "id": "eccmp-malaria-nc-7",
+        "name": "Advocacy with senior management and project close-out workshops malaria",
+        "target": 80.0,
+        "budget": 4000000.0,
+        "raw_code": "not linked with AOP",
+        "uom": "Number"
+      },
+      {
+        "id": "eccmp-malaria-nc-17",
+        "name": "Revitalize and train malaria rapid response teams (RRT) at regional, zone, and district levels.",
+        "target": 198.0,
+        "budget": 3960000.0,
+        "raw_code": "not linked with AOP",
+        "uom": "Sessions"
+      },
+      {
+        "id": "eccmp-malaria-nc-18",
+        "name": "Support deployment of rapid response teams and conduct outbreak investigation, post-response reviews during malaria alerts or outbreaks.",
+        "target": 198.0,
+        "budget": 5940000.0,
+        "raw_code": "not linked with AOP",
+        "uom": "Spots"
+      },
+      {
+        "id": "eccmp-malaria-nc-19",
+        "name": "Pre-position emergency malaria ( antimalarial drugs, PPE) and vector control supplies in high-risk and mobile population areas.",
+        "target": 50.0,
+        "budget": 750000.0,
+        "raw_code": "not linked with AOP",
+        "uom": "Person"
+      },
+      {
+        "id": "eccmp-malaria-nc-23",
+        "name": "Train or refresh healthcare workers (HCWs) and HEWs on iCCM malaria diagnosis, treatment, and referral protocols.",
+        "target": 550.0,
+        "budget": 11000000.0,
+        "raw_code": "not linked with AOP",
+        "uom": "Sessions"
+      },
+      {
+        "id": "eccmp-malaria-nc-24",
+        "name": "Supply health facilities with malaria commodities (RDTs, anti-malarial drugs, referral forms, job aids).",
+        "target": 6550.0,
+        "budget": 18750000.0,
+        "raw_code": "not linked with AOP",
+        "uom": "Number"
+      },
+      {
+        "id": "eccmp-malaria-nc-25",
+        "name": "Functionalize and strengthen community-to-facility referral mechanisms, including referral slips and feedback loops. (with engagement of VHLs, printing logbooks,)",
+        "target": 250.0,
+        "budget": 1250000.0,
+        "raw_code": "not linked with AOP",
+        "uom": "Lumpsum"
+      },
+      {
+        "id": "eccmp-malaria-nc-28",
+        "name": "Establish or strengthen community-led malaria action groups to support preparedness and response.",
+        "target": 250.0,
+        "budget": 2500000.0,
+        "raw_code": "not linked with AOP",
+        "uom": "# Groups"
+      },
+      {
+        "id": "eccmp-malaria-nc-29",
+        "name": "Conduct regular community dialogues, FGD, and feedback sessions on malaria risks and services with community leaders, religious leaders, women\u2019s groups, youth, and school clubs",
+        "target": 1500.0,
+        "budget": 3750000.0,
+        "raw_code": "BLANK",
+        "uom": "botles/1lt"
+      },
+      {
+        "id": "eccmp-malaria-nc-30",
+        "name": "Facilitate  community led  malaria prevention RCCE initiatives and serve as links between health services and the community  as well as provide project visibility items",
+        "target": 16.0,
+        "budget": 24332580.28833592,
+        "raw_code": "not linked with AOP",
+        "uom": "Number"
+      },
+      {
+        "id": "eccmp-malaria-nc-31",
+        "name": "Conduct high-level advocacy and sensitization on malaria prevention and control for leaders, media professionals, social influencers, etc.",
+        "target": 400.0,
+        "budget": 4560000.0,
+        "raw_code": "not linked with AOP",
+        "uom": "Person"
+      },
+      {
+        "id": "eccmp-malaria-nc-32",
+        "name": "Support malaria-related mass campaigns such as environmental management day, global malaria day, and others",
+        "target": 250.0,
+        "budget": 29352099.533437014,
+        "raw_code": "not linked with AOP",
+        "uom": "Person"
+      },
+      {
+        "id": "eccmp-malaria-nc-33",
+        "name": "Support the MOH/EPHI on the development/revision, validation and publication of malaria elimination strategic plan",
+        "target": 100.0,
+        "budget": 2500000.0,
+        "raw_code": "not linked with AOP",
+        "uom": "Person"
+      },
+      {
+        "id": "eccmp-malaria-nc-34",
+        "name": "Collaborate with MOH and EPHI to conduct operational research on the feasibility of innovative technologies such as next-generation photovoltaic lamps",
+        "target": 1.0,
+        "budget": 5000000.0,
+        "raw_code": "not linked with AOP"
+      },
+      {
+        "id": "eccmp-malaria-nc-35",
+        "name": "Collaborate with MOH and EPHI to conduct operational research on the feasibility of innovative technologies on mRDTs",
+        "target": 1.0,
+        "budget": 5000000.0,
+        "raw_code": "not linked with AOP"
+      },
+      {
+        "id": "eccmp-malaria-nc-36",
+        "name": "Procure and distribute next-generation photovoltaic mosquito control lumps for the targeted rural community",
+        "target": 3750.0,
+        "budget": 16875000.0,
+        "raw_code": "not linked with AOP"
+      },
+      {
+        "id": "eccmp-malaria-nc-37",
+        "name": "Conduct project innovation oversights and  post-distribution household follow-up visits to monitor next-generation photovoltaic mosquito control lamps.",
+        "target": 10.0,
+        "budget": 1000000.0,
+        "raw_code": "not linked with AOP"
+      },
+      {
+        "id": "eccmp-malaria-nc-38",
+        "name": "Participate in  different platforms in  international and national (experience sharing, training, workshop, conferences)",
+        "target": 8.0,
+        "budget": 4000000.0,
+        "raw_code": "not linked with AOP"
+      },
+      {
+        "id": "eccmp-malaria-nc-39",
+        "name": "Conduct baseline and endline survey and routine monitoring in the project implementation areas",
+        "target": 2.0,
+        "budget": 16760000.0,
+        "raw_code": "BLANK"
+      },
+      {
+        "id": "eccmp-malaria-nc-40",
+        "name": "NS Total",
+        "target": 0.0,
+        "budget": 0.0,
+        "raw_code": "BLANK"
+      },
+      {
+        "id": "eccmp-malaria-nc-41",
+        "name": "TOTAL OPERATIONAL SUPPORT",
+        "target": 0.0,
+        "budget": 0.0,
+        "raw_code": "BLANK"
+      },
+      {
+        "id": "eccmp-malaria-nc-42",
+        "name": "NS Effective project implemenation",
+        "target": 0.0,
+        "budget": 1680000.0,
+        "raw_code": "BLANK"
+      },
+      {
+        "id": "eccmp-malaria-nc-43",
+        "name": "Project accountant at zonal offices (50%)",
+        "target": 0.0,
+        "budget": 0.0,
+        "raw_code": "BLANK"
+      },
+      {
+        "id": "eccmp-malaria-nc-44",
+        "name": "ERCS HQ Health and WASH Manager (50%)",
+        "target": 1.0,
+        "budget": 1200000.0,
+        "raw_code": "BLANK"
+      },
+      {
+        "id": "eccmp-malaria-nc-45",
+        "name": "ERCS HQ Procurement Officer (25%)",
+        "target": 1.0,
+        "budget": 480000.0,
+        "raw_code": "BLANK"
+      },
+      {
+        "id": "eccmp-malaria-nc-46",
+        "name": "",
+        "target": 4.0,
+        "budget": 15552099.533437014,
+        "raw_code": "BLANK"
+      },
+      {
+        "id": "eccmp-malaria-nc-47",
+        "name": "A/Regional  ofiice technical staff",
+        "target": 24.0,
+        "budget": 170820.0,
+        "raw_code": "BLANK"
+      }
+    ],
+    "budget": 63399363.0,
+    "donor": "IFRC",
+    "location": "\u2022 Afar region: Amibara, Assaita, Dubti\n\u2022 Amhara region: Abergele, Telemt, Wegera woredas\n\u2022 Oromia region: Berbere, Gelana, Goro Bale, Moyale woredas, Gursum\n\u2022 Somali region: Gursum, Erer, Hudet, Kelafo, Moyale (Somali), Dolo Ado woredas\n\u2022 South Ethiopia region: Dasenech woredas\n\u2022 Tigray region: Dega Temben, Tahtay Adiyabo woredas",
+    "totalBudget": "63,399,363 ETB",
+    "startDate": "2026-01-01",
+    "start_date": "2026-01-01",
+    "endDate": "2028-12-31",
+    "end_date": "2028-12-31",
+    "target": "5,000,000",
+    "totalBeneficiaries": 5000000
+  },
+  {
+    "id": "prepare",
+    "name": "Regional Preparedness for Pandemic Response (PREPARE)",
+    "description": "Regional Preparedness for Pandemic Response (PREPARE)",
+    "currency": "ETB",
+    "project_only_activities": [
+      {
+        "id": "prepare-nc-1",
+        "name": "Establish and operationalize cross-border surveillance teams in targeted areas by engaging relevant One Health actors to strengthen multisectoral coordination, early warning systems, disease surveillance, and timely response to epidemic- and pandemic-prone diseases, with seven members assigned to each team.",
+        "target": 8.0,
+        "budget": 1912000.0,
+        "raw_code": "BLANK",
+        "uom": "Team"
+      },
+      {
+        "id": "prepare-nc-2",
+        "name": "Conduct Epidemic Preparedness and Response in Communities (EPiC) training for cross-border One Health actors to strengthen multisectoral collaboration in the prevention, early detection, reporting, and control of zoonotic diseases.",
+        "target": 40.0,
+        "budget": 2164000.0,
+        "raw_code": "BLANK",
+        "uom": "Persons"
+      },
+      {
+        "id": "prepare-nc-3",
+        "name": "Provide ToT on Cross-Border Community-Based Surveillance (CBS) and RCCE (One Health) for One Health Actors from Human Health, Animal Health, Environment Agency, Immigration and ERCS",
+        "target": 40.0,
+        "budget": 2164000.0,
+        "raw_code": "BLANK",
+        "uom": "Persons"
+      },
+      {
+        "id": "prepare-nc-4",
+        "name": "Conduct cascading training on CBS and RCCE for community volunteers at the seven targeted PoEs to strengthen community-level surveillance, early detection, awareness, and preparedness for epidemic and pandemic threats.",
+        "target": 8.0,
+        "budget": 10584000.0,
+        "raw_code": "BLANK",
+        "uom": "Person"
+      },
+      {
+        "id": "prepare-nc-5",
+        "name": "Deploy trained community volunteers in targeted cross-border areas to conduct traveler screening, CBS, house-to-house visits, community sensitization, and awareness-raising sessions on epidemic- and pandemic-prone diseases to strengthen community preparedness, early detection, prevention, and response.",
+        "target": 180.0,
+        "budget": 10368000.0,
+        "raw_code": "BLANK",
+        "uom": "Persons"
+      },
+      {
+        "id": "prepare-nc-6",
+        "name": "Identifying, mapping, establishing, and orienting a one health stakeholders and partners committee working at/or with PoEs, regions, and the national level",
+        "target": 8.0,
+        "budget": 1656000.0,
+        "raw_code": "BLANK",
+        "uom": "Number"
+      },
+      {
+        "id": "prepare-nc-7",
+        "name": "Conduct bi-annual cross-border consultative/coordination  meeting with One Health actors (mapped stakeholders and partners) on cross-border engagement of active PHE",
+        "target": 8.0,
+        "budget": 6672000.0,
+        "raw_code": "not linked with AOP",
+        "uom": "Session"
+      },
+      {
+        "id": "prepare-nc-8",
+        "name": "Strengthen the linkage of PoEs Early Warning and action to the existing national system and protocol based on PoEs capacity assessment and analysis and community insights",
+        "target": 8.0,
+        "budget": 6600000.0,
+        "raw_code": "not linked with AOP",
+        "uom": "Number"
+      },
+      {
+        "id": "prepare-nc-9",
+        "name": "Support regular, timely, accurate, and trusted data collection in communities and targeted cross-border on active disease outbreaks",
+        "target": 8.0,
+        "budget": 0.0,
+        "raw_code": "not linked with AOP",
+        "uom": "Branches"
+      },
+      {
+        "id": "prepare-nc-10",
+        "name": "Procure a Montarbo for social and community mobilization at POEs and the surrounding community for awareness creation",
+        "target": 9.0,
+        "budget": 900000.0,
+        "raw_code": "not linked with AOP",
+        "uom": "Number"
+      },
+      {
+        "id": "prepare-nc-11",
+        "name": "Conduct Quarterly community-based awareness campaigns on epidemic/pandemic prevention, early warning signs, and protective behaviors through community dialogues, media, and outreach sessions.",
+        "target": 8.0,
+        "budget": 1000000.0,
+        "raw_code": "not linked with AOP",
+        "uom": "Session"
+      },
+      {
+        "id": "prepare-nc-12",
+        "name": "Establish and strengthen community feedback and rumor-tracking mechanisms to identify misinformation, community concerns, and behavioral barriers during public health emergencies.",
+        "target": 8.0,
+        "budget": 800000.0,
+        "raw_code": "not linked with AOP",
+        "uom": "Number"
+      },
+      {
+        "id": "prepare-nc-13",
+        "name": "Train community volunteers, health extension workers, and local leaders on Risk Communication and Community Engagement (RCCE) approaches, interpersonal communication, and emergency response messaging.",
+        "target": 8.0,
+        "budget": 4560000.0,
+        "raw_code": "not linked with AOP",
+        "uom": "Person"
+      },
+      {
+        "id": "prepare-nc-14",
+        "name": "Revise and disseminate culturally appropriate Information, Education, and Communication (IEC) materials on epidemic preparedness and response in local languages based on the context through multiple communication channels.",
+        "target": 8.0,
+        "budget": 4000000.0,
+        "raw_code": "not linked with AOP",
+        "uom": "Branches"
+      },
+      {
+        "id": "prepare-nc-15",
+        "name": "Conduct radio sessions on risk communication using local media (TV, radio) by a technical expert based on the context of the epidemic and pandemic",
+        "target": 6.0,
+        "budget": 3600000.0,
+        "raw_code": "not linked with AOP",
+        "uom": "Annually"
+      },
+      {
+        "id": "prepare-nc-16",
+        "name": "Facilitate regular/quarterly one-health actor and multi-stakeholder coordination meetings involving communities, health authorities, and partners to strengthen trust, preparedness, and community participation in outbreak response.",
+        "target": 8.0,
+        "budget": 2000000.0,
+        "raw_code": "not linked with AOP",
+        "uom": "Session"
+      },
+      {
+        "id": "prepare-nc-17",
+        "name": "Provide refresher training for RRT from cross-border areas on diseases outbreac detection and investigation within the 7-1-7 principles",
+        "target": 8.0,
+        "budget": 1752000.0,
+        "raw_code": "not linked with AOP",
+        "uom": "Persons"
+      },
+      {
+        "id": "prepare-nc-18",
+        "name": "Provide cascading training/orientation for one health managers and border officials on mobility and epidemic & pandemic preparedness  in cross-border areas",
+        "target": 8.0,
+        "budget": 7840000.0,
+        "raw_code": "not linked with AOP",
+        "uom": "Persons"
+      },
+      {
+        "id": "prepare-nc-19",
+        "name": "Conduct a comprehensive mapping and capacity assessment of cross-border community stakeholders, including workforce, border agents, and community systems (structures and actors), to enhance their engagement and strengthen existing systems, with a focus on addressing active outbreaks such as Mpox and Marburg.",
+        "target": 4.0,
+        "budget": 2196000.0,
+        "raw_code": "not linked with AOP",
+        "uom": "PoEs"
+      },
+      {
+        "id": "prepare-nc-20",
+        "name": "Support development and use of cross border two-way community feedback mechanisms to collect, analyze, visualize and act on community insights to inform effective cross border preparedness and response programming (with  focus on community concerns, questions, beliefs and rumors) with focus on active outbreaks including Mpox, Marburg, and othe diseaseoutbreaks",
+        "target": 8.0,
+        "budget": 4000000.0,
+        "raw_code": "not linked with AOP",
+        "uom": "Number"
+      },
+      {
+        "id": "prepare-nc-21",
+        "name": "Facilitate branding material (flyers/banners) are designed and printed, and media mobilization for the project launching, trainings, meetings and procurement milestones with focus on spotlighting Mpox, Marburg, and othe diseaseoutbreaks",
+        "target": 1000.0,
+        "budget": 1500000.0,
+        "raw_code": "not linked with AOP",
+        "uom": "Number"
+      },
+      {
+        "id": "prepare-nc-22",
+        "name": "Establish and operationalise TWG/Community of Practice across thematic areas covered by the PPR programme (namely surveillance, laboratory, IPC/WASH, workforce and community-led approaches/RCCE) in all targeted cross-border areas",
+        "target": 8.0,
+        "budget": 800000.0,
+        "raw_code": "not linked with AOP",
+        "uom": "Number"
+      },
+      {
+        "id": "prepare-nc-23",
+        "name": "Participate in international/national peer-to-peer learning events (and attend Scientific conferences) that incorporate one health for PPR and perception surveys to measure cross-learning adoption.",
+        "target": 1.0,
+        "budget": 1460000.0,
+        "raw_code": "not linked with AOP",
+        "uom": "Sessions"
+      },
+      {
+        "id": "prepare-nc-24",
+        "name": "Facilitate customization of national one health committees TOR and coordination action plans",
+        "target": 8.0,
+        "budget": 1660000.0,
+        "raw_code": "not linked with AOP",
+        "uom": "Number"
+      },
+      {
+        "id": "prepare-nc-25",
+        "name": "Conduct stakeholder analysis, Develop TOR and Organize validation workshop with stakeholders at regional level",
+        "target": 3.0,
+        "budget": 2313000.0,
+        "raw_code": "not linked with AOP",
+        "uom": "Sessions"
+      },
+      {
+        "id": "prepare-nc-26",
+        "name": "Disseminate key messages on pandemic and epidemic preparedness and response through TV and radio spots in the local languages of the target regions to raise community awareness and promote preventive actions",
+        "target": 8.0,
+        "budget": 6000000.0,
+        "raw_code": "not linked with AOP",
+        "uom": "Spots"
+      },
+      {
+        "id": "prepare-nc-27",
+        "name": "Conduct PHEM ToT at the national level for PHEM Officers to cascade the basic training for their respective region and cross-border OH actors",
+        "target": 30.0,
+        "budget": 1773000.0,
+        "raw_code": "not linked with AOP",
+        "uom": "Person"
+      },
+      {
+        "id": "prepare-nc-28",
+        "name": "Provide basic PHEM training for health facility PHEM officers actors from targeted cross-border areas",
+        "target": 30.0,
+        "budget": 8211000.0,
+        "raw_code": "not linked with AOP",
+        "uom": "Persons"
+      },
+      {
+        "id": "prepare-nc-29",
+        "name": "Conduct training to the project teams on the project management cycle, M&E tool customization, utilization,  and reporting system.",
+        "target": 8.0,
+        "budget": 1046400.0,
+        "raw_code": "not linked with AOP",
+        "uom": "Persons"
+      },
+      {
+        "id": "prepare-nc-30",
+        "name": "Conduct a kick-off meeting (launching) at the national level and the regional branch office level",
+        "target": 1.0,
+        "budget": 1056000.0,
+        "raw_code": "not linked with AOP",
+        "uom": "Session"
+      },
+      {
+        "id": "prepare-nc-31",
+        "name": "Conduct project close-out meeting (Phase out) and sustainability strategy at the national level",
+        "target": 1.0,
+        "budget": 1256000.0,
+        "raw_code": "not linked with AOP",
+        "uom": "Session"
+      },
+      {
+        "id": "prepare-nc-32",
+        "name": "Conduct a performance review meeting engaging stakeholders at the regional level for targated cross-border areas",
+        "target": 8.0,
+        "budget": 12816000.0,
+        "raw_code": "not linked with AOP",
+        "uom": "Sessions"
+      },
+      {
+        "id": "prepare-nc-33",
+        "name": "Conduct quarterly JSS in targeted cross-border areas on the cross-border workforce, including the community workforce, using a standard checklist by the OH actors lead by ERCS",
+        "target": 6.0,
+        "budget": 9120000.0,
+        "raw_code": "not linked with AOP",
+        "uom": "Sessions"
+      },
+      {
+        "id": "prepare-nc-34",
+        "name": "Vehicle mileage for project support in the targated branch office and cross-border areas",
+        "target": 9.0,
+        "budget": 10800000.0,
+        "raw_code": "BLANK",
+        "uom": "Number"
+      },
+      {
+        "id": "prepare-nc-35",
+        "name": "Fuel cost for the monitoring of project activities in the cross-border areas",
+        "target": 9.0,
+        "budget": 10854000.0,
+        "raw_code": "BLANK",
+        "uom": "Number"
+      },
+      {
+        "id": "prepare-nc-36",
+        "name": "Procurement of office stationery for project implementation",
+        "target": 9.0,
+        "budget": 3600000.0,
+        "raw_code": "BLANK",
+        "uom": "Assorted"
+      },
+      {
+        "id": "prepare-nc-37",
+        "name": "Procure PPE and emergency response materials for outbreak response teams.",
+        "target": 8.0,
+        "budget": 4000000.0,
+        "raw_code": "BLANK",
+        "uom": "Lumpsum"
+      },
+      {
+        "id": "prepare-nc-38",
+        "name": "Chairs -Swiver ergonimic",
+        "target": 4.0,
+        "budget": 100000.0,
+        "raw_code": "BLANK",
+        "uom": "Number"
+      },
+      {
+        "id": "prepare-nc-39",
+        "name": "Guest chairs",
+        "target": 4.0,
+        "budget": 208000.0,
+        "raw_code": "BLANK",
+        "uom": "Number"
+      },
+      {
+        "id": "prepare-nc-40",
+        "name": "File cabin",
+        "target": 4.0,
+        "budget": 200000.0,
+        "raw_code": "BLANK",
+        "uom": "Number"
+      },
+      {
+        "id": "prepare-nc-41",
+        "name": "Laptop",
+        "target": 2.0,
+        "budget": 350000.0,
+        "raw_code": "BLANK",
+        "uom": "Number"
+      },
+      {
+        "id": "prepare-nc-42",
+        "name": "Tablets (smart phones)",
+        "target": 3.0,
+        "budget": 300000.0,
+        "raw_code": "BLANK",
+        "uom": "Number"
+      },
+      {
+        "id": "prepare-nc-43",
+        "name": "Internet Router & Modem",
+        "target": 3.0,
+        "budget": 30000.0,
+        "raw_code": "BLANK",
+        "uom": "Number"
+      },
+      {
+        "id": "prepare-nc-44",
+        "name": "average internet package",
+        "target": 8.0,
+        "budget": 240000.0,
+        "raw_code": "BLANK",
+        "uom": "Annually"
+      },
+      {
+        "id": "prepare-nc-45",
+        "name": "Disinfectants - chlorine",
+        "target": 8.0,
+        "budget": 80000.0,
+        "raw_code": "BLANK",
+        "uom": "Gallons/5lt"
+      },
+      {
+        "id": "prepare-nc-46",
+        "name": "Water stations for handwashing",
+        "target": 3.0,
+        "budget": 90000.0,
+        "raw_code": "BLANK",
+        "uom": "Set"
+      },
+      {
+        "id": "prepare-nc-47",
+        "name": "Soap - liquide",
+        "target": 8.0,
+        "budget": 32000.0,
+        "raw_code": "BLANK",
+        "uom": "Gallon 5 lts"
+      },
+      {
+        "id": "prepare-nc-48",
+        "name": "Hand sanitizers (alcohol-based)",
+        "target": 8.0,
+        "budget": 32000.0,
+        "raw_code": "BLANK",
+        "uom": "botles/1lt"
+      },
+      {
+        "id": "prepare-nc-49",
+        "name": "Procure a Red Cross-branded vest for staff and volunteers to visibility",
+        "target": 180.0,
+        "budget": 360000.0,
+        "raw_code": "BLANK",
+        "uom": "Number"
+      },
+      {
+        "id": "prepare-nc-50",
+        "name": "Salary for project coordinator (HQ),PH 100%",
+        "target": 1.0,
+        "budget": 2880000.0,
+        "raw_code": "BLANK",
+        "uom": "Person"
+      },
+      {
+        "id": "prepare-nc-51",
+        "name": "Salary for RCCE/CEA/ coordinator (HQ), 100%",
+        "target": 1.0,
+        "budget": 2160000.0,
+        "raw_code": "BLANK",
+        "uom": "Person"
+      },
+      {
+        "id": "prepare-nc-52",
+        "name": "Salary for project accountant (HQ), 50%",
+        "target": 1.0,
+        "budget": 720000.0,
+        "raw_code": "BLANK",
+        "uom": "Person"
+      },
+      {
+        "id": "prepare-nc-53",
+        "name": "Salary for PMER Officer (HQ), 100%",
+        "target": 1.0,
+        "budget": 1800000.0,
+        "raw_code": "BLANK",
+        "uom": "Person"
+      },
+      {
+        "id": "prepare-nc-54",
+        "name": "Salary for Program head (HQ), 25%",
+        "target": 1.0,
+        "budget": 900000.0,
+        "raw_code": "BLANK",
+        "uom": "Person"
+      },
+      {
+        "id": "prepare-nc-55",
+        "name": "Salary for project coordinator (6 branch offices), 100%",
+        "target": 6.0,
+        "budget": 8640000.0,
+        "raw_code": "BLANK",
+        "uom": "Person"
+      },
+      {
+        "id": "prepare-nc-56",
+        "name": "Salary for project accountant (6 Branch offices), 50%",
+        "target": 6.0,
+        "budget": 3240000.0,
+        "raw_code": "BLANK",
+        "uom": "Person"
+      },
+      {
+        "id": "prepare-nc-57",
+        "name": "Salary for Branch head (6 Branch offices), 25%",
+        "target": 6.0,
+        "budget": 1620000.0,
+        "raw_code": "BLANK",
+        "uom": "Person"
+      }
+    ],
+    "budget": 21907600.0,
+    "donor": "IFRC",
+    "location": "Amhara, Oromia, Gambela, Somali, Afar, Benishangul",
+    "totalBudget": "21,907,600 ETB",
+    "startDate": "2026-01-01",
+    "start_date": "2026-01-01",
+    "endDate": "2028-12-31",
+    "end_date": "2028-12-31"
+  },
+  {
+    "id": "dhis2",
+    "name": "Transforming Emergency Medical Response in Ethiopia with an Integrated Ambulance Dispatch System",
+    "description": "Transforming Emergency Medical Response in Ethiopia with an Integrated Ambulance Dispatch System",
+    "currency": "ETB",
+    "project_only_activities": [
+      {
+        "id": "dhis2-nc-1",
+        "name": "Activity 1.1.1: Recruitment and salaries for DHIS2  officers",
+        "target": 12.0,
+        "budget": 831430.7999999999,
+        "raw_code": "BLANK",
+        "uom": "Person/month"
+      },
+      {
+        "id": "dhis2-nc-2",
+        "name": "Activity 1.1.2: Volunteers allowance for DHIS2 scale up at branch level working at call and Dispatch center",
+        "target": 9.0,
+        "budget": 609071.3999999999,
+        "raw_code": "BLANK",
+        "uom": "6 Person/month"
+      },
+      {
+        "id": "dhis2-nc-3",
+        "name": "Activity 1.1.3: Training for dispatch staff, ambulance drivers, and health workers on DHIS2 usage",
+        "target": 50.0,
+        "budget": 1646829.165,
+        "raw_code": "BLANK",
+        "uom": "Training"
+      },
+      {
+        "id": "dhis2-nc-4",
+        "name": "Activity 1.1.4: Capacity building workshops for branch offices (Woreda) on DHIS2 data entry and reporting (kickoff project)",
+        "target": 50.0,
+        "budget": 1611300.0,
+        "raw_code": "BLANK",
+        "uom": "Workshop"
+      },
+      {
+        "id": "dhis2-nc-5",
+        "name": "Activity 2.2.1: Procurement of IT equipment (3 Desk top computers,3 tablets, 3 Dongels, 12 Mobile Phones)",
+        "target": 8.0,
+        "budget": 1863642.4704,
+        "raw_code": "BLANK",
+        "uom": "lumpsem"
+      },
+      {
+        "id": "dhis2-nc-7",
+        "name": "Activity 2.2.3: Visibility and other materials related to promotion",
+        "target": 1.0,
+        "budget": 48339.0,
+        "raw_code": "BLANK",
+        "uom": "items"
+      },
+      {
+        "id": "dhis2-nc-9",
+        "name": "Activity 2.2.4: Development and printing of user manuals and training materials",
+        "target": 1.0,
+        "budget": 48339.0,
+        "raw_code": "BLANK",
+        "uom": "Batch"
+      },
+      {
+        "id": "dhis2-nc-10",
+        "name": "Activity 3.3.1: Ongoing technical support and mentorship for dispatch system users",
+        "target": 6.0,
+        "budget": 522061.19999999995,
+        "raw_code": "BLANK",
+        "uom": "lumpsum"
+      }
+    ],
+    "budget": 14756325.2,
+    "donor": "Norwegian RC",
+    "location": "Oromia, Sidama, Harar, Tigray, Amhara",
+    "totalBudget": "14,756,325.20 ETB",
+    "startDate": "2026-08-01",
+    "start_date": "2026-08-01",
+    "endDate": "2027-08-31",
+    "end_date": "2027-08-31"
+  },
+  {
+    "id": "sky-bird-ii",
+    "name": "RISE WASH / SKYBIRD II",
+    "description": "RISE WASH / SKYBIRD II",
+    "currency": "ETB",
+    "project_only_activities": [
+      {
+        "id": "sky-bird-ii-nc-1",
+        "name": "1.1  Community consultation for an inclusive site and site selection(Ilu Aba Bor)",
+        "target": 3.0,
+        "budget": 30000.0,
+        "raw_code": "BLANK",
+        "uom": "Session"
+      },
+      {
+        "id": "sky-bird-ii-nc-2",
+        "name": "1.2  Design and specification preparation, and community approval(Ilu Aba Bor)",
+        "target": 5.0,
+        "budget": 100001.0,
+        "raw_code": "BLANK",
+        "uom": "Number"
+      },
+      {
+        "id": "sky-bird-ii-nc-3",
+        "name": "1.3.1  Spring development",
+        "target": 1.0,
+        "budget": 150000.0,
+        "raw_code": "BLANK",
+        "uom": "Number"
+      },
+      {
+        "id": "sky-bird-ii-nc-4",
+        "name": "1.3.2  Shallow well rehabilitation and solar-powered pump integration (Halu- Ilu Aba Bor)",
+        "target": 1.0,
+        "budget": 3200000.0,
+        "raw_code": "BLANK",
+        "uom": "Number"
+      },
+      {
+        "id": "sky-bird-ii-nc-5",
+        "name": "1.3.3  Shallow well solar integration (Uka)",
+        "target": 1.0,
+        "budget": 3200000.0,
+        "raw_code": "BLANK",
+        "uom": "Number"
+      },
+      {
+        "id": "sky-bird-ii-nc-6",
+        "name": "1.3.4  Establishment of gender- and disability-inclusive WASH committees- Ilu Aba Bor",
+        "target": 3.0,
+        "budget": 30000.0,
+        "raw_code": "BLANK",
+        "uom": "Number"
+      },
+      {
+        "id": "sky-bird-ii-nc-7",
+        "name": "1.4  Training of gender- and disability-inclusive WASH committees with women's leadership integration- Ilu Aba Bor",
+        "target": 2.0,
+        "budget": 312500.0,
+        "raw_code": "BLANK",
+        "uom": "Session"
+      },
+      {
+        "id": "sky-bird-ii-nc-8",
+        "name": "1.7  Build gender and disability-friendly resource recovery-oriented compost latrine (extension of SKYBIRD I, Mettu town)- Ilu Aba Bor",
+        "target": 1.0,
+        "budget": 860000.0,
+        "raw_code": "BLANK",
+        "uom": "Number"
+      },
+      {
+        "id": "sky-bird-ii-nc-9",
+        "name": "1.8  Conduct gender- and disability-inclusive hygiene and sanitation promotion training for HEWs and volunteers- Ilu Aba Bor",
+        "target": 1.0,
+        "budget": 187500.0,
+        "raw_code": "BLANK",
+        "uom": "Session"
+      },
+      {
+        "id": "sky-bird-ii-nc-10",
+        "name": "2.1  Training on PGI, GBV and HTP through enhanced Community Awareness- Ilu Aba Bor",
+        "target": 1.0,
+        "budget": 225000.0,
+        "raw_code": "BLANK",
+        "uom": "Session"
+      },
+      {
+        "id": "sky-bird-ii-nc-11",
+        "name": "2.2  Training on EMS awareness creation- Ilu Aba Bor",
+        "target": 1.0,
+        "budget": 270000.0,
+        "raw_code": "BLANK",
+        "uom": "Session"
+      },
+      {
+        "id": "sky-bird-ii-nc-12",
+        "name": "2.3  Workshop on referral pathway for GBV prevention and response- Ilu Aba Bor",
+        "target": 1.0,
+        "budget": 250000.0,
+        "raw_code": "BLANK",
+        "uom": "Session"
+      },
+      {
+        "id": "sky-bird-ii-nc-13",
+        "name": "2.4  CCF training- Ilu Aba Bor",
+        "target": 2.0,
+        "budget": 450000.0,
+        "raw_code": "BLANK",
+        "uom": "Session"
+      },
+      {
+        "id": "sky-bird-ii-nc-14",
+        "name": "3.1  Seed grant / VSLA groups - Ilu Aba Bor",
+        "target": 5.0,
+        "budget": 7500000.0,
+        "raw_code": "BLANK",
+        "uom": "Number"
+      },
+      {
+        "id": "sky-bird-ii-nc-15",
+        "name": "3.2  Train women on entrepreneurship skills / gender inclusive- Ilu Aba Bor",
+        "target": 2.0,
+        "budget": 1312500.0,
+        "raw_code": "BLANK",
+        "uom": "Session"
+      },
+      {
+        "id": "sky-bird-ii-nc-16",
+        "name": "3.4  Workshop on women's leadership and local champion on entrepreneurship- Ilu Aba Bor",
+        "target": 2.0,
+        "budget": 218750.0,
+        "raw_code": "BLANK",
+        "uom": "Session"
+      },
+      {
+        "id": "sky-bird-ii-nc-17",
+        "name": "3.8  Community mobilization and sensitization (using media)- Ilu Aba Bor",
+        "target": 2.0,
+        "budget": 184946.0,
+        "raw_code": "BLANK",
+        "uom": "Session"
+      },
+      {
+        "id": "sky-bird-ii-nc-18",
+        "name": "3.9  Periodic project supervision- Ilu Aba Bor",
+        "target": 3.0,
+        "budget": 512244.375,
+        "raw_code": "BLANK",
+        "uom": "Quarter"
+      },
+      {
+        "id": "sky-bird-ii-nc-19",
+        "name": "1.1.1  Construction of two women-friendly and inclusive water points- West Arsi",
+        "target": 2.0,
+        "budget": 1300000.0,
+        "raw_code": "BLANK",
+        "uom": "Water point"
+      },
+      {
+        "id": "sky-bird-ii-nc-20",
+        "name": "1.1.2  Renovation of two women-friendly and inclusive non-functional water points- West Arsi",
+        "target": 1.0,
+        "budget": 300000.0,
+        "raw_code": "BLANK",
+        "uom": "Water point"
+      },
+      {
+        "id": "sky-bird-ii-nc-21",
+        "name": "1.1.4  Establish four gender-transformative and disability-inclusive Water Use and Management Committees- West Arsi",
+        "target": 2.0,
+        "budget": 20000.0,
+        "raw_code": "BLANK",
+        "uom": "Session"
+      },
+      {
+        "id": "sky-bird-ii-nc-22",
+        "name": "1.1.5  Provide technical (maintenance) training for 28 water management committee members (incl. PWDs)- West Arsi",
+        "target": 28.0,
+        "budget": 98728.0,
+        "raw_code": "BLANK",
+        "uom": "Person"
+      },
+      {
+        "id": "sky-bird-ii-nc-23",
+        "name": "1.2.3  Conduct inclusive training for 21 WASH Club Members in school- West Arsi",
+        "target": 21.0,
+        "budget": 147000.0,
+        "raw_code": "BLANK",
+        "uom": "Person"
+      },
+      {
+        "id": "sky-bird-ii-nc-24",
+        "name": "1.3.1  Conduct trainings on hygiene and sanitation practices at woreda level (25 participants)- West Arsi",
+        "target": 25.0,
+        "budget": 200000.0,
+        "raw_code": "BLANK",
+        "uom": "Person"
+      },
+      {
+        "id": "sky-bird-ii-nc-25",
+        "name": "1.4.1  Organize training for 25 stakeholders, ERCS staff and volunteers on PGI in WASH- West Arsi",
+        "target": 25.0,
+        "budget": 174988.0,
+        "raw_code": "BLANK",
+        "uom": "Person"
+      },
+      {
+        "id": "sky-bird-ii-nc-26",
+        "name": "2.1.1  Train 20 EMS attendants on the revised PGI EMS curriculum- West Arsi",
+        "target": 20.0,
+        "budget": 104960.0,
+        "raw_code": "BLANK",
+        "uom": "Person"
+      },
+      {
+        "id": "sky-bird-ii-nc-27",
+        "name": "2.2.1  Establish two inclusive EMS committees at kebele level- West Arsi",
+        "target": 2.0,
+        "budget": 20000.0,
+        "raw_code": "BLANK",
+        "uom": "Committee"
+      },
+      {
+        "id": "sky-bird-ii-nc-28",
+        "name": ".2.2  Conduct four gender-transformative and inclusive EMS campaign sessions- West Arsi",
+        "target": 1.0,
+        "budget": 25000.0,
+        "raw_code": "BLANK",
+        "uom": "Campaign"
+      },
+      {
+        "id": "sky-bird-ii-nc-29",
+        "name": "2.2.3  Establish two community feedback and response mechanisms- West Arsi",
+        "target": 2.0,
+        "budget": 10000.0,
+        "raw_code": "BLANK",
+        "uom": "Mechanism"
+      },
+      {
+        "id": "sky-bird-ii-nc-30",
+        "name": "2.3.4  Ambulance service vehicle maintenance, tyres and lubricants- West Arsi",
+        "target": 12.0,
+        "budget": 240000.0,
+        "raw_code": "BLANK",
+        "uom": "Month"
+      },
+      {
+        "id": "sky-bird-ii-nc-31",
+        "name": "3.1.1  Provide community conversation training for 30 community and religious leaders- West Arsi",
+        "target": 30.0,
+        "budget": 209999.0,
+        "raw_code": "BLANK",
+        "uom": "Person"
+      },
+      {
+        "id": "sky-bird-ii-nc-32",
+        "name": "3.1.2  Community mobilization, sensitization and campaign on HTP and gender norms- West Arsi",
+        "target": 1.0,
+        "budget": 55559.33,
+        "raw_code": "BLANK",
+        "uom": "Lump sum"
+      },
+      {
+        "id": "sky-bird-ii-nc-33",
+        "name": "3.1.3  PGI training for stakeholders and workshop on referral pathway- West Arsi",
+        "target": 30.0,
+        "budget": 299999.0,
+        "raw_code": "BLANK",
+        "uom": "Person"
+      },
+      {
+        "id": "sky-bird-ii-nc-34",
+        "name": "4.1.1  Establish ten gender-transformative and inclusive Village Saving & Loan Associations- West Arsi",
+        "target": 10.0,
+        "budget": 199999.0,
+        "raw_code": "BLANK",
+        "uom": "VSLA"
+      },
+      {
+        "id": "sky-bird-ii-nc-35",
+        "name": "4.1.2  Provide seed money to strengthen ten village-level saving and credit associations- West Arsi",
+        "target": 10.0,
+        "budget": 2999990.0,
+        "raw_code": "BLANK",
+        "uom": "Group"
+      },
+      {
+        "id": "sky-bird-ii-nc-36",
+        "name": "4.1.4  Provide five capacity-building trainings on business planning and financial literacy for 200 VSLA members- West Arsi",
+        "target": 200.0,
+        "budget": 1400000.0,
+        "raw_code": "BLANK",
+        "uom": "Person"
+      },
+      {
+        "id": "sky-bird-ii-nc-37",
+        "name": "1.1.1  Construction of two inclusive water points (Labu-Koromo & Jara-Galalicha) with 5 km extension- Sidama",
+        "target": 2.0,
+        "budget": 4200012.0,
+        "raw_code": "BLANK",
+        "uom": "Water point"
+      },
+      {
+        "id": "sky-bird-ii-nc-38",
+        "name": "1.2.1  Training of front-line health sector experts and community leaders on hygiene and sanitation promotion\u2014Sidama",
+        "target": 15.0,
+        "budget": 227070.0,
+        "raw_code": "BLANK",
+        "uom": "Person"
+      },
+      {
+        "id": "sky-bird-ii-nc-39",
+        "name": "1.2.2  Promote sanitation and hygiene practices at household/community level through mass campaign\u2014Sidama",
+        "target": 2.0,
+        "budget": 105000.0,
+        "raw_code": "BLANK",
+        "uom": "Session"
+      },
+      {
+        "id": "sky-bird-ii-nc-40",
+        "name": "2.1.1  Establish 10 Women Self-Help Groups of 15 members each\u2014Sidama",
+        "target": 10.0,
+        "budget": 570000.0,
+        "raw_code": "BLANK",
+        "uom": "Person"
+      },
+      {
+        "id": "sky-bird-ii-nc-41",
+        "name": "2.1.2  Provision of WSHGs financial literacy and business skill trainings\u2014Sidama",
+        "target": 150.0,
+        "budget": 3000000.0,
+        "raw_code": "BLANK",
+        "uom": "Group"
+      },
+      {
+        "id": "sky-bird-ii-nc-42",
+        "name": "2.1.6  Skills training on fuel-efficient stove manufacturing by enterprises\u2014Sidama",
+        "target": 30.0,
+        "budget": 600000.0,
+        "raw_code": "BLANK",
+        "uom": "Person"
+      },
+      {
+        "id": "sky-bird-ii-nc-43",
+        "name": "2.2.1  EMS activities: ambulance vehicle operational cost support, including equipment\u2014Sidama",
+        "target": 12.0,
+        "budget": 720360.0,
+        "raw_code": "BLANK",
+        "uom": "Month"
+      },
+      {
+        "id": "sky-bird-ii-nc-44",
+        "name": "3.1.1  PGI-focused advanced first aid training for ambulance attendants\u2014Sidama",
+        "target": 20.0,
+        "budget": 258000.0,
+        "raw_code": "BLANK",
+        "uom": "Person"
+      },
+      {
+        "id": "sky-bird-ii-nc-45",
+        "name": "3.1.4  Monitoring and supportive supervision of the enhanced ambulance service\u2014Sidama",
+        "target": 0.0,
+        "budget": 0.0,
+        "raw_code": "BLANK",
+        "uom": "Project period"
+      },
+      {
+        "id": "sky-bird-ii-nc-46",
+        "name": "4.1.1.2  Community-level CC facilitators training\u2014Sidama",
+        "target": 20.0,
+        "budget": 300000.0,
+        "raw_code": "BLANK",
+        "uom": "Person"
+      },
+      {
+        "id": "sky-bird-ii-nc-47",
+        "name": "4.1.2  Provision of women's leadership capacity training for government officials and stakeholders\u2014Sidama",
+        "target": 20.0,
+        "budget": 296000.0,
+        "raw_code": "BLANK",
+        "uom": "Person"
+      },
+      {
+        "id": "sky-bird-ii-nc-48",
+        "name": "4.1.3  Providing PGI training and basic principles of ERCS to government sector staff-- Sidama",
+        "target": 20.0,
+        "budget": 258000.0,
+        "raw_code": "BLANK",
+        "uom": "Person"
+      }
+    ],
+    "budget": 51544912.0,
+    "donor": "Austrian RC \u2013 ADA",
+    "location": "Sidama, Illubabor, West Arsi",
+    "totalBudget": "51,544,912 ETB",
+    "startDate": "2025-08-01",
+    "start_date": "2025-08-01",
+    "endDate": "2027-07-31",
+    "end_date": "2027-07-31"
   }
 ];
 
