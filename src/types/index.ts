@@ -105,7 +105,7 @@ export interface Project {
   project_only_activities?: ProjectOnlyActivity[];
 }
 
-export type ScopeType = 'Regional' | 'Project';
+export type ScopeType = 'Regional' | 'Project' | 'NonProgrammatic';
 
 export type UserRole =
   | 'National Activity AOP'
@@ -115,13 +115,17 @@ export type UserRole =
   | 'PMER Officer'
   | 'System Admin'
   | 'Program Director'
-  | `${string} coordinators`;
+  | `${string} coordinators`
+  | 'Department Head — Legal & Contract Administrator Department'
+  | 'Department Head — Humanitarian Supply Chain Department'
+  | 'Department Head — SG Office';
 
 export type ApprovalStatus = 'Draft' | 'Pending Approval' | 'Approved' | 'Rejected';
 
 export interface PlanEntry {
   id: string;
-  national_activity_id: string;
+  national_activity_id?: string;
+  non_programmatic_activity_id?: string;
   scope_type: ScopeType;
   region_id?: string;   // set when scope_type === 'Regional' — ALWAYS the zone's parent region
   project_id?: string;  // set when scope_type === 'Project'
@@ -287,11 +291,119 @@ export interface KpiProgressEntry {
   note?: string;
 }
 
-export interface KnowledgeDocument {
+// ---------------------------------------------------------------------------
+// KNOWLEDGE MANAGEMENT — PMER-MIS 6-Branch Module
+// ---------------------------------------------------------------------------
+
+export interface VaultReportRecord {
   id: string;
-  title: string;
-  category: string;       // e.g. 'Strategic Planning', 'Disaster Management', 'Health', 'Institutional', 'PMER'
-  summary: string;
-  version: string;        // e.g. 'v1.0'
-  published_date: string; // display string, e.g. '15 Jan 2025'
+  title: string;                    // Mandatory
+  report_category: 'Assessments' | 'Monitoring reports' | 'Evaluation reports' | 'PDM reports' | string; // Mandatory, dropdown+Other
+  file_format: 'PDF' | 'Word' | 'Excel' | 'PowerPoint' | string; // Mandatory, dropdown+Other
+  file: { name: string; dataUrl: string; sizeBytes: number }; // Mandatory
+  description: string;              // Mandatory, 50-150 words guidance in UI helper text
+  program_project_name: string;     // Mandatory
+  sector_cluster: string[];         // Mandatory, multi-select dropdown+Other
+  region_location: string;          // Mandatory, cascading dropdown (reuse existing Region/Zone data for the cascade)
+  reporting_period: string;         // Mandatory, date or range
+  author: string;                   // Mandatory
+  uploaded_by: string;              // Mandatory, SYSTEM-CAPTURED — never a manual input, populate from current role/session
+  upload_date: string;              // Mandatory, SYSTEM-CAPTURED — populate with today's date on save
+  language: 'English' | 'Amharic' | string; // Mandatory, dropdown+Other
+  keywords: string[];               // Mandatory
+  access_level: 'Public' | 'Internal' | 'Restricted'; // Mandatory, dropdown
+  donor?: string;                   // Optional
+  version?: string;                 // Optional
+  review_status?: 'Draft' | 'Under review' | 'Approved'; // Optional, dropdown
+  related_indicators?: string;      // Optional
+  expiry_review_date?: string;      // Optional
+}
+
+export interface ToolRecord {
+  id: string;
+  tool_name: string;                // Mandatory
+  tool_sub_category: 'PDM tool' | 'Needs assessment tool' | 'Beneficiary registration tool' | string; // Mandatory, dropdown+Other
+  kobo_form_link: string;           // Mandatory, URL
+  xlsform_version: string;          // Mandatory
+  associated_program: string;       // Mandatory
+  target_sector: string;            // Mandatory, dropdown
+  data_collection_mode: 'Mobile (KoboCollect)' | 'Web form' | string; // Mandatory, dropdown
+  has_enumerator_guidance?: boolean; // helper flag for conditional
+  enumerator_guidance?: { name: string; dataUrl: string; sizeBytes: number }; // CONDITIONAL — required only if the user indicates a guide exists
+  languages: string[];              // Mandatory, multi-select
+  region_coverage: string;          // Mandatory, cascading dropdown
+  status: 'Active' | 'Inactive' | 'Retired'; // Mandatory, dropdown
+  owner: string;                    // Mandatory
+  uploaded_by: string;              // Mandatory, system-captured
+  upload_date: string;              // Mandatory, system-captured
+  keywords: string[];               // Mandatory
+  access_level: 'Public' | 'Internal' | 'Restricted'; // Mandatory
+  last_updated_date?: string;       // Optional
+  related_indicators?: string;      // Optional
+}
+
+export interface LessonLearnedRecord {
+  id: string;
+  title: string;                    // Mandatory
+  sub_category: 'Video link' | 'Document' | 'Other' | string; // Mandatory, dropdown+Other
+  resource: { type: 'url'; value: string } | { type: 'file'; name: string; dataUrl: string; sizeBytes: number }; // Mandatory — URL if Video link, file if Document
+  thematic_area: string;            // Mandatory, dropdown
+  key_takeaway: string;             // Mandatory
+  related_project: string;          // Mandatory
+  region_location: string;          // Mandatory, dropdown
+  event_date: string;               // Mandatory
+  submitted_by: string;             // Mandatory
+  video_duration?: string;          // CONDITIONAL — required only when sub_category === 'Video link'
+  language: string;                 // Mandatory, dropdown
+  keywords: string[];               // Mandatory
+  access_level: 'Public (all staff)' | 'Internal' | 'Restricted'; // Mandatory
+  uploaded_by: string;              // Mandatory, system-captured
+  upload_date: string;              // Mandatory, system-captured
+}
+
+export interface MediaUpdateRecord {
+  id: string;
+  headline: string;                 // Mandatory — card headline in the feed
+  category: 'PMER update' | 'Field story' | 'Announcement' | string; // Mandatory — drives the card's left accent color
+  publish_date: string;             // Mandatory — controls sort order
+  author: string;                   // Mandatory
+  summary: string;                  // Mandatory, short (1-2 sentences shown on card)
+  body: string;                     // Mandatory, rich text — full write-up shown on "Read more"
+  cover_image?: { name: string; dataUrl: string }; // Optional
+  related_link?: string;            // Optional
+  status: 'Draft' | 'Published';    // Mandatory
+  pin_to_top?: boolean;             // Optional, default false
+  pin_until?: string;               // Optional, date string for pin expiry
+  access_level: 'Public' | 'Internal' | 'Restricted'; // Mandatory
+  uploaded_by: string;              // Mandatory, system-captured
+  upload_date: string;              // Mandatory, system-captured
+}
+
+export interface TemplateGuidelineRecord {
+  id: string;
+  template_name: string;            // Mandatory
+  template_type: 'ToR template' | 'Logframe template' | 'Report template' | 'Checklist' | string; // Mandatory, dropdown+Other
+  file: { name: string; dataUrl: string; sizeBytes: number }; // Mandatory
+  description: string;              // Mandatory — when to use
+  applicable_module: 'Planning' | 'Reporting' | 'M&E' | 'Knowledge management'; // Mandatory, dropdown
+  owner: string;                    // Mandatory
+  language: string;                 // Mandatory, dropdown
+  uploaded_by: string;              // Mandatory, system-captured
+  upload_date: string;              // Mandatory, system-captured
+  access_level: 'Public' | 'Internal' | 'Restricted'; // Mandatory
+  version?: string;                 // Optional
+}
+
+export interface ResourceCenterRecord {
+  id: string;
+  resource_title: string;           // Mandatory
+  resource_type: 'External link' | 'Glossary term' | 'Donor guideline' | 'FAQ' | string; // Mandatory, dropdown+Other
+  link_or_definition: string;       // Mandatory — URL if External link/Donor guideline, definition text if Glossary term/FAQ
+  source_organization: string;      // Mandatory
+  relevant_sector: string;          // Mandatory, dropdown
+  description: string;              // Mandatory
+  keywords: string[];               // Mandatory
+  access_level: 'Public' | 'Internal' | 'Restricted'; // Mandatory
+  uploaded_by: string;              // Mandatory, system-captured
+  upload_date: string;              // Mandatory, system-captured
 }

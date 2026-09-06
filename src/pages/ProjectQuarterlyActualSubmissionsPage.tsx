@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { useApp } from '../context/AppContext';
 import { FilterBar } from '../components/common/FilterBar';
 import { getApprovalBadge } from '../utils/calculations';
-import { PlanEntry, NationalActivity, Project, QuarterlyActual, QuarterId } from '../types';
+import { PlanEntry, NationalActivity, Project, QuarterlyActual, QuarterId, NonProgrammaticDepartment } from '../types';
 import { ShieldCheck, ChevronDown, ChevronRight } from 'lucide-react';
 
 const ALL_QUARTER_IDS: QuarterId[] = ['Q1', 'Q2', 'Q3', 'Q4'];
@@ -12,6 +12,7 @@ interface ProjectActualQuarterGroup {
   pe: PlanEntry;
   na: NationalActivity | undefined;
   project: Project | undefined;
+  deptName?: NonProgrammaticDepartment;
   slots: { qId: QuarterId; qa: QuarterlyActual | undefined }[];
 }
 
@@ -24,6 +25,7 @@ export const ProjectQuarterlyActualSubmissionsPage: React.FC = () => {
     rejectQuarterlyActual,
     getFilteredPlanEntries,
     filters,
+    nonProgrammaticActivities,
   } = useApp();
 
   const [rejecting, setRejecting] = useState<null | { plan_entry_id: string; quarter_id: QuarterId }>(null);
@@ -37,7 +39,7 @@ export const ProjectQuarterlyActualSubmissionsPage: React.FC = () => {
       return next;
     });
 
-  const entries = getFilteredPlanEntries().filter(pe => pe.scope_type === 'Project');
+  const entries = getFilteredPlanEntries().filter(pe => pe.scope_type === 'Project' || pe.scope_type === 'NonProgrammatic');
 
   const singleQuarterFilter: QuarterId | null =
     filters.quarterId === 'Q1' || filters.quarterId === 'Q2' || filters.quarterId === 'Q3' || filters.quarterId === 'Q4'
@@ -45,19 +47,21 @@ export const ProjectQuarterlyActualSubmissionsPage: React.FC = () => {
       : null;
 
   const groups: ProjectActualQuarterGroup[] = entries
-    .map(pe => {
-      const na = nationalActivities.find(n => n.id === pe.national_activity_id);
-      const project = projects.find(p => p.id === pe.project_id);
+    .reduce<ProjectActualQuarterGroup[]>((acc, pe) => {
+      const na = pe.national_activity_id ? nationalActivities.find(n => n.id === pe.national_activity_id) : undefined;
+      const project = pe.project_id ? projects.find(p => p.id === pe.project_id) : undefined;
+      const npa = pe.non_programmatic_activity_id ? nonProgrammaticActivities.find(a => a.id === pe.non_programmatic_activity_id) : undefined;
+      const deptName = npa?.department;
       const quartersToShow = singleQuarterFilter ? [singleQuarterFilter] : ALL_QUARTER_IDS;
       const slots = quartersToShow.map(qId => ({
         qId,
         qa: quarterlyActuals.find(qa => qa.plan_entry_id === pe.id && qa.quarter_id === qId),
       }));
-      if (!slots.some(s => s.qa !== undefined)) return null;
-      return { pe, na, project, slots };
-    })
-    .filter((g): g is ProjectActualQuarterGroup => g !== null)
-    .sort((a, b) => (a.project?.name || '').localeCompare(b.project?.name || ''));
+      if (!slots.some(s => s.qa !== undefined)) return acc;
+      acc.push({ pe, na, project, deptName, slots });
+      return acc;
+    }, [])
+    .sort((a, b) => (a.project?.name || a.deptName || '').localeCompare(b.project?.name || b.deptName || ''));
 
   const pendingCount = groups.reduce(
     (sum, g) => sum + g.slots.filter(s => s.qa?.approval_status === 'Pending Approval').length,
@@ -71,9 +75,9 @@ export const ProjectQuarterlyActualSubmissionsPage: React.FC = () => {
   return (
     <div className="space-y-6">
       <div>
-        <h2 className="text-xl font-black text-slate-800">Project Quarterly Actual Submissions</h2>
+        <h2 className="text-xl font-black text-slate-800">Project & Department Quarterly Actual Submissions</h2>
         <p className="text-xs text-slate-500 mt-1">
-          Every Quarterly Actual submitted by Project Coordinators across all Projects. Approve or reject
+          Every Quarterly Actual submitted by Project Coordinators and Department Heads. Approve or reject
           Pending submissions below.
         </p>
       </div>
@@ -87,10 +91,10 @@ export const ProjectQuarterlyActualSubmissionsPage: React.FC = () => {
         </div>
 
         {groups.length === 0 ? (
-          <div className="p-8 text-center text-xs text-slate-500">No Project Quarterly Actual submissions match this filter.</div>
+          <div className="p-8 text-center text-xs text-slate-500">No Quarterly Actual submissions match this filter.</div>
         ) : (
           <div>
-            {groups.map(({ pe, na, project, slots }) => {
+            {groups.map(({ pe, na, project, deptName, slots }) => {
               const isOpen = expandedIds.has(pe.id);
               const groupPendingCount = slots.filter(s => s.qa?.approval_status === 'Pending Approval').length;
 
@@ -110,13 +114,18 @@ export const ProjectQuarterlyActualSubmissionsPage: React.FC = () => {
                         : <ChevronRight className="w-3.5 h-3.5" />}
                     </span>
 
-                    <span className="font-bold text-slate-700 text-xs">{project?.name || '—'}</span>
+                    <span className={`px-2 py-0.5 rounded-full text-[10px] font-bold ${
+                      pe.scope_type === 'NonProgrammatic' ? 'bg-amber-50 text-amber-700' : 'bg-purple-50 text-purple-700'
+                    }`}>
+                      {pe.scope_type === 'NonProgrammatic' ? 'Department' : 'Project'}
+                    </span>
+                    <span className="font-bold text-slate-700 text-xs">{project?.name || deptName || '—'}</span>
                     <span className="text-slate-300 text-xs">·</span>
                     <span className="font-bold text-ercs-red text-xs">{na?.code || pe.activity_code || '—'}</span>
                     <div className="flex flex-col flex-1 min-w-0">
                       <div className="flex items-center gap-2 flex-wrap">
                         <span className="text-xs text-slate-900 font-bold">{pe.activity_name}</span>
-                        {pe.is_contributing === false ? (
+                        {pe.is_contributing === false && pe.scope_type !== 'NonProgrammatic' ? (
                           <span className="px-1.5 py-0.5 rounded text-[9px] font-extrabold bg-amber-100 text-amber-800 border border-amber-200 uppercase tracking-wider shrink-0">
                             Non-Contributing
                           </span>

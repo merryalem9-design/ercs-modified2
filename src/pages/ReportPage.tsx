@@ -96,7 +96,7 @@ export const ReportPage: React.FC = () => {
     return () => clearTimeout(timer);
   }, [reportFocusSection, activeRoute, setReportFocusSection]);
 
-  const contributingEntries = entries.filter(e => e.is_contributing !== false);
+  const contributingEntries = entries.filter(e => e.is_contributing !== false && e.scope_type !== 'NonProgrammatic' && !!e.national_activity_id);
   const nonContributingEntries = entries.filter(e => e.is_contributing === false);
 
   const totalBeneficiariesFor = (es: PlanEntry[]) =>
@@ -317,7 +317,7 @@ export const ReportPage: React.FC = () => {
 
     const activityIds = new Set(activitiesInGroup.map(na => na.id));
     const relevantEntries = contributingEntries.filter(e => {
-      if (!activityIds.has(e.national_activity_id)) return false;
+      if (!e.national_activity_id || !activityIds.has(e.national_activity_id)) return false;
       if (scopeKind === 'hq') return e.scope_type === 'Project';
       if (scopeKind === 'rb') return e.scope_type === 'Regional';
       if (scopeKind === 'region') return e.scope_type === 'Regional' && e.region_id === regionId;

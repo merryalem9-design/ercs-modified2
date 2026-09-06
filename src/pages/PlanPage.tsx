@@ -8,13 +8,14 @@ import {
   sumTarget, sumBudget, sumPlannedTarget, sumPlannedBudget, sumActual, sumExpenditure,
   achievementPct, budgetUtilizationPct, convertToBeneficiaries,
 } from '../utils/calculations';
-import { PlanEntry, ScopeType, Project, NationalActivity, RegionActivityLink } from '../types';
+import { PlanEntry, ScopeType, Project, NationalActivity, RegionActivityLink, NonProgrammaticDepartment } from '../types';
 import { ArrowLeft, ArrowUpRight, Layers, Plus, Save, Trash2, X } from 'lucide-react';
 
 export interface PeWizardFormState {
   id?: string;
   strategicPriorityId: string;
   national_activity_id: string;
+  non_programmatic_activity_id?: string;
   scope_type: ScopeType;
   region_id: string;
   project_id: string;
@@ -37,6 +38,7 @@ export const PlanPage: React.FC = () => {
     uomConfigs, quarterlyPlans, quarterlyActuals, filters, getFilteredPlanEntries,
     setSelectedNationalActivityId, setActiveRoute, currentRole,
     deleteNationalActivity, getNationalActivitiesForRole,
+    nonProgrammaticActivities,
   } = useApp();
 
   const [peWizard, setPeWizard] = useState<null | { initial: PeWizardFormState; startStep: 1 | 2 }>(null);
@@ -73,6 +75,8 @@ export const PlanPage: React.FC = () => {
   const isProjectCoordinator = currentRole.startsWith('Project Coordinator — ') && !isProjectCoordinatorHQ;
   const isBranchHead = currentRole.startsWith('Branch Head — ');
   const isZoneCoordinator = currentRole.endsWith(' coordinators');
+  const isDepartmentHead = currentRole.startsWith('Department Head — ');
+  const currentDepartment = isDepartmentHead ? (currentRole.slice('Department Head — '.length) as NonProgrammaticDepartment) : undefined;
 
   const hasRegionOrProjectFilter =
     (!filters.regionId.includes('ALL') && !filters.regionId.includes('NONE')) ||
@@ -99,7 +103,7 @@ export const PlanPage: React.FC = () => {
     : undefined;
 
   const showAggregatedView = isAop && !hasRegionOrProjectFilter;
-  const canAddPlanEntry = isProjectCoordinator || isProjectCoordinatorHQ || isZoneCoordinator || (isAop && !!filterProject);
+  const canAddPlanEntry = isProjectCoordinator || isProjectCoordinatorHQ || isZoneCoordinator || (isAop && !!filterProject) || isDepartmentHead;
 
   const roleScopedNationalActivities = getNationalActivitiesForRole();
 
@@ -164,24 +168,52 @@ export const PlanPage: React.FC = () => {
     });
   };
 
+  const openDeptPlanWizard = () => {
+    if (!currentDepartment) return;
+    setPeWizard({
+      initial: {
+        strategicPriorityId: '',
+        national_activity_id: '',
+        scope_type: 'NonProgrammatic',
+        region_id: '',
+        project_id: '',
+        annual_target: '',
+        annual_budget: '',
+        activity_name: '',
+        activity_description: '',
+        lockScope: true,
+      },
+      startStep: 1,
+    });
+  };
+
   // Unified "Add Plan Entry" handler for whichever role/scope is currently
   // eligible — used by every empty-state prompt on this page.
   const handleAddExecutionEntry = () => {
-    if (isZoneCoordinator) openZoneEntryWizard();
+    if (isDepartmentHead) openDeptPlanWizard();
+    else if (isZoneCoordinator) openZoneEntryWizard();
     else openAddPlanWizard();
   };
 
   const openEditPlanWizard = (pe: PlanEntry) => {
-    const na = nationalActivities.find(n => n.id === pe.national_activity_id);
+    const na = pe.national_activity_id ? nationalActivities.find(n => n.id === pe.national_activity_id) : undefined;
+    const npa = pe.non_programmatic_activity_id ? nonProgrammaticActivities.find(a => a.id === pe.non_programmatic_activity_id) : undefined;
     setPeWizard({
       initial: {
-        id: pe.id, strategicPriorityId: na?.strategic_priority_id || '', national_activity_id: pe.national_activity_id || '',
-        scope_type: pe.scope_type, region_id: pe.region_id || '', project_id: pe.project_id || '',
-        annual_target: String(pe.annual_target), annual_budget: String(pe.annual_budget),
-        activity_code: pe.activity_code,
-        activity_name: pe.activity_name, activity_description: pe.activity_description,
+        id: pe.id,
+        strategicPriorityId: na?.strategic_priority_id || '',
+        national_activity_id: pe.national_activity_id || '',
+        non_programmatic_activity_id: pe.non_programmatic_activity_id || '',
+        scope_type: pe.scope_type,
+        region_id: pe.region_id || '',
+        project_id: pe.project_id || '',
+        annual_target: String(pe.annual_target),
+        annual_budget: String(pe.annual_budget),
+        activity_code: pe.activity_code || '',
+        activity_name: pe.activity_name,
+        activity_description: pe.activity_description,
         is_contributing: pe.is_contributing !== false,
-        uom: pe.uom || na?.uom || '',
+        uom: pe.uom || na?.uom || npa?.uom || '',
         lockScope: true,
         target_female: pe.target_female != null ? String(pe.target_female) : '',
         target_male: pe.target_male != null ? String(pe.target_male) : '',
@@ -217,7 +249,8 @@ export const PlanPage: React.FC = () => {
   const aggregatedTotalUtilization = budgetUtilizationPct(aggregatedTotalSpent, aggregatedTotalBudget);
 
   const executionRows = filteredEntries.map(pe => {
-    const na = nationalActivities.find(n => n.id === pe.national_activity_id);
+    const na = pe.national_activity_id ? nationalActivities.find(n => n.id === pe.national_activity_id) : undefined;
+    const npa = pe.non_programmatic_activity_id ? nonProgrammaticActivities.find(a => a.id === pe.non_programmatic_activity_id) : undefined;
     const target = sumPlannedTarget([pe], quarterlyPlans, q);
     const budget = sumPlannedBudget([pe], quarterlyPlans, q);
     const actual = sumActual([pe], quarterlyActuals, q);
@@ -227,8 +260,12 @@ export const PlanPage: React.FC = () => {
     const factor = na ? (uomConfigs.find(c => c.uom.toLowerCase() === na.uom.toLowerCase())?.factor ?? 0) : 0;
     const beneficiaries = convertToBeneficiaries(target, na?.uom || '', uomConfigs);
     const actualBeneficiaries = convertToBeneficiaries(actual, na?.uom || '', uomConfigs);
-    const scopeName = pe.scope_type === 'Regional' ? zones.find(z => z.id === pe.zone_id)?.name : projects.find(p => p.id === pe.project_id)?.name;
-    return { pe, na, target, budget, actual, spent, achievement, utilization, beneficiaries, actualBeneficiaries, factor, scopeName };
+    const scopeName = pe.scope_type === 'Regional'
+      ? zones.find(z => z.id === pe.zone_id)?.name
+      : pe.scope_type === 'Project'
+      ? projects.find(p => p.id === pe.project_id)?.name
+      : (npa?.department || 'Department');
+    return { pe, na, npa, target, budget, actual, spent, achievement, utilization, beneficiaries, actualBeneficiaries, factor, scopeName };
   });
 
   const executionTotalBudget = executionRows.reduce((s, r) => s + r.budget, 0);
@@ -310,6 +347,11 @@ export const PlanPage: React.FC = () => {
                   <Plus className="w-3.5 h-3.5" /> Add Plan Entry
                 </button>
               )}
+              {isDepartmentHead && (
+                <button onClick={openDeptPlanWizard} className="flex items-center gap-1.5 bg-ercs-red text-white px-3 py-1.5 rounded-lg text-xs font-bold">
+                  <Plus className="w-3.5 h-3.5" /> Add Department Plan Entry
+                </button>
+              )}
             </div>
           </div>
 
@@ -328,10 +370,14 @@ export const PlanPage: React.FC = () => {
                 <table className="w-full text-left text-xs">
                   <thead className="bg-slate-50 text-slate-600 font-bold uppercase border-b">
                     <tr>
-                      <th className="p-3">Code</th><th className="p-3">Activity</th><th className="p-3">UOM</th>
-                      <th className="p-3 text-right">Target</th><th className="p-3 text-right">Budget (ETB)</th>
-                      <th className="p-3 text-right">Total Beneficiaries</th>
-                      <th className="p-3 text-center">Actions</th>
+                      <th className="p-3">Code</th><th className="p-3">Activity Name</th>
+                      <th className="p-3 text-right">Target</th><th className="p-3 text-right">Actual</th>
+                      <th className="p-3 text-right">Ach. %</th>
+                      <th className="p-3 text-right">Budget (ETB)</th><th className="p-3 text-right">Spent (ETB)</th>
+                      <th className="p-3 text-right">Util. %</th>
+                      <th className="p-3 text-right">Beneficiaries</th>
+                      <th className="p-3 text-center">Linked</th>
+                      <th className="p-3 text-center">Map</th>
                       {visibleQuarters.map(qId => (
                         <th key={qId} className="p-2 text-center bg-blue-50 border-l whitespace-nowrap" colSpan={2}>
                           {qId} Target / Budget
@@ -340,47 +386,54 @@ export const PlanPage: React.FC = () => {
                     </tr>
                   </thead>
                   <tbody className="divide-y">
-                    {aggregatedRows.map(row => {
-                      const naEntries = filteredEntries.filter(pe => pe.national_activity_id === row.na.id);
-                      return (
-                        <tr key={row.na.id} className="hover:bg-slate-50">
-                          <td className="p-3 font-bold text-ercs-red whitespace-nowrap">{row.na.code}</td>
-                          <td className="p-3 min-w-56 font-bold text-slate-800">{row.na.description}</td>
-                          <td className="p-3 whitespace-nowrap text-slate-500 font-semibold">{row.na.uom}</td>
-                          <td className="p-3 text-right font-bold whitespace-nowrap">{row.target.toLocaleString()}</td>
-                          <td className="p-3 text-right whitespace-nowrap">{row.budget.toLocaleString()}</td>
-                          <td className="p-3 text-right whitespace-nowrap">{row.beneficiaries.toLocaleString()}</td>
-                          <td className="p-3 text-center">
-                            <div className="flex items-center justify-center gap-3">
-                              <button onClick={() => viewLinkMap(row.na.id)} className="text-[10px] font-bold text-ercs-red inline-flex items-center gap-0.5">View <ArrowUpRight className="w-3 h-3" /></button>
-                              {isAop && row.totalLinkedEntries === 0 && !row.hasLinkedRegionLinks && (
-                                <button onClick={() => setDeleteNaTarget({ id: row.na.id, label: `${row.na.code} — ${row.na.description}` })} className="text-[10px] font-bold text-red-600 inline-flex items-center gap-0.5">
-                                  <Trash2 className="w-3 h-3" /> Delete
-                                </button>
-                              )}
-                            </div>
-                          </td>
-                          {/* Per-quarter Target / Budget columns */}
-                          {visibleQuarters.map(qId => {
-                            const qd = qDataForEntries(naEntries, qId);
-                            return (
-                              <React.Fragment key={qId}>
-                                <td className="p-2 text-right whitespace-nowrap bg-blue-50 border-l text-[11px]">{qd.target.toLocaleString()}</td>
-                                <td className="p-2 text-right whitespace-nowrap bg-blue-50 text-[11px]">{qd.budget.toLocaleString()}</td>
-                              </React.Fragment>
-                            );
-                          })}
-                        </tr>
-                      );
-                    })}
+                    {aggregatedRows.map(row => (
+                      <tr key={row.na.id} className="hover:bg-slate-50">
+                        <td className="p-3 font-bold text-ercs-red whitespace-nowrap">{row.na.code}</td>
+                        <td className="p-3 min-w-48 font-bold text-slate-800">{row.na.description}</td>
+                        <td className="p-3 text-right font-bold whitespace-nowrap">{row.target.toLocaleString()} {row.na.uom}</td>
+                        <td className="p-3 text-right font-bold whitespace-nowrap">{row.actual.toLocaleString()}</td>
+                        <td className="p-3 text-right whitespace-nowrap"><StatusBadge achievementPct={achievementPct(row.actual, row.target)} hasActuals={row.actual > 0} /></td>
+                        <td className="p-3 text-right whitespace-nowrap">{row.budget.toLocaleString()}</td>
+                        <td className="p-3 text-right whitespace-nowrap">{row.spent.toLocaleString()}</td>
+                        <td className="p-3 text-right whitespace-nowrap">{budgetUtilizationPct(row.spent, row.budget).toFixed(1)}%</td>
+                        <td className="p-3 text-right whitespace-nowrap">{row.beneficiaries.toLocaleString()}</td>
+                        <td className="p-3 text-center whitespace-nowrap">
+                          {row.totalLinkedEntries > 0 || row.hasLinkedRegionLinks ? (
+                            <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-50 text-emerald-700">Linked</span>
+                          ) : (
+                            <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-slate-100 text-slate-500">Unlinked</span>
+                          )}
+                        </td>
+                        <td className="p-3 text-center">
+                          <button onClick={() => viewLinkMap(row.na.id)} className="p-1 rounded hover:bg-slate-100 text-slate-500 hover:text-ercs-red">
+                            <ArrowUpRight className="w-4 h-4" />
+                          </button>
+                        </td>
+                        {/* Per-quarter Target / Budget columns */}
+                        {visibleQuarters.map(qId => {
+                          const naEntries = filteredEntries.filter(pe => pe.national_activity_id === row.na.id);
+                          const qd = qDataForEntries(naEntries, qId);
+                          return (
+                            <React.Fragment key={qId}>
+                              <td className="p-2 text-right whitespace-nowrap bg-blue-50 border-l text-[11px]">{qd.target.toLocaleString()}</td>
+                              <td className="p-2 text-right whitespace-nowrap bg-blue-50 text-[11px]">{qd.budget.toLocaleString()}</td>
+                            </React.Fragment>
+                          );
+                        })}
+                      </tr>
+                    ))}
                   </tbody>
                   <tfoot>
                     <tr className="bg-slate-50 font-black border-t-2 border-slate-200">
-                      <td className="p-3" colSpan={3}>TOTAL</td>
+                      <td className="p-3" colSpan={2}>TOTAL</td>
+                      <td className="p-3 text-right text-slate-300">—</td>
+                      <td className="p-3 text-right text-slate-300">—</td>
                       <td className="p-3 text-right text-slate-300">—</td>
                       <td className="p-3 text-right">{aggregatedTotalBudget.toLocaleString()}</td>
+                      <td className="p-3 text-right">{aggregatedTotalSpent.toLocaleString()}</td>
+                      <td className="p-3 text-right">{aggregatedTotalUtilization.toFixed(1)}%</td>
                       <td className="p-3 text-right">{aggregatedTotalBeneficiaries.toLocaleString()}</td>
-                      <td className="p-3"></td>
+                      <td className="p-3" colSpan={2}></td>
                       {/* Quarter footer — one empty pair per visible quarter */}
                       {visibleQuarters.map(qId => (
                         <React.Fragment key={qId}>
@@ -417,7 +470,7 @@ export const PlanPage: React.FC = () => {
                       <th className="p-3">Code</th><th className="p-3">Activity Name</th><th className="p-3">Executed By</th>
                       <th className="p-3 text-right">Target</th><th className="p-3 text-right">Budget (ETB)</th>
                       <th className="p-3 text-center">Status</th>
-                      {(isProjectCoordinator || isProjectCoordinatorHQ || isZoneCoordinator) && <th className="p-3 text-center">Actions</th>}
+                      {(isProjectCoordinator || isProjectCoordinatorHQ || isZoneCoordinator || isDepartmentHead) && <th className="p-3 text-center">Actions</th>}
                       {visibleQuarters.map(qId => (
                         <th key={qId} className="p-2 text-center bg-blue-50 border-l whitespace-nowrap" colSpan={2}>
                           {qId} Target / Budget
@@ -428,14 +481,18 @@ export const PlanPage: React.FC = () => {
                   <tbody className="divide-y">
                     {executionRows.map(row => {
                       const regionObj = regions.find(r => r.id === row.pe.region_id);
-                      const executedByLabel = row.pe.scope_type === 'Regional' ? (regionObj?.name || 'Regional') : 'Project';
+                      const executedByLabel = row.pe.scope_type === 'Regional'
+                        ? (regionObj?.name || 'Regional')
+                        : row.pe.scope_type === 'Project'
+                        ? 'Project'
+                        : 'Non-Programmatic';
                       return (
                         <tr key={row.pe.id} className="hover:bg-slate-50">
                           <td className="p-3 font-bold text-ercs-red whitespace-nowrap">{row.na?.code || row.pe.activity_code || '—'}</td>
                           <td className="p-3 min-w-40 font-bold text-slate-800">
                             <div className="flex items-center gap-1.5">
                               <span>{row.pe.activity_name}</span>
-                              {row.pe.is_contributing === false && (
+                              {row.pe.is_contributing === false && row.pe.scope_type !== 'NonProgrammatic' && (
                                 <span className="px-1.5 py-0.5 rounded text-[9px] font-extrabold bg-amber-100 text-amber-800 border border-amber-200 uppercase tracking-wider">
                                   Non-Contributing
                                 </span>
@@ -443,13 +500,17 @@ export const PlanPage: React.FC = () => {
                             </div>
                           </td>
                           <td className="p-3 whitespace-nowrap">
-                            <span className={`px-2 py-0.5 rounded-full text-[10px] font-bold ${row.pe.scope_type === 'Regional' ? 'bg-blue-50 text-blue-700' : 'bg-purple-50 text-purple-700'}`}>{executedByLabel}</span>
+                            <span className={`px-2 py-0.5 rounded-full text-[10px] font-bold ${
+                              row.pe.scope_type === 'Regional' ? 'bg-blue-50 text-blue-700' :
+                              row.pe.scope_type === 'Project' ? 'bg-purple-50 text-purple-700' :
+                              'bg-amber-50 text-amber-700'
+                            }`}>{executedByLabel}</span>
                             <span className="ml-2 font-semibold">{row.scopeName || '—'}</span>
                           </td>
-                          <td className="p-3 text-right font-bold whitespace-nowrap">{row.target.toLocaleString()} {row.pe.uom || row.na?.uom || ''}</td>
+                          <td className="p-3 text-right font-bold whitespace-nowrap">{row.target.toLocaleString()} {row.pe.uom || row.na?.uom || row.npa?.uom || ''}</td>
                           <td className="p-3 text-right whitespace-nowrap">{row.budget.toLocaleString()}</td>
                           <td className="p-3 text-center"><StatusBadge achievementPct={row.achievement} hasActuals={row.actual > 0} /></td>
-                          {(isProjectCoordinator || isProjectCoordinatorHQ || isZoneCoordinator) && (
+                          {(isProjectCoordinator || isProjectCoordinatorHQ || isZoneCoordinator || isDepartmentHead) && (
                             <td className="p-3">
                               <div className="flex items-center justify-center gap-2 flex-wrap">
                                 <button onClick={() => openEditPlanWizard(row.pe)} className="px-2.5 py-1 rounded bg-blue-50 text-blue-700 font-bold">Edit</button>
@@ -476,7 +537,7 @@ export const PlanPage: React.FC = () => {
                       <td className="p-3" colSpan={3}>TOTAL</td>
                       <td className="p-3 text-right text-slate-300">—</td>
                       <td className="p-3 text-right">{executionTotalBudget.toLocaleString()}</td>
-                      <td className="p-3" colSpan={(isProjectCoordinator || isProjectCoordinatorHQ || isZoneCoordinator) ? 2 : 1}></td>
+                      <td className="p-3" colSpan={(isProjectCoordinator || isProjectCoordinatorHQ || isZoneCoordinator || isDepartmentHead) ? 2 : 1}></td>
                       {/* Quarter footer — one empty pair per visible quarter */}
                       {visibleQuarters.map(qId => (
                         <React.Fragment key={qId}>
@@ -817,7 +878,7 @@ export const PlanEntryWizardModal: React.FC<{
   onClose: () => void;
   onSaved: () => void;
 }> = ({ initial, startStep, onClose, onSaved }) => {
-  const { nationalActivities, regions, zones, projects, addProject, planEntries, addPlanEntry, updatePlanEntry, currentRole, regionActivityLinks, addRegionActivityLink, uomConfigs } = useApp();
+  const { nationalActivities, regions, zones, projects, addProject, planEntries, addPlanEntry, updatePlanEntry, currentRole, regionActivityLinks, addRegionActivityLink, uomConfigs, nonProgrammaticActivities } = useApp();
   const [step, setStep] = useState<1 | 2>(startStep);
   const [form, setForm] = useState<PeWizardFormState>(initial);
   const [isContributing, setIsContributing] = useState(form.is_contributing !== false);
@@ -830,6 +891,164 @@ export const PlanEntryWizardModal: React.FC<{
   const isBranchHead = currentRole.startsWith('Branch Head — ');
   const isZoneCoordinator = currentRole.endsWith(' coordinators');
   const currentZone = isZoneCoordinator ? zones.find(z => `${z.name} coordinators` === currentRole) : undefined;
+
+  // ---------------- NON-PROGRAMMATIC SCOPE: Department Head ----------------
+  if (form.scope_type === 'NonProgrammatic') {
+    const isDeptHead = currentRole.startsWith('Department Head — ');
+    const userDept = isDeptHead ? (currentRole.slice('Department Head — '.length) as NonProgrammaticDepartment) : undefined;
+    const deptActivities = userDept
+      ? nonProgrammaticActivities.filter(a => a.department === userDept)
+      : nonProgrammaticActivities;
+    const selectedNpa = nonProgrammaticActivities.find(a => a.id === form.non_programmatic_activity_id);
+    const isDuplicate = !isEditing && !!selectedNpa && planEntries.some(
+      pe => pe.scope_type === 'NonProgrammatic' && pe.non_programmatic_activity_id === selectedNpa.id
+    );
+    const canContinue = !!form.non_programmatic_activity_id && !isDuplicate;
+
+    const thisTarget = selectedNpa?.is_admin_budget_line ? 0 : (Number(form.annual_target) || 0);
+    const thisBudget = Number(form.annual_budget) || 0;
+    const numbersValid = thisBudget >= 0 && (selectedNpa?.is_admin_budget_line || thisTarget >= 0);
+    const canSave = canContinue && numbersValid && (selectedNpa?.is_admin_budget_line || thisTarget > 0 || thisBudget > 0);
+
+    const handleSaveDept = () => {
+      if (!selectedNpa || !canSave || savingRef.current) return;
+      savingRef.current = true;
+      const pe: PlanEntry = {
+        id: form.id || `pe-dept-${Date.now()}`,
+        scope_type: 'NonProgrammatic',
+        non_programmatic_activity_id: selectedNpa.id,
+        activity_code: form.activity_code || '',
+        activity_name: selectedNpa.name,
+        activity_description: selectedNpa.name,
+        annual_target: thisTarget,
+        annual_budget: thisBudget,
+        approval_status: 'Approved',
+        is_contributing: false,
+        uom: selectedNpa.uom,
+      };
+      if (isEditing) updatePlanEntry(pe); else addPlanEntry(pe);
+      onSaved();
+    };
+
+    return (
+      <ModalShell title={isEditing ? 'Edit Department Plan Entry' : 'Add Department Plan Entry'} onClose={onClose}>
+        <div className="flex items-center gap-2 mb-4">
+          <StepPill num={1} label="Select Activity" active={step === 1} done={step > 1} />
+          <div className="flex-1 h-px bg-slate-200" />
+          <StepPill num={2} label="Plan Details" active={step === 2} done={false} />
+        </div>
+        {step === 1 && (
+          <div className="space-y-4">
+            <div>
+              <span className="block text-[10px] font-bold text-slate-500 mb-1">Department Activity / Budget Line</span>
+              <select
+                value={form.non_programmatic_activity_id || ''}
+                onChange={e => {
+                  const actId = e.target.value;
+                  const act = nonProgrammaticActivities.find(a => a.id === actId);
+                  setForm(f => ({
+                    ...f,
+                    non_programmatic_activity_id: actId,
+                    activity_code: '',
+                    activity_name: act?.name || '',
+                    activity_description: act?.name || '',
+                    uom: act?.uom || '',
+                    annual_target: act?.is_admin_budget_line ? '0' : f.annual_target,
+                  }));
+                }}
+                disabled={isEditing}
+                className="w-full text-xs border border-slate-200 rounded p-2 bg-slate-50 disabled:opacity-60"
+              >
+                <option value="">Select department activity…</option>
+                {deptActivities.map(a => (
+                  <option key={a.id} value={a.id}>
+                    {a.name} ({a.is_admin_budget_line ? 'Admin Budget Line' : (a.uom ? `Target: ${a.uom}` : 'Direct Target')})
+                  </option>
+                ))}
+              </select>
+              {isDuplicate && (
+                <div className="text-[10px] text-rose-700 mt-1 font-semibold">
+                  A plan entry for this activity already exists in your department.
+                </div>
+              )}
+            </div>
+            <div className="flex justify-end">
+              <button
+                disabled={!canContinue}
+                onClick={() => setStep(2)}
+                className="bg-ercs-red text-white px-4 py-2 rounded-lg text-xs font-bold disabled:opacity-40"
+              >
+                Continue
+              </button>
+            </div>
+          </div>
+        )}
+        {step === 2 && selectedNpa && (
+          <div className="space-y-4">
+            <div className="bg-slate-50 border rounded-lg p-3">
+              <div className="text-[10px] uppercase font-extrabold text-slate-400">Department</div>
+              <div className="text-xs font-bold text-slate-700 mt-0.5">{selectedNpa.department}</div>
+              <div className="text-[10px] uppercase font-extrabold text-slate-400 mt-2">Activity Name (read-only)</div>
+              <div className="text-xs font-bold text-slate-800 mt-0.5">{selectedNpa.name}</div>
+              <div className="text-[10px] uppercase font-extrabold text-slate-400 mt-2">Baseline Budget</div>
+              <div className="text-xs font-bold text-slate-700 mt-0.5">{selectedNpa.annual_budget.toLocaleString()} ETB</div>
+            </div>
+
+            <div className="grid grid-cols-2 gap-3">
+              {!selectedNpa.is_admin_budget_line ? (
+                <div>
+                  <label className="block text-[10px] font-bold text-slate-500 mb-1">
+                    Annual Target ({selectedNpa.uom})
+                  </label>
+                  <NumberInput
+                    value={Number(form.annual_target) || 0}
+                    onChange={v => setForm(f => ({ ...f, annual_target: String(v) }))}
+                    className="w-full text-xs border border-slate-200 rounded p-2 bg-slate-50 focus:outline-none focus:ring-2 focus:ring-red-100"
+                  />
+                </div>
+              ) : (
+                <div>
+                  <label className="block text-[10px] font-bold text-slate-400 mb-1">
+                    Annual Target
+                  </label>
+                  <div className="text-xs text-slate-500 p-2 bg-slate-100 rounded border border-slate-200">
+                    N/A (Admin Budget Line)
+                  </div>
+                </div>
+              )}
+              <div>
+                <label className="block text-[10px] font-bold text-slate-500 mb-1">Annual Budget (ETB)</label>
+                <NumberInput
+                  value={Number(form.annual_budget) || 0}
+                  onChange={v => setForm(f => ({ ...f, annual_budget: String(v) }))}
+                  className="w-full text-xs border border-slate-200 rounded p-2 bg-slate-50 focus:outline-none focus:ring-2 focus:ring-red-100"
+                />
+              </div>
+            </div>
+
+            {!numbersValid && (
+              <div className="bg-rose-50 border border-rose-200 rounded-lg p-3 text-[11px] text-rose-700 font-semibold">
+                Budget (and target if applicable) must be zero or greater.
+              </div>
+            )}
+
+            <div className="flex justify-between">
+              <button onClick={() => setStep(1)} className="px-4 py-2 rounded-lg border text-xs font-bold">
+                Back
+              </button>
+              <button
+                disabled={!canSave}
+                onClick={handleSaveDept}
+                className="bg-ercs-red text-white px-5 py-2.5 rounded-lg text-xs font-bold flex items-center gap-2 disabled:opacity-40"
+              >
+                <Save className="w-3.5 h-3.5" /> {isEditing ? 'Update' : 'Save'} Department Plan Entry
+              </button>
+            </div>
+          </div>
+        )}
+      </ModalShell>
+    );
+  }
 
   // ---------------- PROJECT SCOPE ----------------
   if (isProjectScope) {

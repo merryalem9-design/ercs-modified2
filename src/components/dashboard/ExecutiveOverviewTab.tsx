@@ -53,7 +53,7 @@ export const ExecutiveOverviewTab: React.FC = () => {
   } = useApp();
 
   const q = filters.quarterId;
-  const entries = getFilteredPlanEntries().filter(e => e.is_contributing !== false);
+  const entries = getFilteredPlanEntries().filter((e): e is PlanEntry & { national_activity_id: string } => e.is_contributing !== false && !!e.national_activity_id);
 
   // In-scope National Activities based on active priority and region filters
   const inScopeNas = useMemo(() => {

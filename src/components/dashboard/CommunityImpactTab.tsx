@@ -34,6 +34,7 @@ import {
   CartesianGrid,
 } from 'recharts';
 import { Users, PieChart as PieIcon, Target, Wallet } from 'lucide-react';
+import { PlanEntry } from '../../types';
 
 const P1_P3_IDS = ['sp-1', 'sp-2', 'sp-3'];
 
@@ -56,7 +57,7 @@ export const CommunityImpactTab: React.FC = () => {
   const q = filters.quarterId;
 
   // All contributing entries in scope
-  const allContributingEntries = getFilteredPlanEntries().filter(e => e.is_contributing !== false);
+  const allContributingEntries = getFilteredPlanEntries().filter((e): e is PlanEntry & { national_activity_id: string } => e.is_contributing !== false && !!e.national_activity_id);
 
   // Map each NA to its priority
   const naPriorityMap = new Map(nationalActivities.map(na => [na.id, na.strategic_priority_id]));

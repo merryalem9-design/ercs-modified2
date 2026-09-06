@@ -30,6 +30,7 @@ import {
   Legend,
 } from 'recharts';
 import { Target, Wallet, Users, Activity, BarChart3, ArrowUpDown, ChevronDown, ChevronUp, DollarSign } from 'lucide-react';
+import { PlanEntry } from '../../types';
 
 const ENABLING_PRIORITY_IDS = ['sp-4', 'sp-5', 'sp-6', 'sp-7', 'sp-8'];
 
@@ -63,7 +64,7 @@ export const EnablingPrioritiesTab: React.FC = () => {
     ? filters.regionId[0]
     : null;
 
-  const allContributing = getFilteredPlanEntries().filter(e => e.is_contributing !== false);
+  const allContributing = getFilteredPlanEntries().filter((e): e is PlanEntry & { national_activity_id: string } => e.is_contributing !== false && !!e.national_activity_id);
 
   // -------------------------------------------------------------
   // Mode A: Default Enabling Overview (when no single priority)

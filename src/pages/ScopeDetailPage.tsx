@@ -80,7 +80,7 @@ export const ScopeDetailPage: React.FC = () => {
     const na = nationalActivities.find(n => n.id === pe.national_activity_id);
     setPeWizard({
       initial: {
-        id: pe.id, strategicPriorityId: na?.strategic_priority_id || '', national_activity_id: pe.national_activity_id,
+        id: pe.id, strategicPriorityId: na?.strategic_priority_id || '', national_activity_id: pe.national_activity_id || '',
         scope_type: 'Project', region_id: '', project_id: pe.project_id || '',
         annual_target: String(pe.annual_target), annual_budget: String(pe.annual_budget),
         activity_name: pe.activity_name, activity_description: pe.activity_description, lockScope: true,

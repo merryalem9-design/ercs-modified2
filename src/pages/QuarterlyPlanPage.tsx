@@ -56,24 +56,35 @@ export const QuarterlyPlanPage: React.FC = () => {
 };
 
 const QuarterlyPlanRow: React.FC<{ entry: PlanEntry }> = ({ entry }) => {
-  const { nationalActivities, regions, zones, projects, quarters, quarterlyPlans, upsertQuarterlyPlan, submitQuarterlyPlanForApproval, uomConfigs, currentRole } = useApp();
-  const na = nationalActivities.find(n => n.id === entry.national_activity_id);
-  const scopeName = entry.scope_type === 'Regional' ? zones.find(z => z.id === entry.zone_id)?.name : projects.find(p => p.id === entry.project_id)?.name;
+  const { nationalActivities, regions, zones, projects, quarters, quarterlyPlans, upsertQuarterlyPlan, submitQuarterlyPlanForApproval, uomConfigs, currentRole, nonProgrammaticActivities } = useApp();
+  const na = entry.national_activity_id ? nationalActivities.find(n => n.id === entry.national_activity_id) : undefined;
+  const npa = entry.non_programmatic_activity_id ? nonProgrammaticActivities.find(a => a.id === entry.non_programmatic_activity_id) : undefined;
+  const scopeName = entry.scope_type === 'Regional'
+    ? zones.find(z => z.id === entry.zone_id)?.name
+    : entry.scope_type === 'Project'
+    ? projects.find(p => p.id === entry.project_id)?.name
+    : (npa?.department || 'Department');
+
   const isZoneEntry = entry.scope_type === 'Regional';
   const isProjectEntry = entry.scope_type === 'Project';
-  const isApprovalScoped = isZoneEntry || isProjectEntry;
+  const isDeptEntry = entry.scope_type === 'NonProgrammatic';
+  const isApprovalScoped = isZoneEntry || isProjectEntry || isDeptEntry;
   const isOwningZoneCoordinator = isZoneEntry && currentRole === `${scopeName} coordinators`;
   const isOwningProjectCoordinator = isProjectEntry && currentRole === `Project Coordinator — ${scopeName}`;
-  const isOwningCoordinator = isOwningZoneCoordinator || isOwningProjectCoordinator;
+  const isOwningDeptHead = isDeptEntry && currentRole === `Department Head — ${npa?.department || ''}`;
+  const isOwningCoordinator = isOwningZoneCoordinator || isOwningProjectCoordinator || isOwningDeptHead;
   void regions;
+
+  const isAdminBudgetLine = npa?.is_admin_budget_line || (isDeptEntry && entry.annual_target === 0);
 
   const rowPlans = quarters.map(q => quarterlyPlans.find(qp => qp.plan_entry_id === entry.id && qp.quarter_id === q.id));
   const sumT = rowPlans.reduce((s, qp) => s + (qp?.target || 0), 0);
   const sumB = rowPlans.reduce((s, qp) => s + (qp?.budget || 0), 0);
-  const targetMismatch = Math.abs(sumT - entry.annual_target) > RECONCILE_EPSILON;
+  const targetMismatch = !isAdminBudgetLine && Math.abs(sumT - entry.annual_target) > RECONCILE_EPSILON;
   const budgetMismatch = Math.abs(sumB - entry.annual_budget) > RECONCILE_EPSILON;
 
   const setQuarterTarget = (quarterId: QuarterId, value: number) => {
+    if (isAdminBudgetLine) return;
     const existingQp = rowPlans.find(qp => qp?.quarter_id === quarterId);
     const newBudget = value === 0 ? 0 : (existingQp?.budget || 0);
     upsertQuarterlyPlan({
@@ -95,20 +106,26 @@ const QuarterlyPlanRow: React.FC<{ entry: PlanEntry }> = ({ entry }) => {
   };
 
   const splitEvenly = () => {
-    const evenTarget = entry.annual_target / 4;
+    const evenTarget = isAdminBudgetLine ? 0 : entry.annual_target / 4;
     const evenBudget = entry.annual_budget / 4;
     quarters.forEach(q => upsertQuarterlyPlan({ id: `qp-${entry.id}-${q.id}`, plan_entry_id: entry.id, quarter_id: q.id, target: evenTarget, budget: evenBudget }));
   };
 
   return (
     <tr className="hover:bg-slate-50 align-top">
-      <td className="p-3 font-bold text-ercs-red whitespace-nowrap">{na?.code}</td>
+      <td className="p-3 font-bold text-ercs-red whitespace-nowrap">{na?.code || entry.activity_code || '—'}</td>
       <td className="p-3 min-w-72"><div className="font-bold text-slate-800">{entry.activity_name}</div><div className="text-[10px] text-slate-500 mt-0.5">{entry.activity_description}</div></td>
       <td className="p-3 whitespace-nowrap">
-        <span className={`px-2 py-0.5 rounded-full text-[10px] font-bold ${entry.scope_type === 'Regional' ? 'bg-blue-50 text-blue-700' : 'bg-purple-50 text-purple-700'}`}>{entry.scope_type}</span>
+        <span className={`px-2 py-0.5 rounded-full text-[10px] font-bold ${
+          entry.scope_type === 'Regional' ? 'bg-blue-50 text-blue-700' :
+          entry.scope_type === 'Project' ? 'bg-purple-50 text-purple-700' :
+          'bg-amber-50 text-amber-700'
+        }`}>
+          {entry.scope_type === 'NonProgrammatic' ? 'Department' : entry.scope_type}
+        </span>
         <span className="ml-2 font-semibold">{scopeName || '—'}</span>
       </td>
-      <td className="p-3 text-right font-bold whitespace-nowrap">{entry.annual_target.toLocaleString()} {na?.uom}</td>
+      <td className="p-3 text-right font-bold whitespace-nowrap">{entry.annual_target.toLocaleString()} {entry.uom || na?.uom || ''}</td>
       <td className="p-3 text-right whitespace-nowrap">{entry.annual_budget.toLocaleString()}</td>
       {quarters.map((q, idx) => {
         const qp = rowPlans[idx];
@@ -116,7 +133,7 @@ const QuarterlyPlanRow: React.FC<{ entry: PlanEntry }> = ({ entry }) => {
         const qBeneficiary = na ? convertToBeneficiaries(qTarget, na.uom, uomConfigs) : 0;
         const status = qp?.approval_status || 'Draft';
         const locked = isApprovalScoped && (status === 'Pending Approval' || status === 'Approved');
-        const isBudgetDisabled = locked || qTarget === 0 || entry.annual_budget === 0;
+        const isBudgetDisabled = locked || (!isAdminBudgetLine && qTarget === 0) || entry.annual_budget === 0;
         const badge = getApprovalBadge(status);
         return (
           <td key={q.id} className="p-2 border-l">
@@ -125,7 +142,7 @@ const QuarterlyPlanRow: React.FC<{ entry: PlanEntry }> = ({ entry }) => {
                 <NumberInput
                   min={0}
                   value={qTarget}
-                  disabled={locked}
+                  disabled={locked || isAdminBudgetLine}
                   onChange={v => setQuarterTarget(q.id, v)}
                   className="w-14 text-center text-[10px] font-bold border border-slate-200 rounded p-1 disabled:opacity-50"
                 />
@@ -138,7 +155,7 @@ const QuarterlyPlanRow: React.FC<{ entry: PlanEntry }> = ({ entry }) => {
                 />
                 <div className="rounded bg-emerald-50 border border-emerald-100 px-1.5 py-1 text-center min-w-16">
                   <div className="text-[8px] font-black uppercase tracking-wide text-emerald-700 whitespace-nowrap">{q.id} Ben</div>
-                  <div className="text-[10px] font-black text-emerald-900">{qBeneficiary.toLocaleString()}</div>
+                  <div className="text-[10px] font-black text-emerald-900">{qBeneficiary > 0 ? qBeneficiary.toLocaleString() : '—'}</div>
                 </div>
               </div>
               {isApprovalScoped && (
@@ -156,9 +173,13 @@ const QuarterlyPlanRow: React.FC<{ entry: PlanEntry }> = ({ entry }) => {
       })}
       <td className="p-3 text-center">
         <div className="flex flex-col gap-1 items-center">
-          {targetMismatch
-            ? <span className="bg-amber-100 text-amber-800 px-2 py-0.5 rounded text-[10px] font-bold flex items-center gap-1 whitespace-nowrap"><AlertTriangle className="w-3 h-3" /> Tgt {sumT.toLocaleString()}/{entry.annual_target.toLocaleString()}</span>
-            : <span className="bg-emerald-100 text-emerald-700 px-2 py-0.5 rounded text-[10px] font-bold flex items-center gap-1 whitespace-nowrap"><CheckCircle2 className="w-3 h-3" /> Target OK</span>}
+          {isAdminBudgetLine ? (
+            <span className="bg-slate-100 text-slate-600 px-2 py-0.5 rounded text-[10px] font-bold whitespace-nowrap">Target N/A (Admin)</span>
+          ) : targetMismatch ? (
+            <span className="bg-amber-100 text-amber-800 px-2 py-0.5 rounded text-[10px] font-bold flex items-center gap-1 whitespace-nowrap"><AlertTriangle className="w-3 h-3" /> Tgt {sumT.toLocaleString()}/{entry.annual_target.toLocaleString()}</span>
+          ) : (
+            <span className="bg-emerald-100 text-emerald-700 px-2 py-0.5 rounded text-[10px] font-bold flex items-center gap-1 whitespace-nowrap"><CheckCircle2 className="w-3 h-3" /> Target OK</span>
+          )}
           {budgetMismatch
             ? <span className="bg-amber-100 text-amber-800 px-2 py-0.5 rounded text-[10px] font-bold flex items-center gap-1 whitespace-nowrap"><AlertTriangle className="w-3 h-3" /> Bgt {sumB.toLocaleString()}/{entry.annual_budget.toLocaleString()}</span>
             : <span className="bg-emerald-100 text-emerald-700 px-2 py-0.5 rounded text-[10px] font-bold flex items-center gap-1 whitespace-nowrap"><CheckCircle2 className="w-3 h-3" /> Budget OK</span>}

@@ -28,6 +28,7 @@ import {
   Legend,
 } from 'recharts';
 import { Target, Wallet, Users, Activity, BarChart3, ArrowUpDown, ChevronDown, ChevronUp } from 'lucide-react';
+import { PlanEntry } from '../../types';
 
 const DIRECT_PRIORITIES = [
   { id: 'sp-1', code: 'SP1', name: 'Disaster Preparedness & Response', color: '#C8102E' },
@@ -67,7 +68,7 @@ export const DirectCommunityDrilldownTab: React.FC = () => {
     : null;
 
   // Contributing entries in scope
-  const allContributing = getFilteredPlanEntries().filter(e => e.is_contributing !== false);
+  const allContributing = getFilteredPlanEntries().filter((e): e is PlanEntry & { national_activity_id: string } => e.is_contributing !== false && !!e.national_activity_id);
   const priorityEntries = allContributing.filter(e => {
     const na = nationalActivities.find(n => n.id === e.national_activity_id);
     return na && na.strategic_priority_id === selectedPriorityId;

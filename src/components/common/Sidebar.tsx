@@ -80,6 +80,7 @@ export const Sidebar: React.FC = () => {
   const isProgramDirector = currentRole === 'Program Director';
   const isProjectCoordinatorHQ = currentRole === 'Project Coordinator — HQ';
   const isSystemAdmin = currentRole === 'System Admin';
+  const isDepartmentHead = currentRole.startsWith('Department Head — ');
 
   const nav = isSystemAdmin
     ? ADMIN_NAV
@@ -109,7 +110,9 @@ export const Sidebar: React.FC = () => {
             ? 'Link National Activities to your Region, and review/approve Zone Quarterly Plan and Quarterly Actual submissions.'
             : isZoneCoordinator
               ? 'Enter and manage the plan, quarterly plan, and actuals for your assigned zone.'
-              : 'Enter and manage the plan, quarterly plan, and actuals for the assigned project.';
+              : isDepartmentHead
+                ? 'Enter and manage the plan, quarterly plan, and actuals for your department.'
+                : 'Enter and manage the plan, quarterly plan, and actuals for the assigned project.';
 
   return (
     <aside className="w-72 bg-slate-900 text-slate-300 flex flex-col h-screen sticky top-0 shrink-0">

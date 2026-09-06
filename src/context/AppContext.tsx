@@ -1,11 +1,13 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import {
-  StrategicPriority, StrategicObjective, NationalActivity, Region, Zone, Project, PlanEntry, Quarter, QuarterId, QuarterlyPlan, QuarterlyActual, UomFactorConfig, FilterState, UserRole, ScopeType, MonitoringRecord, RegionActivityLink, StrategicKpi, KpiProgressEntry, KnowledgeDocument,
-  StatusThresholdBand, QuarterPeriodConfig, NonProgrammaticActivity,
+  StrategicPriority, StrategicObjective, NationalActivity, Region, Zone, Project, PlanEntry, Quarter, QuarterId, QuarterlyPlan, QuarterlyActual, UomFactorConfig, FilterState, UserRole, ScopeType, MonitoringRecord, RegionActivityLink, StrategicKpi, KpiProgressEntry,
+  VaultReportRecord, ToolRecord, LessonLearnedRecord, MediaUpdateRecord, TemplateGuidelineRecord, ResourceCenterRecord,
+  StatusThresholdBand, QuarterPeriodConfig, NonProgrammaticActivity, NonProgrammaticDepartment,
 } from '../types';
 import {
   INITIAL_STRATEGIC_PRIORITIES, INITIAL_STRATEGIC_OBJECTIVES, INITIAL_NATIONAL_ACTIVITIES, INITIAL_REGIONS, INITIAL_ZONES, INITIAL_PROJECTS, INITIAL_PLAN_ENTRIES,
-  FISCAL_QUARTERS, INITIAL_QUARTERLY_PLANS, INITIAL_QUARTERLY_ACTUALS, INITIAL_UOM_CONFIGS, INITIAL_MONITORING_RECORDS, INITIAL_REGION_ACTIVITY_LINKS, INITIAL_STRATEGIC_KPIS, INITIAL_KPI_PROGRESS_ENTRIES, INITIAL_KNOWLEDGE_DOCUMENTS,
+  FISCAL_QUARTERS, INITIAL_QUARTERLY_PLANS, INITIAL_QUARTERLY_ACTUALS, INITIAL_UOM_CONFIGS, INITIAL_MONITORING_RECORDS, INITIAL_REGION_ACTIVITY_LINKS, INITIAL_STRATEGIC_KPIS, INITIAL_KPI_PROGRESS_ENTRIES,
+  INITIAL_VAULT_REPORTS, INITIAL_TOOLS, INITIAL_LESSONS_LEARNED, INITIAL_MEDIA_UPDATES, INITIAL_TEMPLATES_GUIDELINES, INITIAL_RESOURCE_CENTER,
   INITIAL_STATUS_THRESHOLDS, INITIAL_QUARTER_PERIOD_CONFIGS, INITIAL_NON_PROGRAMMATIC_ACTIVITIES,
 } from '../data/seedData';
 
@@ -115,8 +117,25 @@ interface AppContextType {
   addKpiProgressEntry: (entry: KpiProgressEntryInput) => void;
   getLatestKpiProgress: (strategicKpiId: string) => KpiProgressEntry | undefined;
 
-  knowledgeDocuments: KnowledgeDocument[];
-  addKnowledgeDocument: (doc: KnowledgeDocument) => void;
+  vaultReports: VaultReportRecord[];
+  addVaultReport: (record: Omit<VaultReportRecord, 'id' | 'uploaded_by' | 'upload_date'>) => void;
+
+  toolRecords: ToolRecord[];
+  addToolRecord: (record: Omit<ToolRecord, 'id' | 'uploaded_by' | 'upload_date'>) => void;
+
+  lessonLearnedRecords: LessonLearnedRecord[];
+  addLessonLearnedRecord: (record: Omit<LessonLearnedRecord, 'id' | 'uploaded_by' | 'upload_date'>) => void;
+
+  mediaUpdateRecords: MediaUpdateRecord[];
+  addMediaUpdateRecord: (record: Omit<MediaUpdateRecord, 'id' | 'uploaded_by' | 'upload_date'>) => void;
+  updateMediaUpdateRecord: (id: string, updates: Partial<MediaUpdateRecord>) => void;
+
+  templateGuidelineRecords: TemplateGuidelineRecord[];
+  addTemplateGuidelineRecord: (record: Omit<TemplateGuidelineRecord, 'id' | 'uploaded_by' | 'upload_date'>) => void;
+
+  resourceCenterRecords: ResourceCenterRecord[];
+  addResourceCenterRecord: (record: Omit<ResourceCenterRecord, 'id' | 'uploaded_by' | 'upload_date'>) => void;
+
 
   /**
    * Compute aggregated AOP plan totals from seeded national activity data.
@@ -156,6 +175,7 @@ type RoleScope =
   | { kind: 'Regional'; regionId: string }
   | { kind: 'Zone'; zoneId: string; regionId: string }
   | { kind: 'Project'; projectId: string }
+  | { kind: 'NonProgrammaticDepartment'; department: NonProgrammaticDepartment }
   | { kind: 'ProgramDirector' }
   | { kind: 'ProjectCoordinatorHQ' }
   | { kind: 'SystemAdmin' };
@@ -163,6 +183,7 @@ type RoleScope =
 const BRANCH_HEAD_PREFIX = 'Branch Head — ';
 const PROJECT_PREFIX = 'Project Coordinator — ';
 const ZONE_SUFFIX = ' coordinators';
+const DEPT_HEAD_PREFIX = 'Department Head — ';
 
 const parseRoleScope = (role: UserRole, regions: Region[], projects: Project[], zones: Zone[]): RoleScope => {
   if (role === 'National Activity AOP') return { kind: 'National' };
@@ -170,6 +191,10 @@ const parseRoleScope = (role: UserRole, regions: Region[], projects: Project[], 
   if (role === 'Program Director') return { kind: 'ProgramDirector' };
   if (role === 'Project Coordinator — HQ') return { kind: 'ProjectCoordinatorHQ' };
   if (role === 'System Admin') return { kind: 'SystemAdmin' };
+  if (role.startsWith(DEPT_HEAD_PREFIX)) {
+    const department = role.slice(DEPT_HEAD_PREFIX.length) as NonProgrammaticDepartment;
+    return { kind: 'NonProgrammaticDepartment', department };
+  }
   if (role.startsWith(BRANCH_HEAD_PREFIX)) {
     const name = role.slice(BRANCH_HEAD_PREFIX.length);
     const region = regions.find(r => r.name === name);
@@ -190,9 +215,23 @@ const parseRoleScope = (role: UserRole, regions: Region[], projects: Project[], 
 
 // READ scope: National/ProgramDirector sees all; Regional (Branch Head) sees every zone
 // under their region (needed for aggregation/approvals); Zone sees only its
-// own zone; Project sees only its own project.
-const roleOwnsPlanEntry = (role: UserRole, pe: PlanEntry, regions: Region[], projects: Project[], zones: Zone[]): boolean => {
+// own zone; Project sees only its own project; NonProgrammaticDepartment sees only its own department.
+const roleOwnsPlanEntry = (
+  role: UserRole,
+  pe: PlanEntry,
+  regions: Region[],
+  projects: Project[],
+  zones: Zone[],
+  nonProgrammaticActivities: NonProgrammaticActivity[] = INITIAL_NON_PROGRAMMATIC_ACTIVITIES
+): boolean => {
   const scope = parseRoleScope(role, regions, projects, zones);
+  if (scope.kind === 'NonProgrammaticDepartment') {
+    const npa = nonProgrammaticActivities.find(a => a.id === pe.non_programmatic_activity_id);
+    return pe.scope_type === 'NonProgrammatic' && npa?.department === scope.department;
+  }
+  if (pe.scope_type === 'NonProgrammatic') {
+    return scope.kind === 'ProgramDirector' || scope.kind === 'National';
+  }
   if (scope.kind === 'National') return true;
   if (scope.kind === 'ProgramDirector' || scope.kind === 'ProjectCoordinatorHQ') return pe.scope_type === 'Project';
   if (scope.kind === 'SystemAdmin') return false;
@@ -201,10 +240,22 @@ const roleOwnsPlanEntry = (role: UserRole, pe: PlanEntry, regions: Region[], pro
   return pe.scope_type === 'Project' && pe.project_id === scope.projectId;
 };
 
-// WRITE scope: only Zone (own zone) or Project (own project) may write a
-// PlanEntry/QuarterlyPlan/QuarterlyActual. Branch Head/AOP/PMER/ProgramDirector never can.
-const roleCanWritePlanEntry = (role: UserRole, pe: PlanEntry, regions: Region[], projects: Project[], zones: Zone[]): boolean => {
+// WRITE scope: only Zone (own zone), Project (own project), or Department Head (own department) may write a
+// PlanEntry/QuarterlyPlan/QuarterlyActual.
+const roleCanWritePlanEntry = (
+  role: UserRole,
+  pe: PlanEntry,
+  regions: Region[],
+  projects: Project[],
+  zones: Zone[],
+  nonProgrammaticActivities: NonProgrammaticActivity[] = INITIAL_NON_PROGRAMMATIC_ACTIVITIES
+): boolean => {
   const scope = parseRoleScope(role, regions, projects, zones);
+  if (scope.kind === 'NonProgrammaticDepartment') {
+    const npa = nonProgrammaticActivities.find(a => a.id === pe.non_programmatic_activity_id);
+    return pe.scope_type === 'NonProgrammatic' && npa?.department === scope.department;
+  }
+  if (pe.scope_type === 'NonProgrammatic') return false;
   if (scope.kind === 'National') return true;
   if (scope.kind === 'Zone') return pe.scope_type === 'Regional' && pe.zone_id === scope.zoneId;
   if (scope.kind === 'ProjectCoordinatorHQ') return pe.scope_type === 'Project';
@@ -214,11 +265,12 @@ const roleCanWritePlanEntry = (role: UserRole, pe: PlanEntry, regions: Region[],
 
 const normalizePersistedRole = (raw: UserRole, regions: Region[], projects: Project[], zones: Zone[]): UserRole => {
   if (raw === 'National Activity AOP' || raw === 'PMER Officer' || raw === 'Program Director' || raw === 'Project Coordinator — HQ' || raw === 'System Admin') return raw;
+  if (raw.startsWith(DEPT_HEAD_PREFIX)) return raw;
   if (parseRoleScope(raw, regions, projects, zones).kind !== 'National') return raw;
   return 'National Activity AOP';
 };
 
-const PERSISTENCE_KEY = 'ercs-aop-bottom-up-v13';
+const PERSISTENCE_KEY = 'ercs-aop-bottom-up-v14';
 
 const readPersisted = <T,>(key: string, fallback: T): T => {
   if (typeof window === 'undefined') return fallback;
@@ -256,7 +308,12 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   const [quarterlyActuals, setQuarterlyActuals] = useState<QuarterlyActual[]>(() => readPersisted('quarterlyActuals', INITIAL_QUARTERLY_ACTUALS));
   const [monitoringRecords, setMonitoringRecords] = useState<MonitoringRecord[]>(() => readPersisted('monitoringRecords', INITIAL_MONITORING_RECORDS));
   const [kpiProgressEntries, setKpiProgressEntries] = useState<KpiProgressEntry[]>(() => readPersisted('kpiProgressEntries', INITIAL_KPI_PROGRESS_ENTRIES));
-  const [knowledgeDocuments, setKnowledgeDocuments] = useState<KnowledgeDocument[]>(() => readPersisted('knowledgeDocuments', INITIAL_KNOWLEDGE_DOCUMENTS));
+  const [vaultReports, setVaultReports] = useState<VaultReportRecord[]>(INITIAL_VAULT_REPORTS);
+  const [toolRecords, setToolRecords] = useState<ToolRecord[]>(INITIAL_TOOLS);
+  const [lessonLearnedRecords, setLessonLearnedRecords] = useState<LessonLearnedRecord[]>(INITIAL_LESSONS_LEARNED);
+  const [mediaUpdateRecords, setMediaUpdateRecords] = useState<MediaUpdateRecord[]>(INITIAL_MEDIA_UPDATES);
+  const [templateGuidelineRecords, setTemplateGuidelineRecords] = useState<TemplateGuidelineRecord[]>(INITIAL_TEMPLATES_GUIDELINES);
+  const [resourceCenterRecords, setResourceCenterRecords] = useState<ResourceCenterRecord[]>(INITIAL_RESOURCE_CENTER);
   const [uomConfigs, setUomConfigs] = useState<UomFactorConfig[]>(() => readPersisted('uomConfigs', INITIAL_UOM_CONFIGS));
   const [statusThresholds, setStatusThresholds] = useState<StatusThresholdBand[]>(() => readPersisted('statusThresholds', INITIAL_STATUS_THRESHOLDS));
   const [quarterPeriodConfigs, setQuarterPeriodConfigs] = useState<QuarterPeriodConfig[]>(() => readPersisted('quarterPeriodConfigs', INITIAL_QUARTER_PERIOD_CONFIGS));
@@ -268,18 +325,26 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       window.localStorage.setItem(PERSISTENCE_KEY, JSON.stringify({
         activeRoute, currentRole, selectedNationalActivityId, nationalActivities, regions, zones, projects,
         regionActivityLinks, planEntries, quarterlyPlans, quarterlyActuals, monitoringRecords, uomConfigs, filters, kpiProgressEntries,
-        knowledgeDocuments, statusThresholds, quarterPeriodConfigs,
+        statusThresholds, quarterPeriodConfigs,
       }));
     } catch {
       // localStorage may be unavailable; in-memory state still works for the session.
     }
-  }, [activeRoute, currentRole, selectedNationalActivityId, nationalActivities, regions, zones, projects, regionActivityLinks, planEntries, quarterlyPlans, quarterlyActuals, monitoringRecords, uomConfigs, filters, kpiProgressEntries, knowledgeDocuments, statusThresholds, quarterPeriodConfigs]);
+  }, [activeRoute, currentRole, selectedNationalActivityId, nationalActivities, regions, zones, projects, regionActivityLinks, planEntries, quarterlyPlans, quarterlyActuals, monitoringRecords, uomConfigs, filters, kpiProgressEntries, statusThresholds, quarterPeriodConfigs]);
 
   const showToast = (msg: string) => { setToastMessage(msg); setTimeout(() => setToastMessage(null), 3000); };
   const resetFilters = () => setFilters(DEFAULT_FILTERS);
 
   const getFilteredPlanEntries = () => planEntries.filter(pe => {
-    if (!roleOwnsPlanEntry(currentRole, pe, regions, projects, zones)) return false;
+    if (!roleOwnsPlanEntry(currentRole, pe, regions, projects, zones, nonProgrammaticActivities)) return false;
+
+    if (pe.scope_type === 'NonProgrammatic') {
+      if (filters.department && filters.department !== 'ALL') {
+        const npa = nonProgrammaticActivities.find(a => a.id === pe.non_programmatic_activity_id);
+        if (!npa || npa.department !== filters.department) return false;
+      }
+      return true;
+    }
 
     // Non-contributing filter
     if (filters.contributionType === 'Contributing' && pe.is_contributing === false) return false;
@@ -413,7 +478,15 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   // PLAN ENTRY
   // -----------------------------------------------------------------------
   const addPlanEntry = (pe: PlanEntry) => {
-    if (!roleCanWritePlanEntry(currentRole, pe, regions, projects, zones)) { showToast('This coordinator can only manage entries for their assigned project or zone.'); return; }
+    if (!roleCanWritePlanEntry(currentRole, pe, regions, projects, zones, nonProgrammaticActivities)) { showToast('This user can only manage entries for their assigned scope.'); return; }
+
+    if (pe.scope_type === 'NonProgrammatic') {
+      const npa = nonProgrammaticActivities.find(n => n.id === pe.non_programmatic_activity_id);
+      if (!npa) { showToast('Non-Programmatic Activity not found.'); return; }
+      setPlanEntries(prev => [...prev, pe]);
+      showToast(`Plan entry added for ${npa.name}.`);
+      return;
+    }
 
     if (pe.is_contributing === false) {
       setPlanEntries(prev => [...prev, pe]);
@@ -438,8 +511,12 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   };
 
   const updatePlanEntry = (pe: PlanEntry) => {
-    if (!roleCanWritePlanEntry(currentRole, pe, regions, projects, zones)) { showToast('This coordinator can only edit entries for their assigned project or zone.'); return; }
+    if (!roleCanWritePlanEntry(currentRole, pe, regions, projects, zones, nonProgrammaticActivities)) { showToast('This user can only edit entries for their assigned scope.'); return; }
     setPlanEntries(prev => prev.map(x => (x.id === pe.id ? pe : x)));
+    if (pe.scope_type === 'NonProgrammatic') {
+      showToast('Plan entry updated.');
+      return;
+    }
     if (pe.is_contributing === false) {
       showToast('Standalone non-contributing plan entry updated.');
       return;
@@ -451,7 +528,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   const deletePlanEntry = (id: string) => {
     const old = planEntries.find(x => x.id === id);
     if (!old) return;
-    if (!roleCanWritePlanEntry(currentRole, old, regions, projects, zones)) { showToast('This coordinator can only delete entries for their assigned project or zone.'); return; }
+    if (!roleCanWritePlanEntry(currentRole, old, regions, projects, zones, nonProgrammaticActivities)) { showToast('This user can only delete entries for their assigned scope.'); return; }
     setPlanEntries(prev => prev.filter(x => x.id !== id));
     setQuarterlyPlans(prev => prev.filter(qp => qp.plan_entry_id !== id));
     setQuarterlyActuals(prev => prev.filter(a => a.plan_entry_id !== id));
@@ -460,14 +537,14 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   };
 
   // -----------------------------------------------------------------------
-  // QUARTERLY PLAN — Both Zone and Project rows now go through
+  // QUARTERLY PLAN — Both Zone, Project, and Department Head rows now go through
   // Draft → Pending Approval → Approved/Rejected.
-  // Zone rows: approved by Branch Head. Project rows: approved by Program Director.
+  // Zone rows: approved by Branch Head. Project & Dept rows: approved by Program Director.
   // -----------------------------------------------------------------------
   const upsertQuarterlyPlan = (qp: QuarterlyPlanInput) => {
     const parentEntry = planEntries.find(x => x.id === qp.plan_entry_id);
-    if (!parentEntry || !roleCanWritePlanEntry(currentRole, parentEntry, regions, projects, zones)) {
-      showToast('You can only enter Quarterly Plan values for your assigned project or zone.');
+    if (!parentEntry || !roleCanWritePlanEntry(currentRole, parentEntry, regions, projects, zones, nonProgrammaticActivities)) {
+      showToast('You can only enter Quarterly Plan values for your assigned scope.');
       return;
     }
 
@@ -475,7 +552,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       const idx = prev.findIndex(x => x.plan_entry_id === qp.plan_entry_id && x.quarter_id === qp.quarter_id);
       const existing = idx >= 0 ? prev[idx] : undefined;
 
-      // Block edits once Pending/Approved (for both Zone and Project).
+      // Block edits once Pending/Approved.
       if (existing && (existing.approval_status === 'Pending Approval' || existing.approval_status === 'Approved')) {
         showToast('This Quarterly Plan is locked while Pending Approval or Approved.');
         return prev;
@@ -489,14 +566,18 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   const submitQuarterlyPlanForApproval = ({ plan_entry_id, quarter_id }: { plan_entry_id: string; quarter_id: QuarterId }) => {
     const scope = parseRoleScope(currentRole, regions, projects, zones);
     const parentEntry = planEntries.find(x => x.id === plan_entry_id);
-    // Zone Coordinator submits zone-scoped entries; Project Coordinator submits project-scoped entries.
     const isOwningZone = scope.kind === 'Zone' && parentEntry?.zone_id === scope.zoneId;
     const isOwningProject = (scope.kind === 'Project' && parentEntry?.project_id === scope.projectId) || (scope.kind === 'ProjectCoordinatorHQ' && parentEntry?.scope_type === 'Project');
-    if (!parentEntry || (!isOwningZone && !isOwningProject)) { showToast('Only the owning Zone/Project Coordinator can submit this for approval.'); return; }
+    const npa = nonProgrammaticActivities.find(a => a.id === parentEntry?.non_programmatic_activity_id);
+    const isOwningDept = scope.kind === 'NonProgrammaticDepartment' && parentEntry?.scope_type === 'NonProgrammatic' && npa?.department === scope.department;
+    if (!parentEntry || (!isOwningZone && !isOwningProject && !isOwningDept)) {
+      showToast('Only the owning Zone Coordinator, Project Coordinator, or Department Head can submit this for approval.');
+      return;
+    }
     setQuarterlyPlans(prev => prev.map(qp => qp.plan_entry_id === plan_entry_id && qp.quarter_id === quarter_id
       ? { ...qp, approval_status: 'Pending Approval', submitted_at: new Date().toISOString(), rejection_reason: undefined }
       : qp));
-    const approverLabel = parentEntry.scope_type === 'Project' ? 'Program Director' : 'Branch Head';
+    const approverLabel = (parentEntry.scope_type === 'Project' || parentEntry.scope_type === 'NonProgrammatic') ? 'Program Director' : 'Branch Head';
     showToast(`${quarter_id} Quarterly Plan submitted for ${approverLabel} approval.`);
   };
 
@@ -505,7 +586,11 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     const parentEntry = planEntries.find(x => x.id === plan_entry_id);
     const isBranchHeadForEntry = scope.kind === 'Regional' && parentEntry?.region_id === scope.regionId;
     const isPMForEntry = (scope.kind === 'ProgramDirector' || scope.kind === 'ProjectCoordinatorHQ') && parentEntry?.scope_type === 'Project';
-    if (!parentEntry || (!isBranchHeadForEntry && !isPMForEntry)) { showToast('Only the Branch Head or Program Director can approve this.'); return; }
+    const isPDForNonProg = scope.kind === 'ProgramDirector' && parentEntry?.scope_type === 'NonProgrammatic';
+    if (!parentEntry || (!isBranchHeadForEntry && !isPMForEntry && !isPDForNonProg)) {
+      showToast('Only the authorized approver (Branch Head or Program Director) can approve this.');
+      return;
+    }
     setQuarterlyPlans(prev => prev.map(qp => qp.plan_entry_id === plan_entry_id && qp.quarter_id === quarter_id
       ? { ...qp, approval_status: 'Approved', reviewed_at: new Date().toISOString() }
       : qp));
@@ -518,27 +603,35 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     const parentEntry = planEntries.find(x => x.id === plan_entry_id);
     const isBranchHeadForEntry = scope.kind === 'Regional' && parentEntry?.region_id === scope.regionId;
     const isPMForEntry = (scope.kind === 'ProgramDirector' || scope.kind === 'ProjectCoordinatorHQ') && parentEntry?.scope_type === 'Project';
-    if (!parentEntry || (!isBranchHeadForEntry && !isPMForEntry)) { showToast('Only the Branch Head or Program Director can reject this.'); return; }
+    const isPDForNonProg = scope.kind === 'ProgramDirector' && parentEntry?.scope_type === 'NonProgrammatic';
+    if (!parentEntry || (!isBranchHeadForEntry && !isPMForEntry && !isPDForNonProg)) {
+      showToast('Only the authorized approver (Branch Head or Program Director) can reject this.');
+      return;
+    }
     setQuarterlyPlans(prev => prev.map(qp => qp.plan_entry_id === plan_entry_id && qp.quarter_id === quarter_id
       ? { ...qp, approval_status: 'Rejected', reviewed_at: new Date().toISOString(), rejection_reason }
       : qp));
-    const label = parentEntry.scope_type === 'Project' ? 'project can revise and resubmit' : 'zone can revise and resubmit';
+    const label = parentEntry.scope_type === 'Project'
+      ? 'project can revise and resubmit'
+      : parentEntry.scope_type === 'NonProgrammatic'
+        ? 'department can revise and resubmit'
+        : 'zone can revise and resubmit';
     showToast(`${quarter_id} Quarterly Plan rejected — ${label}.`);
   };
 
   // -----------------------------------------------------------------------
-  // QUARTERLY ACTUAL — Both Zone and Project rows now go through
+  // QUARTERLY ACTUAL — Both Zone, Project, and Department Head rows now go through
   // Draft → Pending Approval → Approved/Rejected.
   // Zone rows require an Approved Plan first (Branch Head approves actuals).
-  // Project rows require an Approved Plan first (Program Director approves actuals).
+  // Project & Dept rows require an Approved Plan first (Program Director approves actuals).
   // -----------------------------------------------------------------------
   const upsertQuarterlyActual = (qa: QuarterlyActualInput) => {
     const parentEntry = planEntries.find(x => x.id === qa.plan_entry_id);
-    if (!parentEntry || !roleCanWritePlanEntry(currentRole, parentEntry, regions, projects, zones)) {
-      showToast('You can only enter Quarterly Actual values for your assigned project or zone.');
+    if (!parentEntry || !roleCanWritePlanEntry(currentRole, parentEntry, regions, projects, zones, nonProgrammaticActivities)) {
+      showToast('You can only enter Quarterly Actual values for your assigned scope.');
       return;
     }
-    // Both Zone and Project entries require an Approved Quarterly Plan first.
+    // Plan entries require an Approved Quarterly Plan first.
     const plan = quarterlyPlans.find(qp => qp.plan_entry_id === qa.plan_entry_id && qp.quarter_id === qa.quarter_id);
     if (!plan || plan.approval_status !== 'Approved') {
       showToast('The Quarterly Plan for this quarter must be Approved before entering Actuals.');
@@ -549,7 +642,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       const idx = prev.findIndex(a => a.plan_entry_id === qa.plan_entry_id && a.quarter_id === qa.quarter_id);
       const existing = idx >= 0 ? prev[idx] : undefined;
 
-      // Block edits once Pending/Approved (for both Zone and Project).
+      // Block edits once Pending/Approved.
       if (existing && (existing.approval_status === 'Pending Approval' || existing.approval_status === 'Approved')) {
         showToast('This Quarterly Actual is locked while Pending Approval or Approved.');
         return prev;
@@ -563,14 +656,18 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   const submitQuarterlyActualForApproval = ({ plan_entry_id, quarter_id }: { plan_entry_id: string; quarter_id: QuarterId }) => {
     const scope = parseRoleScope(currentRole, regions, projects, zones);
     const parentEntry = planEntries.find(x => x.id === plan_entry_id);
-    // Zone Coordinator submits zone-scoped entries; Project Coordinator submits project-scoped entries.
     const isOwningZone = scope.kind === 'Zone' && parentEntry?.zone_id === scope.zoneId;
     const isOwningProject = (scope.kind === 'Project' && parentEntry?.project_id === scope.projectId) || (scope.kind === 'ProjectCoordinatorHQ' && parentEntry?.scope_type === 'Project');
-    if (!parentEntry || (!isOwningZone && !isOwningProject)) { showToast('Only the owning Zone/Project Coordinator can submit this for approval.'); return; }
+    const npa = nonProgrammaticActivities.find(a => a.id === parentEntry?.non_programmatic_activity_id);
+    const isOwningDept = scope.kind === 'NonProgrammaticDepartment' && parentEntry?.scope_type === 'NonProgrammatic' && npa?.department === scope.department;
+    if (!parentEntry || (!isOwningZone && !isOwningProject && !isOwningDept)) {
+      showToast('Only the owning Zone Coordinator, Project Coordinator, or Department Head can submit this for approval.');
+      return;
+    }
     setQuarterlyActuals(prev => prev.map(qa => qa.plan_entry_id === plan_entry_id && qa.quarter_id === quarter_id
       ? { ...qa, approval_status: 'Pending Approval', submitted_at: new Date().toISOString(), rejection_reason: undefined }
       : qa));
-    const approverLabel = parentEntry.scope_type === 'Project' ? 'Program Director' : 'Branch Head';
+    const approverLabel = (parentEntry.scope_type === 'Project' || parentEntry.scope_type === 'NonProgrammatic') ? 'Program Director' : 'Branch Head';
     showToast(`${quarter_id} Quarterly Actual submitted for ${approverLabel} approval.`);
   };
 
@@ -579,7 +676,11 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     const parentEntry = planEntries.find(x => x.id === plan_entry_id);
     const isBranchHeadForEntry = scope.kind === 'Regional' && parentEntry?.region_id === scope.regionId;
     const isPMForEntry = (scope.kind === 'ProgramDirector' || scope.kind === 'ProjectCoordinatorHQ') && parentEntry?.scope_type === 'Project';
-    if (!parentEntry || (!isBranchHeadForEntry && !isPMForEntry)) { showToast('Only the Branch Head or Program Director can approve this.'); return; }
+    const isPDForNonProg = scope.kind === 'ProgramDirector' && parentEntry?.scope_type === 'NonProgrammatic';
+    if (!parentEntry || (!isBranchHeadForEntry && !isPMForEntry && !isPDForNonProg)) {
+      showToast('Only the Branch Head or Program Director can approve this.');
+      return;
+    }
     setQuarterlyActuals(prev => prev.map(qa => qa.plan_entry_id === plan_entry_id && qa.quarter_id === quarter_id
       ? { ...qa, approval_status: 'Approved', reviewed_at: new Date().toISOString() }
       : qa));
@@ -592,11 +693,19 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     const parentEntry = planEntries.find(x => x.id === plan_entry_id);
     const isBranchHeadForEntry = scope.kind === 'Regional' && parentEntry?.region_id === scope.regionId;
     const isPMForEntry = (scope.kind === 'ProgramDirector' || scope.kind === 'ProjectCoordinatorHQ') && parentEntry?.scope_type === 'Project';
-    if (!parentEntry || (!isBranchHeadForEntry && !isPMForEntry)) { showToast('Only the Branch Head or Program Director can reject this.'); return; }
+    const isPDForNonProg = scope.kind === 'ProgramDirector' && parentEntry?.scope_type === 'NonProgrammatic';
+    if (!parentEntry || (!isBranchHeadForEntry && !isPMForEntry && !isPDForNonProg)) {
+      showToast('Only the Branch Head or Program Director can reject this.');
+      return;
+    }
     setQuarterlyActuals(prev => prev.map(qa => qa.plan_entry_id === plan_entry_id && qa.quarter_id === quarter_id
       ? { ...qa, approval_status: 'Rejected', reviewed_at: new Date().toISOString(), rejection_reason }
       : qa));
-    const label = parentEntry.scope_type === 'Project' ? 'project can revise and resubmit' : 'zone can revise and resubmit';
+    const label = parentEntry.scope_type === 'Project'
+      ? 'project can revise and resubmit'
+      : parentEntry.scope_type === 'NonProgrammatic'
+        ? 'department can revise and resubmit'
+        : 'zone can revise and resubmit';
     showToast(`${quarter_id} Quarterly Actual rejected — ${label}.`);
   };
 
@@ -662,13 +771,75 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     showToast(`Period ${id} range updated to ${date_range}.`);
   };
 
-  const addKnowledgeDocument = (doc: KnowledgeDocument) => {
-    if (currentRole !== 'National Activity AOP') {
-      showToast('Only National Activity AOP can add documents to the Knowledge Library.');
-      return;
-    }
-    setKnowledgeDocuments(prev => [doc, ...prev]);
-    showToast(`Document "${doc.title}" added to Knowledge Library.`);
+  const addVaultReport = (record: Omit<VaultReportRecord, 'id' | 'uploaded_by' | 'upload_date'>) => {
+    const newRecord: VaultReportRecord = {
+      ...record,
+      id: `vr-${Date.now()}-${Math.random().toString(36).substring(2, 7)}`,
+      uploaded_by: currentRole,
+      upload_date: new Date().toISOString().slice(0, 10),
+    };
+    setVaultReports(prev => [newRecord, ...prev]);
+    showToast(`Report "${newRecord.title}" added to Repository Vault.`);
+  };
+
+  const addToolRecord = (record: Omit<ToolRecord, 'id' | 'uploaded_by' | 'upload_date'>) => {
+    const newRecord: ToolRecord = {
+      ...record,
+      id: `tool-${Date.now()}-${Math.random().toString(36).substring(2, 7)}`,
+      uploaded_by: currentRole,
+      upload_date: new Date().toISOString().slice(0, 10),
+    };
+    setToolRecords(prev => [newRecord, ...prev]);
+    showToast(`Tool "${newRecord.tool_name}" added to Tools repository.`);
+  };
+
+  const addLessonLearnedRecord = (record: Omit<LessonLearnedRecord, 'id' | 'uploaded_by' | 'upload_date'>) => {
+    const newRecord: LessonLearnedRecord = {
+      ...record,
+      id: `ll-${Date.now()}-${Math.random().toString(36).substring(2, 7)}`,
+      uploaded_by: currentRole,
+      upload_date: new Date().toISOString().slice(0, 10),
+    };
+    setLessonLearnedRecords(prev => [newRecord, ...prev]);
+    showToast(`Lesson "${newRecord.title}" recorded.`);
+  };
+
+  const addMediaUpdateRecord = (record: Omit<MediaUpdateRecord, 'id' | 'uploaded_by' | 'upload_date'>) => {
+    const newRecord: MediaUpdateRecord = {
+      ...record,
+      id: `mu-${Date.now()}-${Math.random().toString(36).substring(2, 7)}`,
+      uploaded_by: currentRole,
+      upload_date: new Date().toISOString().slice(0, 10),
+    };
+    setMediaUpdateRecords(prev => [newRecord, ...prev]);
+    showToast(`Media item "${newRecord.headline}" ${newRecord.status === 'Draft' ? 'saved as Draft' : 'published'}.`);
+  };
+
+  const updateMediaUpdateRecord = (id: string, updates: Partial<MediaUpdateRecord>) => {
+    setMediaUpdateRecords(prev => prev.map(m => m.id === id ? { ...m, ...updates } : m));
+    showToast(`Media item updated.`);
+  };
+
+  const addTemplateGuidelineRecord = (record: Omit<TemplateGuidelineRecord, 'id' | 'uploaded_by' | 'upload_date'>) => {
+    const newRecord: TemplateGuidelineRecord = {
+      ...record,
+      id: `tg-${Date.now()}-${Math.random().toString(36).substring(2, 7)}`,
+      uploaded_by: currentRole,
+      upload_date: new Date().toISOString().slice(0, 10),
+    };
+    setTemplateGuidelineRecords(prev => [newRecord, ...prev]);
+    showToast(`Template/Guideline "${newRecord.template_name}" added.`);
+  };
+
+  const addResourceCenterRecord = (record: Omit<ResourceCenterRecord, 'id' | 'uploaded_by' | 'upload_date'>) => {
+    const newRecord: ResourceCenterRecord = {
+      ...record,
+      id: `rc-${Date.now()}-${Math.random().toString(36).substring(2, 7)}`,
+      uploaded_by: currentRole,
+      upload_date: new Date().toISOString().slice(0, 10),
+    };
+    setResourceCenterRecords(prev => [newRecord, ...prev]);
+    showToast(`Resource item "${newRecord.resource_title}" added.`);
   };
 
   // -----------------------------------------------------------------------
@@ -787,7 +958,12 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       filters, setFilters, resetFilters, getFilteredPlanEntries,
       computeAopTotals, getAopTargetForActivity, getProjectAopShare,
       strategicKpis, kpiProgressEntries, addKpiProgressEntry, getLatestKpiProgress,
-      knowledgeDocuments, addKnowledgeDocument,
+      vaultReports, addVaultReport,
+      toolRecords, addToolRecord,
+      lessonLearnedRecords, addLessonLearnedRecord,
+      mediaUpdateRecords, addMediaUpdateRecord, updateMediaUpdateRecord,
+      templateGuidelineRecords, addTemplateGuidelineRecord,
+      resourceCenterRecords, addResourceCenterRecord,
     }}>
       {children}
     </AppContext.Provider>

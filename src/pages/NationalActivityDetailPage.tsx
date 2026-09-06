@@ -10,7 +10,7 @@ import {
   budgetUtilizationPct,
   convertToBeneficiaries,
 } from '../utils/calculations';
-import { PlanEntry } from '../types';
+import { PlanEntry, ScopeType } from '../types';
 import { QuarterFilterValue } from '../types';
 import { StatusBadge } from '../components/common/StatusBadge';
 import { BudgetStatusBadge } from '../components/common/BudgetStatusBadge';
@@ -162,7 +162,7 @@ export const NationalActivityDetailPage: React.FC = () => {
 
   const canAddPlanEntry = branchHeadEligible || !!zoneEligibleLink || projectEligible || hqProjectEligible || aopEligible;
 
-  const setParentFilter = (scopeType: 'Regional' | 'Project' | null = null, scopeId?: string) => {
+  const setParentFilter = (scopeType: ScopeType | null = null, scopeId?: string) => {
     setFilters(prev => ({
       ...prev,
       strategicPriorityId: 'ALL',

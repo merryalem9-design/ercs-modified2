@@ -118,6 +118,7 @@ export const DepartmentsAndFinanceTab: React.FC = () => {
     setFilters,
     getFilteredPlanEntries,
     nonProgrammaticActivities,
+    planEntries,
   } = useApp();
 
   const [deptScopeMode, setDeptScopeMode] = useState<'programmatic' | 'non-programmatic'>('programmatic');
@@ -161,7 +162,7 @@ export const DepartmentsAndFinanceTab: React.FC = () => {
     strategicPriorities.forEach(p => {
       const pActivities = nationalActivities.filter(na => na.strategic_priority_id === p.id);
       const pActIds = new Set(pActivities.map(na => na.id));
-      const pRegEntries = regEntries.filter(e => pActIds.has(e.national_activity_id));
+      const pRegEntries = regEntries.filter(e => e.national_activity_id && pActIds.has(e.national_activity_id));
       const pAct = sumActual(pRegEntries, quarterlyActuals, q);
       const pTgt = pActivities.reduce((s, na) => s + (na.regional_targets?.[reg.id]?.target ?? 0), 0);
       byPriority[p.id] = {
@@ -202,7 +203,7 @@ export const DepartmentsAndFinanceTab: React.FC = () => {
   const departmentData = NON_PROGRAMMATIC_DEPTS.map((deptName, idx) => {
     const deptActivities = nationalActivities.filter(na => na.department === deptName);
     const deptActIds = new Set(deptActivities.map(na => na.id));
-    const deptEntries = contributingEntries.filter(e => deptActIds.has(e.national_activity_id));
+    const deptEntries = contributingEntries.filter(e => e.national_activity_id && deptActIds.has(e.national_activity_id));
 
     const dAct = sumActual(deptEntries, quarterlyActuals, q);
     const dTgt = sumPlannedTarget(deptEntries, quarterlyPlans, q);
@@ -245,17 +246,31 @@ export const DepartmentsAndFinanceTab: React.FC = () => {
 
   const nonProgDeptData = NON_PROG_DEPTS.map(dept => {
     const acts = nonProgrammaticActivities.filter(a => a.department === dept.name);
+    const actIds = new Set(acts.map(a => a.id));
     const bud = acts.reduce((s, a) => s + a.annual_budget, 0);
+
+    const deptPlanEntries = planEntries.filter(
+      pe => pe.scope_type === 'NonProgrammatic' && pe.non_programmatic_activity_id && actIds.has(pe.non_programmatic_activity_id)
+    );
+    const dAct = sumActual(deptPlanEntries, quarterlyActuals, q);
+    const dSpent = sumExpenditure(deptPlanEntries, quarterlyActuals, q);
+    const dUtil = bud > 0 ? (dSpent / bud) * 100 : 0;
+
     return {
       department: dept.shortName,
       fullName: dept.name,
       activitiesCount: acts.length,
       budget: bud,
+      actual: dAct,
+      spend: dSpent,
+      utilization: Number(dUtil.toFixed(1)),
       color: dept.color,
     };
   });
 
   const totalNonProgBudget = nonProgDeptData.reduce((s, d) => s + d.budget, 0);
+  const totalNonProgSpend = nonProgDeptData.reduce((s, d) => s + d.spend, 0);
+  const totalNonProgUtil = totalNonProgBudget > 0 ? (totalNonProgSpend / totalNonProgBudget) * 100 : 0;
   const nonProgDonutData = nonProgDeptData.map(d => ({
     name: d.department,
     value: d.budget,
@@ -334,7 +349,7 @@ export const DepartmentsAndFinanceTab: React.FC = () => {
   const sp8Activities = nationalActivities.filter(na => na.strategic_priority_id === 'sp-8');
   const sp8BaselineBudget = sp8Activities.reduce((s, na) => s + (na.ercs_budget ?? 0), 0);
   const sp8ActIds = new Set(sp8Activities.map(na => na.id));
-  const sp8Entries = contributingEntries.filter(e => sp8ActIds.has(e.national_activity_id));
+  const sp8Entries = contributingEntries.filter(e => e.national_activity_id && sp8ActIds.has(e.national_activity_id));
   const incomeTarget = sp8BaselineBudget;
   const incomeSecured = sumExpenditure(sp8Entries, quarterlyActuals, q);
   const fundingGap = Math.max(0, incomeTarget - incomeSecured);
@@ -691,9 +706,13 @@ export const DepartmentsAndFinanceTab: React.FC = () => {
               />
               <DashboardKPICard
                 icon={Wallet}
-                title="Total Non-Prog Budget"
+                title="Total Non-Prog Budget & Spend"
                 val={formatETB(totalNonProgBudget)}
-                sub="1.80M Legal • 8.91M SC • 19.08M SG"
+                sub={totalNonProgSpend > 0 ? `Spent: ${formatETB(totalNonProgSpend)} (${totalNonProgUtil.toFixed(1)}% util)` : "1.80M Legal • 8.91M SC • 19.08M SG"}
+                badge={totalNonProgSpend > 0 ? {
+                  label: `${totalNonProgUtil.toFixed(1)}% Utilized`,
+                  color: totalNonProgUtil > 100 ? 'bg-rose-100 text-rose-800 border-rose-300' : 'bg-emerald-100 text-emerald-800 border-emerald-300',
+                } : undefined}
               />
             </div>
 
@@ -764,6 +783,65 @@ export const DepartmentsAndFinanceTab: React.FC = () => {
                     <Legend wrapperStyle={{ fontSize: 10 }} formatter={(val, entry: any) => `${val} (${entry.payload.pct.toFixed(0)}%)`} />
                   </PieChart>
                 </ResponsiveContainer>
+              </div>
+            </div>
+
+            {/* Non-Programmatic Department Performance Table */}
+            <div className="bg-white rounded-xl border border-slate-200 shadow-xs overflow-hidden">
+              <div className="px-4 py-3 border-b border-slate-200 flex items-center justify-between">
+                <div>
+                  <h4 className="text-xs font-bold text-slate-800 uppercase tracking-wider">
+                    Non-Programmatic Department Budget & Actual Utilization
+                  </h4>
+                  <p className="text-[10px] text-slate-400 mt-0.5">
+                    Live actuals reflected from approved departmental quarterly entries
+                  </p>
+                </div>
+              </div>
+              <div className="overflow-x-auto">
+                <table className="w-full text-xs text-left border-collapse">
+                  <thead>
+                    <tr className="bg-slate-50 text-slate-500 font-bold border-b border-slate-200">
+                      <th className="py-2.5 px-3">Department</th>
+                      <th className="py-2.5 px-3 text-center">Activities / Lines</th>
+                      <th className="py-2.5 px-3 text-right">Annual Budget</th>
+                      <th className="py-2.5 px-3 text-right">Actual Spend</th>
+                      <th className="py-2.5 px-3 text-right">Budget Utilization</th>
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-slate-100 font-medium">
+                    {nonProgDeptData.map(d => (
+                      <tr key={d.department} className="hover:bg-slate-50/60 transition-colors">
+                        <td className="py-2.5 px-3 font-semibold text-slate-900">{d.fullName}</td>
+                        <td className="py-2.5 px-3 text-center text-slate-600">{d.activitiesCount}</td>
+                        <td className="py-2.5 px-3 text-right text-slate-900 font-semibold">{formatETB(d.budget)}</td>
+                        <td className="py-2.5 px-3 text-right text-slate-700">{formatETB(d.spend)}</td>
+                        <td className="py-2.5 px-3 text-right">
+                          <span className={`inline-flex items-center px-2 py-0.5 rounded-full text-[11px] font-bold ${
+                            d.utilization === 0 ? 'bg-slate-100 text-slate-600' :
+                            d.utilization <= 100 ? 'bg-emerald-100 text-emerald-800' : 'bg-rose-100 text-rose-800'
+                          }`}>
+                            {d.utilization.toFixed(1)}%
+                          </span>
+                        </td>
+                      </tr>
+                    ))}
+                    <tr className="bg-slate-50/80 font-bold text-slate-900 border-t border-slate-200">
+                      <td className="py-2.5 px-3">Total Non-Programmatic</td>
+                      <td className="py-2.5 px-3 text-center">{nonProgrammaticActivities.length}</td>
+                      <td className="py-2.5 px-3 text-right">{formatETB(totalNonProgBudget)}</td>
+                      <td className="py-2.5 px-3 text-right">{formatETB(totalNonProgSpend)}</td>
+                      <td className="py-2.5 px-3 text-right">
+                        <span className={`inline-flex items-center px-2 py-0.5 rounded-full text-[11px] font-bold ${
+                          totalNonProgUtil === 0 ? 'bg-slate-100 text-slate-600' :
+                          totalNonProgUtil <= 100 ? 'bg-emerald-100 text-emerald-800' : 'bg-rose-100 text-rose-800'
+                        }`}>
+                          {totalNonProgUtil.toFixed(1)}%
+                        </span>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
               </div>
             </div>
           </>
