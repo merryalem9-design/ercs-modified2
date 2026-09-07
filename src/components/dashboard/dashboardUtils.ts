@@ -18,7 +18,7 @@ export const DASHBOARD_TABS: DashboardTab[] = [
   { id: 'community', label: 'Community Impact', description: 'High-level snapshot of direct community-facing priorities (SP1–SP3)' },
   { id: 'direct', label: 'Direct Community (P1–P3)', description: 'Objective-level drill-down for Disaster Response, Resilience, and Health & WASH' },
   { id: 'enabling', label: 'Enabling Priorities (P4–P8)', description: 'Performance and drill-downs for institutional and support priorities' },
-  { id: 'departments', label: 'Departments & Finance', description: 'Branch rankings, non-programmatic departments, and corporate financial overview' },
+  { id: 'departments', label: 'Department', description: 'Branch rankings, non-programmatic departments, and corporate financial overview' },
 ];
 
 // Rich, varied categorical palette for 8 priorities (vibrant & distinguishable)

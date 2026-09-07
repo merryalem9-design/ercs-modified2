@@ -16,14 +16,15 @@ import {
   QuarterId,
   NationalActivity,
 } from '../types';
-import { Target, Wallet, Users, TrendingUp, Layers, CheckCircle2, AlertCircle, Info } from 'lucide-react';
+import { Target, Wallet, Users, TrendingUp, Layers, CheckCircle2, AlertCircle, Info, ChevronDown, ChevronRight, ArrowUpRight, Maximize2, Minimize2 } from 'lucide-react';
+import { NationalActivityDrillDown } from '../components/common/NationalActivityDrillDown';
 
 /** Beneficiary % = beneficiaries actually reached vs. beneficiaries planned. */
 const beneficiaryPct = (actualBen: number, totalBen: number): number =>
   totalBen === 0 ? 0 : (actualBen / totalBen) * 100;
 
 type KpiBadge = { label: string; color: string };
-const OVERACHIEVED_BADGE: KpiBadge = { label: 'Overachieved', color: 'bg-indigo-100 text-indigo-800 border-indigo-300' };
+const OVERACHIEVED_BADGE: KpiBadge = { label: 'Overachieved', color: 'bg-emerald-100 text-emerald-800 border-emerald-300' };
 const OVER_BUDGET_BADGE: KpiBadge = { label: 'Over Budget', color: 'bg-rose-100 text-rose-800 border-rose-300' };
 
 const ALL_QUARTER_IDS: QuarterId[] = ['Q1', 'Q2', 'Q3', 'Q4'];
@@ -55,6 +56,8 @@ export const ReportPage: React.FC = () => {
     computeAopTotals,
     currentRole,
     zones,
+    setSelectedNationalActivityId,
+    setActiveRoute,
   } = useApp();
 
   const isBranchHead = currentRole.startsWith('Branch Head — ');
@@ -76,6 +79,41 @@ export const ReportPage: React.FC = () => {
     : undefined;
 
   const [activeTab, setActiveTab] = useState<'all' | 'contributing' | 'non-contributing'>('all');
+  const [expandedObjectiveIds, setExpandedObjectiveIds] = useState<Set<string>>(
+    () => new Set(strategicObjectives.map(so => so.id))
+  );
+
+  // Keep all expanded on initial load when objectives are loaded
+  useEffect(() => {
+    if (strategicObjectives.length > 0 && expandedObjectiveIds.size === 0) {
+      setExpandedObjectiveIds(new Set(strategicObjectives.map(so => so.id)));
+    }
+  }, [strategicObjectives]);
+
+  const toggleObjective = (id: string) => {
+    setExpandedObjectiveIds(prev => {
+      const next = new Set(prev);
+      if (next.has(id)) next.delete(id);
+      else next.add(id);
+      return next;
+    });
+  };
+
+  const expandAll = () => {
+    setExpandedObjectiveIds(new Set(strategicObjectives.map(so => so.id)));
+  };
+
+  const collapseAll = () => {
+    setExpandedObjectiveIds(new Set());
+  };
+
+  const viewActivityDetail = (naId: string) => {
+    if (typeof window !== 'undefined' && window.sessionStorage) {
+      window.sessionStorage.setItem('na_detail_origin', 'report');
+    }
+    setSelectedNationalActivityId(naId);
+    setActiveRoute('national-detail');
+  };
 
   const entries = getFilteredPlanEntries();
   const q = filters.quarterId;
@@ -382,6 +420,7 @@ export const ReportPage: React.FC = () => {
             hq: soHq,
             rb: soRb,
             byRegion: soByRegion,
+            activities: nasForSo,
           };
         });
 
@@ -558,7 +597,7 @@ export const ReportPage: React.FC = () => {
           val={`${aopAchievement.toFixed(1)}%`}
           sub={`${Math.round(aopActual).toLocaleString()} actual / ${Math.round(aopTarget).toLocaleString()} (${resolvedAop.label})`}
           icon={Target}
-          accent="red"
+          accent={aopAchievement >= 80 ? 'emerald' : aopAchievement >= 60 ? 'amber' : 'red'}
           statusBadge={aopAchievement > 100 ? OVERACHIEVED_BADGE : undefined}
         />
         <KPICard
@@ -566,7 +605,7 @@ export const ReportPage: React.FC = () => {
           val={`${aopUtilization.toFixed(1)}%`}
           sub={`ETB ${Math.round(aopSpent).toLocaleString()} spent / ${Math.round(aopBudget).toLocaleString()} (${resolvedAop.label.replace('Target', 'Budget')})`}
           icon={Wallet}
-          accent="blue"
+          accent={aopUtilization > 100 ? 'red' : aopUtilization >= 60 ? 'emerald' : 'amber'}
           statusBadge={aopUtilization > 100 ? OVER_BUDGET_BADGE : undefined}
         />
         <KPICard
@@ -574,14 +613,20 @@ export const ReportPage: React.FC = () => {
           val={Math.round(actualBeneficiariesFor(contributingEntries)).toLocaleString()}
           sub={`of ${Math.round(totalBeneficiariesFor(contributingEntries)).toLocaleString()} planned`}
           icon={Users}
-          accent="emerald"
+          accent={(() => {
+            const tot = totalBeneficiariesFor(contributingEntries);
+            const act = actualBeneficiariesFor(contributingEntries);
+            if (tot <= 0) return 'emerald';
+            const r = (act / tot) * 100;
+            return r >= 80 ? 'emerald' : r >= 60 ? 'amber' : 'red';
+          })()}
         />
         <KPICard
           title="Plan Entries in Scope"
           val={String(entries.length)}
           sub={isRegionalRole ? `${contributingEntries.length} Regional Entries` : `${contributingEntries.length} Contributing · ${nonContributingEntries.length} Standalone`}
           icon={TrendingUp}
-          accent="amber"
+          accent={entries.length > 0 ? 'emerald' : 'amber'}
         />
       </div>
 
@@ -593,11 +638,25 @@ export const ReportPage: React.FC = () => {
               AOP Plan Overview — by Strategic Priority & Objective
             </h3>
             <p className="text-[11px] text-slate-500 mt-0.5">
-              Consolidated authoritative baseline targets and budgets from ERCS 2019 AOP vs actual delivery and utilization.
+              Consolidated authoritative baseline targets and budgets from ERCS 2019 AOP vs actual delivery and utilization. Click any Strategic Objective row to expand and view child activities.
             </p>
           </div>
-          <div className="text-xs font-semibold text-slate-500">
-            {bigTableData.priorities.length} Priorities · {bigTableData.priorities.reduce((s, p) => s + p.objectives.length, 0)} Objectives
+          <div className="flex items-center gap-2">
+            <button
+              onClick={expandAll}
+              className="px-3 py-1.5 rounded-lg border border-slate-200 text-xs font-bold text-slate-600 hover:bg-slate-50 flex items-center gap-1 cursor-pointer"
+            >
+              <Maximize2 className="w-3.5 h-3.5" /> Expand All
+            </button>
+            <button
+              onClick={collapseAll}
+              className="px-3 py-1.5 rounded-lg border border-slate-200 text-xs font-bold text-slate-600 hover:bg-slate-50 flex items-center gap-1 cursor-pointer"
+            >
+              <Minimize2 className="w-3.5 h-3.5" /> Collapse All
+            </button>
+            <span className="text-xs font-semibold text-slate-400 ml-2 hidden sm:inline">
+              {bigTableData.priorities.length} Priorities · {bigTableData.priorities.reduce((s, p) => s + p.objectives.length, 0)} Objectives
+            </span>
           </div>
         </div>
 
@@ -713,26 +772,108 @@ export const ReportPage: React.FC = () => {
                     </tr>
 
                     {/* Level 2: Strategic Objective Rows (nested under parent SP) */}
-                    {item.objectives.map(objRow => (
-                      <tr key={objRow.objective.id} className="hover:bg-slate-50 border-b border-slate-100 text-slate-700">
-                        <td className="p-2.5 border-r border-slate-200 sticky left-0 bg-white hover:bg-slate-50 z-10 whitespace-nowrap pl-4">
-                          <span className="font-semibold text-slate-600 text-[11px]">
-                            {objRow.objective.code}
-                          </span>
-                        </td>
-                        <td className="p-2.5 border-r border-slate-200 sticky left-[130px] bg-white hover:bg-slate-50 z-10 pl-6">
-                          <div className="font-medium text-slate-800 text-xs">{objRow.objective.name}</div>
-                        </td>
-                        {renderSubColumns(objRow.total)}
-                        {showHqColumns && renderSubColumns(objRow.hq)}
-                        {showRbColumns && renderSubColumns(objRow.rb)}
-                        {objRow.byRegion.map(regRes => (
-                          <React.Fragment key={regRes.region.id}>
-                            {renderSubColumns(regRes)}
-                          </React.Fragment>
-                        ))}
-                      </tr>
-                    ))}
+                    {item.objectives.map(objRow => {
+                      const isExpanded = expandedObjectiveIds.has(objRow.objective.id);
+                      return (
+                        <React.Fragment key={objRow.objective.id}>
+                          <tr
+                            onClick={() => toggleObjective(objRow.objective.id)}
+                            className={`cursor-pointer transition-colors font-bold text-xs ${
+                              isExpanded
+                                ? 'bg-amber-50/80 hover:bg-amber-100/70 border-y-2 border-amber-300'
+                                : 'bg-slate-100 hover:bg-slate-200/80 border-b border-slate-300'
+                            }`}
+                          >
+                            <td className="p-3 border-r border-slate-300 sticky left-0 bg-inherit z-10 whitespace-nowrap pl-4">
+                              <div className="flex items-center gap-1.5 text-slate-900 font-extrabold">
+                                {isExpanded ? (
+                                  <ChevronDown className="w-4 h-4 text-ercs-red shrink-0" />
+                                ) : (
+                                  <ChevronRight className="w-4 h-4 text-slate-400 shrink-0" />
+                                )}
+                                <span>Objective {objRow.objective.code}</span>
+                              </div>
+                            </td>
+                            <td className="p-3 border-r border-slate-300 sticky left-[130px] bg-inherit z-10 pl-6">
+                              <div className="flex items-center justify-between gap-2">
+                                <span className="font-bold text-slate-900 text-xs">{objRow.objective.name}</span>
+                                <span className="text-[10px] font-normal px-2 py-0.5 bg-white border border-slate-300 rounded text-slate-600 shrink-0">
+                                  {objRow.activities.length} activities
+                                </span>
+                              </div>
+                            </td>
+                            {renderSubColumns(objRow.total)}
+                            {showHqColumns && renderSubColumns(objRow.hq)}
+                            {showRbColumns && renderSubColumns(objRow.rb)}
+                            {objRow.byRegion.map(regRes => (
+                              <React.Fragment key={regRes.region.id}>
+                                {renderSubColumns(regRes)}
+                              </React.Fragment>
+                            ))}
+                          </tr>
+
+                          {/* Level 3: Child Activities (Rendered when expanded) */}
+                          {isExpanded &&
+                            objRow.activities.map((na: NationalActivity, idx: number) => {
+                              const naTotal = computeGroupForActivities([na], 'total');
+                              const naHq = showHqColumns ? computeGroupForActivities([na], 'hq') : null;
+                              const naRb = showRbColumns ? computeGroupForActivities([na], 'rb') : null;
+
+                              return (
+                                <tr
+                                  key={na.id}
+                                  className={`text-xs hover:bg-sky-50 transition-colors group ${
+                                    idx % 2 === 0 ? 'bg-white' : 'bg-slate-50/60'
+                                  }`}
+                                >
+                                  <td
+                                    onClick={() => viewActivityDetail(na.id)}
+                                    className={`p-2.5 pl-8 sticky left-0 z-10 border-r border-slate-200 font-mono font-bold text-slate-700 cursor-pointer group-hover:bg-sky-50 ${
+                                      idx % 2 === 0 ? 'bg-white' : 'bg-slate-50'
+                                    }`}
+                                    title="Click to view activity details and contributing projects/regions on details screen"
+                                  >
+                                    <button
+                                      type="button"
+                                      onClick={(e) => {
+                                        e.stopPropagation();
+                                        viewActivityDetail(na.id);
+                                      }}
+                                      className="inline-flex items-center gap-1.5 text-ercs-red hover:text-red-700 hover:underline cursor-pointer font-bold text-left"
+                                      title="Click to view activity details and contributing projects/regions on details screen"
+                                    >
+                                      <span>Activity {na.code}</span>
+                                      <ArrowUpRight className="w-3.5 h-3.5 text-slate-400 group-hover:text-ercs-red shrink-0" />
+                                    </button>
+                                  </td>
+                                  <td
+                                    onClick={() => viewActivityDetail(na.id)}
+                                    className={`p-2.5 sticky left-[130px] z-10 border-r border-slate-200 text-slate-800 cursor-pointer hover:text-ercs-red font-medium group-hover:bg-sky-50 ${
+                                      idx % 2 === 0 ? 'bg-white' : 'bg-slate-50'
+                                    }`}
+                                    title="Click to view activity details and contributing projects/regions on details screen"
+                                  >
+                                    <div className="flex items-center justify-between gap-2">
+                                      <span className="group-hover:underline">{na.description}</span>
+                                      <span className="text-[10px] text-slate-400 font-normal shrink-0">
+                                        {na.uom} · {na.responsibility || 'Both'}
+                                      </span>
+                                    </div>
+                                  </td>
+                                  {renderSubColumns(naTotal)}
+                                  {showHqColumns && naHq && renderSubColumns(naHq)}
+                                  {showRbColumns && naRb && renderSubColumns(naRb)}
+                                  {visibleRegionsForTable.map(reg => (
+                                    <React.Fragment key={reg.id}>
+                                      {renderSubColumns(computeGroupForActivities([na], 'region', reg.id))}
+                                    </React.Fragment>
+                                  ))}
+                                </tr>
+                              );
+                            })}
+                        </React.Fragment>
+                      );
+                    })}
                   </React.Fragment>
                 ))}
 
@@ -898,6 +1039,7 @@ export const ReportPage: React.FC = () => {
                   <th className="p-3">Code</th>
                   <th className="p-3 min-w-40">Activity Name</th>
                   <th className="p-3 min-w-56">Description</th>
+                  <th className="p-3 text-center">Map</th>
                   <th className="p-3">UOM</th>
                   <th className="p-3">Executed By</th>
                   <th className="p-3 text-right">Target</th>
@@ -954,68 +1096,126 @@ export const ReportPage: React.FC = () => {
                         .some(actItem => actItem.plan_entry_id === pe.id && (q === 'ALL' || actItem.quarter_id === q) && (actItem.actual_female != null || actItem.actual_male != null || actItem.actual_youth != null));
 
                   return (
-                    <tr key={pe.id} className="hover:bg-slate-50">
-                      <td className="p-3 whitespace-nowrap font-medium text-slate-700">
-                        {sp ? `${sp.code} — ${sp.name}` : '—'}
-                      </td>
-                      <td className="p-3 whitespace-nowrap font-medium text-slate-700">
-                        {so ? `${so.code} — ${so.name}` : '—'}
-                      </td>
-                      <td className="p-3 font-bold text-ercs-red whitespace-nowrap">{na?.code || pe.activity_code || '—'}</td>
-                      <td className="p-3 font-bold text-slate-800">
-                        <div>{pe.activity_name}</div>
-                        {na && (
-                          <div className="text-[10px] text-slate-400 font-normal truncate max-w-xs mt-0.5">
-                            Linked: {na.code} — {na.description}
-                          </div>
-                        )}
-                      </td>
-                      <td className="p-3 text-slate-500">{pe.activity_description}</td>
-                      <td className="p-3 whitespace-nowrap text-slate-500 font-semibold">{pe.uom || na?.uom || '—'}</td>
-                      <td className="p-3 whitespace-nowrap">
-                        <span
-                          className={`px-2 py-0.5 rounded-full text-[10px] font-bold ${
-                            pe.scope_type === 'Regional' ? 'bg-blue-50 text-blue-700' : 'bg-purple-50 text-purple-700'
-                          }`}
+                    <React.Fragment key={pe.id}>
+                      <tr className="hover:bg-slate-50 transition-colors">
+                        <td className="p-3 whitespace-nowrap font-medium text-slate-700">
+                          {sp ? `${sp.code} — ${sp.name}` : '—'}
+                        </td>
+                        <td className="p-3 whitespace-nowrap font-medium text-slate-700">
+                          {so ? `${so.code} — ${so.name}` : '—'}
+                        </td>
+                        <td
+                          onClick={() => na && viewActivityDetail(na.id)}
+                          className={`p-3 font-bold text-ercs-red whitespace-nowrap ${na ? 'cursor-pointer hover:underline' : ''}`}
+                          title={na ? "Click to view activity details, contributing projects/regions, and entered actuals" : undefined}
                         >
-                          {pe.scope_type === 'Regional' ? (regions.find(r => r.id === pe.region_id)?.name || 'Regional') : 'Project'}
-                        </span>
-                        <span className="ml-2 font-semibold">{scopeName || '—'}</span>
-                      </td>
-                      <td className="p-3 text-right font-bold whitespace-nowrap">{Math.round(t).toLocaleString()}</td>
-                      <td className="p-3 text-right whitespace-nowrap text-slate-600">{pe.target_female != null ? Math.round(pe.target_female).toLocaleString() : '—'}</td>
-                      <td className="p-3 text-right whitespace-nowrap text-slate-600">{pe.target_male != null ? Math.round(pe.target_male).toLocaleString() : '—'}</td>
-                      <td className="p-3 text-right whitespace-nowrap text-slate-600">{pe.target_youth != null ? Math.round(pe.target_youth).toLocaleString() : '—'}</td>
-                      <td className="p-3 text-right whitespace-nowrap">{Math.round(a).toLocaleString()}</td>
-                      <td className="p-3 text-right whitespace-nowrap text-slate-600">{hasActDemographics ? Math.round(actF).toLocaleString() : '—'}</td>
-                      <td className="p-3 text-right whitespace-nowrap text-slate-600">{hasActDemographics ? Math.round(actM).toLocaleString() : '—'}</td>
-                      <td className="p-3 text-right whitespace-nowrap text-slate-600">{hasActDemographics ? Math.round(actY).toLocaleString() : '—'}</td>
-                      <td className="p-3 text-right font-bold whitespace-nowrap">{ach.toFixed(1)}%</td>
-                      <td className="p-3 text-right whitespace-nowrap">{Math.round(b).toLocaleString()}</td>
-                      <td className="p-3 text-right whitespace-nowrap">{Math.round(s).toLocaleString()}</td>
-                      <td className="p-3 text-right font-bold whitespace-nowrap">{ut.toFixed(1)}%</td>
-                      <td className="p-3 text-right whitespace-nowrap">{Math.round(tb).toLocaleString()}</td>
-                      <td className="p-3 text-right whitespace-nowrap">{Math.round(ab).toLocaleString()}</td>
-                      <td className="p-3 text-right whitespace-nowrap">{bp.toFixed(1)}%</td>
-                      {visibleQuarters.map(qId => {
-                        const qp = quarterlyPlans.find(p => p.plan_entry_id === pe.id && p.quarter_id === qId);
-                        return (
-                          <React.Fragment key={qId}>
-                            <td className="p-2 text-right whitespace-nowrap bg-blue-50 border-l border-slate-200 text-[11px]">
-                              {Math.round(qp?.target ?? 0).toLocaleString()}
-                            </td>
-                            <td className="p-2 text-right whitespace-nowrap bg-blue-50 text-[11px]">
-                              {Math.round(qp?.budget ?? 0).toLocaleString()}
-                            </td>
-                          </React.Fragment>
-                        );
-                      })}
-                    </tr>
+                          {na ? (
+                            <button
+                              type="button"
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                viewActivityDetail(na.id);
+                              }}
+                              className="inline-flex items-center gap-1.5 text-ercs-red hover:text-red-700 hover:underline cursor-pointer text-left font-bold"
+                              title="Click to view activity details, contributing projects/regions, and entered actuals"
+                            >
+                              <span>{na.code}</span>
+                              <ArrowUpRight className="w-3.5 h-3.5 text-slate-400 hover:text-ercs-red shrink-0" />
+                            </button>
+                          ) : (
+                            pe.activity_code || '—'
+                          )}
+                        </td>
+                        <td
+                          onClick={() => na && viewActivityDetail(na.id)}
+                          className={`p-3 font-bold text-slate-800 ${na ? 'cursor-pointer hover:text-ercs-red' : ''}`}
+                          title={na ? "Click to view activity details, contributing projects/regions, and entered actuals" : undefined}
+                        >
+                          <div className={na ? "inline-flex items-center gap-1 hover:underline" : ""}>
+                            <span>{pe.activity_name}</span>
+                            {na && <ArrowUpRight className="w-3 h-3 text-slate-400 shrink-0" />}
+                          </div>
+                          {na && (
+                            <div
+                              className="text-[10px] text-slate-400 hover:text-ercs-red cursor-pointer font-normal truncate max-w-xs mt-0.5"
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                viewActivityDetail(na.id);
+                              }}
+                              title="Click to view activity details, contributing projects/regions, and entered actuals"
+                            >
+                              Linked: {na.code} — {na.description}
+                            </div>
+                          )}
+                        </td>
+                        <td
+                          onClick={() => na && viewActivityDetail(na.id)}
+                          className={`p-3 text-slate-500 ${na ? 'cursor-pointer hover:text-slate-800' : ''}`}
+                          title={na ? "Click to view activity details, contributing projects/regions, and entered actuals" : undefined}
+                        >
+                          {pe.activity_description}
+                        </td>
+                        <td className="p-3 text-center">
+                          {na ? (
+                            <button
+                              type="button"
+                              onClick={() => viewActivityDetail(na.id)}
+                              className="p-1 rounded hover:bg-slate-100 text-slate-500 hover:text-ercs-red cursor-pointer"
+                              title="View details and contributing projects/regions on details screen"
+                            >
+                              <ArrowUpRight className="w-4 h-4" />
+                            </button>
+                          ) : (
+                            <span className="text-slate-300">—</span>
+                          )}
+                        </td>
+                        <td className="p-3 whitespace-nowrap text-slate-500 font-semibold">{pe.uom || na?.uom || '—'}</td>
+                        <td className="p-3 whitespace-nowrap">
+                          <span
+                            className={`px-2 py-0.5 rounded-full text-[10px] font-bold ${
+                              pe.scope_type === 'Regional' ? 'bg-blue-50 text-blue-700' : 'bg-purple-50 text-purple-700'
+                            }`}
+                          >
+                            {pe.scope_type === 'Regional' ? (regions.find(r => r.id === pe.region_id)?.name || 'Regional') : 'Project'}
+                          </span>
+                          <span className="ml-2 font-semibold">{scopeName || '—'}</span>
+                        </td>
+                        <td className="p-3 text-right font-bold whitespace-nowrap">{Math.round(t).toLocaleString()}</td>
+                        <td className="p-3 text-right whitespace-nowrap text-slate-600">{pe.target_female != null ? Math.round(pe.target_female).toLocaleString() : '—'}</td>
+                        <td className="p-3 text-right whitespace-nowrap text-slate-600">{pe.target_male != null ? Math.round(pe.target_male).toLocaleString() : '—'}</td>
+                        <td className="p-3 text-right whitespace-nowrap text-slate-600">{pe.target_youth != null ? Math.round(pe.target_youth).toLocaleString() : '—'}</td>
+                        <td className="p-3 text-right whitespace-nowrap">{Math.round(a).toLocaleString()}</td>
+                        <td className="p-3 text-right whitespace-nowrap text-slate-600">{hasActDemographics ? Math.round(actF).toLocaleString() : '—'}</td>
+                        <td className="p-3 text-right whitespace-nowrap text-slate-600">{hasActDemographics ? Math.round(actM).toLocaleString() : '—'}</td>
+                        <td className="p-3 text-right whitespace-nowrap text-slate-600">{hasActDemographics ? Math.round(actY).toLocaleString() : '—'}</td>
+                        <td className="p-3 text-right font-bold whitespace-nowrap">{ach.toFixed(1)}%</td>
+                        <td className="p-3 text-right whitespace-nowrap">{Math.round(b).toLocaleString()}</td>
+                        <td className="p-3 text-right whitespace-nowrap">{Math.round(s).toLocaleString()}</td>
+                        <td className="p-3 text-right font-bold whitespace-nowrap">{ut.toFixed(1)}%</td>
+                        <td className="p-3 text-right whitespace-nowrap">{Math.round(tb).toLocaleString()}</td>
+                        <td className="p-3 text-right whitespace-nowrap">{Math.round(ab).toLocaleString()}</td>
+                        <td className="p-3 text-right whitespace-nowrap">{bp.toFixed(1)}%</td>
+                        {visibleQuarters.map(qId => {
+                          const qp = quarterlyPlans.find(p => p.plan_entry_id === pe.id && p.quarter_id === qId);
+                          return (
+                            <React.Fragment key={qId}>
+                              <td className="p-2 text-right whitespace-nowrap bg-blue-50 border-l border-slate-200 text-[11px]">
+                                {Math.round(qp?.target ?? 0).toLocaleString()}
+                              </td>
+                              <td className="p-2 text-right whitespace-nowrap bg-blue-50 text-[11px]">
+                                {Math.round(qp?.budget ?? 0).toLocaleString()}
+                              </td>
+                            </React.Fragment>
+                          );
+                        })}
+                      </tr>
+                      {/* Contributing projects/regions are rendered via NationalActivityDrillDown on the dedicated detail screen (NationalActivityDetailPage) */}
+                    </React.Fragment>
                   );
                 })}
                 {contributingEntries.length === 0 && (
                   <tr>
-                    <td colSpan={22 + visibleQuarters.length * 2} className="p-8 text-center text-slate-400">
+                    <td colSpan={23 + visibleQuarters.length * 2} className="p-8 text-center text-slate-400">
                       No contributing plan entries match this filter.
                     </td>
                   </tr>
@@ -1128,14 +1328,6 @@ export const ReportPage: React.FC = () => {
 // KPI CARD
 // ===========================================================================
 const ACCENT_STYLES = {
-  red: {
-    border: 'border-l-4 border-l-ercs-red',
-    chip: 'bg-red-50 text-ercs-red',
-  },
-  blue: {
-    border: 'border-l-4 border-l-blue-500',
-    chip: 'bg-blue-50 text-blue-700',
-  },
   emerald: {
     border: 'border-l-4 border-l-emerald-500',
     chip: 'bg-emerald-50 text-emerald-700',
@@ -1144,6 +1336,10 @@ const ACCENT_STYLES = {
     border: 'border-l-4 border-l-amber-500',
     chip: 'bg-amber-50 text-amber-700',
   },
+  red: {
+    border: 'border-l-4 border-l-rose-500',
+    chip: 'bg-rose-50 text-rose-600',
+  },
 };
 
 const KPICard: React.FC<{
@@ -1151,9 +1347,9 @@ const KPICard: React.FC<{
   val: React.ReactNode;
   sub: React.ReactNode;
   icon: any;
-  accent?: 'red' | 'blue' | 'emerald' | 'amber';
+  accent?: 'emerald' | 'amber' | 'red';
   statusBadge?: KpiBadge;
-}> = ({ title, val, sub, icon: Icon, accent = 'red', statusBadge }) => {
+}> = ({ title, val, sub, icon: Icon, accent = 'emerald', statusBadge }) => {
   const styles = ACCENT_STYLES[accent];
   return (
     <div className={`bg-white p-4 rounded-xl border border-slate-200 shadow-sm ${styles.border}`}>

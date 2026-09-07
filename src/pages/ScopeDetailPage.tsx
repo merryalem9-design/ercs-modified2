@@ -148,10 +148,34 @@ export const ScopeDetailPage: React.FC = () => {
         </div>
 
         <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mt-4">
-          <StatCard icon={Target} label="Achievement" value={`${achievement.toFixed(1)}%`} sub={`${actual.toLocaleString()} / ${target.toLocaleString()}`} />
-          <StatCard icon={Wallet} label="Budget Utilization" value={`${utilization.toFixed(1)}%`} sub={`ETB ${spent.toLocaleString()} / ${budget.toLocaleString()}`} />
-          <StatCard icon={Users} label="Beneficiaries Reached" value={actualBeneficiaries.toLocaleString()} sub={`of ${totalBeneficiaries.toLocaleString()} planned`} />
-          <StatCard icon={Layers} label="Linked Activities" value={String(entries.length)} sub="Matching current filters" />
+          <StatCard
+            icon={Target}
+            label="Achievement"
+            value={`${achievement.toFixed(1)}%`}
+            sub={`${actual.toLocaleString()} / ${target.toLocaleString()}`}
+            status={actual > 0 ? (achievement >= 80 ? 'green' : achievement >= 60 ? 'amber' : 'red') : 'amber'}
+          />
+          <StatCard
+            icon={Wallet}
+            label="Budget Utilization"
+            value={`${utilization.toFixed(1)}%`}
+            sub={`ETB ${spent.toLocaleString()} / ${budget.toLocaleString()}`}
+            status={spent > 0 ? (utilization > 100 ? 'red' : utilization >= 60 ? 'green' : 'amber') : 'amber'}
+          />
+          <StatCard
+            icon={Users}
+            label="Beneficiaries Reached"
+            value={actualBeneficiaries.toLocaleString()}
+            sub={`of ${totalBeneficiaries.toLocaleString()} planned`}
+            status={totalBeneficiaries > 0 ? ((actualBeneficiaries / totalBeneficiaries) >= 0.8 ? 'green' : (actualBeneficiaries / totalBeneficiaries) >= 0.6 ? 'amber' : 'red') : 'green'}
+          />
+          <StatCard
+            icon={Layers}
+            label="Linked Activities"
+            value={String(entries.length)}
+            sub="Matching current filters"
+            status={entries.length > 0 ? 'green' : 'amber'}
+          />
         </div>
       </div>
 
@@ -282,10 +306,23 @@ export const ScopeDetailPage: React.FC = () => {
   );
 };
 
-const StatCard: React.FC<{ icon: any; label: string; value: React.ReactNode; sub?: React.ReactNode }> = ({ icon: Icon, label, value, sub }) => (
-  <div className="bg-slate-50 border rounded-lg p-3">
-    <div className="flex items-center justify-between text-[10px] font-bold text-slate-500 uppercase"><span>{label}</span><Icon className="w-3.5 h-3.5" /></div>
-    <div className="text-lg font-black text-slate-800 mt-1">{value}</div>
-    {sub && <div className="text-[10px] text-slate-500 mt-1">{sub}</div>}
-  </div>
-);
+const StatCard: React.FC<{
+  icon: any;
+  label: string;
+  value: React.ReactNode;
+  sub?: React.ReactNode;
+  status?: 'green' | 'amber' | 'red';
+}> = ({ icon: Icon, label, value, sub, status }) => {
+  const borderClass = status === 'green' ? 'border-l-4 border-l-emerald-500' : status === 'amber' ? 'border-l-4 border-l-amber-500' : status === 'red' ? 'border-l-4 border-l-rose-500' : '';
+  const iconClass = status === 'green' ? 'text-emerald-600' : status === 'amber' ? 'text-amber-600' : status === 'red' ? 'text-rose-600' : 'text-slate-400';
+  return (
+    <div className={`bg-slate-50 border rounded-lg p-3 ${borderClass}`}>
+      <div className="flex items-center justify-between text-[10px] font-bold text-slate-500 uppercase">
+        <span>{label}</span>
+        <Icon className={`w-3.5 h-3.5 ${iconClass}`} />
+      </div>
+      <div className="text-lg font-black text-slate-800 mt-1">{value}</div>
+      {sub && <div className="text-[10px] text-slate-500 mt-1">{sub}</div>}
+    </div>
+  );
+};

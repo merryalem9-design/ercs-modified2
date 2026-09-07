@@ -1,0 +1,2850 @@
+[
+  {
+    "sheet_name": "Migration ",
+    "title": "Well Being Resilience for Migrants and Vulnerable Communities",
+    "donor": "Danish Red Cross",
+    "location": "Amhara (Godar), Tigray (Shire), AA, & Oromia (Arsi)",
+    "total_budget": 0.0,
+    "total_budget_str": "Birr 74,738,454.58",
+    "duration": "From January1, 2022 to December 31,2026",
+    "start_date": "",
+    "end_date": "",
+    "beneficiaries": "56,768 individuals",
+    "linked_activities": [
+      {
+        "row": 10,
+        "project_activity": "Procure and provide basic relief items to returnees (Sirka, Endabaguna and Debark)",
+        "uom": "# of people",
+        "target": 889.0,
+        "budget": 410000.0,
+        "raw_code": "Activity 2.4.1",
+        "clean_code": "2.4.1",
+        "national_activity_desc": "Provide humanitarian assistance and protection to migrants, including returnees, refugees, internally displaced persons (IDPs), and cross-border migrants.",
+        "strategic_objective": "Strengthen migration services and Restoring Family Links (RFL)"
+      },
+      {
+        "row": 11,
+        "project_activity": "Procure & distribution of essential food and non-food items upon arrival at Bole Int. Airport for KSA returnees",
+        "uom": "# of people",
+        "target": 50000.0,
+        "budget": 5055271.0,
+        "raw_code": "Activity 2.4.1",
+        "clean_code": "2.4.1",
+        "national_activity_desc": "Provide humanitarian assistance and protection to migrants, including returnees, refugees, internally displaced persons (IDPs), and cross-border migrants.",
+        "strategic_objective": "Strengthen migration services and Restoring Family Links (RFL)"
+      },
+      {
+        "row": 16,
+        "project_activity": "Targeted returnees are supported to set their business",
+        "uom": "# of people",
+        "target": 378.0,
+        "budget": 17354500.0,
+        "raw_code": "Activity 2.4.4",
+        "clean_code": "2.4.4",
+        "national_activity_desc": "Provide the socio-economic integration of migrants and vulnerable communities by offering basic business & life skills training  as well as business start up capital,",
+        "strategic_objective": "Strengthen migration services and Restoring Family Links (RFL)"
+      },
+      {
+        "row": 17,
+        "project_activity": "Enhance the employability of beneficiaries and strengthen market linkage",
+        "uom": "# of people",
+        "target": 273.0,
+        "budget": 1080000.0,
+        "raw_code": "Activity 2.2.1",
+        "clean_code": "2.2.1",
+        "national_activity_desc": "Facilitate Training on basic business skills to vulnerable communites",
+        "strategic_objective": "Enhance livelihoods and economic opportunities for vulnerable communities and youths"
+      },
+      {
+        "row": 18,
+        "project_activity": "Numeracy/literacy basic training for LLH Beneficieries",
+        "uom": "# of people",
+        "target": 43.0,
+        "budget": 119070.0,
+        "raw_code": "Activity 2.2.1",
+        "clean_code": "2.2.1",
+        "national_activity_desc": "Facilitate Training on basic business skills to vulnerable communites",
+        "strategic_objective": "Enhance livelihoods and economic opportunities for vulnerable communities and youths"
+      },
+      {
+        "row": 21,
+        "project_activity": "Stregthen referral pathways and other types of collaboration for MHPSS at kebele, woreda and zonal level with stakeholders.",
+        "uom": "# of workshops",
+        "target": 9.0,
+        "budget": 207500.0,
+        "raw_code": "Activity 2.4.3",
+        "clean_code": "2.4.3",
+        "national_activity_desc": "Provide Mental and psychosocial support for migrants and vulnerable communities through community based MHPSS services and degnified reference",
+        "strategic_objective": "Strengthen migration services and Restoring Family Links (RFL)"
+      },
+      {
+        "row": 22,
+        "project_activity": "PSS and recreational activities provided in the safe space and through outreach",
+        "uom": "# of people",
+        "target": 18000.0,
+        "budget": 1016499.98,
+        "raw_code": "Activity 2.4.3",
+        "clean_code": "2.4.3",
+        "national_activity_desc": "Provide Mental and psychosocial support for migrants and vulnerable communities through community based MHPSS services and degnified reference",
+        "strategic_objective": "Strengthen migration services and Restoring Family Links (RFL)"
+      }
+    ],
+    "unlinked_activities": [
+      {
+        "row": 9,
+        "project_activity": "Strengthening the existing safe space with minimum standards including equipping it with materials needed",
+        "uom": "# of centers",
+        "target": 3.0,
+        "budget": 4125528.0,
+        "raw_code": "Not linked with AOP"
+      },
+      {
+        "row": 12,
+        "project_activity": "Covering Community-based health insurance cost for vulnerable returnees",
+        "uom": "# of people",
+        "target": 470.0,
+        "budget": 672200.0,
+        "raw_code": "Not linked with AOP"
+      },
+      {
+        "row": 13,
+        "project_activity": "Identify and select beneficieries based on the agreed criteria in collaraboration with community members and support beneficieries with livelihood plan",
+        "uom": "# of people",
+        "target": 1500.0,
+        "budget": 137500.0,
+        "raw_code": "Not linked with AOP"
+      },
+      {
+        "row": 14,
+        "project_activity": "Registration of returnees: Identify based on vulnerability criteria, referral to the centre and enter in to data base",
+        "uom": "# of people",
+        "target": 378.0,
+        "budget": 372520.0,
+        "raw_code": "Not linked with AOP"
+      },
+      {
+        "row": 15,
+        "project_activity": "Targeted returnees have basic business skills",
+        "uom": "# of people",
+        "target": 378.0,
+        "budget": 4252109.04,
+        "raw_code": ""
+      },
+      {
+        "row": 19,
+        "project_activity": "Establish and strengthen VSLAs",
+        "uom": "# of VSLAs",
+        "target": 46.0,
+        "budget": 634600.0,
+        "raw_code": "Not linked with AOP"
+      },
+      {
+        "row": 20,
+        "project_activity": "Establish and strengthen producers\u2019 groups",
+        "uom": "# of groups",
+        "target": 4.0,
+        "budget": 93504.0,
+        "raw_code": "Not linked with AOP"
+      },
+      {
+        "row": 23,
+        "project_activity": "Advocate on inclusion of vulnerable people (returnees, disable people, people with HIV AIDS",
+        "uom": "# of people",
+        "target": 46.0,
+        "budget": 130000.0,
+        "raw_code": "Not linked with AOP"
+      },
+      {
+        "row": 24,
+        "project_activity": "ERCS strengthens their capacity and ability to provide PSS for returnees",
+        "uom": "# of people",
+        "target": 182.0,
+        "budget": 611668.0,
+        "raw_code": "Not linked with AOP"
+      },
+      {
+        "row": 25,
+        "project_activity": "Community engagement sessions to increase social cohesion and reduce stigma",
+        "uom": "# of Session",
+        "target": 48.0,
+        "budget": 1480599.972,
+        "raw_code": "Not linked with AOP"
+      },
+      {
+        "row": 26,
+        "project_activity": "CEA Refresher training & experience sharing/CEA support & Engagement",
+        "uom": "# of Training",
+        "target": 3.0,
+        "budget": 426000.0,
+        "raw_code": "Not linked with AOP"
+      },
+      {
+        "row": 27,
+        "project_activity": "Develop & Disseminate IEC/audio visual material on social cohesion, migration and related vulnerabilities and promote visibility (Communication & Visibility)",
+        "uom": "# of materials",
+        "target": 4.0,
+        "budget": 38800.0,
+        "raw_code": "Not linked with AOP"
+      }
+    ]
+  },
+  {
+    "sheet_name": "Sudan Population Movement",
+    "title": "Sudan Population Movement",
+    "donor": "INTERNATIONAL FEDERATION OF RED CROSS AND RED CRESENT NATIONAL SOCIETIES",
+    "location": "BG (Asosa Zone) & Amhara (Matama)",
+    "total_budget": 0.0,
+    "total_budget_str": "120,720,502",
+    "duration": "April 2023 to December 2026",
+    "start_date": "",
+    "end_date": "",
+    "beneficiaries": "150,000",
+    "linked_activities": [
+      {
+        "row": 9,
+        "project_activity": "Distribute full NFI kits to targeted households for Guba returnees for the construction of temporary shelters.",
+        "uom": "households",
+        "target": 315.0,
+        "budget": 3937500.0,
+        "raw_code": "Activity 1.3.4",
+        "clean_code": "1.3.4",
+        "national_activity_desc": "Support households through ESNFIs provision",
+        "strategic_objective": "Deliver dignified and timely humanitarian responses to affected communities"
+      },
+      {
+        "row": 13,
+        "project_activity": "Basic Business and Life Skills Training for newly selected Livelihood beneficiaries",
+        "uom": "people",
+        "target": 400.0,
+        "budget": 4400000.0,
+        "raw_code": "Activity 2.2.1",
+        "clean_code": "2.2.1",
+        "national_activity_desc": "Facilitate Training on basic business skills to vulnerable communites",
+        "strategic_objective": "Enhance livelihoods and economic opportunities for vulnerable communities and youths"
+      },
+      {
+        "row": 15,
+        "project_activity": "Provision of Business Start-up Capital for the selected and trained Returnees",
+        "uom": "people",
+        "target": 400.0,
+        "budget": 20000000.0,
+        "raw_code": "Activity 2.2.2",
+        "clean_code": "2.2.2",
+        "national_activity_desc": "Facilitate Training on basic business skills to vulnerable communites",
+        "strategic_objective": "Enhance livelihoods and economic opportunities for vulnerable communities and youths"
+      },
+      {
+        "row": 21,
+        "project_activity": "Distribution of 1 round multi-purpose cash targeting most vulnerable  180 refugees, 100 returnees and 100 host comunities in Metema PoE",
+        "uom": "HH",
+        "target": 380.0,
+        "budget": 3800000.0,
+        "raw_code": "Activity 1.3.2",
+        "clean_code": "1.3.2",
+        "national_activity_desc": "Support hhs through Cash asssistance",
+        "strategic_objective": "Deliver dignified and timely humanitarian responses to affected communities"
+      },
+      {
+        "row": 22,
+        "project_activity": "Distribution of 1 round multi-purpose cash targeting most vulnerable  107 refugees, 100 returnees and 100 host comunities in Benishangul PoE",
+        "uom": "HH",
+        "target": 307.0,
+        "budget": 3039300.0,
+        "raw_code": "Activity 1.3.2",
+        "clean_code": "1.3.2",
+        "national_activity_desc": "Support hhs through Cash asssistance",
+        "strategic_objective": "Deliver dignified and timely humanitarian responses to affected communities"
+      },
+      {
+        "row": 23,
+        "project_activity": "Conduct Post Distribution Monitoring (PDM)",
+        "uom": "sessions",
+        "target": 3.0,
+        "budget": 375000.0,
+        "raw_code": "activity 7.5.3",
+        "clean_code": "7.5.3",
+        "national_activity_desc": "Conduct assessments (needs assessments, baseline assessments, evaluations, distribution monitoring, Post Distribution Monitoring (PDM) & outcome monitoring)",
+        "strategic_objective": "Strengthen Planning, Monitoring, Evaluation, Accountability, and Learning (PMEAL) Systems"
+      },
+      {
+        "row": 26,
+        "project_activity": "Deployment of 5 Health Screening Volunteers (10 months)",
+        "uom": "person/day",
+        "target": 5.0,
+        "budget": 600000.0,
+        "raw_code": "Activity 3.2.11",
+        "clean_code": "3.2.11",
+        "national_activity_desc": "Deploy mobile health team in hard-to-reach areas/ areas with no access to health service during emergency",
+        "strategic_objective": "Strengthen Health & WASH  in Emergencies"
+      },
+      {
+        "row": 27,
+        "project_activity": "Basic First Aid (BFA) and EMS (Emergency Medical Services) Training in Metema operation area for CHWs at health screening point",
+        "uom": "people",
+        "target": 5.0,
+        "budget": 50000.0,
+        "raw_code": "Activity 3.4.7",
+        "clean_code": "3.4.7",
+        "national_activity_desc": "Set up Basic first-aid (BFA) training infrastructure at all region",
+        "strategic_objective": "Strengthen Emergency Medical Services"
+      },
+      {
+        "row": 28,
+        "project_activity": "Basic First Aid training for HPS volunteeers in Metema and kumruk Benishangul Gumuz.",
+        "uom": "people",
+        "target": 15.0,
+        "budget": 150000.0,
+        "raw_code": "Activity 3.4.9",
+        "clean_code": "3.4.9",
+        "national_activity_desc": "Provide first aid training at branch level (both commercial and community first aid)",
+        "strategic_objective": "Strengthen Emergency Medical Services"
+      },
+      {
+        "row": 29,
+        "project_activity": "Ensure timely and equitable ambulance services for patients in camps and host communities.",
+        "uom": "quartely",
+        "target": 3.0,
+        "budget": 750000.0,
+        "raw_code": "Activity 3.4.1",
+        "clean_code": "3.4.1",
+        "national_activity_desc": "Equip existing ambulance with standard equipment",
+        "strategic_objective": "Strengthen Emergency Medical Services"
+      },
+      {
+        "row": 30,
+        "project_activity": "Deployment of Ambulance attendant volunteers at Metema Operation area including refugee volunteers for outpatient cases for 10 months",
+        "uom": "voluneers",
+        "target": 8.0,
+        "budget": 480000.0,
+        "raw_code": "Activity 3.4.14",
+        "clean_code": "3.4.14",
+        "national_activity_desc": "Recruit and deploy emergency medical technicians (nurses) for ambulance",
+        "strategic_objective": "Strengthen Emergency Medical Services"
+      },
+      {
+        "row": 31,
+        "project_activity": "Health\u00a0promotion\u00a0campaign\u00a0to\u00a0improve\u00a0refugees, returnees and communities \u00a0health\u00a0by\u00a0encouraging\u00a0positive healthy behaviours and\u00a0addressing\u00a0health\u00a0issues\u00a0by Montaribo and leaflet message distribution",
+        "uom": "People reached",
+        "target": 1400.0,
+        "budget": 150000.0,
+        "raw_code": "Activity 3.2.9",
+        "clean_code": "3.2.9",
+        "national_activity_desc": "Promote hygiene practices through education and  distribution of hygiene kits during emergencies. HQ distributes kits but RB provide education on hygiene",
+        "strategic_objective": "Strengthen Health & WASH  in Emergencies"
+      },
+      {
+        "row": 32,
+        "project_activity": "Deploy  HCW  to conduct Health  outreach through in household setting at Aftit refugee camp for 10 months",
+        "uom": "volunteers",
+        "target": 5.0,
+        "budget": 297500.0,
+        "raw_code": "Activity 3.2.11",
+        "clean_code": "3.2.11",
+        "national_activity_desc": "Deploy mobile health team in hard-to-reach areas/ areas with no access to health service during emergency",
+        "strategic_objective": "Strengthen Health & WASH  in Emergencies"
+      },
+      {
+        "row": 33,
+        "project_activity": "EPIC training for volunteers  (Malaria, Collera, Mpox) to refugee, returnees and host communities at Aftit and Metema operation area and Kumruk and Ura refuge",
+        "uom": "volunteers",
+        "target": 40.0,
+        "budget": 320000.0,
+        "raw_code": "Activity 3.1.2",
+        "clean_code": "3.1.2",
+        "national_activity_desc": "Enhance prevention of major diseases like malaria and cholera (eg. ITN distribution, environmental sanitation, drugs)",
+        "strategic_objective": "Address public health concerns"
+      },
+      {
+        "row": 36,
+        "project_activity": "Supply and install solid waste collection containers along the main streets of the target area, and ensure regular collection and safe disposal of waste to maintain environmental hygiene, prevent pollution, and reduce the risk of disease outbreaks.",
+        "uom": "Containers",
+        "target": 25.0,
+        "budget": 1250000.0,
+        "raw_code": "Activity 3.3.4",
+        "clean_code": "3.3.4",
+        "national_activity_desc": "Construct/maintain institutional (Schools, Health facilities) sanitation facilities including  MHM rooms for schools,  latrines, waste management, placenta pits in health centers) (targeting = av. 1500/facility)",
+        "strategic_objective": "Improved access to safe water and sanitation services"
+      },
+      {
+        "row": 37,
+        "project_activity": "Provide environment cleaning equipments comprising of Broom, Rake, Shovel and pic axe for Ura Host community and Ura Refugee camp.",
+        "uom": "pack",
+        "target": 50.0,
+        "budget": 160000.0,
+        "raw_code": "Activity 3.3.4",
+        "clean_code": "3.3.4",
+        "national_activity_desc": "Construct/maintain institutional (Schools, Health facilities) sanitation facilities including  MHM rooms for schools,  latrines, waste management, placenta pits in health centers) (targeting = av. 1500/facility)",
+        "strategic_objective": "Improved access to safe water and sanitation services"
+      },
+      {
+        "row": 38,
+        "project_activity": "Supply & Install 25,000 Litter capacity of clear fiber glass water storage tanker for refugees at Ura Woreda.  (Full set installation with Stand)",
+        "uom": "Tanks",
+        "target": 1.0,
+        "budget": 1580000.0,
+        "raw_code": "Activity 3.2.9",
+        "clean_code": "3.2.9",
+        "national_activity_desc": "Promote hygiene practices through education and  distribution of hygiene kits during emergencies. HQ distributes kits but RB provide education on hygiene",
+        "strategic_objective": "Strengthen Health & WASH  in Emergencies"
+      },
+      {
+        "row": 40,
+        "project_activity": "Extension of 1.2 km HDPE Water Supply Pipeline for health screening point in  Metema",
+        "uom": "Lumpsum",
+        "target": 1.0,
+        "budget": 1500000.0,
+        "raw_code": "Activity 3.3.1",
+        "clean_code": "3.3.1",
+        "national_activity_desc": "Develop new/ rehablitate existing Water supply infrastructure - water sources (e.g., wells, boreholes, springs, rain water harvesting, piped water systems).  1000 individual/ water scheme)",
+        "strategic_objective": "Improved access to safe water and sanitation services"
+      },
+      {
+        "row": 41,
+        "project_activity": "Construction of Inclussive communal tatrine in Metema",
+        "uom": "number",
+        "target": 1.0,
+        "budget": 3000000.0,
+        "raw_code": "Activity 3.2.6",
+        "clean_code": "3.2.6",
+        "national_activity_desc": "Construct/ rehabilitate emergency latrines (communal/household level), with handwashing stations (50 person/Sanitation facilities)",
+        "strategic_objective": "Strengthen Health & WASH  in Emergencies"
+      },
+      {
+        "row": 42,
+        "project_activity": "Construction of 4-block latrine in schools, in Metema",
+        "uom": "number",
+        "target": 4.0,
+        "budget": 12000000.0,
+        "raw_code": "Activity 3.3.4",
+        "clean_code": "3.3.4",
+        "national_activity_desc": "Construct/maintain institutional (Schools, Health facilities) sanitation facilities including  MHM rooms for schools,  latrines, waste management, placenta pits in health centers) (targeting = av. 1500/facility)",
+        "strategic_objective": "Improved access to safe water and sanitation services"
+      },
+      {
+        "row": 43,
+        "project_activity": "Construction of properly fenced and Inclusive water distribution points (Tap Stands with drainage apron) for Host Community At Ura Woreda.",
+        "uom": "water points",
+        "target": 2.0,
+        "budget": 1500000.0,
+        "raw_code": "Activity 3.3.1",
+        "clean_code": "3.3.1",
+        "national_activity_desc": "Develop new/ rehablitate existing Water supply infrastructure - water sources (e.g., wells, boreholes, springs, rain water harvesting, piped water systems).  1000 individual/ water scheme)",
+        "strategic_objective": "Improved access to safe water and sanitation services"
+      },
+      {
+        "row": 44,
+        "project_activity": "Rehabilitation of existing Hand-dug or shallow water well facility with proper fencing work at Almehal kebeles Benishangul",
+        "uom": "# of schemes",
+        "target": 3.0,
+        "budget": 2700000.0,
+        "raw_code": "Activity 3.3.1",
+        "clean_code": "3.3.1",
+        "national_activity_desc": "Develop new/ rehablitate existing Water supply infrastructure - water sources (e.g., wells, boreholes, springs, rain water harvesting, piped water systems).  1000 individual/ water scheme)",
+        "strategic_objective": "Improved access to safe water and sanitation services"
+      },
+      {
+        "row": 45,
+        "project_activity": "Construction of properly fenced and Inclusive water distribution points (Tap Stands with drainage apron) at Aquda refuge camps.",
+        "uom": "water points",
+        "target": 3.0,
+        "budget": 2250000.0,
+        "raw_code": "Activity 3.3.1",
+        "clean_code": "3.3.1",
+        "national_activity_desc": "Develop new/ rehablitate existing Water supply infrastructure - water sources (e.g., wells, boreholes, springs, rain water harvesting, piped water systems).  1000 individual/ water scheme)",
+        "strategic_objective": "Improved access to safe water and sanitation services"
+      },
+      {
+        "row": 46,
+        "project_activity": "Purchase of Water purification chemical  (chlorine powder ) to treat water at the source, at Benishangul Gumuz and Metema",
+        "uom": "pack",
+        "target": 2.0,
+        "budget": 400000.0,
+        "raw_code": "Activity 3.2.5",
+        "clean_code": "3.2.5",
+        "national_activity_desc": "Provision of emergency water supply through water trucking and provision of water purifications during disasters",
+        "strategic_objective": "Strengthen Health & WASH  in Emergencies"
+      },
+      {
+        "row": 47,
+        "project_activity": "Procurement of WASH Non Food Items including (NFI) to most vulnerable households in Guba and preposition stock",
+        "uom": "hh",
+        "target": 315.0,
+        "budget": 787500.0,
+        "raw_code": "Activity 3.2.7",
+        "clean_code": "3.2.7",
+        "national_activity_desc": "Preposition health & WASH emergency supplies",
+        "strategic_objective": "Strengthen Health & WASH  in Emergencies"
+      },
+      {
+        "row": 51,
+        "project_activity": "Training for Volunteers, staff and stakeholders on PGI, including prevention, protection, safeguarding, and SGBV",
+        "uom": "session",
+        "target": 120.0,
+        "budget": 1200000.0,
+        "raw_code": "Activity 3.2.3",
+        "clean_code": "3.2.3",
+        "national_activity_desc": "Provide MHPSS support ,   SGBV service and adolescent health service",
+        "strategic_objective": "Strengthen Health & WASH  in Emergencies"
+      },
+      {
+        "row": 52,
+        "project_activity": "Training for Volunteers, staffs and stakeholders on Community-Based MHPSS",
+        "uom": "people",
+        "target": 60.0,
+        "budget": 720000.0,
+        "raw_code": "Activity 3.2.3",
+        "clean_code": "3.2.3",
+        "national_activity_desc": "Provide MHPSS support ,   SGBV service and adolescent health service",
+        "strategic_objective": "Strengthen Health & WASH  in Emergencies"
+      },
+      {
+        "row": 55,
+        "project_activity": "Deployment of  PFA volunteers at HSP for Providing psychological first aid (PFA) and connect those in need to services at points of entry for 6 months",
+        "uom": "people",
+        "target": 34.0,
+        "budget": 1224000.0,
+        "raw_code": "Activity 3.2.11",
+        "clean_code": "3.2.11",
+        "national_activity_desc": "Deploy mobile health team in hard-to-reach areas/ areas with no access to health service during emergency",
+        "strategic_objective": "Strengthen Health & WASH  in Emergencies"
+      }
+    ],
+    "unlinked_activities": [
+      {
+        "row": 10,
+        "project_activity": "Train and deploy volunteers to support in temporary shelter",
+        "uom": "people",
+        "target": 5.0,
+        "budget": 75000.0,
+        "raw_code": "Not Link with AOP"
+      },
+      {
+        "row": 11,
+        "project_activity": "Transpotration, storage, off-loading and distribution of HH items",
+        "uom": "trips",
+        "target": 1.0,
+        "budget": 450000.0,
+        "raw_code": "Not Link with AOP"
+      },
+      {
+        "row": 12,
+        "project_activity": "Engaging community on, selection, registration and verification of beneficiarie for LLH support,",
+        "uom": "locations",
+        "target": 3.0,
+        "budget": 150000.0,
+        "raw_code": "Not Link with AOP"
+      },
+      {
+        "row": 14,
+        "project_activity": "Job Specific mentoring and coaching technichal support for livelihood beneficiaries",
+        "uom": "people",
+        "target": 400.0,
+        "budget": 1200000.0,
+        "raw_code": "Not Link with AOP"
+      },
+      {
+        "row": 16,
+        "project_activity": "Deployment of Volunteers for Monitoring and Support of Beneficiaries for Business Activities",
+        "uom": "people",
+        "target": 20.0,
+        "budget": 720000.0,
+        "raw_code": "Not Link with AOP"
+      },
+      {
+        "row": 17,
+        "project_activity": "Strenthen the follow up and support to ensure the start up capital is used appropriatly",
+        "uom": "locations",
+        "target": 2.0,
+        "budget": 250000.0,
+        "raw_code": "Not Link with AOP"
+      },
+      {
+        "row": 18,
+        "project_activity": "Organize experience-sharing sessions with other branches to learn from the implementation of livelihood (LLH) activities",
+        "uom": "sessions",
+        "target": 2.0,
+        "budget": 312000.0,
+        "raw_code": "Not Link with AOP"
+      },
+      {
+        "row": 19,
+        "project_activity": "Deployment of two livelihood officers to support the implementation of livelihood interventions in BG Guba and Gonder Metema",
+        "uom": "annual",
+        "target": 24.0,
+        "budget": 1404000.0,
+        "raw_code": "Not Link with AOP"
+      },
+      {
+        "row": 20,
+        "project_activity": "Engaging community on, selection, registration and verification of beneficiaries for MPC",
+        "uom": "session",
+        "target": 2.0,
+        "budget": 100000.0,
+        "raw_code": "Not Link with AOP"
+      },
+      {
+        "row": 24,
+        "project_activity": "Rehabilitation of Health Screening Office at the  Entry point in Metema",
+        "uom": "Rehabilitation of Health Screening Office",
+        "target": 1.0,
+        "budget": 1800000.0,
+        "raw_code": "Not Link with AOP"
+      },
+      {
+        "row": 25,
+        "project_activity": "Construction of Isolation Center for health screening point",
+        "uom": "Construction of Isolation Center",
+        "target": 1.0,
+        "budget": 3000000.0,
+        "raw_code": "Not Link with AOP"
+      },
+      {
+        "row": 34,
+        "project_activity": "Support the construction of a Drug dispensing unit (Pharmacy) to support for returnees, refugees, and host communities in Metema",
+        "uom": "Lump sum",
+        "target": 1.0,
+        "budget": 5000000.0,
+        "raw_code": "Not Link with AOP"
+      },
+      {
+        "row": 35,
+        "project_activity": "HQ Appeal Coordinator Salary  100%",
+        "uom": "month",
+        "target": 12.0,
+        "budget": 1656000.0,
+        "raw_code": "Not Link with AOP"
+      },
+      {
+        "row": 39,
+        "project_activity": "Capacity building for solar system operators targeting operational procedures, safety and compliance measures, and data analytics integration to monitor performance and predict maintenance needs (to operate and maintain solar power plants safely and efficiently) in Metema",
+        "uom": "People",
+        "target": 20.0,
+        "budget": 300000.0,
+        "raw_code": "Not Link with AOP"
+      },
+      {
+        "row": 48,
+        "project_activity": "Transpotration, storage, off-loading and distribution of HH items",
+        "uom": "round",
+        "target": 1.0,
+        "budget": 150000.0,
+        "raw_code": "Not Link with AOP"
+      },
+      {
+        "row": 49,
+        "project_activity": "Brach Project Coordinators support Salary  1@; Metema and Benishangul 50%",
+        "uom": "month",
+        "target": 24.0,
+        "budget": 1404000.0,
+        "raw_code": "Not Link with AOP"
+      },
+      {
+        "row": 50,
+        "project_activity": "Establish Referal mechanism to adresse SGBV and MHPSS conserns",
+        "uom": "session",
+        "target": 2.0,
+        "budget": 260000.0,
+        "raw_code": "Not Link with AOP"
+      },
+      {
+        "row": 53,
+        "project_activity": "Conduct regular quarter base technichal meeting with the steakholders",
+        "uom": "session",
+        "target": 8.0,
+        "budget": 200000.0,
+        "raw_code": "Not Link with AOP"
+      },
+      {
+        "row": 54,
+        "project_activity": "Procurement of long life packed food and refreshments ( bottled water packed food ) at the HSP support arrivals.",
+        "uom": "people",
+        "target": 15250.0,
+        "budget": 1525000.0,
+        "raw_code": "Not Link with AOP"
+      },
+      {
+        "row": 56,
+        "project_activity": "Equip the  HSP with furniture and office materials at Metema and Kumruk Operation area",
+        "uom": "sites",
+        "target": 2.0,
+        "budget": 500000.0,
+        "raw_code": "Not Link with AOP"
+      },
+      {
+        "row": 57,
+        "project_activity": "Equip staf and volunteers with PPEs including Mask, gloves and sanitizer for activities at HSP area",
+        "uom": "Lumpsum",
+        "target": 1.0,
+        "budget": 400000.0,
+        "raw_code": "Not Link with AOP"
+      },
+      {
+        "row": 58,
+        "project_activity": "BDRT training",
+        "uom": "people",
+        "target": 25.0,
+        "budget": 1000000.0,
+        "raw_code": "Not Link with AOP"
+      },
+      {
+        "row": 59,
+        "project_activity": "Branch Office repair and Maintanance, Benishangul",
+        "uom": "lumpsum",
+        "target": 1.0,
+        "budget": 894500.0,
+        "raw_code": "Not Link with AOP"
+      },
+      {
+        "row": 60,
+        "project_activity": "Strengthen the NS capacity in PGI in Emergancy",
+        "uom": "people",
+        "target": 30.0,
+        "budget": 1200000.0,
+        "raw_code": "Not Link with AOP"
+      },
+      {
+        "row": 61,
+        "project_activity": "Procure and maintain audiovisual equipment to produce high-quality branded content (videos, documentaries, social media materials) for public awareness and visibility of ERCS humanitarian activities",
+        "uom": "epuipment",
+        "target": 2.0,
+        "budget": 3000000.0,
+        "raw_code": "Not Link with AOP"
+      },
+      {
+        "row": 62,
+        "project_activity": "Procure and Establish Radio system",
+        "uom": "system",
+        "target": 2.0,
+        "budget": 3000000.0,
+        "raw_code": "Not Link with AOP"
+      },
+      {
+        "row": 63,
+        "project_activity": "Establish/Strengthen CEA committee",
+        "uom": "sessions",
+        "target": 2.0,
+        "budget": 240000.0,
+        "raw_code": "Not Link with AOP"
+      },
+      {
+        "row": 64,
+        "project_activity": "Train/orient the CEA committee on the feedback management approach and  Establish a feedback mechanisms syastem",
+        "uom": "sessions",
+        "target": 2.0,
+        "budget": 480000.0,
+        "raw_code": "Not Link with AOP"
+      },
+      {
+        "row": 65,
+        "project_activity": "Bi annual Review meeting",
+        "uom": "session",
+        "target": 2.0,
+        "budget": 586520.0,
+        "raw_code": "Not Link with AOP"
+      },
+      {
+        "row": 66,
+        "project_activity": "Lesson learned workshop",
+        "uom": "session",
+        "target": 1.0,
+        "budget": 510000.0,
+        "raw_code": "Not Link with AOP"
+      },
+      {
+        "row": 67,
+        "project_activity": "Documentation of best practice",
+        "uom": "session",
+        "target": 2.0,
+        "budget": 120000.0,
+        "raw_code": "Not Link with AOP"
+      },
+      {
+        "row": 68,
+        "project_activity": "Project close out workshop HQ and Branches , 340 PP @",
+        "uom": "people",
+        "target": 40.0,
+        "budget": 800000.0,
+        "raw_code": "Not Link with AOP"
+      },
+      {
+        "row": 69,
+        "project_activity": "Maillage cost (Fuel, oil & Vehicle Maintenance Cost  )",
+        "uom": "Quarterly",
+        "target": 4.0,
+        "budget": 3000000.0,
+        "raw_code": "Not Link with AOP"
+      },
+      {
+        "row": 70,
+        "project_activity": "Field supervision/Monitoring cost Hq and Branch",
+        "uom": "months",
+        "target": 10.0,
+        "budget": 1840000.0,
+        "raw_code": "Not Link with AOP"
+      },
+      {
+        "row": 71,
+        "project_activity": "HQ Finance Manager contribution 50%",
+        "uom": "month",
+        "target": 12.0,
+        "budget": 960000.0,
+        "raw_code": "Not Link with AOP"
+      },
+      {
+        "row": 72,
+        "project_activity": "Branch Appeal Operation Accountant_ 1@; Metema and Benishangul 100%",
+        "uom": "month",
+        "target": 24.0,
+        "budget": 1404000.0,
+        "raw_code": "Not Link with AOP"
+      },
+      {
+        "row": 73,
+        "project_activity": "Procurement of Laptop for Project coordinator",
+        "uom": "pcs",
+        "target": 4.0,
+        "budget": 720000.0,
+        "raw_code": "Not Link with AOP"
+      },
+      {
+        "row": 74,
+        "project_activity": "Administrative support ERCS 10%",
+        "uom": "Lumpsum",
+        "target": 1.0,
+        "budget": 10614782.0,
+        "raw_code": "Not Link with AOP"
+      },
+      {
+        "row": 75,
+        "project_activity": "Volunteers insurance",
+        "uom": "people",
+        "target": 150.0,
+        "budget": 123900.0,
+        "raw_code": "Not Link with AOP"
+      },
+      {
+        "row": 76,
+        "project_activity": "Volunteers PSS support",
+        "uom": "people",
+        "target": 150.0,
+        "budget": 450000.0,
+        "raw_code": "Not Link with AOP"
+      },
+      {
+        "row": 77,
+        "project_activity": "Tshirts and Caps for volunteers",
+        "uom": "pcs",
+        "target": 200.0,
+        "budget": 300000.0,
+        "raw_code": "Not Link with AOP"
+      }
+    ]
+  },
+  {
+    "sheet_name": "Livelihood Improvement Afar pro",
+    "title": "Livelihood Improvement in Afar",
+    "donor": "NLRC",
+    "location": "Afar",
+    "total_budget": 0.0,
+    "total_budget_str": "17,395,476",
+    "duration": "January 1 to December 31st ,2026",
+    "start_date": "",
+    "end_date": "",
+    "beneficiaries": "1450HH",
+    "linked_activities": [
+      {
+        "row": 11,
+        "project_activity": "Terraces/checkdams/retaining wall on cash for work basis",
+        "uom": "lumpsum",
+        "target": 1.0,
+        "budget": 1009142.0,
+        "raw_code": "Activity 2.1.5",
+        "clean_code": "2.1.5",
+        "national_activity_desc": "Implement land restoration and environmental protection initiatives (construction of soil and water conservation measures, tree plantation, area closure, range land protection\u2026)",
+        "strategic_objective": "Mitigate climate change Impacts and reduce socio-economic risks"
+      }
+    ],
+    "unlinked_activities": [
+      {
+        "row": 9,
+        "project_activity": "Construction water spreader weir upstream of the Gela'atu stream",
+        "uom": "cubic metre",
+        "target": 151.0,
+        "budget": 2349862.0,
+        "raw_code": "Not linked with AOP"
+      },
+      {
+        "row": 10,
+        "project_activity": "Gabion check/box construction (protection for clay material))",
+        "uom": "cubic metre",
+        "target": 1000.0,
+        "budget": 700000.0,
+        "raw_code": "Not linked with AOP"
+      },
+      {
+        "row": 12,
+        "project_activity": "Enginneer",
+        "uom": "",
+        "target": 12.0,
+        "budget": 960000.0,
+        "raw_code": "Not linked with AOP"
+      },
+      {
+        "row": 13,
+        "project_activity": "Accountant",
+        "uom": "#",
+        "target": 12.0,
+        "budget": 720000.0,
+        "raw_code": "Not linked with AOP"
+      },
+      {
+        "row": 14,
+        "project_activity": "Driver",
+        "uom": "#",
+        "target": 12.0,
+        "budget": 288000.0,
+        "raw_code": "Not linked with AOP"
+      },
+      {
+        "row": 15,
+        "project_activity": "Fuel, oil, and lubricants",
+        "uom": "lumpsum",
+        "target": 1.0,
+        "budget": 362000.0,
+        "raw_code": "Not linked with AOP"
+      },
+      {
+        "row": 16,
+        "project_activity": "Monitoring and supervision",
+        "uom": "lumpsum",
+        "target": 1.0,
+        "budget": 350000.0,
+        "raw_code": "Not linked with AOP"
+      },
+      {
+        "row": 17,
+        "project_activity": "Admin Costs",
+        "uom": "%",
+        "target": 8.0,
+        "budget": 1930764.0,
+        "raw_code": "Not linked with AOP"
+      },
+      {
+        "row": 18,
+        "project_activity": "Bank Charges",
+        "uom": "lumpsum",
+        "target": 1.0,
+        "budget": 34800.0,
+        "raw_code": "Not linked with AOP"
+      }
+    ]
+  },
+  {
+    "sheet_name": "RISE Project",
+    "title": "RISE project",
+    "donor": "ERCS -IFRC- RISE Project",
+    "location": "South Ethiopia (Wolayta",
+    "total_budget": 0.0,
+    "total_budget_str": "57,742,697.35",
+    "duration": "September 2024 to August 2026",
+    "start_date": "",
+    "end_date": "",
+    "beneficiaries": "50000",
+    "linked_activities": [
+      {
+        "row": 12,
+        "project_activity": "Equip and provide training  for branch staff on EOC",
+        "uom": "#training",
+        "target": 1.0,
+        "budget": 750000.0,
+        "raw_code": "Activity 1.1.10",
+        "clean_code": "1.1.10",
+        "national_activity_desc": "Improve functionality of EOC",
+        "strategic_objective": "Enhance disaster preparedness measures"
+      },
+      {
+        "row": 13,
+        "project_activity": "Support ERCS HQ EOC",
+        "uom": "Equipmnt",
+        "target": 1.0,
+        "budget": 2500000.0,
+        "raw_code": "Activity 1.1.10",
+        "clean_code": "1.1.10",
+        "national_activity_desc": "Improve functionality of EOC",
+        "strategic_objective": "Enhance disaster preparedness measures"
+      },
+      {
+        "row": 14,
+        "project_activity": "Provide comprehensive  BDRT training inclusive of  first aid, search and rescue, and logistics.( 10 days) for branch Staffs and volunteers",
+        "uom": "#trainee",
+        "target": 45.0,
+        "budget": 990000.0,
+        "raw_code": "Activity 1.1.8",
+        "clean_code": "1.1.8",
+        "national_activity_desc": "Provide BDRT training and estabilish the team at branches",
+        "strategic_objective": "Enhance disaster preparedness measures"
+      },
+      {
+        "row": 17,
+        "project_activity": "Conduct EVCA training for community represenatatives,DA s,health extension works,ERCS staff and volunteers",
+        "uom": "#training",
+        "target": 1.0,
+        "budget": 349399.0,
+        "raw_code": "Activity 2.1.2",
+        "clean_code": "2.1.2",
+        "national_activity_desc": "EVCA assessment and proposal development",
+        "strategic_objective": "Mitigate climate change Impacts and reduce socio-economic risks"
+      },
+      {
+        "row": 18,
+        "project_activity": "FacilItate community participatory ECVA( in 2 woredas 3 kebeles for each)",
+        "uom": "per woreda",
+        "target": 2.0,
+        "budget": 1019687.0,
+        "raw_code": "Activity 2.1.2",
+        "clean_code": "2.1.2",
+        "national_activity_desc": "EVCA assessment and proposal development",
+        "strategic_objective": "Mitigate climate change Impacts and reduce socio-economic risks"
+      },
+      {
+        "row": 19,
+        "project_activity": "Facilitate the creation of community-based risk reduction/resilience plans, as well as contingency plans (for emergencies) for two woredas three kebeles per each",
+        "uom": "per woreda",
+        "target": 2.0,
+        "budget": 726699.2,
+        "raw_code": "Activity 2.1.4",
+        "clean_code": "2.1.4",
+        "national_activity_desc": "Establish/strengthen community based disaster risk management committees /CBDRMC/ (DA, Volunteers)  on climate-smart agriculture and sustainable water management.",
+        "strategic_objective": "Mitigate climate change Impacts and reduce socio-economic risks"
+      },
+      {
+        "row": 20,
+        "project_activity": "support for landless, jobless youth Engage in NRM, Vegtable farming, Beekeeping, etc",
+        "uom": "Youth",
+        "target": 100.0,
+        "budget": 4000000.0,
+        "raw_code": "Activity 2.2.3",
+        "clean_code": "2.2.3",
+        "national_activity_desc": "Facilitate access to youth vocational skills training and employment opportunities.",
+        "strategic_objective": "Enhance livelihoods and economic opportunities for vulnerable communities and youths"
+      },
+      {
+        "row": 21,
+        "project_activity": "Support poorest women in engaging poultry production",
+        "uom": "Women",
+        "target": 200.0,
+        "budget": 5000000.0,
+        "raw_code": "Activity 2.1.6",
+        "clean_code": "2.1.6",
+        "national_activity_desc": "Diversify livelihoods for volnerable households",
+        "strategic_objective": "Mitigate climate change Impacts and reduce socio-economic risks"
+      },
+      {
+        "row": 22,
+        "project_activity": "Support the most vulnerable HHs on asset building through Shoat transfer (Shoat production, fattening)",
+        "uom": "HHs",
+        "target": 375.0,
+        "budget": 11250000.0,
+        "raw_code": "Activity 2.1.6",
+        "clean_code": "2.1.6",
+        "national_activity_desc": "Diversify livelihoods for volnerable households",
+        "strategic_objective": "Mitigate climate change Impacts and reduce socio-economic risks"
+      },
+      {
+        "row": 23,
+        "project_activity": "Support poorest farmers with improved crop seeds and fetlizer",
+        "uom": "quintal",
+        "target": 300.0,
+        "budget": 3900000.0,
+        "raw_code": "Activity 2.1.8",
+        "clean_code": "2.1.8",
+        "national_activity_desc": "supply climate-resilient crop varieties and animal fodder",
+        "strategic_objective": "Mitigate climate change Impacts and reduce socio-economic risks"
+      },
+      {
+        "row": 24,
+        "project_activity": "Soil and water conseravtion  activities through cash for work  scheme",
+        "uom": "HHs",
+        "target": 1200.0,
+        "budget": 4200000.0,
+        "raw_code": "Activity 2.1.6",
+        "clean_code": "2.1.6",
+        "national_activity_desc": "Diversify livelihoods for volnerable households",
+        "strategic_objective": "Mitigate climate change Impacts and reduce socio-economic risks"
+      },
+      {
+        "row": 25,
+        "project_activity": "Tree Seedling producetion and Planatation (250,000 seedlings)",
+        "uom": "hectares",
+        "target": 5.0,
+        "budget": 2500000.0,
+        "raw_code": "Activity 2.1.5",
+        "clean_code": "2.1.5",
+        "national_activity_desc": "Implement land restoration and environmental protection initiatives (construction of soil and water conservation measures, tree plantation, area closure, range land protection\u2026)",
+        "strategic_objective": "Mitigate climate change Impacts and reduce socio-economic risks"
+      },
+      {
+        "row": 26,
+        "project_activity": "Rehabilitation of water schemes",
+        "uom": "no",
+        "target": 1700000.0,
+        "budget": 5100000.0,
+        "raw_code": "Activity 3.3.1",
+        "clean_code": "3.3.1",
+        "national_activity_desc": "Develop new/ rehablitate existing Water supply infrastructure - water sources (e.g., wells, boreholes, springs, rain water harvesting, piped water systems).  1000 individual/ water scheme)",
+        "strategic_objective": "Improved access to safe water and sanitation services"
+      },
+      {
+        "row": 29,
+        "project_activity": "Provide Mosquito Net",
+        "uom": "#mosquitonet",
+        "target": 500.0,
+        "budget": 500000.0,
+        "raw_code": "Activity 3.1.2",
+        "clean_code": "3.1.2",
+        "national_activity_desc": "Enhance prevention of major diseases like malaria and cholera (eg. ITN distribution, environmental sanitation, drugs)",
+        "strategic_objective": "Address public health concerns"
+      },
+      {
+        "row": 30,
+        "project_activity": "Train/aware/ the community on malaria prevention",
+        "uom": "no people",
+        "target": 400.0,
+        "budget": 200000.0,
+        "raw_code": "Activity 3.1.2",
+        "clean_code": "3.1.2",
+        "national_activity_desc": "Enhance prevention of major diseases like malaria and cholera (eg. ITN distribution, environmental sanitation, drugs)",
+        "strategic_objective": "Address public health concerns"
+      }
+    ],
+    "unlinked_activities": [
+      {
+        "row": 9,
+        "project_activity": "Develop pre-disaster agreements with national authorities to support effective humanitarian action (including anticipatory systems)- Regional AA Familirization workshop",
+        "uom": "Workshop",
+        "target": 1.0,
+        "budget": 434000.0,
+        "raw_code": "Not linked with"
+      },
+      {
+        "row": 10,
+        "project_activity": "Train staff on CTB project development (disseminate cash COP,Registration and data collection etc)",
+        "uom": "training",
+        "target": 1.0,
+        "budget": 979000.0,
+        "raw_code": "Not linked with"
+      },
+      {
+        "row": 11,
+        "project_activity": "Procure and disseminate 8 data collection smart tablets for the branch and HQs",
+        "uom": "#smart phone",
+        "target": 10.0,
+        "budget": 180000.0,
+        "raw_code": "Not linked with"
+      },
+      {
+        "row": 15,
+        "project_activity": "Support Branch PER priorities (Warehousing Initiative -Wolaita Zonal Branch including region)",
+        "uom": "# branch",
+        "target": 1.0,
+        "budget": 1100000.0,
+        "raw_code": "Not linked with"
+      },
+      {
+        "row": 16,
+        "project_activity": ".Project Inception,introduction,target community identification",
+        "uom": "#meeting",
+        "target": 1.0,
+        "budget": 107981.36,
+        "raw_code": "Not linked with"
+      },
+      {
+        "row": 27,
+        "project_activity": "area closure",
+        "uom": "area enclosed",
+        "target": 50000.0,
+        "budget": 200000.0,
+        "raw_code": "Not linked with"
+      },
+      {
+        "row": 28,
+        "project_activity": "train community representatives on NRM",
+        "uom": "trianee",
+        "target": 400.0,
+        "budget": 800000.0,
+        "raw_code": "Not linked with"
+      },
+      {
+        "row": 31,
+        "project_activity": "Red cross dessemination",
+        "uom": "#people",
+        "target": 800.0,
+        "budget": 800000.0,
+        "raw_code": "Not linked with"
+      },
+      {
+        "row": 32,
+        "project_activity": "Engagement with public authorities to address the integration of AA in national policy frameworks through the review of existing DRM frameworks-(Develop woreda EAP  for three woredas)",
+        "uom": "Workshop",
+        "target": 1.0,
+        "budget": 600000.0,
+        "raw_code": "Not linked with"
+      },
+      {
+        "row": 33,
+        "project_activity": "Monitoring and follow up(includingfuel and lubricant)",
+        "uom": "quaretly",
+        "target": 8.0,
+        "budget": 2000000.0,
+        "raw_code": "Not linked with"
+      },
+      {
+        "row": 34,
+        "project_activity": "Project coordintor at HQs(50%)",
+        "uom": "Month",
+        "target": 24.0,
+        "budget": 1680000.0,
+        "raw_code": "Not linked with"
+      },
+      {
+        "row": 35,
+        "project_activity": "Branch project coordinators (50%) for 2 branchs(Region and Zone)",
+        "uom": "Month",
+        "target": 24.0,
+        "budget": 2099989.2,
+        "raw_code": "Not linked with"
+      },
+      {
+        "row": 36,
+        "project_activity": "Branch project accountants (50%) for 2 branches(Region and Zone)",
+        "uom": "Month",
+        "target": 24.0,
+        "budget": 1442917.44,
+        "raw_code": "Not linked with"
+      },
+      {
+        "row": 37,
+        "project_activity": "office equipment",
+        "uom": "lumsump",
+        "target": 1.0,
+        "budget": 1360537.347432,
+        "raw_code": "Not linked with"
+      },
+      {
+        "row": 38,
+        "project_activity": "Stationery",
+        "uom": "lumpsum",
+        "target": 1.0,
+        "budget": 459929.97072000004,
+        "raw_code": "Not linked with"
+      },
+      {
+        "row": 39,
+        "project_activity": "Visibility and Publications",
+        "uom": "lumpsum",
+        "target": 1.0,
+        "budget": 512556.83590800007,
+        "raw_code": "Not linked with"
+      }
+    ]
+  },
+  {
+    "sheet_name": "Social Cohesion",
+    "title": "Social Cohesion project",
+    "donor": "Danish Red Cross",
+    "location": "BG (Asosa Zone), Tigray (West North) & Amhara (North Wollo)",
+    "total_budget": 0.0,
+    "total_budget_str": "214,157,098.3",
+    "duration": "May 2024 to May 2027",
+    "start_date": "",
+    "end_date": "",
+    "beneficiaries": "32,119",
+    "linked_activities": [
+      {
+        "row": 68,
+        "project_activity": "6.1.2.1. Activities in centre to promote social cohesion",
+        "uom": "number",
+        "target": 23.356,
+        "budget": 14543187.7859984,
+        "raw_code": "Activity 2.3.1",
+        "clean_code": "2.3.1",
+        "national_activity_desc": "Support community based peace promotion, conflict prevention and peacefull coexistence through organizing community dialogues",
+        "strategic_objective": "Promote peace and advance a culture of non-violence"
+      },
+      {
+        "row": 69,
+        "project_activity": "6.1.3.1. Training of community leaders/influencers",
+        "uom": "Training",
+        "target": 8.0,
+        "budget": 3640000.0,
+        "raw_code": "Activity 2.3.2",
+        "clean_code": "2.3.2",
+        "national_activity_desc": "Train volunteers and community members in conflict prevention facilitation skills.",
+        "strategic_objective": "Promote peace and advance a culture of non-violence"
+      },
+      {
+        "row": 71,
+        "project_activity": "6.1.3.3. Training of ERCS staff and professional volunteers on  non-violent dialogue and conflict management (ToT)",
+        "uom": "person",
+        "target": 66.0,
+        "budget": 5790873.71167088,
+        "raw_code": "Activity 2.3.2",
+        "clean_code": "2.3.2",
+        "national_activity_desc": "Train volunteers and community members in conflict prevention facilitation skills.",
+        "strategic_objective": "Promote peace and advance a culture of non-violence"
+      },
+      {
+        "row": 72,
+        "project_activity": "6.1.3.4. Quarterly discussion sessions in the community",
+        "uom": "person",
+        "target": 127.0,
+        "budget": 395398.366334516,
+        "raw_code": "Activity 2.3.1",
+        "clean_code": "2.3.1",
+        "national_activity_desc": "Support community based peace promotion, conflict prevention and peacefull coexistence through organizing community dialogues",
+        "strategic_objective": "Promote peace and advance a culture of non-violence"
+      },
+      {
+        "row": 73,
+        "project_activity": "6.1.4.1. Training of ERCS volunteers, staff and community influencers on SGBV Stigma and community outreach",
+        "uom": "Training",
+        "target": 6.0,
+        "budget": 5043664.20048753,
+        "raw_code": "Activity 3.2.3",
+        "clean_code": "3.2.3",
+        "national_activity_desc": "Provide MHPSS support ,   SGBV service and adolescent health service",
+        "strategic_objective": "Strengthen Health & WASH  in Emergencies"
+      },
+      {
+        "row": 76,
+        "project_activity": "6.1.5.1. Development of communication messages",
+        "uom": "Number",
+        "target": 1.0,
+        "budget": 0.0,
+        "raw_code": "Activity 2.3.5",
+        "clean_code": "2.3.5",
+        "national_activity_desc": "Raise awareness on cullture of peaceful and coexistance through media",
+        "strategic_objective": "Promote peace and advance a culture of non-violence"
+      },
+      {
+        "row": 77,
+        "project_activity": "6.1.5.3. Media activities based on C4D workshop",
+        "uom": "region",
+        "target": 6.0,
+        "budget": 0.0,
+        "raw_code": "Activity 2.3.5",
+        "clean_code": "2.3.5",
+        "national_activity_desc": "Raise awareness on cullture of peaceful and coexistance through media",
+        "strategic_objective": "Promote peace and advance a culture of non-violence"
+      },
+      {
+        "row": 80,
+        "project_activity": "6.1.7.1. Development of materials on the Promotion of a Culture of Non-violence and Peace in Ethiopia (outsourced)",
+        "uom": "document",
+        "target": 1.0,
+        "budget": 3113372.96326391,
+        "raw_code": "Activity 2.3.5",
+        "clean_code": "2.3.5",
+        "national_activity_desc": "Raise awareness on cullture of peaceful and coexistance through media",
+        "strategic_objective": "Promote peace and advance a culture of non-violence"
+      },
+      {
+        "row": 83,
+        "project_activity": "6.1.8.1. Meeting at woreda level with key stakeholders about red cross clubs and program on peace education for youth out of schools",
+        "uom": "participant per day",
+        "target": 284.0,
+        "budget": 516880.0,
+        "raw_code": "Activity 2.3.4",
+        "clean_code": "2.3.4",
+        "national_activity_desc": "facilitate community representatives meeting on use of indigenous knowledges to promote peace and culture of non voilence ( Clan leaders, religion leaders\u2026)",
+        "strategic_objective": "Promote peace and advance a culture of non-violence"
+      },
+      {
+        "row": 84,
+        "project_activity": "6.1.8.2. Costs for clubs meetings",
+        "uom": "club per year",
+        "target": 43.0,
+        "budget": 4108650.0,
+        "raw_code": "Activity 2.3.3",
+        "clean_code": "2.3.3",
+        "national_activity_desc": "Engage youth school clubs in developing culture of non-violence",
+        "strategic_objective": "Promote peace and advance a culture of non-violence"
+      },
+      {
+        "row": 89,
+        "project_activity": "Training of youth  and ERCS staff on life skills program for youth out of school , IM3 partners",
+        "uom": "participant",
+        "target": 508.0,
+        "budget": 3235960.0,
+        "raw_code": "Activity 2.2.1",
+        "clean_code": "2.2.1",
+        "national_activity_desc": "Facilitate Training on basic business skills to vulnerable communites",
+        "strategic_objective": "Enhance livelihoods and economic opportunities for vulnerable communities and youths"
+      },
+      {
+        "row": 93,
+        "project_activity": "6.1.10.3. Life Skills refresher and SPRINT Training for Youth volunteers and staff",
+        "uom": "person",
+        "target": 27.0,
+        "budget": 2343400.58371709,
+        "raw_code": "Activity 2.2.1",
+        "clean_code": "2.2.1",
+        "national_activity_desc": "Facilitate Training on basic business skills to vulnerable communites",
+        "strategic_objective": "Enhance livelihoods and economic opportunities for vulnerable communities and youths"
+      },
+      {
+        "row": 94,
+        "project_activity": "6.1.11.1. Meeting at woreda level with key stakeholders about school clubs and program on peace education",
+        "uom": "meetings",
+        "target": 11.0,
+        "budget": 445212.333746738,
+        "raw_code": "Activity 2.3.3",
+        "clean_code": "2.3.3",
+        "national_activity_desc": "Engage youth school clubs in developing culture of non-violence",
+        "strategic_objective": "Promote peace and advance a culture of non-violence"
+      },
+      {
+        "row": 95,
+        "project_activity": "6.1.11.2. Training of teachers on chilli /peace education approach (per diem teachers + training cost)",
+        "uom": "person",
+        "target": 187.0,
+        "budget": 2445243.12534747,
+        "raw_code": "Activity 2.3.2",
+        "clean_code": "2.3.2",
+        "national_activity_desc": "Train volunteers and community members in conflict prevention facilitation skills.",
+        "strategic_objective": "Promote peace and advance a culture of non-violence"
+      },
+      {
+        "row": 98,
+        "project_activity": "6.1.11.5. Purchase RC visibility materials for club members",
+        "uom": "person",
+        "target": 15.0,
+        "budget": 627900.0,
+        "raw_code": "Activity 2.3.3",
+        "clean_code": "2.3.3",
+        "national_activity_desc": "Engage youth school clubs in developing culture of non-violence",
+        "strategic_objective": "Promote peace and advance a culture of non-violence"
+      },
+      {
+        "row": 99,
+        "project_activity": "6.1.11.6. Training of Red Cross youth ambassador volunteers and ERCS staff on peace education (chili) approach",
+        "uom": "person",
+        "target": 38.0,
+        "budget": 3420441.92568905,
+        "raw_code": "Activity 2.3.2",
+        "clean_code": "2.3.2",
+        "national_activity_desc": "Train volunteers and community members in conflict prevention facilitation skills.",
+        "strategic_objective": "Promote peace and advance a culture of non-violence"
+      },
+      {
+        "row": 100,
+        "project_activity": "6.2.1.2. Training on Community MHPSS as basic PSS to Red Cross volunteers and ERCS ambulance staff and key community stakeholders",
+        "uom": "Person",
+        "target": 98.0,
+        "budget": 1510297.22447932,
+        "raw_code": "Activity 2.3.2",
+        "clean_code": "2.3.2",
+        "national_activity_desc": "Train volunteers and community members in conflict prevention facilitation skills.",
+        "strategic_objective": "Promote peace and advance a culture of non-violence"
+      },
+      {
+        "row": 101,
+        "project_activity": "6.2.1.3. Training on lay counselling and emotional support to Red Cross MHPSS staff and professional volunteers (1 staff + 3 volunteers in each woreda)",
+        "uom": "Person",
+        "target": 6.0,
+        "budget": 168122.140016252,
+        "raw_code": "Activity 2.3.2",
+        "clean_code": "2.3.2",
+        "national_activity_desc": "Train volunteers and community members in conflict prevention facilitation skills.",
+        "strategic_objective": "Promote peace and advance a culture of non-violence"
+      },
+      {
+        "row": 102,
+        "project_activity": "6.2.1.4. Life skill training for volunteers (5 days)",
+        "uom": "Person",
+        "target": 265.0,
+        "budget": 1402574.51995039,
+        "raw_code": "Activity 2.2.1",
+        "clean_code": "2.2.1",
+        "national_activity_desc": "Facilitate Training on basic business skills to vulnerable communites",
+        "strategic_objective": "Enhance livelihoods and economic opportunities for vulnerable communities and youths"
+      },
+      {
+        "row": 103,
+        "project_activity": "6.2.2.1.Training in Community MHPSS and PFA for key community stakeholders (incl. health extension workers)",
+        "uom": "Person",
+        "target": 429.0,
+        "budget": 4875075.05452679,
+        "raw_code": "Activity 3.2.3",
+        "clean_code": "3.2.3",
+        "national_activity_desc": "Provide MHPSS support ,   SGBV service and adolescent health service",
+        "strategic_objective": "Strengthen Health & WASH  in Emergencies"
+      }
+    ],
+    "unlinked_activities": [
+      {
+        "row": 9,
+        "project_activity": "Program Coordinator, ERCS, 100%",
+        "uom": "month",
+        "target": 12.0,
+        "budget": 3496940.51233802,
+        "raw_code": "Notlinked with AOP"
+      },
+      {
+        "row": 10,
+        "project_activity": "Project Officer, 2, ERCS, 100%",
+        "uom": "month",
+        "target": 24.0,
+        "budget": 3934058.07638028,
+        "raw_code": "Notlinked with AOP"
+      },
+      {
+        "row": 11,
+        "project_activity": "MHPSS Coordinator ERCS 50%",
+        "uom": "month",
+        "target": 6.0,
+        "budget": 1232895.6934525,
+        "raw_code": "Notlinked with AOP"
+      },
+      {
+        "row": 12,
+        "project_activity": "Project Coordinator,  Afar, 1 staff, 100%",
+        "uom": "month",
+        "target": 12.0,
+        "budget": 2622705.38425352,
+        "raw_code": "Notlinked with AOP"
+      },
+      {
+        "row": 13,
+        "project_activity": "Field officer, Afar, 2 staff, 100%",
+        "uom": "month",
+        "target": 24.0,
+        "budget": 3496940.51233802,
+        "raw_code": "Notlinked with AOP"
+      },
+      {
+        "row": 14,
+        "project_activity": "1.1.1.6. Project Coordinator, Shire Tigray, 1 staff, 100%",
+        "uom": "month",
+        "target": 12.0,
+        "budget": 2622705.38425352,
+        "raw_code": "Notlinked with AOP"
+      },
+      {
+        "row": 15,
+        "project_activity": "1.1.1.7. Filed officer, Shire, Tigray 2 staff, 100%",
+        "uom": "month",
+        "target": 24.0,
+        "budget": 3496940.51233802,
+        "raw_code": "Notlinked with AOP"
+      },
+      {
+        "row": 16,
+        "project_activity": "1.1.1.8. Field officer, Adigrat, Tigray ,2 staff, 100%",
+        "uom": "month",
+        "target": 24.0,
+        "budget": 3496940.51233802,
+        "raw_code": "Notlinked with AOP"
+      },
+      {
+        "row": 17,
+        "project_activity": "1.1.1.9. Project Coordinator, Benishangul Gumuz, 1 staff, 100%",
+        "uom": "month",
+        "target": 12.0,
+        "budget": 2622705.38425352,
+        "raw_code": "Notlinked with AOP"
+      },
+      {
+        "row": 18,
+        "project_activity": "1.1.1.10. Field officer, Benishangul Gumuz,2 staff, 100%",
+        "uom": "month",
+        "target": 24.0,
+        "budget": 3496940.51233802,
+        "raw_code": "Notlinked with AOP"
+      },
+      {
+        "row": 19,
+        "project_activity": "1.1.1.11. Project Coordinator, Amhara, 1 staff, 100%",
+        "uom": "month",
+        "target": 12.0,
+        "budget": 2622705.38425352,
+        "raw_code": "Notlinked with AOP"
+      },
+      {
+        "row": 20,
+        "project_activity": "1.1.1.12. Field officer, Amhara, 4 staff, 100%",
+        "uom": "month",
+        "target": 48.0,
+        "budget": 6993881.02467604,
+        "raw_code": "Notlinked with AOP"
+      },
+      {
+        "row": 21,
+        "project_activity": "1.1.2.1. Branch Accountant, Afar, 100%",
+        "uom": "month",
+        "target": 12.0,
+        "budget": 1529911.47414789,
+        "raw_code": "Notlinked with AOP"
+      },
+      {
+        "row": 22,
+        "project_activity": "1.1.2.2. Branch Accountant, 2, Tigray, 100%",
+        "uom": "month",
+        "target": 24.0,
+        "budget": 1529911.47414789,
+        "raw_code": "Notlinked with AOP"
+      },
+      {
+        "row": 23,
+        "project_activity": "1.1.2.3. Branch Accountant, Benishangul Gumuz, 100%",
+        "uom": "month",
+        "target": 12.0,
+        "budget": 1529911.47414789,
+        "raw_code": "Notlinked with AOP"
+      },
+      {
+        "row": 24,
+        "project_activity": "1.1.2.4. Branch Accountant, 2, Amhara, 100%",
+        "uom": "month",
+        "target": 24.0,
+        "budget": 1529911.47414789,
+        "raw_code": "Notlinked with AOP"
+      },
+      {
+        "row": 25,
+        "project_activity": "1.1.2.5. Driver, Afar, 1 staff, 100%",
+        "uom": "month",
+        "target": 12.0,
+        "budget": 1092793.91010563,
+        "raw_code": "Notlinked with AOP"
+      },
+      {
+        "row": 26,
+        "project_activity": "1.1.2.7. Driver, Benishangul Gumuz, 1 staff, 100%",
+        "uom": "month",
+        "target": 12.0,
+        "budget": 1092793.91010563,
+        "raw_code": "Notlinked with AOP"
+      },
+      {
+        "row": 27,
+        "project_activity": "1.1.2.8. Driver, Amhara, 2 staff, 100%",
+        "uom": "month",
+        "target": 24.0,
+        "budget": 2185587.82021126,
+        "raw_code": "Notlinked with AOP"
+      },
+      {
+        "row": 28,
+        "project_activity": "1.1.2.9. Accountant (ERCS/HQ) 100%",
+        "uom": "month",
+        "target": 12.0,
+        "budget": 1748470.25616901,
+        "raw_code": "Notlinked with AOP"
+      },
+      {
+        "row": 29,
+        "project_activity": "1.1.2.13 Head of programs ERCS (6%)",
+        "uom": "month",
+        "target": 1.8,
+        "budget": 294840.0,
+        "raw_code": "Notlinked with AOP"
+      },
+      {
+        "row": 30,
+        "project_activity": "1.3.2.1 Afar (DRC, ERCS), 3 staff",
+        "uom": "Days",
+        "target": 694.0,
+        "budget": 5178628.0,
+        "raw_code": "Notlinked with AOP"
+      },
+      {
+        "row": 31,
+        "project_activity": "1.3.2.2 Tigray (DRC, ERCS), 5 staff",
+        "uom": "Days",
+        "target": 505.0,
+        "budget": 3768310.0,
+        "raw_code": "Notlinked with AOP"
+      },
+      {
+        "row": 32,
+        "project_activity": "1.3.2.3 Assosa (DRC, ERCS), 3 staff",
+        "uom": "Days",
+        "target": 418.0,
+        "budget": 3119116.0,
+        "raw_code": "Notlinked with AOP"
+      },
+      {
+        "row": 33,
+        "project_activity": "1.3.2.4 Amhara (DRC, ERCS), 5 staff",
+        "uom": "Days",
+        "target": 411.0,
+        "budget": 3066882.0,
+        "raw_code": "Notlinked with AOP"
+      },
+      {
+        "row": 34,
+        "project_activity": "1.3.2.5.  Finance monitoring (DRC/ERCS)",
+        "uom": "Days",
+        "target": 73.0,
+        "budget": 544726.0,
+        "raw_code": "Notlinked with AOP"
+      },
+      {
+        "row": 35,
+        "project_activity": "1.3.3.2 Assosa Region (ERCS) for field visits",
+        "uom": "month",
+        "target": 1.4,
+        "budget": 65380.8322285421,
+        "raw_code": "Notlinked with AOP"
+      },
+      {
+        "row": 36,
+        "project_activity": "1.3.3.4 Amhara Region (ERCS) for field visits",
+        "uom": "month",
+        "target": 5.3,
+        "budget": 247513.150579481,
+        "raw_code": "Notlinked with AOP"
+      },
+      {
+        "row": 37,
+        "project_activity": "2.2.1 Flights to Afar, Semera",
+        "uom": "flights",
+        "target": 20.0,
+        "budget": 728000.0,
+        "raw_code": "Notlinked with AOP"
+      },
+      {
+        "row": 38,
+        "project_activity": "2.2.2. Flight to Assosa",
+        "uom": "flights",
+        "target": 16.0,
+        "budget": 582400.0,
+        "raw_code": "Notlinked with AOP"
+      },
+      {
+        "row": 39,
+        "project_activity": "2.2.3. Flight to Amhara",
+        "uom": "flights",
+        "target": 17.0,
+        "budget": 618800.0,
+        "raw_code": "Notlinked with AOP"
+      },
+      {
+        "row": 40,
+        "project_activity": "2.2.4. Flight to Shire",
+        "uom": "flights",
+        "target": 11.0,
+        "budget": 400400.0,
+        "raw_code": "Notlinked with AOP"
+      },
+      {
+        "row": 41,
+        "project_activity": "2.2.5. Flight ,Mekelle",
+        "uom": "flights",
+        "target": 20.0,
+        "budget": 728000.0,
+        "raw_code": "Notlinked with AOP"
+      },
+      {
+        "row": 42,
+        "project_activity": "3.1.2 Rent of vehicles",
+        "uom": "per month",
+        "target": 37.0,
+        "budget": 6734000.0,
+        "raw_code": "Notlinked with AOP"
+      },
+      {
+        "row": 43,
+        "project_activity": "3.2.2 Furniture for office (5 Branches +DRC office+ HQ Coordination office)",
+        "uom": "set",
+        "target": 2.2,
+        "budget": 640640.0,
+        "raw_code": "Notlinked with AOP"
+      },
+      {
+        "row": 44,
+        "project_activity": "3.4 Spare parts/equipment for machines, tools",
+        "uom": "month",
+        "target": 5.5,
+        "budget": 800800.0,
+        "raw_code": "Notlinked with AOP"
+      },
+      {
+        "row": 45,
+        "project_activity": "4.1.1 Afar (ERCS, 1 Vehicle)",
+        "uom": "month",
+        "target": 7.7,
+        "budget": 560560.0,
+        "raw_code": "Notlinked with AOP"
+      },
+      {
+        "row": 46,
+        "project_activity": "4.1.2 Assosa (ERCS, 1 Vehicle)",
+        "uom": "month",
+        "target": 17.95,
+        "budget": 1306760.0,
+        "raw_code": "Notlinked with AOP"
+      },
+      {
+        "row": 47,
+        "project_activity": "4.1.4 Amhara (ERCS, 2 Vehicle)",
+        "uom": "month",
+        "target": 18.7,
+        "budget": 1361360.0,
+        "raw_code": "Notlinked with AOP"
+      },
+      {
+        "row": 48,
+        "project_activity": "4.1.5 Addis Ababa (ERCS, Coordinator, 1 Vehicle)",
+        "uom": "month",
+        "target": 15.0,
+        "budget": 273000.0,
+        "raw_code": "Notlinked with AOP"
+      },
+      {
+        "row": 49,
+        "project_activity": "4.3.1 Consumables and office supplies for Addis Ababa - ERCS HQ",
+        "uom": "month",
+        "target": 10.5,
+        "budget": 191100.0,
+        "raw_code": "Notlinked with AOP"
+      },
+      {
+        "row": 50,
+        "project_activity": "4.3.3 Consumables and Office supplies for Afar branch",
+        "uom": "month",
+        "target": 20.48,
+        "budget": 372736.0,
+        "raw_code": "Notlinked with AOP"
+      },
+      {
+        "row": 51,
+        "project_activity": "4.3.4 Consumables and Office supplies for Assosa branch",
+        "uom": "month",
+        "target": 22.0,
+        "budget": 400400.0,
+        "raw_code": "Notlinked with AOP"
+      },
+      {
+        "row": 52,
+        "project_activity": "4.3.5 Consumables and Office supplies for Tigray branch (Shire & Adigrat)",
+        "uom": "month",
+        "target": 13.5,
+        "budget": 491400.0,
+        "raw_code": "Notlinked with AOP"
+      },
+      {
+        "row": 53,
+        "project_activity": "4.3.6 Consumables and Office supplies for Amhara branch (North and South Wollo)",
+        "uom": "month",
+        "target": 19.0,
+        "budget": 691600.0,
+        "raw_code": "Notlinked with AOP"
+      },
+      {
+        "row": 54,
+        "project_activity": "4.4.1 Afar",
+        "uom": "month",
+        "target": 25.9,
+        "budget": 518518.0,
+        "raw_code": "Notlinked with AOP"
+      },
+      {
+        "row": 55,
+        "project_activity": "4.4.2 Assosa",
+        "uom": "month",
+        "target": 15.8,
+        "budget": 316316.0,
+        "raw_code": "Notlinked with AOP"
+      },
+      {
+        "row": 56,
+        "project_activity": "4.4.3 Tigray, Shire",
+        "uom": "month",
+        "target": 30.8,
+        "budget": 1233232.0,
+        "raw_code": "Notlinked with AOP"
+      },
+      {
+        "row": 57,
+        "project_activity": "4.4.4 Amhara",
+        "uom": "month",
+        "target": 25.6,
+        "budget": 1025024.0,
+        "raw_code": "Notlinked with AOP"
+      },
+      {
+        "row": 58,
+        "project_activity": "4.4.5Addis Ababa ,ERC",
+        "uom": "month",
+        "target": 32.7,
+        "budget": 595140.0,
+        "raw_code": "Notlinked with AOP"
+      },
+      {
+        "row": 59,
+        "project_activity": "5.7 Financial services (bank guarantee costs etc.)",
+        "uom": "month",
+        "target": 12.18,
+        "budget": 273000.0,
+        "raw_code": "Notlinked with AOP"
+      },
+      {
+        "row": 60,
+        "project_activity": "5.10. Closure Meeting",
+        "uom": "Event",
+        "target": 1.0,
+        "budget": 910000.0,
+        "raw_code": "Notlinked with AOP"
+      },
+      {
+        "row": 61,
+        "project_activity": "5.11.1. Project visibility activities",
+        "uom": "year",
+        "target": 1.735,
+        "budget": 1263080.0,
+        "raw_code": "Notlinked with AOP"
+      },
+      {
+        "row": 62,
+        "project_activity": "6.1.1.1. Material and furniture for Community Centres",
+        "uom": "set",
+        "target": 2.73,
+        "budget": 1523775.74765418,
+        "raw_code": "Notlinked with AOP"
+      },
+      {
+        "row": 63,
+        "project_activity": "6.1.1.3. Daily remuneration pool professional volunteers to manage centre",
+        "uom": "person days",
+        "target": 9208.0,
+        "budget": 10055136.0,
+        "raw_code": "Notlinked with AOP"
+      },
+      {
+        "row": 64,
+        "project_activity": "6.1.1.4. Wi-Fi instalment",
+        "uom": "per centre",
+        "target": 10.8,
+        "budget": 336244.280032502,
+        "raw_code": "Notlinked with AOP"
+      },
+      {
+        "row": 65,
+        "project_activity": "6.1.1.5. Wi-Fi monthly costs",
+        "uom": "months",
+        "target": 279.03,
+        "budget": 868724.457939528,
+        "raw_code": "Notlinked with AOP"
+      },
+      {
+        "row": 66,
+        "project_activity": "6.1.1.6. Safe space utilities",
+        "uom": "months",
+        "target": 26.29,
+        "budget": 409252.876021041,
+        "raw_code": "Notlinked with AOP"
+      },
+      {
+        "row": 67,
+        "project_activity": "6.1.1.7 Orientation for volunteers & kebeles' managers",
+        "uom": "meetings",
+        "target": 3.8961,
+        "budget": 54585.0558097763,
+        "raw_code": "Notlinked with AOP"
+      },
+      {
+        "row": 70,
+        "project_activity": "6.1.3.2 Follow up workshop",
+        "uom": "Training",
+        "target": 4.0,
+        "budget": 1494419.02236668,
+        "raw_code": "Notlinked with AOP"
+      },
+      {
+        "row": 74,
+        "project_activity": "6.1.4.2. Follow up workshop in each zone",
+        "uom": "Number",
+        "target": 3.0,
+        "budget": 2241628.53355002,
+        "raw_code": "Notlinked with AOP"
+      },
+      {
+        "row": 75,
+        "project_activity": "6.1.5.1. C4D workshop",
+        "uom": "Workshop",
+        "target": 1.0,
+        "budget": 0.0,
+        "raw_code": "Notlinked with AOP"
+      },
+      {
+        "row": 78,
+        "project_activity": "6.1.6.1. CEA member training (Per diem, Accommodation & transport)",
+        "uom": "person",
+        "target": 140.0,
+        "budget": 3057600.0,
+        "raw_code": "Notlinked with AOP"
+      },
+      {
+        "row": 79,
+        "project_activity": "6.1.6.2. Refreshments for CEA committee meetings",
+        "uom": "Person",
+        "target": 296.0,
+        "budget": 276467.519137835,
+        "raw_code": "Notlinked with AOP"
+      },
+      {
+        "row": 81,
+        "project_activity": "6.1.7.2. Translated into local languages for Training Materials",
+        "uom": "Language",
+        "target": 11.0,
+        "budget": 249069.837061113,
+        "raw_code": "Notlinked with AOP"
+      },
+      {
+        "row": 82,
+        "project_activity": "6.1.7.3. Printing of materials for Training",
+        "uom": "document",
+        "target": 1.0,
+        "budget": 93401.1888979173,
+        "raw_code": "Notlinked with AOP"
+      },
+      {
+        "row": 85,
+        "project_activity": "6.1.8.3. Experience  sharing between clubs/schools to scale up best practice",
+        "uom": "person",
+        "target": 60.0,
+        "budget": 566154.898858145,
+        "raw_code": "Notlinked with AOP"
+      },
+      {
+        "row": 86,
+        "project_activity": "6.1.8.4. Purchase RC visibility materials for club members",
+        "uom": "person",
+        "target": 1400.0,
+        "budget": 1274000.0,
+        "raw_code": "Notlinked with AOP"
+      },
+      {
+        "row": 87,
+        "project_activity": "6.1.8.5. Information sessions to recruit youth to join clubs",
+        "uom": "woreda session",
+        "target": 52.0,
+        "budget": 809476.970448616,
+        "raw_code": "Notlinked with AOP"
+      },
+      {
+        "row": 88,
+        "project_activity": "6.1.8.6. IEC/BCC materials on MHPSS for adolescent and youth  including translation",
+        "uom": "woreda per year",
+        "target": 15.0,
+        "budget": 934011.888979173,
+        "raw_code": "Notlinked with AOP"
+      },
+      {
+        "row": 90,
+        "project_activity": "6.1.9.2. Per diem for volunteer trainers to run youth club sessions including life skills sessions and PFA training",
+        "uom": "volunteer per day",
+        "target": 950.0,
+        "budget": 1035196.51028525,
+        "raw_code": "Notlinked with AOP"
+      },
+      {
+        "row": 91,
+        "project_activity": "6.1.10.1. Provision of SPRINT training  PILOT (per diem volunteers and participants )",
+        "uom": "person",
+        "target": 107.0,
+        "budget": 389480.0,
+        "raw_code": "Notlinked with AOP"
+      },
+      {
+        "row": 92,
+        "project_activity": "6.1.10.2. Seed fund groups projects part of for SPRINT PILOT",
+        "uom": "Group",
+        "target": 180.0,
+        "budget": 6552000.0,
+        "raw_code": "Notlinked with AOP"
+      },
+      {
+        "row": 96,
+        "project_activity": "6.1.11.3. Refreshment Costs for club meetings",
+        "uom": "Meetings",
+        "target": 32.0,
+        "budget": 996279.348244451,
+        "raw_code": "Notlinked with AOP"
+      },
+      {
+        "row": 97,
+        "project_activity": "6.1.11.4. Experience  sharing between clubs/schools to scale up best practice",
+        "uom": "person",
+        "target": 174.0,
+        "budget": 1583400.0,
+        "raw_code": "Notlinked with AOP"
+      },
+      {
+        "row": 104,
+        "project_activity": "6.2.2.2. Provision of lay counselling sessions for individuals",
+        "uom": "Person",
+        "target": 341.0,
+        "budget": 743162.126331096,
+        "raw_code": "Notlinked with AOP"
+      },
+      {
+        "row": 105,
+        "project_activity": "6.2.2.3. Psychoeducation for community members in group",
+        "uom": "Person",
+        "target": 428.0,
+        "budget": 932766.539793869,
+        "raw_code": "Notlinked with AOP"
+      },
+      {
+        "row": 106,
+        "project_activity": "6.2.2.4. Community Outreach by Red Cross Staff and volunteers",
+        "uom": "Person",
+        "target": 282.0,
+        "budget": 2633913.52692127,
+        "raw_code": "Notlinked with AOP"
+      },
+      {
+        "row": 107,
+        "project_activity": "6.2.3.1. Self-care sessions conducted with staff and volunteers",
+        "uom": "session",
+        "target": 41.0,
+        "budget": 382944.874481461,
+        "raw_code": "Notlinked with AOP"
+      },
+      {
+        "row": 108,
+        "project_activity": "6.2.3.2. Training of branch managers on caring for staff and volunteers wellbeing (Part of bigger training)",
+        "uom": "Workshop",
+        "target": 1.0,
+        "budget": 0.0,
+        "raw_code": "Notlinked with AOP"
+      },
+      {
+        "row": 109,
+        "project_activity": "6.2.4.1. Mapping and referral workshop to strengthen referral pathways for specialised MHPSS and other services with relevant stakeholders (incl. health facilities incl. hospitals and rehabilitation centres) to set up  multidisciplinary referral network",
+        "uom": "Person",
+        "target": 272.0,
+        "budget": 1238499.76478638,
+        "raw_code": "Notlinked with AOP"
+      },
+      {
+        "row": 110,
+        "project_activity": "6.2.4.3. Financial support for referral",
+        "uom": "cash",
+        "target": 70.0,
+        "budget": 8281000.0,
+        "raw_code": "Notlinked with AOP"
+      },
+      {
+        "row": 111,
+        "project_activity": "6.2.4.4. Establishing a technical coordination forum at Woreda level concerning MHPSS and hosts quarterly meetings",
+        "uom": "meetings",
+        "target": 147.0,
+        "budget": 1830663.30239918,
+        "raw_code": "Notlinked with AOP"
+      }
+    ]
+  },
+  {
+    "sheet_name": "SRC migration project",
+    "title": ": Humane, dignified, sustainable migration and return",
+    "donor": "Swedin Red Cross",
+    "location": "Oromia (Jimma) & Amhara (N.Wollo)",
+    "total_budget": 0.0,
+    "total_budget_str": "85,451,455.80",
+    "duration": "2026-01-01 to 2027-03-31",
+    "start_date": "",
+    "end_date": "",
+    "beneficiaries": "5000 individuals",
+    "linked_activities": [
+      {
+        "row": 21,
+        "project_activity": "Basic business and life skills training to the selected target groups for livilhood support",
+        "uom": "# of trainees(200)",
+        "target": 200.0,
+        "budget": 4479498.0,
+        "raw_code": "Activity 2.2.1",
+        "clean_code": "2.2.1",
+        "national_activity_desc": "Facilitate Training on basic business skills to vulnerable communites",
+        "strategic_objective": "Enhance livelihoods and economic opportunities for vulnerable communities and youths"
+      },
+      {
+        "row": 22,
+        "project_activity": "Start-up cash grants to support trained beneficiaries in small businesses.",
+        "uom": "Individual (200)",
+        "target": 200.0,
+        "budget": 12029257.0,
+        "raw_code": "Activity 2.2.2",
+        "clean_code": "2.2.2",
+        "national_activity_desc": "Provide finacial support for vulnerable communites trained on BBS to start business.",
+        "strategic_objective": "Enhance livelihoods and economic opportunities for vulnerable communities and youths"
+      },
+      {
+        "row": 23,
+        "project_activity": "Establish Village Savings and Loan Associations (VSLAs) to promote financial inclusion and sustainability.",
+        "uom": "# of VSLA groups",
+        "target": 200.0,
+        "budget": 903125.0,
+        "raw_code": "Activity 2.1.6",
+        "clean_code": "2.1.6",
+        "national_activity_desc": "Diversify livelihoods for volnerable households",
+        "strategic_objective": "Mitigate climate change Impacts and reduce socio-economic risks"
+      },
+      {
+        "row": 25,
+        "project_activity": "Support vulnerable youth to access vocational training in collaboration with Technical and Vocational Training (TVT) centers",
+        "uom": "# of youth",
+        "target": 90.0,
+        "budget": 2763561.0,
+        "raw_code": "Activity 2.2.3",
+        "clean_code": "2.2.3",
+        "national_activity_desc": "Facilitate access to youth vocational skills training and employment opportunities.",
+        "strategic_objective": "Enhance livelihoods and economic opportunities for vulnerable communities and youths"
+      },
+      {
+        "row": 27,
+        "project_activity": "Health Education and awareness raising on NCD and MHPSS for returnees and host community",
+        "uom": "# of people reached (24 sessions targeting 24*20 people per session",
+        "target": 60.0,
+        "budget": 162562.41,
+        "raw_code": "Activity 3.1.1",
+        "clean_code": "3.1.1",
+        "national_activity_desc": "Promote NCD prevention through behaviour change communication, support health facilities, and  early detection/ screenings and referrals.",
+        "strategic_objective": "Address public health concerns"
+      },
+      {
+        "row": 30,
+        "project_activity": "Training on Life skills for ERCS volunteers and Staff supported the project activites at the ERCS community center",
+        "uom": "# of volunteers for 2 days",
+        "target": 38.0,
+        "budget": 583418.43,
+        "raw_code": "Activity 2.2.1",
+        "clean_code": "2.2.1",
+        "national_activity_desc": "Facilitate Training on basic business skills to vulnerable communites",
+        "strategic_objective": "Enhance livelihoods and economic opportunities for vulnerable communities and youths"
+      },
+      {
+        "row": 34,
+        "project_activity": "Restoring Family Links services for Migrants and host community (Family tracing, referral, RCM..)",
+        "uom": "# of RFL cases supported",
+        "target": 3.0,
+        "budget": 812812.05,
+        "raw_code": "Activity 2.4.11",
+        "clean_code": "2.4.11",
+        "national_activity_desc": "Registration and follow up of tracing case (RCM & tracing request) to restore the missing family members",
+        "strategic_objective": "Strengthen migration services and Restoring Family Links (RFL)"
+      },
+      {
+        "row": 37,
+        "project_activity": "Awareness creation programs with RCRC national Socities, and local authorities on the safeguarding and principled approach to migration response ensure unhindered access for all migrants, regardless of their status.",
+        "uom": "# of trainees",
+        "target": 30.0,
+        "budget": 270937.35,
+        "raw_code": "Activity 2.4.2",
+        "clean_code": "2.4.2",
+        "national_activity_desc": "Disseminate timely and accurate information to potential migrants/ individuals prior to  departure to ensure informed and voluntary migration decisions.",
+        "strategic_objective": "Strengthen Health & WASH  in Emergencies"
+      },
+      {
+        "row": 42,
+        "project_activity": "Holding regular cross-border coordination meetings with selected bordering countries.",
+        "uom": "# of cross-border coordination meetings held",
+        "target": 4.0,
+        "budget": 0.0,
+        "raw_code": "Activity 2.4.5",
+        "clean_code": "2.4.5",
+        "national_activity_desc": "Organize/ participate in National and international partners collaboration workshops to address cross-border challenges.",
+        "strategic_objective": "Strengthen Health & WASH  in Emergencies"
+      }
+    ],
+    "unlinked_activities": [
+      {
+        "row": 9,
+        "project_activity": "Establishing referral pathways to support returnees in accessing legal, protection, health, education, and basic assistance.",
+        "uom": "lumpsum",
+        "target": 60.0,
+        "budget": 1083749.4,
+        "raw_code": "Not linked with AOP"
+      },
+      {
+        "row": 10,
+        "project_activity": "Establish child-friendly spaces within Red Cross community centers.",
+        "uom": "# of community center",
+        "target": 2.0,
+        "budget": 2167498.8,
+        "raw_code": "Not linked with AOP"
+      },
+      {
+        "row": 11,
+        "project_activity": "Undertake childcare services at Red Cross community centers for mothers with young children while they attend training or access services.",
+        "uom": "# of volunteers (24 Volunteers)",
+        "target": 24.0,
+        "budget": 1300499.28,
+        "raw_code": "Not linked with AOP"
+      },
+      {
+        "row": 12,
+        "project_activity": "Equip and adapt Red Cross community centers based on SOPs to ensure accessibility and inclusion for persons with disabilities.",
+        "uom": "# of community center",
+        "target": 2.0,
+        "budget": 2167498.8,
+        "raw_code": "Not linked with AOP"
+      },
+      {
+        "row": 13,
+        "project_activity": "Establish Red Cross community centers and equip them with necessary materials",
+        "uom": "# of community center",
+        "target": 2.0,
+        "budget": 7224996.0,
+        "raw_code": "Not linked with AOP"
+      },
+      {
+        "row": 14,
+        "project_activity": "Organize recreational and cultural events to promote interaction and inclusion returnees and host communities",
+        "uom": "months (ongoing recreational activities)",
+        "target": 12.0,
+        "budget": 541875.0,
+        "raw_code": "Not linked with AOP"
+      },
+      {
+        "row": 15,
+        "project_activity": "Conduct community outreach sessions to raise awareness and strengthen engagement",
+        "uom": "Sessions (24)",
+        "target": 4.0,
+        "budget": 433500.0,
+        "raw_code": "Not linked with AOP"
+      },
+      {
+        "row": 16,
+        "project_activity": "Support youth engagement in sports and social clubs to promote cohesion and positive interaction among returnees and host communities",
+        "uom": "# of Sport clubs",
+        "target": 2.0,
+        "budget": 216750.0,
+        "raw_code": "Not linked with AOP"
+      },
+      {
+        "row": 17,
+        "project_activity": "Support community-based cultural practices such as handicrafts to starengthen social interaction among returnees and host communities",
+        "uom": "# of individuals supported (200)",
+        "target": 2.0,
+        "budget": 3458967.0,
+        "raw_code": "Not linked with AOP"
+      },
+      {
+        "row": 18,
+        "project_activity": "Adopt or develop LLH implementation guidelines based on the specific context of the implementation areas and organize brifing workshop.",
+        "uom": "# of Steakholder representatives (30)",
+        "target": 1.0,
+        "budget": 361412.0,
+        "raw_code": "Not linked with AOP"
+      },
+      {
+        "row": 19,
+        "project_activity": "Identify beneficiaries for livelihood (LLH) support in collaboration with CEA and relevant stakeholders.",
+        "uom": "# assessment",
+        "target": 2.0,
+        "budget": 90312.0,
+        "raw_code": "Not linked with AOP"
+      },
+      {
+        "row": 20,
+        "project_activity": "Conduct business and market opportunity assessments to guide livelihood planning",
+        "uom": "# of trainees (200)",
+        "target": 2.0,
+        "budget": 36125.0,
+        "raw_code": "Not linked with AOP"
+      },
+      {
+        "row": 24,
+        "project_activity": "Conduct regular follow-up and monitoring of livelihood beneficiaries to ensure progress and sustainability.",
+        "uom": "Monitoring visit/Perdiem for volunteers (14)",
+        "target": 14.0,
+        "budget": 1011499.0,
+        "raw_code": "Not linked with AOP"
+      },
+      {
+        "row": 26,
+        "project_activity": "Organize graduation ceremony for livelihood and vocational tarining beneficaries at the end of each implemetion years",
+        "uom": "# of trainees (40)",
+        "target": 2.0,
+        "budget": 401840.0,
+        "raw_code": "Not linked with AOP"
+      },
+      {
+        "row": 28,
+        "project_activity": "Capacitate ERCS frontline workers, CEA, Religious leaders and volunteers in community based MPHSS, and Psychological First Aid (PFA)",
+        "uom": "# of trainees for 2 days",
+        "target": 60.0,
+        "budget": 780299.57,
+        "raw_code": "Not linked with AOP"
+      },
+      {
+        "row": 29,
+        "project_activity": "Training on Psychological First Aid (PFA), lay counselling, and psycho-education for ERCS volunteers and staff involved in the project activities",
+        "uom": "# of volunteers for 3 days",
+        "target": 38.0,
+        "budget": 686374.62,
+        "raw_code": "Not linked with AOP"
+      },
+      {
+        "row": 31,
+        "project_activity": "Psycho-education and lay counselling for target group",
+        "uom": "# of sessions (for psychoeducation)",
+        "target": 12.0,
+        "budget": 108374.94,
+        "raw_code": "Not linked with AOP"
+      },
+      {
+        "row": 32,
+        "project_activity": "Self-care sessions for ERCS staff and volunteers",
+        "uom": "# of sessions/event",
+        "target": 1.0,
+        "budget": 505749.72,
+        "raw_code": "Not linked with AOP"
+      },
+      {
+        "row": 33,
+        "project_activity": "Facilitate community-based health insurance for vulnerable individuals",
+        "uom": "person (1400 to 1500 ETB each)",
+        "target": 200.0,
+        "budget": 433499.76,
+        "raw_code": "Not linked with AOP"
+      },
+      {
+        "row": 35,
+        "project_activity": "Awareness-raising programs on the auxiliary role of National Societies for local autorities",
+        "uom": "# of participants reached",
+        "target": 2.0,
+        "budget": 56354.97,
+        "raw_code": "Not linked with AOP"
+      },
+      {
+        "row": 36,
+        "project_activity": "Conducting regular coordination meetings between ERCS branches and local authorities.",
+        "uom": "# of coordination meetings held",
+        "target": 2.0,
+        "budget": 56354.97,
+        "raw_code": "Not linked with AOP"
+      },
+      {
+        "row": 38,
+        "project_activity": "Support the development of HD guideline for migration",
+        "uom": "# of document produce",
+        "target": 1.0,
+        "budget": 542055.32,
+        "raw_code": "Not linked with AOP"
+      },
+      {
+        "row": 39,
+        "project_activity": "Establishment and enhancement of feedback and complaints mechanisms",
+        "uom": "lumpsum",
+        "target": 2.0,
+        "budget": 144499.92,
+        "raw_code": "Not linked with AOP"
+      },
+      {
+        "row": 40,
+        "project_activity": "Regular CEA meeting to responed compliance raised from beneficaries",
+        "uom": "#meetings",
+        "target": 6.0,
+        "budget": 32512.48,
+        "raw_code": "Not linked with AOP"
+      },
+      {
+        "row": 41,
+        "project_activity": "Participating in regional learning events, webinars, and peer reviews focused on migration and PGI, enabling continuous improvement and alignment with best practices.",
+        "uom": "# of staff/representatives participating",
+        "target": 3.0,
+        "budget": 0.0,
+        "raw_code": "Not linked with AOP"
+      },
+      {
+        "row": 43,
+        "project_activity": "Ensuring active participation of Migration Focal Points in global and regional migration forums to represent field realities and influence policy",
+        "uom": "# of workshops",
+        "target": 4.0,
+        "budget": 722499.6,
+        "raw_code": "Not linked with AOP"
+      },
+      {
+        "row": 44,
+        "project_activity": "Conduct lesson-learning workshops along key migration routes to assess coordination and identify improvements.",
+        "uom": "# workshop",
+        "target": 1.0,
+        "budget": 0.0,
+        "raw_code": "Not linked with AOP"
+      },
+      {
+        "row": 45,
+        "project_activity": "Conduct regular assessments and surveys on migrants\u2019 needs, vulnerabilities, and protection risks at key migration routes, entry/exit points, and destination areas.",
+        "uom": "#assessments",
+        "target": 2.0,
+        "budget": 0.0,
+        "raw_code": "Not linked with AOP"
+      },
+      {
+        "row": 46,
+        "project_activity": "Establish a data collection and management system including data collection, analysis, and reporting formats related to migration trends and humanitarian needs.",
+        "uom": "lumpsum",
+        "target": 2.0,
+        "budget": 0.0,
+        "raw_code": "Not linked with AOP"
+      },
+      {
+        "row": 47,
+        "project_activity": "Produce and disseminate regular situation updates, analytical reports, and migration trend bulletins to inform decision-making and advocacy.",
+        "uom": "lumpsum",
+        "target": 2.0,
+        "budget": 0.0,
+        "raw_code": "Not linked with AOP"
+      },
+      {
+        "row": 48,
+        "project_activity": "Organise experience-sharing and dissemination workshops with relevant stakeholders, including internal teams, partners, and decision-makers, to incorporate findings into programme actions.",
+        "uom": "# of workshops",
+        "target": 1.0,
+        "budget": 0.0,
+        "raw_code": "Not linked with AOP"
+      },
+      {
+        "row": 49,
+        "project_activity": "Conduct training and sensitization workshops for government officials and border authorities, and National Society branches on humanitarian principles and migrants\u2019 rights.",
+        "uom": "# of workshops",
+        "target": 1.0,
+        "budget": 0.0,
+        "raw_code": "Not linked with AOP"
+      },
+      {
+        "row": 50,
+        "project_activity": "Salaries  _Project Coordinator, Head Quarter (100%)",
+        "uom": "FTE/Month",
+        "target": 5.0,
+        "budget": 762237.0,
+        "raw_code": "Not linked with AOP"
+      },
+      {
+        "row": 51,
+        "project_activity": "Salaries  _Senior Livlihood Officer (100%)",
+        "uom": "FTE/Month",
+        "target": 5.0,
+        "budget": 508459.0,
+        "raw_code": "Not linked with AOP"
+      },
+      {
+        "row": 52,
+        "project_activity": "Salaries  _Senior Mental Health and Psychosocial support officer (100%)",
+        "uom": "FTE/Month",
+        "target": 2.0,
+        "budget": 203384.0,
+        "raw_code": "Not linked with AOP"
+      },
+      {
+        "row": 53,
+        "project_activity": "Salaries  _Senior Protection Officer, Head Quarter (100%)",
+        "uom": "FTE/Month",
+        "target": 0.0,
+        "budget": 0.0,
+        "raw_code": "Not linked with AOP"
+      },
+      {
+        "row": 54,
+        "project_activity": "Salaries  _PMER Officer (PMER department)  (100%)",
+        "uom": "FTE/Month",
+        "target": 5.0,
+        "budget": 508459.0,
+        "raw_code": "Not linked with AOP"
+      },
+      {
+        "row": 55,
+        "project_activity": "Salaries  _Project Coordinator 1 (Zonal branches)  (100%)",
+        "uom": "FTE/Month",
+        "target": 6.0,
+        "budget": 457342.0,
+        "raw_code": "Not linked with AOP"
+      },
+      {
+        "row": 56,
+        "project_activity": "Salaries  _Project Coordinator 2 (Zonal branches)  (100%)",
+        "uom": "FTE/Month",
+        "target": 6.0,
+        "budget": 457342.0,
+        "raw_code": "Not linked with AOP"
+      },
+      {
+        "row": 57,
+        "project_activity": "MHPSS Field Officer 1 (zonal branch) (100%)",
+        "uom": "FTE/Month",
+        "target": 6.0,
+        "budget": 384731.0,
+        "raw_code": "Not linked with AOP"
+      },
+      {
+        "row": 58,
+        "project_activity": "MHPSS Field Officer 2 (zonal branch) (100%)",
+        "uom": "FTE/Month",
+        "target": 6.0,
+        "budget": 384731.0,
+        "raw_code": "Not linked with AOP"
+      },
+      {
+        "row": 59,
+        "project_activity": "Livelihood Field Officer 1 (zonal branch) (100%)",
+        "uom": "FTE/Month",
+        "target": 6.0,
+        "budget": 384731.0,
+        "raw_code": "Not linked with AOP"
+      },
+      {
+        "row": 60,
+        "project_activity": "Livelihood Field Officer 2 (zonal branch) (100%)",
+        "uom": "FTE/Month",
+        "target": 6.0,
+        "budget": 384731.0,
+        "raw_code": "Not linked with AOP"
+      },
+      {
+        "row": 61,
+        "project_activity": "Salaries  _Project Accountant, Head Quarter (Finance department) 100%",
+        "uom": "FTE/Month",
+        "target": 7.0,
+        "budget": 533566.0,
+        "raw_code": "Not linked with AOP"
+      },
+      {
+        "row": 62,
+        "project_activity": "Salaries  _Project Accountant 1 (Zonal branches) (100%)",
+        "uom": "FTE/Month",
+        "target": 6.0,
+        "budget": 346800.0,
+        "raw_code": "Not linked with AOP"
+      },
+      {
+        "row": 63,
+        "project_activity": "Salaries  _Project Accountant 2 (Zonal branches) (100%)",
+        "uom": "FTE/Month",
+        "target": 6.0,
+        "budget": 346800.0,
+        "raw_code": "Not linked with AOP"
+      },
+      {
+        "row": 64,
+        "project_activity": "Salaries  _Security Guard 1 (zonal branches) (100%)",
+        "uom": "FTE/Month",
+        "target": 6.0,
+        "budget": 108375.0,
+        "raw_code": "Not linked with AOP"
+      },
+      {
+        "row": 65,
+        "project_activity": "Salaries  _Security Guard 2 (zonal branches) (100%)",
+        "uom": "FTE/Month",
+        "target": 6.0,
+        "budget": 108375.0,
+        "raw_code": "Not linked with AOP"
+      },
+      {
+        "row": 66,
+        "project_activity": "Salaries  _Cashier 1 (100%)",
+        "uom": "FTE/Month",
+        "target": 6.0,
+        "budget": 184237.0,
+        "raw_code": "Not linked with AOP"
+      },
+      {
+        "row": 67,
+        "project_activity": "Salaries  _Cashier 2 (100%)",
+        "uom": "FTE/Month",
+        "target": 6.0,
+        "budget": 184237.0,
+        "raw_code": "Not linked with AOP"
+      },
+      {
+        "row": 68,
+        "project_activity": "Salaries  _Medical and life insurance (16 staff)",
+        "uom": "FTE/Month",
+        "target": 10.0,
+        "budget": 180625.0,
+        "raw_code": "Not linked with AOP"
+      },
+      {
+        "row": 69,
+        "project_activity": "Monitoring and Follow-up activity 1  _Activity M1: Inception workshop",
+        "uom": "# of workshops",
+        "target": 2.0,
+        "budget": 2167498.8,
+        "raw_code": "Not linked with AOP"
+      },
+      {
+        "row": 70,
+        "project_activity": "Monitoring and Follow-up activity 1  _Activity M2:Quarter based supervison and Monitoring visite",
+        "uom": "# of visits",
+        "target": 3.0,
+        "budget": 2438436.15,
+        "raw_code": "Not linked with AOP"
+      },
+      {
+        "row": 71,
+        "project_activity": "Monitoring and Follow-up activity 1  _Activity M4 Annual Review metting",
+        "uom": "# of meetings",
+        "target": 3.0,
+        "budget": 1354686.75,
+        "raw_code": "Not linked with AOP"
+      },
+      {
+        "row": 72,
+        "project_activity": "Evaluation  _Activity E1: Baseline survey",
+        "uom": "Survey",
+        "target": 4.0,
+        "budget": 1087361.9,
+        "raw_code": "Not linked with AOP"
+      },
+      {
+        "row": 73,
+        "project_activity": "Green Response _Activity GR1: Organize tree planting and reforestation campaigns in project areas.",
+        "uom": "# event",
+        "target": 2.0,
+        "budget": 722499.6,
+        "raw_code": "Not linked with AOP"
+      },
+      {
+        "row": 74,
+        "project_activity": "Green Response _Activity GR2: Conduct regular community clean-up initiatives to promote environmental hygiene.",
+        "uom": "month",
+        "target": 4.0,
+        "budget": 386074.51,
+        "raw_code": "Not linked with AOP"
+      },
+      {
+        "row": 75,
+        "project_activity": "Green Response _Activity GR4: Deliver environmental awareness sessions integrated into community engagement activities",
+        "uom": "workshop",
+        "target": 1.0,
+        "budget": 386074.51,
+        "raw_code": "Not linked with AOP"
+      },
+      {
+        "row": 76,
+        "project_activity": "Safety and Security of Volunteers _Activity SSV2: Insurance volunteers",
+        "uom": "# volunteers",
+        "target": 40.0,
+        "budget": 11582.24,
+        "raw_code": "Not linked with AOP"
+      },
+      {
+        "row": 77,
+        "project_activity": "General Expenditure _Laptop procurement",
+        "uom": "# of Laptop",
+        "target": 11.0,
+        "budget": 2471671.13,
+        "raw_code": "Not linked with AOP"
+      },
+      {
+        "row": 78,
+        "project_activity": "General Expenditure _Printers/photo copy machine, Filing Cabinet ( 1 per zonal branch,)",
+        "uom": "#of Printers",
+        "target": 2.0,
+        "budget": 1083749.4,
+        "raw_code": "Not linked with AOP"
+      },
+      {
+        "row": 79,
+        "project_activity": "General Expenditure _Office stationaries, translations and others",
+        "uom": "lumpsum",
+        "target": 2.0,
+        "budget": 722499.6,
+        "raw_code": "Not linked with AOP"
+      },
+      {
+        "row": 80,
+        "project_activity": "General Expenditure _Vehicle mileage/Driver allowance",
+        "uom": "lumpsum",
+        "target": 2.0,
+        "budget": 1806249.0,
+        "raw_code": "Not linked with AOP"
+      },
+      {
+        "row": 81,
+        "project_activity": "General Expenditure _Fuel and Lubricants",
+        "uom": "lumpsum",
+        "target": 2.0,
+        "budget": 1806249.0,
+        "raw_code": "Not linked with AOP"
+      },
+      {
+        "row": 82,
+        "project_activity": "General Expenditure _Vehicle service & maintenance",
+        "uom": "lumpsum",
+        "target": 4.0,
+        "budget": 1864914.7,
+        "raw_code": "Not linked with AOP"
+      },
+      {
+        "row": 83,
+        "project_activity": "General Expenditure _Vehicle insurance",
+        "uom": "lumpsum",
+        "target": 2.0,
+        "budget": 722499.6,
+        "raw_code": "Not linked with AOP"
+      },
+      {
+        "row": 84,
+        "project_activity": "General Expenditure _Tires for vehicle with iner tube",
+        "uom": "lumpsum",
+        "target": 4.0,
+        "budget": 3088596.05,
+        "raw_code": "Not linked with AOP"
+      },
+      {
+        "row": 85,
+        "project_activity": "General Expenditure _Spare parts",
+        "uom": "lumpsum",
+        "target": 2.0,
+        "budget": 1083749.4,
+        "raw_code": "Not linked with AOP"
+      },
+      {
+        "row": 86,
+        "project_activity": "General Expenditure _Communication cost (mobile)",
+        "uom": "Month",
+        "target": 11.0,
+        "budget": 19868.74,
+        "raw_code": "Not linked with AOP"
+      },
+      {
+        "row": 87,
+        "project_activity": "General Expenditure _Table & chairs for project staff",
+        "uom": "lumpsum",
+        "target": 2.0,
+        "budget": 1112649.38,
+        "raw_code": "Not linked with AOP"
+      },
+      {
+        "row": 88,
+        "project_activity": "General Expenditure _Bank charges",
+        "uom": "Month",
+        "target": 4.0,
+        "budget": 346799.81,
+        "raw_code": "Not linked with AOP"
+      },
+      {
+        "row": 89,
+        "project_activity": "Indirect Cost _Shared Office and Services Costs  7% Donor",
+        "uom": "Percentage",
+        "target": 1.0,
+        "budget": 5437819.9,
+        "raw_code": "Not linked with AOP"
+      },
+      {
+        "row": 90,
+        "project_activity": "Indirect Cost _Shared Office and Services Costs   3% SRC",
+        "uom": "Percentage",
+        "target": 1.0,
+        "budget": 2330494.24,
+        "raw_code": "Not linked with AOP"
+      }
+    ]
+  }
+]

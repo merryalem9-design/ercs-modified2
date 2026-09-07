@@ -930,7 +930,9 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "reg-afar",
       "reg-moyale"
     ],
-    "eligible_project_ids": [],
+    "eligible_project_ids": [
+      "rise-project"
+    ],
     "ercs_target": 819.0,
     "ercs_budget": 20607900.0,
     "hq_target": 378.0,
@@ -999,7 +1001,12 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
         "budget": 100000.0
       }
     },
-    "project_targets": {}
+    "project_targets": {
+      "rise-project": {
+        "target": 45.0,
+        "budget": 990000.0
+      }
+    }
   },
   {
     "id": "na-1-1-9",
@@ -1142,7 +1149,8 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
     ],
     "eligible_project_ids": [
       "grc-hacap3",
-      "l4r"
+      "l4r",
+      "rise-project"
     ],
     "ercs_target": 9.0,
     "ercs_budget": 10953357.66,
@@ -1220,6 +1228,10 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "l4r": {
         "target": 2.0,
         "budget": 570400.0
+      },
+      "rise-project": {
+        "target": 2.0,
+        "budget": 3250000.0
       }
     }
   },
@@ -2221,7 +2233,8 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "grc-hacap3",
       "stream-ercs",
       "tesfa",
-      "ec2r-cash"
+      "ec2r-cash",
+      "sudan-pop-movement"
     ],
     "ercs_target": 75000.0,
     "ercs_budget": 2205900000.0,
@@ -2307,6 +2320,10 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "ec2r-cash": {
         "target": 18233.0,
         "budget": 800883100.0
+      },
+      "sudan-pop-movement": {
+        "target": 687.0,
+        "budget": 6839300.0
       }
     }
   },
@@ -2446,7 +2463,8 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
     ],
     "eligible_project_ids": [
       "grc-hacap3",
-      "akobo"
+      "akobo",
+      "sudan-pop-movement"
     ],
     "ercs_target": 22650.0,
     "ercs_budget": 123570000.0,
@@ -2524,6 +2542,10 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "akobo": {
         "target": 6750.0,
         "budget": 9989264.25
+      },
+      "sudan-pop-movement": {
+        "target": 315.0,
+        "budget": 3937500.0
       }
     }
   },
@@ -3275,7 +3297,8 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "reg-moyale"
     ],
     "eligible_project_ids": [
-      "l4r"
+      "l4r",
+      "rise-project"
     ],
     "ercs_target": 88.0,
     "ercs_budget": 7370000.0,
@@ -3349,6 +3372,10 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "l4r": {
         "target": 6.0,
         "budget": 1288000.0
+      },
+      "rise-project": {
+        "target": 3.0,
+        "budget": 1369086.0
       }
     }
   },
@@ -3492,7 +3519,8 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "reg-moyale"
     ],
     "eligible_project_ids": [
-      "sraps"
+      "sraps",
+      "rise-project"
     ],
     "ercs_target": 663.0,
     "ercs_budget": 5810000.0,
@@ -3566,6 +3594,10 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "sraps": {
         "target": 95.0,
         "budget": 18550.0
+      },
+      "rise-project": {
+        "target": 2.0,
+        "budget": 726699.2
       }
     }
   },
@@ -3599,7 +3631,9 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
     ],
     "eligible_project_ids": [
       "l4r",
-      "stream-ercs"
+      "stream-ercs",
+      "livelihood-afar",
+      "rise-project"
     ],
     "ercs_target": 301.0,
     "ercs_budget": 14802500.0,
@@ -3677,6 +3711,14 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "l4r": {
         "target": 3.0,
         "budget": 552000.0
+      },
+      "livelihood-afar": {
+        "target": 1.0,
+        "budget": 1009142.0
+      },
+      "rise-project": {
+        "target": 5.0,
+        "budget": 2500000.0
       }
     }
   },
@@ -3710,7 +3752,9 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
     ],
     "eligible_project_ids": [
       "sraps",
-      "tesfa"
+      "tesfa",
+      "rise-project",
+      "src-migration"
     ],
     "ercs_target": 12065.0,
     "ercs_budget": 243350000.0,
@@ -3788,6 +3832,14 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "tesfa": {
         "target": 120.0,
         "budget": 4592400.0
+      },
+      "rise-project": {
+        "target": 1775.0,
+        "budget": 20450000.0
+      },
+      "src-migration": {
+        "target": 200.0,
+        "budget": 903125.0
       }
     }
   },
@@ -3933,7 +3985,8 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
     "eligible_project_ids": [
       "grc-hacap3",
       "l4r",
-      "sraps"
+      "sraps",
+      "rise-project"
     ],
     "ercs_target": 702.0,
     "ercs_budget": 24255304.0,
@@ -4015,6 +4068,10 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "l4r": {
         "target": 550.0,
         "budget": 14361200.0
+      },
+      "rise-project": {
+        "target": 300.0,
+        "budget": 3900000.0
       }
     }
   },
@@ -4155,7 +4212,11 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
     "eligible_project_ids": [
       "grc-hacap3",
       "l4r",
-      "tesfa"
+      "tesfa",
+      "wb-resilience-migration",
+      "sudan-pop-movement",
+      "social-cohesion",
+      "src-migration"
     ],
     "ercs_target": 2352.0,
     "ercs_budget": 7025000.0,
@@ -4237,6 +4298,22 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "tesfa": {
         "target": 120.0,
         "budget": 3048528.0000000005
+      },
+      "wb-resilience-migration": {
+        "target": 316.0,
+        "budget": 1199070.0
+      },
+      "sudan-pop-movement": {
+        "target": 400.0,
+        "budget": 4400000.0
+      },
+      "social-cohesion": {
+        "target": 800.0,
+        "budget": 6981935.10366748
+      },
+      "src-migration": {
+        "target": 238.0,
+        "budget": 5062916.43
       }
     }
   },
@@ -4271,7 +4348,9 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
     "eligible_project_ids": [
       "grc-hacap3",
       "l4r",
-      "tesfa"
+      "tesfa",
+      "sudan-pop-movement",
+      "src-migration"
     ],
     "ercs_target": 2258.0,
     "ercs_budget": 111595000.0,
@@ -4353,6 +4432,14 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "tesfa": {
         "target": 120.0,
         "budget": 8256000.0
+      },
+      "sudan-pop-movement": {
+        "target": 400.0,
+        "budget": 20000000.0
+      },
+      "src-migration": {
+        "target": 200.0,
+        "budget": 12029257.0
       }
     }
   },
@@ -4384,7 +4471,10 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "reg-afar",
       "reg-moyale"
     ],
-    "eligible_project_ids": [],
+    "eligible_project_ids": [
+      "rise-project",
+      "src-migration"
+    ],
     "ercs_target": 640.0,
     "ercs_budget": 30880000.0,
     "hq_target": 600.0,
@@ -4453,7 +4543,16 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
         "budget": 0.0
       }
     },
-    "project_targets": {}
+    "project_targets": {
+      "rise-project": {
+        "target": 100.0,
+        "budget": 4000000.0
+      },
+      "src-migration": {
+        "target": 90.0,
+        "budget": 2763561.0
+      }
+    }
   },
   {
     "id": "na-2-3-1",
@@ -4483,7 +4582,9 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "reg-afar",
       "reg-moyale"
     ],
-    "eligible_project_ids": [],
+    "eligible_project_ids": [
+      "social-cohesion"
+    ],
     "ercs_target": 13200.0,
     "ercs_budget": 7342800.0,
     "hq_target": 12000.0,
@@ -4552,7 +4653,12 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
         "budget": 0.0
       }
     },
-    "project_targets": {}
+    "project_targets": {
+      "social-cohesion": {
+        "target": 150.356,
+        "budget": 14938586.152332917
+      }
+    }
   },
   {
     "id": "na-2-3-2",
@@ -4582,7 +4688,9 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "reg-afar",
       "reg-moyale"
     ],
-    "eligible_project_ids": [],
+    "eligible_project_ids": [
+      "social-cohesion"
+    ],
     "ercs_target": 1655.0,
     "ercs_budget": 6975246.0,
     "hq_target": 750.0,
@@ -4651,7 +4759,12 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
         "budget": 0.0
       }
     },
-    "project_targets": {}
+    "project_targets": {
+      "social-cohesion": {
+        "target": 403.0,
+        "budget": 16974978.12720297
+      }
+    }
   },
   {
     "id": "na-2-3-3",
@@ -4681,7 +4794,9 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "reg-afar",
       "reg-moyale"
     ],
-    "eligible_project_ids": [],
+    "eligible_project_ids": [
+      "social-cohesion"
+    ],
     "ercs_target": 504.0,
     "ercs_budget": 4779498.0,
     "hq_target": 175.0,
@@ -4750,7 +4865,12 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
         "budget": 0.0
       }
     },
-    "project_targets": {}
+    "project_targets": {
+      "social-cohesion": {
+        "target": 69.0,
+        "budget": 5181762.333746738
+      }
+    }
   },
   {
     "id": "na-2-3-4",
@@ -4780,7 +4900,9 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "reg-afar",
       "reg-moyale"
     ],
-    "eligible_project_ids": [],
+    "eligible_project_ids": [
+      "social-cohesion"
+    ],
     "ercs_target": 1755.0,
     "ercs_budget": 3936754.0,
     "hq_target": 1345.0,
@@ -4849,7 +4971,12 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
         "budget": 0.0
       }
     },
-    "project_targets": {}
+    "project_targets": {
+      "social-cohesion": {
+        "target": 284.0,
+        "budget": 516880.0
+      }
+    }
   },
   {
     "id": "na-2-3-5",
@@ -4879,7 +5006,9 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "reg-afar",
       "reg-moyale"
     ],
-    "eligible_project_ids": [],
+    "eligible_project_ids": [
+      "social-cohesion"
+    ],
     "ercs_target": 1240000.0,
     "ercs_budget": 3277600.0,
     "hq_target": 1150000.0,
@@ -4948,7 +5077,12 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
         "budget": 0.0
       }
     },
-    "project_targets": {}
+    "project_targets": {
+      "social-cohesion": {
+        "target": 8.0,
+        "budget": 3113372.96326391
+      }
+    }
   },
   {
     "id": "na-2-4-1",
@@ -4979,7 +5113,8 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "reg-moyale"
     ],
     "eligible_project_ids": [
-      "tesfa"
+      "tesfa",
+      "wb-resilience-migration"
     ],
     "ercs_target": 203360.0,
     "ercs_budget": 102999000.0,
@@ -5053,6 +5188,10 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "tesfa": {
         "target": 10.0,
         "budget": 516000.0
+      },
+      "wb-resilience-migration": {
+        "target": 50889.0,
+        "budget": 5465271.0
       }
     }
   },
@@ -5085,7 +5224,8 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "reg-moyale"
     ],
     "eligible_project_ids": [
-      "tesfa"
+      "tesfa",
+      "src-migration"
     ],
     "ercs_target": 7600.0,
     "ercs_budget": 1069000.0,
@@ -5159,6 +5299,10 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "tesfa": {
         "target": 1.0,
         "budget": 412800.0
+      },
+      "src-migration": {
+        "target": 30.0,
+        "budget": 270937.35
       }
     }
   },
@@ -5191,7 +5335,8 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "reg-moyale"
     ],
     "eligible_project_ids": [
-      "tesfa"
+      "tesfa",
+      "wb-resilience-migration"
     ],
     "ercs_target": 29247.0,
     "ercs_budget": 2802000.0,
@@ -5265,6 +5410,10 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "tesfa": {
         "target": 24.0,
         "budget": 1238400.0
+      },
+      "wb-resilience-migration": {
+        "target": 18009.0,
+        "budget": 1223999.98
       }
     }
   },
@@ -5280,7 +5429,9 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
     "activity_description": "Provide the socio-economic integration of migrants and vulnerable communities by offering basic business & life skills training  as well as business start up capital,",
     "year": 2019,
     "eligible_region_ids": [],
-    "eligible_project_ids": [],
+    "eligible_project_ids": [
+      "wb-resilience-migration"
+    ],
     "ercs_target": 2200.0,
     "ercs_budget": 110277200.0,
     "hq_target": 2200.0,
@@ -5349,7 +5500,12 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
         "budget": 0.0
       }
     },
-    "project_targets": {}
+    "project_targets": {
+      "wb-resilience-migration": {
+        "target": 378.0,
+        "budget": 17354500.0
+      }
+    }
   },
   {
     "id": "na-2-4-5",
@@ -5363,7 +5519,9 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
     "activity_description": "Organize/ participate in National and international partners collaboration workshops to address cross-border challenges.",
     "year": 2019,
     "eligible_region_ids": [],
-    "eligible_project_ids": [],
+    "eligible_project_ids": [
+      "src-migration"
+    ],
     "ercs_target": 12.0,
     "ercs_budget": 1300000.0,
     "hq_target": 4.0,
@@ -5432,7 +5590,12 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
         "budget": 0.0
       }
     },
-    "project_targets": {}
+    "project_targets": {
+      "src-migration": {
+        "target": 4.0,
+        "budget": 0.0
+      }
+    }
   },
   {
     "id": "na-2-4-6",
@@ -5955,7 +6118,9 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "reg-afar",
       "reg-moyale"
     ],
-    "eligible_project_ids": [],
+    "eligible_project_ids": [
+      "src-migration"
+    ],
     "ercs_target": 1049.0,
     "ercs_budget": 534000.0,
     "hq_target": 800.0,
@@ -6024,7 +6189,12 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
         "budget": 10000.0
       }
     },
-    "project_targets": {}
+    "project_targets": {
+      "src-migration": {
+        "target": 3.0,
+        "budget": 812812.05
+      }
+    }
   },
   {
     "id": "na-2-4-12",
@@ -6501,7 +6671,9 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "reg-afar",
       "reg-moyale"
     ],
-    "eligible_project_ids": [],
+    "eligible_project_ids": [
+      "src-migration"
+    ],
     "ercs_target": 42700.0,
     "ercs_budget": 10909496.0,
     "hq_target": 9500.0,
@@ -6570,7 +6742,12 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
         "budget": 0.0
       }
     },
-    "project_targets": {}
+    "project_targets": {
+      "src-migration": {
+        "target": 60.0,
+        "budget": 162562.41
+      }
+    }
   },
   {
     "id": "na-3-1-2",
@@ -6605,7 +6782,9 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "cidca",
       "ec2r-health",
       "akobo",
-      "eccmp-malaria"
+      "eccmp-malaria",
+      "sudan-pop-movement",
+      "rise-project"
     ],
     "ercs_target": 125630.0,
     "ercs_budget": 35410000.0,
@@ -6695,6 +6874,14 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "eccmp-malaria": {
         "target": 250051.0,
         "budget": 117500000.0
+      },
+      "sudan-pop-movement": {
+        "target": 40.0,
+        "budget": 320000.0
+      },
+      "rise-project": {
+        "target": 900.0,
+        "budget": 700000.0
       }
     }
   },
@@ -7277,7 +7464,9 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
     ],
     "eligible_project_ids": [
       "sraps",
-      "tesfa"
+      "tesfa",
+      "sudan-pop-movement",
+      "social-cohesion"
     ],
     "ercs_target": 2720.0,
     "ercs_budget": 9225000.0,
@@ -7355,6 +7544,14 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "tesfa": {
         "target": 800.0,
         "budget": 2064000.0
+      },
+      "sudan-pop-movement": {
+        "target": 180.0,
+        "budget": 1920000.0
+      },
+      "social-cohesion": {
+        "target": 435.0,
+        "budget": 9918739.255014319
       }
     }
   },
@@ -7470,7 +7667,8 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "reg-moyale"
     ],
     "eligible_project_ids": [
-      "akobo"
+      "akobo",
+      "sudan-pop-movement"
     ],
     "ercs_target": 10200.0,
     "ercs_budget": 4125000.0,
@@ -7544,6 +7742,10 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "akobo": {
         "target": 1350.0,
         "budget": 3995705.7
+      },
+      "sudan-pop-movement": {
+        "target": 2.0,
+        "budget": 400000.0
       }
     }
   },
@@ -7576,7 +7778,8 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "reg-moyale"
     ],
     "eligible_project_ids": [
-      "grc-hacap3"
+      "grc-hacap3",
+      "sudan-pop-movement"
     ],
     "ercs_target": 58.0,
     "ercs_budget": 16859090.0,
@@ -7650,6 +7853,10 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "grc-hacap3": {
         "target": 100.0,
         "budget": 1780000.0
+      },
+      "sudan-pop-movement": {
+        "target": 1.0,
+        "budget": 3000000.0
       }
     }
   },
@@ -7682,7 +7889,8 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "reg-moyale"
     ],
     "eligible_project_ids": [
-      "seap"
+      "seap",
+      "sudan-pop-movement"
     ],
     "ercs_target": 6020.0,
     "ercs_budget": 9299558.0,
@@ -7756,6 +7964,10 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "seap": {
         "target": 500.0,
         "budget": 774579.0
+      },
+      "sudan-pop-movement": {
+        "target": 315.0,
+        "budget": 787500.0
       }
     }
   },
@@ -7914,7 +8126,8 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "tesfa",
       "seap",
       "ec2r-health",
-      "akobo"
+      "akobo",
+      "sudan-pop-movement"
     ],
     "ercs_target": 85300.0,
     "ercs_budget": 7290000.0,
@@ -8008,6 +8221,10 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "akobo": {
         "target": 50.0,
         "budget": 14798910.0
+      },
+      "sudan-pop-movement": {
+        "target": 1401.0,
+        "budget": 1730000.0
       }
     }
   },
@@ -8130,7 +8347,8 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "reg-moyale"
     ],
     "eligible_project_ids": [
-      "seap"
+      "seap",
+      "sudan-pop-movement"
     ],
     "ercs_target": 1.0,
     "ercs_budget": 300000.0,
@@ -8204,6 +8422,10 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "seap": {
         "target": 1500.0,
         "budget": 3485605.5000000005
+      },
+      "sudan-pop-movement": {
+        "target": 44.0,
+        "budget": 2121500.0
       }
     }
   },
@@ -8241,7 +8463,9 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "sraps",
       "stream-ercs",
       "tesfa",
-      "ec2r-wash"
+      "ec2r-wash",
+      "sudan-pop-movement",
+      "rise-project"
     ],
     "ercs_target": 139.0,
     "ercs_budget": 288508560.0,
@@ -8335,6 +8559,14 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "ec2r-wash": {
         "target": 14.0,
         "budget": 306416500.0
+      },
+      "sudan-pop-movement": {
+        "target": 9.0,
+        "budget": 7950000.0
+      },
+      "rise-project": {
+        "target": 1700000.0,
+        "budget": 5100000.0
       }
     }
   },
@@ -8602,7 +8834,8 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "l4r",
       "sraps",
       "ec2r-wash",
-      "akobo"
+      "akobo",
+      "sudan-pop-movement"
     ],
     "ercs_target": 24.0,
     "ercs_budget": 42800000.0,
@@ -8688,6 +8921,10 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "akobo": {
         "target": 10.0,
         "budget": 4016847.0
+      },
+      "sudan-pop-movement": {
+        "target": 79.0,
+        "budget": 13410000.0
       }
     }
   },
@@ -8803,7 +9040,8 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
     "year": 2019,
     "eligible_region_ids": [],
     "eligible_project_ids": [
-      "tesfa"
+      "tesfa",
+      "sudan-pop-movement"
     ],
     "ercs_target": 59.0,
     "ercs_budget": 106200000.0,
@@ -8877,6 +9115,10 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "tesfa": {
         "target": 6.0,
         "budget": 3913000.0
+      },
+      "sudan-pop-movement": {
+        "target": 3.0,
+        "budget": 750000.0
       }
     }
   },
@@ -9381,7 +9623,9 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "reg-afar",
       "reg-moyale"
     ],
-    "eligible_project_ids": [],
+    "eligible_project_ids": [
+      "sudan-pop-movement"
+    ],
     "ercs_target": 9.0,
     "ercs_budget": 3480000.0,
     "hq_target": 0.0,
@@ -9450,7 +9694,12 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
         "budget": 0.0
       }
     },
-    "project_targets": {}
+    "project_targets": {
+      "sudan-pop-movement": {
+        "target": 5.0,
+        "budget": 50000.0
+      }
+    }
   },
   {
     "id": "na-3-4-8",
@@ -9564,7 +9813,8 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "reg-moyale"
     ],
     "eligible_project_ids": [
-      "ec2r-health"
+      "ec2r-health",
+      "sudan-pop-movement"
     ],
     "ercs_target": 11482.0,
     "ercs_budget": 12583250.0,
@@ -9638,6 +9888,10 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "ec2r-health": {
         "target": 400.0,
         "budget": 6000000.0
+      },
+      "sudan-pop-movement": {
+        "target": 15.0,
+        "budget": 150000.0
       }
     }
   },
@@ -10079,7 +10333,8 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "reg-moyale"
     ],
     "eligible_project_ids": [
-      "ehppr"
+      "ehppr",
+      "sudan-pop-movement"
     ],
     "ercs_target": 34.0,
     "ercs_budget": 6510000.0,
@@ -10153,6 +10408,10 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "ehppr": {
         "target": 2.0,
         "budget": 4760552.0
+      },
+      "sudan-pop-movement": {
+        "target": 8.0,
+        "budget": 480000.0
       }
     }
   },
@@ -22878,7 +23137,8 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "grc-hacap3",
       "l4r",
       "sraps",
-      "ec2r-health"
+      "ec2r-health",
+      "sudan-pop-movement"
     ],
     "ercs_target": 20.0,
     "ercs_budget": 0.0,
@@ -22964,6 +23224,10 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "ec2r-health": {
         "target": 0.0,
         "budget": 3000000.0
+      },
+      "sudan-pop-movement": {
+        "target": 3.0,
+        "budget": 375000.0
       }
     }
   },
@@ -32708,6 +32972,1985 @@ export const INITIAL_PROJECTS: Project[] = [
     "start_date": "2025-08-01",
     "endDate": "2027-07-31",
     "end_date": "2027-07-31"
+  },
+  {
+    "id": "wb-resilience-migration",
+    "name": "Well Being Resilience for Migrants and Vulnerable Communities",
+    "description": "Well Being Resilience for Migrants and Vulnerable Communities",
+    "budget": 74738454.58,
+    "donor": "Danish Red Cross",
+    "target": "56,768 individuals",
+    "start_date": "2022-01-01",
+    "end_date": "2026-12-31",
+    "location": "Amhara (Gondar), Tigray (Shire), Addis Ababa, & Oromia (Arsi)",
+    "totalBudget": "Birr 74,738,454.58",
+    "startDate": "2022-01-01",
+    "endDate": "2026-12-31",
+    "totalBeneficiaries": 56768,
+    "currency": "ETB",
+    "project_only_activities": [
+      {
+        "id": "wb-resilience-migration-nc-1",
+        "name": "Strengthening the existing safe space with minimum standards including equipping it with materials needed",
+        "target": 3.0,
+        "budget": 4125528.0,
+        "raw_code": "Not linked with AOP",
+        "uom": "# of centers"
+      },
+      {
+        "id": "wb-resilience-migration-nc-2",
+        "name": "Covering Community-based health insurance cost for vulnerable returnees",
+        "target": 470.0,
+        "budget": 672200.0,
+        "raw_code": "Not linked with AOP",
+        "uom": "# of people"
+      },
+      {
+        "id": "wb-resilience-migration-nc-3",
+        "name": "Identify and select beneficieries based on the agreed criteria in collaraboration with community members and support beneficieries with livelihood plan",
+        "target": 1500.0,
+        "budget": 137500.0,
+        "raw_code": "Not linked with AOP",
+        "uom": "# of people"
+      },
+      {
+        "id": "wb-resilience-migration-nc-4",
+        "name": "Registration of returnees: Identify based on vulnerability criteria, referral to the centre and enter in to data base",
+        "target": 378.0,
+        "budget": 372520.0,
+        "raw_code": "Not linked with AOP",
+        "uom": "# of people"
+      },
+      {
+        "id": "wb-resilience-migration-nc-5",
+        "name": "Targeted returnees have basic business skills",
+        "target": 378.0,
+        "budget": 4252109.04,
+        "raw_code": "Not linked with AOP",
+        "uom": "# of people"
+      },
+      {
+        "id": "wb-resilience-migration-nc-6",
+        "name": "Establish and strengthen VSLAs",
+        "target": 46.0,
+        "budget": 634600.0,
+        "raw_code": "Not linked with AOP",
+        "uom": "# of VSLAs"
+      },
+      {
+        "id": "wb-resilience-migration-nc-7",
+        "name": "Establish and strengthen producers\u2019 groups",
+        "target": 4.0,
+        "budget": 93504.0,
+        "raw_code": "Not linked with AOP",
+        "uom": "# of groups"
+      },
+      {
+        "id": "wb-resilience-migration-nc-8",
+        "name": "Advocate on inclusion of vulnerable people (returnees, disable people, people with HIV AIDS",
+        "target": 46.0,
+        "budget": 130000.0,
+        "raw_code": "Not linked with AOP",
+        "uom": "# of people"
+      },
+      {
+        "id": "wb-resilience-migration-nc-9",
+        "name": "ERCS strengthens their capacity and ability to provide PSS for returnees",
+        "target": 182.0,
+        "budget": 611668.0,
+        "raw_code": "Not linked with AOP",
+        "uom": "# of people"
+      },
+      {
+        "id": "wb-resilience-migration-nc-10",
+        "name": "Community engagement sessions to increase social cohesion and reduce stigma",
+        "target": 48.0,
+        "budget": 1480599.972,
+        "raw_code": "Not linked with AOP",
+        "uom": "# of Session"
+      },
+      {
+        "id": "wb-resilience-migration-nc-11",
+        "name": "CEA Refresher training & experience sharing/CEA support & Engagement",
+        "target": 3.0,
+        "budget": 426000.0,
+        "raw_code": "Not linked with AOP",
+        "uom": "# of Training"
+      },
+      {
+        "id": "wb-resilience-migration-nc-12",
+        "name": "Develop & Disseminate IEC/audio visual material on social cohesion, migration and related vulnerabilities and promote visibility (Communication & Visibility)",
+        "target": 4.0,
+        "budget": 38800.0,
+        "raw_code": "Not linked with AOP",
+        "uom": "# of materials"
+      }
+    ]
+  },
+  {
+    "id": "sudan-pop-movement",
+    "name": "Sudan Population Movement",
+    "description": "Sudan Population Movement",
+    "budget": 120720502.0,
+    "donor": "International Federation of Red Cross and Red Crescent Societies (IFRC)",
+    "target": "150,000",
+    "start_date": "2023-04-01",
+    "end_date": "2026-12-31",
+    "location": "Benishangul Gumuz (Asosa Zone) & Amhara (Metema)",
+    "totalBudget": "120,720,502 ETB",
+    "startDate": "2023-04-01",
+    "endDate": "2026-12-31",
+    "totalBeneficiaries": 150000,
+    "currency": "ETB",
+    "project_only_activities": [
+      {
+        "id": "sudan-pop-movement-nc-1",
+        "name": "Train and deploy volunteers to support in temporary shelter",
+        "target": 5.0,
+        "budget": 75000.0,
+        "raw_code": "Not Link with AOP",
+        "uom": "people"
+      },
+      {
+        "id": "sudan-pop-movement-nc-2",
+        "name": "Transpotration, storage, off-loading and distribution of HH items",
+        "target": 1.0,
+        "budget": 450000.0,
+        "raw_code": "Not Link with AOP",
+        "uom": "trips"
+      },
+      {
+        "id": "sudan-pop-movement-nc-3",
+        "name": "Engaging community on, selection, registration and verification of beneficiarie for LLH support,",
+        "target": 3.0,
+        "budget": 150000.0,
+        "raw_code": "Not Link with AOP",
+        "uom": "locations"
+      },
+      {
+        "id": "sudan-pop-movement-nc-4",
+        "name": "Job Specific mentoring and coaching technichal support for livelihood beneficiaries",
+        "target": 400.0,
+        "budget": 1200000.0,
+        "raw_code": "Not Link with AOP",
+        "uom": "people"
+      },
+      {
+        "id": "sudan-pop-movement-nc-5",
+        "name": "Deployment of Volunteers for Monitoring and Support of Beneficiaries for Business Activities",
+        "target": 20.0,
+        "budget": 720000.0,
+        "raw_code": "Not Link with AOP",
+        "uom": "people"
+      },
+      {
+        "id": "sudan-pop-movement-nc-6",
+        "name": "Strenthen the follow up and support to ensure the start up capital is used appropriatly",
+        "target": 2.0,
+        "budget": 250000.0,
+        "raw_code": "Not Link with AOP",
+        "uom": "locations"
+      },
+      {
+        "id": "sudan-pop-movement-nc-7",
+        "name": "Organize experience-sharing sessions with other branches to learn from the implementation of livelihood (LLH) activities",
+        "target": 2.0,
+        "budget": 312000.0,
+        "raw_code": "Not Link with AOP",
+        "uom": "sessions"
+      },
+      {
+        "id": "sudan-pop-movement-nc-8",
+        "name": "Deployment of two livelihood officers to support the implementation of livelihood interventions in BG Guba and Gonder Metema",
+        "target": 24.0,
+        "budget": 1404000.0,
+        "raw_code": "Not Link with AOP",
+        "uom": "annual"
+      },
+      {
+        "id": "sudan-pop-movement-nc-9",
+        "name": "Engaging community on, selection, registration and verification of beneficiaries for MPC",
+        "target": 2.0,
+        "budget": 100000.0,
+        "raw_code": "Not Link with AOP",
+        "uom": "session"
+      },
+      {
+        "id": "sudan-pop-movement-nc-10",
+        "name": "Rehabilitation of Health Screening Office at the  Entry point in Metema",
+        "target": 1.0,
+        "budget": 1800000.0,
+        "raw_code": "Not Link with AOP",
+        "uom": "Rehabilitation of Health Screening Office"
+      },
+      {
+        "id": "sudan-pop-movement-nc-11",
+        "name": "Construction of Isolation Center for health screening point",
+        "target": 1.0,
+        "budget": 3000000.0,
+        "raw_code": "Not Link with AOP",
+        "uom": "Construction of Isolation Center"
+      },
+      {
+        "id": "sudan-pop-movement-nc-12",
+        "name": "Support the construction of a Drug dispensing unit (Pharmacy) to support for returnees, refugees, and host communities in Metema",
+        "target": 1.0,
+        "budget": 5000000.0,
+        "raw_code": "Not Link with AOP",
+        "uom": "Lump sum"
+      },
+      {
+        "id": "sudan-pop-movement-nc-13",
+        "name": "HQ Appeal Coordinator Salary  100%",
+        "target": 12.0,
+        "budget": 1656000.0,
+        "raw_code": "Not Link with AOP",
+        "uom": "month"
+      },
+      {
+        "id": "sudan-pop-movement-nc-14",
+        "name": "Capacity building for solar system operators targeting operational procedures, safety and compliance measures, and data analytics integration to monitor performance and predict maintenance needs (to operate and maintain solar power plants safely and efficiently) in Metema",
+        "target": 20.0,
+        "budget": 300000.0,
+        "raw_code": "Not Link with AOP",
+        "uom": "People"
+      },
+      {
+        "id": "sudan-pop-movement-nc-15",
+        "name": "Transpotration, storage, off-loading and distribution of HH items",
+        "target": 1.0,
+        "budget": 150000.0,
+        "raw_code": "Not Link with AOP",
+        "uom": "round"
+      },
+      {
+        "id": "sudan-pop-movement-nc-16",
+        "name": "Brach Project Coordinators support Salary  1@; Metema and Benishangul 50%",
+        "target": 24.0,
+        "budget": 1404000.0,
+        "raw_code": "Not Link with AOP",
+        "uom": "month"
+      },
+      {
+        "id": "sudan-pop-movement-nc-17",
+        "name": "Establish Referal mechanism to adresse SGBV and MHPSS conserns",
+        "target": 2.0,
+        "budget": 260000.0,
+        "raw_code": "Not Link with AOP",
+        "uom": "session"
+      },
+      {
+        "id": "sudan-pop-movement-nc-18",
+        "name": "Conduct regular quarter base technichal meeting with the steakholders",
+        "target": 8.0,
+        "budget": 200000.0,
+        "raw_code": "Not Link with AOP",
+        "uom": "session"
+      },
+      {
+        "id": "sudan-pop-movement-nc-19",
+        "name": "Procurement of long life packed food and refreshments ( bottled water packed food ) at the HSP support arrivals.",
+        "target": 15250.0,
+        "budget": 1525000.0,
+        "raw_code": "Not Link with AOP",
+        "uom": "people"
+      },
+      {
+        "id": "sudan-pop-movement-nc-20",
+        "name": "Equip the  HSP with furniture and office materials at Metema and Kumruk Operation area",
+        "target": 2.0,
+        "budget": 500000.0,
+        "raw_code": "Not Link with AOP",
+        "uom": "sites"
+      },
+      {
+        "id": "sudan-pop-movement-nc-21",
+        "name": "Equip staf and volunteers with PPEs including Mask, gloves and sanitizer for activities at HSP area",
+        "target": 1.0,
+        "budget": 400000.0,
+        "raw_code": "Not Link with AOP",
+        "uom": "Lumpsum"
+      },
+      {
+        "id": "sudan-pop-movement-nc-22",
+        "name": "BDRT training",
+        "target": 25.0,
+        "budget": 1000000.0,
+        "raw_code": "Not Link with AOP",
+        "uom": "people"
+      },
+      {
+        "id": "sudan-pop-movement-nc-23",
+        "name": "Branch Office repair and Maintanance, Benishangul",
+        "target": 1.0,
+        "budget": 894500.0,
+        "raw_code": "Not Link with AOP",
+        "uom": "lumpsum"
+      },
+      {
+        "id": "sudan-pop-movement-nc-24",
+        "name": "Strengthen the NS capacity in PGI in Emergancy",
+        "target": 30.0,
+        "budget": 1200000.0,
+        "raw_code": "Not Link with AOP",
+        "uom": "people"
+      },
+      {
+        "id": "sudan-pop-movement-nc-25",
+        "name": "Procure and maintain audiovisual equipment to produce high-quality branded content (videos, documentaries, social media materials) for public awareness and visibility of ERCS humanitarian activities",
+        "target": 2.0,
+        "budget": 3000000.0,
+        "raw_code": "Not Link with AOP",
+        "uom": "epuipment"
+      },
+      {
+        "id": "sudan-pop-movement-nc-26",
+        "name": "Procure and Establish Radio system",
+        "target": 2.0,
+        "budget": 3000000.0,
+        "raw_code": "Not Link with AOP",
+        "uom": "system"
+      },
+      {
+        "id": "sudan-pop-movement-nc-27",
+        "name": "Establish/Strengthen CEA committee",
+        "target": 2.0,
+        "budget": 240000.0,
+        "raw_code": "Not Link with AOP",
+        "uom": "sessions"
+      },
+      {
+        "id": "sudan-pop-movement-nc-28",
+        "name": "Train/orient the CEA committee on the feedback management approach and  Establish a feedback mechanisms syastem",
+        "target": 2.0,
+        "budget": 480000.0,
+        "raw_code": "Not Link with AOP",
+        "uom": "sessions"
+      },
+      {
+        "id": "sudan-pop-movement-nc-29",
+        "name": "Bi annual Review meeting",
+        "target": 2.0,
+        "budget": 586520.0,
+        "raw_code": "Not Link with AOP",
+        "uom": "session"
+      },
+      {
+        "id": "sudan-pop-movement-nc-30",
+        "name": "Lesson learned workshop",
+        "target": 1.0,
+        "budget": 510000.0,
+        "raw_code": "Not Link with AOP",
+        "uom": "session"
+      },
+      {
+        "id": "sudan-pop-movement-nc-31",
+        "name": "Documentation of best practice",
+        "target": 2.0,
+        "budget": 120000.0,
+        "raw_code": "Not Link with AOP",
+        "uom": "session"
+      },
+      {
+        "id": "sudan-pop-movement-nc-32",
+        "name": "Project close out workshop HQ and Branches , 340 PP @",
+        "target": 40.0,
+        "budget": 800000.0,
+        "raw_code": "Not Link with AOP",
+        "uom": "people"
+      },
+      {
+        "id": "sudan-pop-movement-nc-33",
+        "name": "Maillage cost (Fuel, oil & Vehicle Maintenance Cost  )",
+        "target": 4.0,
+        "budget": 3000000.0,
+        "raw_code": "Not Link with AOP",
+        "uom": "Quarterly"
+      },
+      {
+        "id": "sudan-pop-movement-nc-34",
+        "name": "Field supervision/Monitoring cost Hq and Branch",
+        "target": 10.0,
+        "budget": 1840000.0,
+        "raw_code": "Not Link with AOP",
+        "uom": "months"
+      },
+      {
+        "id": "sudan-pop-movement-nc-35",
+        "name": "HQ Finance Manager contribution 50%",
+        "target": 12.0,
+        "budget": 960000.0,
+        "raw_code": "Not Link with AOP",
+        "uom": "month"
+      },
+      {
+        "id": "sudan-pop-movement-nc-36",
+        "name": "Branch Appeal Operation Accountant_ 1@; Metema and Benishangul 100%",
+        "target": 24.0,
+        "budget": 1404000.0,
+        "raw_code": "Not Link with AOP",
+        "uom": "month"
+      },
+      {
+        "id": "sudan-pop-movement-nc-37",
+        "name": "Procurement of Laptop for Project coordinator",
+        "target": 4.0,
+        "budget": 720000.0,
+        "raw_code": "Not Link with AOP",
+        "uom": "pcs"
+      },
+      {
+        "id": "sudan-pop-movement-nc-38",
+        "name": "Administrative support ERCS 10%",
+        "target": 1.0,
+        "budget": 10614782.0,
+        "raw_code": "Not Link with AOP",
+        "uom": "Lumpsum"
+      },
+      {
+        "id": "sudan-pop-movement-nc-39",
+        "name": "Volunteers insurance",
+        "target": 150.0,
+        "budget": 123900.0,
+        "raw_code": "Not Link with AOP",
+        "uom": "people"
+      },
+      {
+        "id": "sudan-pop-movement-nc-40",
+        "name": "Volunteers PSS support",
+        "target": 150.0,
+        "budget": 450000.0,
+        "raw_code": "Not Link with AOP",
+        "uom": "people"
+      },
+      {
+        "id": "sudan-pop-movement-nc-41",
+        "name": "Tshirts and Caps for volunteers",
+        "target": 200.0,
+        "budget": 300000.0,
+        "raw_code": "Not Link with AOP",
+        "uom": "pcs"
+      }
+    ]
+  },
+  {
+    "id": "livelihood-afar",
+    "name": "Livelihood Improvement in Afar",
+    "description": "Livelihood Improvement in Afar",
+    "budget": 17395476.0,
+    "donor": "Netherlands Red Cross (NLRC)",
+    "target": "1,450 HH",
+    "start_date": "2026-01-01",
+    "end_date": "2026-12-31",
+    "location": "Afar",
+    "totalBudget": "17,395,476 ETB",
+    "startDate": "2026-01-01",
+    "endDate": "2026-12-31",
+    "totalBeneficiaries": 1450,
+    "currency": "ETB",
+    "project_only_activities": [
+      {
+        "id": "livelihood-afar-nc-1",
+        "name": "Construction water spreader weir upstream of the Gela'atu stream",
+        "target": 151.0,
+        "budget": 2349862.0,
+        "raw_code": "Not linked with AOP",
+        "uom": "cubic metre"
+      },
+      {
+        "id": "livelihood-afar-nc-2",
+        "name": "Gabion check/box construction (protection for clay material))",
+        "target": 1000.0,
+        "budget": 700000.0,
+        "raw_code": "Not linked with AOP",
+        "uom": "cubic metre"
+      },
+      {
+        "id": "livelihood-afar-nc-3",
+        "name": "Enginneer",
+        "target": 12.0,
+        "budget": 960000.0,
+        "raw_code": "Not linked with AOP"
+      },
+      {
+        "id": "livelihood-afar-nc-4",
+        "name": "Accountant",
+        "target": 12.0,
+        "budget": 720000.0,
+        "raw_code": "Not linked with AOP",
+        "uom": "#"
+      },
+      {
+        "id": "livelihood-afar-nc-5",
+        "name": "Driver",
+        "target": 12.0,
+        "budget": 288000.0,
+        "raw_code": "Not linked with AOP",
+        "uom": "#"
+      },
+      {
+        "id": "livelihood-afar-nc-6",
+        "name": "Fuel, oil, and lubricants",
+        "target": 1.0,
+        "budget": 362000.0,
+        "raw_code": "Not linked with AOP",
+        "uom": "lumpsum"
+      },
+      {
+        "id": "livelihood-afar-nc-7",
+        "name": "Monitoring and supervision",
+        "target": 1.0,
+        "budget": 350000.0,
+        "raw_code": "Not linked with AOP",
+        "uom": "lumpsum"
+      },
+      {
+        "id": "livelihood-afar-nc-8",
+        "name": "Admin Costs",
+        "target": 8.0,
+        "budget": 1930764.0,
+        "raw_code": "Not linked with AOP",
+        "uom": "%"
+      },
+      {
+        "id": "livelihood-afar-nc-9",
+        "name": "Bank Charges",
+        "target": 1.0,
+        "budget": 34800.0,
+        "raw_code": "Not linked with AOP",
+        "uom": "lumpsum"
+      }
+    ]
+  },
+  {
+    "id": "rise-project",
+    "name": "RISE Project",
+    "description": "RISE Project",
+    "budget": 57742697.35,
+    "donor": "ERCS - IFRC - RISE Project",
+    "target": "50,000",
+    "start_date": "2024-09-01",
+    "end_date": "2026-08-31",
+    "location": "South Ethiopia (Wolayta)",
+    "totalBudget": "57,742,697.35 ETB",
+    "startDate": "2024-09-01",
+    "endDate": "2026-08-31",
+    "totalBeneficiaries": 50000,
+    "currency": "ETB",
+    "project_only_activities": [
+      {
+        "id": "rise-project-nc-1",
+        "name": "Develop pre-disaster agreements with national authorities to support effective humanitarian action (including anticipatory systems)- Regional AA Familirization workshop",
+        "target": 1.0,
+        "budget": 434000.0,
+        "raw_code": "Not linked with",
+        "uom": "Workshop"
+      },
+      {
+        "id": "rise-project-nc-2",
+        "name": "Train staff on CTB project development (disseminate cash COP,Registration and data collection etc)",
+        "target": 1.0,
+        "budget": 979000.0,
+        "raw_code": "Not linked with",
+        "uom": "training"
+      },
+      {
+        "id": "rise-project-nc-3",
+        "name": "Procure and disseminate 8 data collection smart tablets for the branch and HQs",
+        "target": 10.0,
+        "budget": 180000.0,
+        "raw_code": "Not linked with",
+        "uom": "#smart phone"
+      },
+      {
+        "id": "rise-project-nc-4",
+        "name": "Support Branch PER priorities (Warehousing Initiative -Wolaita Zonal Branch including region)",
+        "target": 1.0,
+        "budget": 1100000.0,
+        "raw_code": "Not linked with",
+        "uom": "# branch"
+      },
+      {
+        "id": "rise-project-nc-5",
+        "name": ".Project Inception,introduction,target community identification",
+        "target": 1.0,
+        "budget": 107981.36,
+        "raw_code": "Not linked with",
+        "uom": "#meeting"
+      },
+      {
+        "id": "rise-project-nc-6",
+        "name": "area closure",
+        "target": 50000.0,
+        "budget": 200000.0,
+        "raw_code": "Not linked with",
+        "uom": "area enclosed"
+      },
+      {
+        "id": "rise-project-nc-7",
+        "name": "train community representatives on NRM",
+        "target": 400.0,
+        "budget": 800000.0,
+        "raw_code": "Not linked with",
+        "uom": "trianee"
+      },
+      {
+        "id": "rise-project-nc-8",
+        "name": "Red cross dessemination",
+        "target": 800.0,
+        "budget": 800000.0,
+        "raw_code": "Not linked with",
+        "uom": "#people"
+      },
+      {
+        "id": "rise-project-nc-9",
+        "name": "Engagement with public authorities to address the integration of AA in national policy frameworks through the review of existing DRM frameworks-(Develop woreda EAP  for three woredas)",
+        "target": 1.0,
+        "budget": 600000.0,
+        "raw_code": "Not linked with",
+        "uom": "Workshop"
+      },
+      {
+        "id": "rise-project-nc-10",
+        "name": "Monitoring and follow up(includingfuel and lubricant)",
+        "target": 8.0,
+        "budget": 2000000.0,
+        "raw_code": "Not linked with",
+        "uom": "quaretly"
+      },
+      {
+        "id": "rise-project-nc-11",
+        "name": "Project coordintor at HQs(50%)",
+        "target": 24.0,
+        "budget": 1680000.0,
+        "raw_code": "Not linked with",
+        "uom": "Month"
+      },
+      {
+        "id": "rise-project-nc-12",
+        "name": "Branch project coordinators (50%) for 2 branchs(Region and Zone)",
+        "target": 24.0,
+        "budget": 2099989.2,
+        "raw_code": "Not linked with",
+        "uom": "Month"
+      },
+      {
+        "id": "rise-project-nc-13",
+        "name": "Branch project accountants (50%) for 2 branches(Region and Zone)",
+        "target": 24.0,
+        "budget": 1442917.44,
+        "raw_code": "Not linked with",
+        "uom": "Month"
+      },
+      {
+        "id": "rise-project-nc-14",
+        "name": "office equipment",
+        "target": 1.0,
+        "budget": 1360537.347432,
+        "raw_code": "Not linked with",
+        "uom": "lumsump"
+      },
+      {
+        "id": "rise-project-nc-15",
+        "name": "Stationery",
+        "target": 1.0,
+        "budget": 459929.97072000004,
+        "raw_code": "Not linked with",
+        "uom": "lumpsum"
+      },
+      {
+        "id": "rise-project-nc-16",
+        "name": "Visibility and Publications",
+        "target": 1.0,
+        "budget": 512556.83590800007,
+        "raw_code": "Not linked with",
+        "uom": "lumpsum"
+      }
+    ]
+  },
+  {
+    "id": "social-cohesion",
+    "name": "Social Cohesion Project",
+    "description": "Social Cohesion Project",
+    "budget": 214157098.3,
+    "donor": "Danish Red Cross",
+    "target": "32,119",
+    "start_date": "2024-05-01",
+    "end_date": "2027-05-31",
+    "location": "Benishangul Gumuz (Asosa Zone), Tigray (West North) & Amhara (North Wollo)",
+    "totalBudget": "214,157,098.30 ETB",
+    "startDate": "2024-05-01",
+    "endDate": "2027-05-31",
+    "totalBeneficiaries": 32119,
+    "currency": "ETB",
+    "project_only_activities": [
+      {
+        "id": "social-cohesion-nc-1",
+        "name": "Program Coordinator, ERCS, 100%",
+        "target": 12.0,
+        "budget": 3496940.51233802,
+        "raw_code": "Notlinked with AOP",
+        "uom": "month"
+      },
+      {
+        "id": "social-cohesion-nc-2",
+        "name": "Project Officer, 2, ERCS, 100%",
+        "target": 24.0,
+        "budget": 3934058.07638028,
+        "raw_code": "Notlinked with AOP",
+        "uom": "month"
+      },
+      {
+        "id": "social-cohesion-nc-3",
+        "name": "MHPSS Coordinator ERCS 50%",
+        "target": 6.0,
+        "budget": 1232895.6934525,
+        "raw_code": "Notlinked with AOP",
+        "uom": "month"
+      },
+      {
+        "id": "social-cohesion-nc-4",
+        "name": "Project Coordinator,  Afar, 1 staff, 100%",
+        "target": 12.0,
+        "budget": 2622705.38425352,
+        "raw_code": "Notlinked with AOP",
+        "uom": "month"
+      },
+      {
+        "id": "social-cohesion-nc-5",
+        "name": "Field officer, Afar, 2 staff, 100%",
+        "target": 24.0,
+        "budget": 3496940.51233802,
+        "raw_code": "Notlinked with AOP",
+        "uom": "month"
+      },
+      {
+        "id": "social-cohesion-nc-6",
+        "name": "1.1.1.6. Project Coordinator, Shire Tigray, 1 staff, 100%",
+        "target": 12.0,
+        "budget": 2622705.38425352,
+        "raw_code": "Notlinked with AOP",
+        "uom": "month"
+      },
+      {
+        "id": "social-cohesion-nc-7",
+        "name": "1.1.1.7. Filed officer, Shire, Tigray 2 staff, 100%",
+        "target": 24.0,
+        "budget": 3496940.51233802,
+        "raw_code": "Notlinked with AOP",
+        "uom": "month"
+      },
+      {
+        "id": "social-cohesion-nc-8",
+        "name": "1.1.1.8. Field officer, Adigrat, Tigray ,2 staff, 100%",
+        "target": 24.0,
+        "budget": 3496940.51233802,
+        "raw_code": "Notlinked with AOP",
+        "uom": "month"
+      },
+      {
+        "id": "social-cohesion-nc-9",
+        "name": "1.1.1.9. Project Coordinator, Benishangul Gumuz, 1 staff, 100%",
+        "target": 12.0,
+        "budget": 2622705.38425352,
+        "raw_code": "Notlinked with AOP",
+        "uom": "month"
+      },
+      {
+        "id": "social-cohesion-nc-10",
+        "name": "1.1.1.10. Field officer, Benishangul Gumuz,2 staff, 100%",
+        "target": 24.0,
+        "budget": 3496940.51233802,
+        "raw_code": "Notlinked with AOP",
+        "uom": "month"
+      },
+      {
+        "id": "social-cohesion-nc-11",
+        "name": "1.1.1.11. Project Coordinator, Amhara, 1 staff, 100%",
+        "target": 12.0,
+        "budget": 2622705.38425352,
+        "raw_code": "Notlinked with AOP",
+        "uom": "month"
+      },
+      {
+        "id": "social-cohesion-nc-12",
+        "name": "1.1.1.12. Field officer, Amhara, 4 staff, 100%",
+        "target": 48.0,
+        "budget": 6993881.02467604,
+        "raw_code": "Notlinked with AOP",
+        "uom": "month"
+      },
+      {
+        "id": "social-cohesion-nc-13",
+        "name": "1.1.2.1. Branch Accountant, Afar, 100%",
+        "target": 12.0,
+        "budget": 1529911.47414789,
+        "raw_code": "Notlinked with AOP",
+        "uom": "month"
+      },
+      {
+        "id": "social-cohesion-nc-14",
+        "name": "1.1.2.2. Branch Accountant, 2, Tigray, 100%",
+        "target": 24.0,
+        "budget": 1529911.47414789,
+        "raw_code": "Notlinked with AOP",
+        "uom": "month"
+      },
+      {
+        "id": "social-cohesion-nc-15",
+        "name": "1.1.2.3. Branch Accountant, Benishangul Gumuz, 100%",
+        "target": 12.0,
+        "budget": 1529911.47414789,
+        "raw_code": "Notlinked with AOP",
+        "uom": "month"
+      },
+      {
+        "id": "social-cohesion-nc-16",
+        "name": "1.1.2.4. Branch Accountant, 2, Amhara, 100%",
+        "target": 24.0,
+        "budget": 1529911.47414789,
+        "raw_code": "Notlinked with AOP",
+        "uom": "month"
+      },
+      {
+        "id": "social-cohesion-nc-17",
+        "name": "1.1.2.5. Driver, Afar, 1 staff, 100%",
+        "target": 12.0,
+        "budget": 1092793.91010563,
+        "raw_code": "Notlinked with AOP",
+        "uom": "month"
+      },
+      {
+        "id": "social-cohesion-nc-18",
+        "name": "1.1.2.7. Driver, Benishangul Gumuz, 1 staff, 100%",
+        "target": 12.0,
+        "budget": 1092793.91010563,
+        "raw_code": "Notlinked with AOP",
+        "uom": "month"
+      },
+      {
+        "id": "social-cohesion-nc-19",
+        "name": "1.1.2.8. Driver, Amhara, 2 staff, 100%",
+        "target": 24.0,
+        "budget": 2185587.82021126,
+        "raw_code": "Notlinked with AOP",
+        "uom": "month"
+      },
+      {
+        "id": "social-cohesion-nc-20",
+        "name": "1.1.2.9. Accountant (ERCS/HQ) 100%",
+        "target": 12.0,
+        "budget": 1748470.25616901,
+        "raw_code": "Notlinked with AOP",
+        "uom": "month"
+      },
+      {
+        "id": "social-cohesion-nc-21",
+        "name": "1.1.2.13 Head of programs ERCS (6%)",
+        "target": 1.8,
+        "budget": 294840.0,
+        "raw_code": "Notlinked with AOP",
+        "uom": "month"
+      },
+      {
+        "id": "social-cohesion-nc-22",
+        "name": "1.3.2.1 Afar (DRC, ERCS), 3 staff",
+        "target": 694.0,
+        "budget": 5178628.0,
+        "raw_code": "Notlinked with AOP",
+        "uom": "Days"
+      },
+      {
+        "id": "social-cohesion-nc-23",
+        "name": "1.3.2.2 Tigray (DRC, ERCS), 5 staff",
+        "target": 505.0,
+        "budget": 3768310.0,
+        "raw_code": "Notlinked with AOP",
+        "uom": "Days"
+      },
+      {
+        "id": "social-cohesion-nc-24",
+        "name": "1.3.2.3 Assosa (DRC, ERCS), 3 staff",
+        "target": 418.0,
+        "budget": 3119116.0,
+        "raw_code": "Notlinked with AOP",
+        "uom": "Days"
+      },
+      {
+        "id": "social-cohesion-nc-25",
+        "name": "1.3.2.4 Amhara (DRC, ERCS), 5 staff",
+        "target": 411.0,
+        "budget": 3066882.0,
+        "raw_code": "Notlinked with AOP",
+        "uom": "Days"
+      },
+      {
+        "id": "social-cohesion-nc-26",
+        "name": "1.3.2.5.  Finance monitoring (DRC/ERCS)",
+        "target": 73.0,
+        "budget": 544726.0,
+        "raw_code": "Notlinked with AOP",
+        "uom": "Days"
+      },
+      {
+        "id": "social-cohesion-nc-27",
+        "name": "1.3.3.2 Assosa Region (ERCS) for field visits",
+        "target": 1.4,
+        "budget": 65380.8322285421,
+        "raw_code": "Notlinked with AOP",
+        "uom": "month"
+      },
+      {
+        "id": "social-cohesion-nc-28",
+        "name": "1.3.3.4 Amhara Region (ERCS) for field visits",
+        "target": 5.3,
+        "budget": 247513.150579481,
+        "raw_code": "Notlinked with AOP",
+        "uom": "month"
+      },
+      {
+        "id": "social-cohesion-nc-29",
+        "name": "2.2.1 Flights to Afar, Semera",
+        "target": 20.0,
+        "budget": 728000.0,
+        "raw_code": "Notlinked with AOP",
+        "uom": "flights"
+      },
+      {
+        "id": "social-cohesion-nc-30",
+        "name": "2.2.2. Flight to Assosa",
+        "target": 16.0,
+        "budget": 582400.0,
+        "raw_code": "Notlinked with AOP",
+        "uom": "flights"
+      },
+      {
+        "id": "social-cohesion-nc-31",
+        "name": "2.2.3. Flight to Amhara",
+        "target": 17.0,
+        "budget": 618800.0,
+        "raw_code": "Notlinked with AOP",
+        "uom": "flights"
+      },
+      {
+        "id": "social-cohesion-nc-32",
+        "name": "2.2.4. Flight to Shire",
+        "target": 11.0,
+        "budget": 400400.0,
+        "raw_code": "Notlinked with AOP",
+        "uom": "flights"
+      },
+      {
+        "id": "social-cohesion-nc-33",
+        "name": "2.2.5. Flight ,Mekelle",
+        "target": 20.0,
+        "budget": 728000.0,
+        "raw_code": "Notlinked with AOP",
+        "uom": "flights"
+      },
+      {
+        "id": "social-cohesion-nc-34",
+        "name": "3.1.2 Rent of vehicles",
+        "target": 37.0,
+        "budget": 6734000.0,
+        "raw_code": "Notlinked with AOP",
+        "uom": "per month"
+      },
+      {
+        "id": "social-cohesion-nc-35",
+        "name": "3.2.2 Furniture for office (5 Branches +DRC office+ HQ Coordination office)",
+        "target": 2.2,
+        "budget": 640640.0,
+        "raw_code": "Notlinked with AOP",
+        "uom": "set"
+      },
+      {
+        "id": "social-cohesion-nc-36",
+        "name": "3.4 Spare parts/equipment for machines, tools",
+        "target": 5.5,
+        "budget": 800800.0,
+        "raw_code": "Notlinked with AOP",
+        "uom": "month"
+      },
+      {
+        "id": "social-cohesion-nc-37",
+        "name": "4.1.1 Afar (ERCS, 1 Vehicle)",
+        "target": 7.7,
+        "budget": 560560.0,
+        "raw_code": "Notlinked with AOP",
+        "uom": "month"
+      },
+      {
+        "id": "social-cohesion-nc-38",
+        "name": "4.1.2 Assosa (ERCS, 1 Vehicle)",
+        "target": 17.95,
+        "budget": 1306760.0,
+        "raw_code": "Notlinked with AOP",
+        "uom": "month"
+      },
+      {
+        "id": "social-cohesion-nc-39",
+        "name": "4.1.4 Amhara (ERCS, 2 Vehicle)",
+        "target": 18.7,
+        "budget": 1361360.0,
+        "raw_code": "Notlinked with AOP",
+        "uom": "month"
+      },
+      {
+        "id": "social-cohesion-nc-40",
+        "name": "4.1.5 Addis Ababa (ERCS, Coordinator, 1 Vehicle)",
+        "target": 15.0,
+        "budget": 273000.0,
+        "raw_code": "Notlinked with AOP",
+        "uom": "month"
+      },
+      {
+        "id": "social-cohesion-nc-41",
+        "name": "4.3.1 Consumables and office supplies for Addis Ababa - ERCS HQ",
+        "target": 10.5,
+        "budget": 191100.0,
+        "raw_code": "Notlinked with AOP",
+        "uom": "month"
+      },
+      {
+        "id": "social-cohesion-nc-42",
+        "name": "4.3.3 Consumables and Office supplies for Afar branch",
+        "target": 20.48,
+        "budget": 372736.0,
+        "raw_code": "Notlinked with AOP",
+        "uom": "month"
+      },
+      {
+        "id": "social-cohesion-nc-43",
+        "name": "4.3.4 Consumables and Office supplies for Assosa branch",
+        "target": 22.0,
+        "budget": 400400.0,
+        "raw_code": "Notlinked with AOP",
+        "uom": "month"
+      },
+      {
+        "id": "social-cohesion-nc-44",
+        "name": "4.3.5 Consumables and Office supplies for Tigray branch (Shire & Adigrat)",
+        "target": 13.5,
+        "budget": 491400.0,
+        "raw_code": "Notlinked with AOP",
+        "uom": "month"
+      },
+      {
+        "id": "social-cohesion-nc-45",
+        "name": "4.3.6 Consumables and Office supplies for Amhara branch (North and South Wollo)",
+        "target": 19.0,
+        "budget": 691600.0,
+        "raw_code": "Notlinked with AOP",
+        "uom": "month"
+      },
+      {
+        "id": "social-cohesion-nc-46",
+        "name": "4.4.1 Afar",
+        "target": 25.9,
+        "budget": 518518.0,
+        "raw_code": "Notlinked with AOP",
+        "uom": "month"
+      },
+      {
+        "id": "social-cohesion-nc-47",
+        "name": "4.4.2 Assosa",
+        "target": 15.8,
+        "budget": 316316.0,
+        "raw_code": "Notlinked with AOP",
+        "uom": "month"
+      },
+      {
+        "id": "social-cohesion-nc-48",
+        "name": "4.4.3 Tigray, Shire",
+        "target": 30.8,
+        "budget": 1233232.0,
+        "raw_code": "Notlinked with AOP",
+        "uom": "month"
+      },
+      {
+        "id": "social-cohesion-nc-49",
+        "name": "4.4.4 Amhara",
+        "target": 25.6,
+        "budget": 1025024.0,
+        "raw_code": "Notlinked with AOP",
+        "uom": "month"
+      },
+      {
+        "id": "social-cohesion-nc-50",
+        "name": "4.4.5Addis Ababa ,ERC",
+        "target": 32.7,
+        "budget": 595140.0,
+        "raw_code": "Notlinked with AOP",
+        "uom": "month"
+      },
+      {
+        "id": "social-cohesion-nc-51",
+        "name": "5.7 Financial services (bank guarantee costs etc.)",
+        "target": 12.18,
+        "budget": 273000.0,
+        "raw_code": "Notlinked with AOP",
+        "uom": "month"
+      },
+      {
+        "id": "social-cohesion-nc-52",
+        "name": "5.10. Closure Meeting",
+        "target": 1.0,
+        "budget": 910000.0,
+        "raw_code": "Notlinked with AOP",
+        "uom": "Event"
+      },
+      {
+        "id": "social-cohesion-nc-53",
+        "name": "5.11.1. Project visibility activities",
+        "target": 1.735,
+        "budget": 1263080.0,
+        "raw_code": "Notlinked with AOP",
+        "uom": "year"
+      },
+      {
+        "id": "social-cohesion-nc-54",
+        "name": "6.1.1.1. Material and furniture for Community Centres",
+        "target": 2.73,
+        "budget": 1523775.74765418,
+        "raw_code": "Notlinked with AOP",
+        "uom": "set"
+      },
+      {
+        "id": "social-cohesion-nc-55",
+        "name": "6.1.1.3. Daily remuneration pool professional volunteers to manage centre",
+        "target": 9208.0,
+        "budget": 10055136.0,
+        "raw_code": "Notlinked with AOP",
+        "uom": "person days"
+      },
+      {
+        "id": "social-cohesion-nc-56",
+        "name": "6.1.1.4. Wi-Fi instalment",
+        "target": 10.8,
+        "budget": 336244.280032502,
+        "raw_code": "Notlinked with AOP",
+        "uom": "per centre"
+      },
+      {
+        "id": "social-cohesion-nc-57",
+        "name": "6.1.1.5. Wi-Fi monthly costs",
+        "target": 279.03,
+        "budget": 868724.457939528,
+        "raw_code": "Notlinked with AOP",
+        "uom": "months"
+      },
+      {
+        "id": "social-cohesion-nc-58",
+        "name": "6.1.1.6. Safe space utilities",
+        "target": 26.29,
+        "budget": 409252.876021041,
+        "raw_code": "Notlinked with AOP",
+        "uom": "months"
+      },
+      {
+        "id": "social-cohesion-nc-59",
+        "name": "6.1.1.7 Orientation for volunteers & kebeles' managers",
+        "target": 3.8961,
+        "budget": 54585.0558097763,
+        "raw_code": "Notlinked with AOP",
+        "uom": "meetings"
+      },
+      {
+        "id": "social-cohesion-nc-60",
+        "name": "6.1.3.2 Follow up workshop",
+        "target": 4.0,
+        "budget": 1494419.02236668,
+        "raw_code": "Notlinked with AOP",
+        "uom": "Training"
+      },
+      {
+        "id": "social-cohesion-nc-61",
+        "name": "6.1.4.2. Follow up workshop in each zone",
+        "target": 3.0,
+        "budget": 2241628.53355002,
+        "raw_code": "Notlinked with AOP",
+        "uom": "Number"
+      },
+      {
+        "id": "social-cohesion-nc-62",
+        "name": "6.1.5.1. C4D workshop",
+        "target": 1.0,
+        "budget": 0.0,
+        "raw_code": "Notlinked with AOP",
+        "uom": "Workshop"
+      },
+      {
+        "id": "social-cohesion-nc-63",
+        "name": "6.1.6.1. CEA member training (Per diem, Accommodation & transport)",
+        "target": 140.0,
+        "budget": 3057600.0,
+        "raw_code": "Notlinked with AOP",
+        "uom": "person"
+      },
+      {
+        "id": "social-cohesion-nc-64",
+        "name": "6.1.6.2. Refreshments for CEA committee meetings",
+        "target": 296.0,
+        "budget": 276467.519137835,
+        "raw_code": "Notlinked with AOP",
+        "uom": "Person"
+      },
+      {
+        "id": "social-cohesion-nc-65",
+        "name": "6.1.7.2. Translated into local languages for Training Materials",
+        "target": 11.0,
+        "budget": 249069.837061113,
+        "raw_code": "Notlinked with AOP",
+        "uom": "Language"
+      },
+      {
+        "id": "social-cohesion-nc-66",
+        "name": "6.1.7.3. Printing of materials for Training",
+        "target": 1.0,
+        "budget": 93401.1888979173,
+        "raw_code": "Notlinked with AOP",
+        "uom": "document"
+      },
+      {
+        "id": "social-cohesion-nc-67",
+        "name": "6.1.8.3. Experience  sharing between clubs/schools to scale up best practice",
+        "target": 60.0,
+        "budget": 566154.898858145,
+        "raw_code": "Notlinked with AOP",
+        "uom": "person"
+      },
+      {
+        "id": "social-cohesion-nc-68",
+        "name": "6.1.8.4. Purchase RC visibility materials for club members",
+        "target": 1400.0,
+        "budget": 1274000.0,
+        "raw_code": "Notlinked with AOP",
+        "uom": "person"
+      },
+      {
+        "id": "social-cohesion-nc-69",
+        "name": "6.1.8.5. Information sessions to recruit youth to join clubs",
+        "target": 52.0,
+        "budget": 809476.970448616,
+        "raw_code": "Notlinked with AOP",
+        "uom": "woreda session"
+      },
+      {
+        "id": "social-cohesion-nc-70",
+        "name": "6.1.8.6. IEC/BCC materials on MHPSS for adolescent and youth  including translation",
+        "target": 15.0,
+        "budget": 934011.888979173,
+        "raw_code": "Notlinked with AOP",
+        "uom": "woreda per year"
+      },
+      {
+        "id": "social-cohesion-nc-71",
+        "name": "6.1.9.2. Per diem for volunteer trainers to run youth club sessions including life skills sessions and PFA training",
+        "target": 950.0,
+        "budget": 1035196.51028525,
+        "raw_code": "Notlinked with AOP",
+        "uom": "volunteer per day"
+      },
+      {
+        "id": "social-cohesion-nc-72",
+        "name": "6.1.10.1. Provision of SPRINT training  PILOT (per diem volunteers and participants )",
+        "target": 107.0,
+        "budget": 389480.0,
+        "raw_code": "Notlinked with AOP",
+        "uom": "person"
+      },
+      {
+        "id": "social-cohesion-nc-73",
+        "name": "6.1.10.2. Seed fund groups projects part of for SPRINT PILOT",
+        "target": 180.0,
+        "budget": 6552000.0,
+        "raw_code": "Notlinked with AOP",
+        "uom": "Group"
+      },
+      {
+        "id": "social-cohesion-nc-74",
+        "name": "6.1.11.3. Refreshment Costs for club meetings",
+        "target": 32.0,
+        "budget": 996279.348244451,
+        "raw_code": "Notlinked with AOP",
+        "uom": "Meetings"
+      },
+      {
+        "id": "social-cohesion-nc-75",
+        "name": "6.1.11.4. Experience  sharing between clubs/schools to scale up best practice",
+        "target": 174.0,
+        "budget": 1583400.0,
+        "raw_code": "Notlinked with AOP",
+        "uom": "person"
+      },
+      {
+        "id": "social-cohesion-nc-76",
+        "name": "6.2.2.2. Provision of lay counselling sessions for individuals",
+        "target": 341.0,
+        "budget": 743162.126331096,
+        "raw_code": "Notlinked with AOP",
+        "uom": "Person"
+      },
+      {
+        "id": "social-cohesion-nc-77",
+        "name": "6.2.2.3. Psychoeducation for community members in group",
+        "target": 428.0,
+        "budget": 932766.539793869,
+        "raw_code": "Notlinked with AOP",
+        "uom": "Person"
+      },
+      {
+        "id": "social-cohesion-nc-78",
+        "name": "6.2.2.4. Community Outreach by Red Cross Staff and volunteers",
+        "target": 282.0,
+        "budget": 2633913.52692127,
+        "raw_code": "Notlinked with AOP",
+        "uom": "Person"
+      },
+      {
+        "id": "social-cohesion-nc-79",
+        "name": "6.2.3.1. Self-care sessions conducted with staff and volunteers",
+        "target": 41.0,
+        "budget": 382944.874481461,
+        "raw_code": "Notlinked with AOP",
+        "uom": "session"
+      },
+      {
+        "id": "social-cohesion-nc-80",
+        "name": "6.2.3.2. Training of branch managers on caring for staff and volunteers wellbeing (Part of bigger training)",
+        "target": 1.0,
+        "budget": 0.0,
+        "raw_code": "Notlinked with AOP",
+        "uom": "Workshop"
+      },
+      {
+        "id": "social-cohesion-nc-81",
+        "name": "6.2.4.1. Mapping and referral workshop to strengthen referral pathways for specialised MHPSS and other services with relevant stakeholders (incl. health facilities incl. hospitals and rehabilitation centres) to set up  multidisciplinary referral network",
+        "target": 272.0,
+        "budget": 1238499.76478638,
+        "raw_code": "Notlinked with AOP",
+        "uom": "Person"
+      },
+      {
+        "id": "social-cohesion-nc-82",
+        "name": "6.2.4.3. Financial support for referral",
+        "target": 70.0,
+        "budget": 8281000.0,
+        "raw_code": "Notlinked with AOP",
+        "uom": "cash"
+      },
+      {
+        "id": "social-cohesion-nc-83",
+        "name": "6.2.4.4. Establishing a technical coordination forum at Woreda level concerning MHPSS and hosts quarterly meetings",
+        "target": 147.0,
+        "budget": 1830663.30239918,
+        "raw_code": "Notlinked with AOP",
+        "uom": "meetings"
+      }
+    ]
+  },
+  {
+    "id": "src-migration",
+    "name": "Humane, Dignified, Sustainable Migration and Return (SRC)",
+    "description": "Humane, Dignified, Sustainable Migration and Return",
+    "budget": 85451455.8,
+    "donor": "Swedish Red Cross",
+    "target": "5,000 individuals",
+    "start_date": "2026-01-01",
+    "end_date": "2027-03-31",
+    "location": "Oromia (Jimma) & Amhara (North Wollo)",
+    "totalBudget": "85,451,455.80 ETB",
+    "startDate": "2026-01-01",
+    "endDate": "2027-03-31",
+    "totalBeneficiaries": 5000,
+    "currency": "ETB",
+    "project_only_activities": [
+      {
+        "id": "src-migration-nc-1",
+        "name": "Establishing referral pathways to support returnees in accessing legal, protection, health, education, and basic assistance.",
+        "target": 60.0,
+        "budget": 1083749.4,
+        "raw_code": "Not linked with AOP",
+        "uom": "lumpsum"
+      },
+      {
+        "id": "src-migration-nc-2",
+        "name": "Establish child-friendly spaces within Red Cross community centers.",
+        "target": 2.0,
+        "budget": 2167498.8,
+        "raw_code": "Not linked with AOP",
+        "uom": "# of community center"
+      },
+      {
+        "id": "src-migration-nc-3",
+        "name": "Undertake childcare services at Red Cross community centers for mothers with young children while they attend training or access services.",
+        "target": 24.0,
+        "budget": 1300499.28,
+        "raw_code": "Not linked with AOP",
+        "uom": "# of volunteers (24 Volunteers)"
+      },
+      {
+        "id": "src-migration-nc-4",
+        "name": "Equip and adapt Red Cross community centers based on SOPs to ensure accessibility and inclusion for persons with disabilities.",
+        "target": 2.0,
+        "budget": 2167498.8,
+        "raw_code": "Not linked with AOP",
+        "uom": "# of community center"
+      },
+      {
+        "id": "src-migration-nc-5",
+        "name": "Establish Red Cross community centers and equip them with necessary materials",
+        "target": 2.0,
+        "budget": 7224996.0,
+        "raw_code": "Not linked with AOP",
+        "uom": "# of community center"
+      },
+      {
+        "id": "src-migration-nc-6",
+        "name": "Organize recreational and cultural events to promote interaction and inclusion returnees and host communities",
+        "target": 12.0,
+        "budget": 541875.0,
+        "raw_code": "Not linked with AOP",
+        "uom": "months (ongoing recreational activities)"
+      },
+      {
+        "id": "src-migration-nc-7",
+        "name": "Conduct community outreach sessions to raise awareness and strengthen engagement",
+        "target": 4.0,
+        "budget": 433500.0,
+        "raw_code": "Not linked with AOP",
+        "uom": "Sessions (24)"
+      },
+      {
+        "id": "src-migration-nc-8",
+        "name": "Support youth engagement in sports and social clubs to promote cohesion and positive interaction among returnees and host communities",
+        "target": 2.0,
+        "budget": 216750.0,
+        "raw_code": "Not linked with AOP",
+        "uom": "# of Sport clubs"
+      },
+      {
+        "id": "src-migration-nc-9",
+        "name": "Support community-based cultural practices such as handicrafts to starengthen social interaction among returnees and host communities",
+        "target": 2.0,
+        "budget": 3458967.0,
+        "raw_code": "Not linked with AOP",
+        "uom": "# of individuals supported (200)"
+      },
+      {
+        "id": "src-migration-nc-10",
+        "name": "Adopt or develop LLH implementation guidelines based on the specific context of the implementation areas and organize brifing workshop.",
+        "target": 1.0,
+        "budget": 361412.0,
+        "raw_code": "Not linked with AOP",
+        "uom": "# of Steakholder representatives (30)"
+      },
+      {
+        "id": "src-migration-nc-11",
+        "name": "Identify beneficiaries for livelihood (LLH) support in collaboration with CEA and relevant stakeholders.",
+        "target": 2.0,
+        "budget": 90312.0,
+        "raw_code": "Not linked with AOP",
+        "uom": "# assessment"
+      },
+      {
+        "id": "src-migration-nc-12",
+        "name": "Conduct business and market opportunity assessments to guide livelihood planning",
+        "target": 2.0,
+        "budget": 36125.0,
+        "raw_code": "Not linked with AOP",
+        "uom": "# of trainees (200)"
+      },
+      {
+        "id": "src-migration-nc-13",
+        "name": "Conduct regular follow-up and monitoring of livelihood beneficiaries to ensure progress and sustainability.",
+        "target": 14.0,
+        "budget": 1011499.0,
+        "raw_code": "Not linked with AOP",
+        "uom": "Monitoring visit/Perdiem for volunteers (14)"
+      },
+      {
+        "id": "src-migration-nc-14",
+        "name": "Organize graduation ceremony for livelihood and vocational tarining beneficaries at the end of each implemetion years",
+        "target": 2.0,
+        "budget": 401840.0,
+        "raw_code": "Not linked with AOP",
+        "uom": "# of trainees (40)"
+      },
+      {
+        "id": "src-migration-nc-15",
+        "name": "Capacitate ERCS frontline workers, CEA, Religious leaders and volunteers in community based MPHSS, and Psychological First Aid (PFA)",
+        "target": 60.0,
+        "budget": 780299.57,
+        "raw_code": "Not linked with AOP",
+        "uom": "# of trainees for 2 days"
+      },
+      {
+        "id": "src-migration-nc-16",
+        "name": "Training on Psychological First Aid (PFA), lay counselling, and psycho-education for ERCS volunteers and staff involved in the project activities",
+        "target": 38.0,
+        "budget": 686374.62,
+        "raw_code": "Not linked with AOP",
+        "uom": "# of volunteers for 3 days"
+      },
+      {
+        "id": "src-migration-nc-17",
+        "name": "Psycho-education and lay counselling for target group",
+        "target": 12.0,
+        "budget": 108374.94,
+        "raw_code": "Not linked with AOP",
+        "uom": "# of sessions (for psychoeducation)"
+      },
+      {
+        "id": "src-migration-nc-18",
+        "name": "Self-care sessions for ERCS staff and volunteers",
+        "target": 1.0,
+        "budget": 505749.72,
+        "raw_code": "Not linked with AOP",
+        "uom": "# of sessions/event"
+      },
+      {
+        "id": "src-migration-nc-19",
+        "name": "Facilitate community-based health insurance for vulnerable individuals",
+        "target": 200.0,
+        "budget": 433499.76,
+        "raw_code": "Not linked with AOP",
+        "uom": "person (1400 to 1500 ETB each)"
+      },
+      {
+        "id": "src-migration-nc-20",
+        "name": "Awareness-raising programs on the auxiliary role of National Societies for local autorities",
+        "target": 2.0,
+        "budget": 56354.97,
+        "raw_code": "Not linked with AOP",
+        "uom": "# of participants reached"
+      },
+      {
+        "id": "src-migration-nc-21",
+        "name": "Conducting regular coordination meetings between ERCS branches and local authorities.",
+        "target": 2.0,
+        "budget": 56354.97,
+        "raw_code": "Not linked with AOP",
+        "uom": "# of coordination meetings held"
+      },
+      {
+        "id": "src-migration-nc-22",
+        "name": "Support the development of HD guideline for migration",
+        "target": 1.0,
+        "budget": 542055.32,
+        "raw_code": "Not linked with AOP",
+        "uom": "# of document produce"
+      },
+      {
+        "id": "src-migration-nc-23",
+        "name": "Establishment and enhancement of feedback and complaints mechanisms",
+        "target": 2.0,
+        "budget": 144499.92,
+        "raw_code": "Not linked with AOP",
+        "uom": "lumpsum"
+      },
+      {
+        "id": "src-migration-nc-24",
+        "name": "Regular CEA meeting to responed compliance raised from beneficaries",
+        "target": 6.0,
+        "budget": 32512.48,
+        "raw_code": "Not linked with AOP",
+        "uom": "#meetings"
+      },
+      {
+        "id": "src-migration-nc-25",
+        "name": "Participating in regional learning events, webinars, and peer reviews focused on migration and PGI, enabling continuous improvement and alignment with best practices.",
+        "target": 3.0,
+        "budget": 0.0,
+        "raw_code": "Not linked with AOP",
+        "uom": "# of staff/representatives participating"
+      },
+      {
+        "id": "src-migration-nc-26",
+        "name": "Ensuring active participation of Migration Focal Points in global and regional migration forums to represent field realities and influence policy",
+        "target": 4.0,
+        "budget": 722499.6,
+        "raw_code": "Not linked with AOP",
+        "uom": "# of workshops"
+      },
+      {
+        "id": "src-migration-nc-27",
+        "name": "Conduct lesson-learning workshops along key migration routes to assess coordination and identify improvements.",
+        "target": 1.0,
+        "budget": 0.0,
+        "raw_code": "Not linked with AOP",
+        "uom": "# workshop"
+      },
+      {
+        "id": "src-migration-nc-28",
+        "name": "Conduct regular assessments and surveys on migrants\u2019 needs, vulnerabilities, and protection risks at key migration routes, entry/exit points, and destination areas.",
+        "target": 2.0,
+        "budget": 0.0,
+        "raw_code": "Not linked with AOP",
+        "uom": "#assessments"
+      },
+      {
+        "id": "src-migration-nc-29",
+        "name": "Establish a data collection and management system including data collection, analysis, and reporting formats related to migration trends and humanitarian needs.",
+        "target": 2.0,
+        "budget": 0.0,
+        "raw_code": "Not linked with AOP",
+        "uom": "lumpsum"
+      },
+      {
+        "id": "src-migration-nc-30",
+        "name": "Produce and disseminate regular situation updates, analytical reports, and migration trend bulletins to inform decision-making and advocacy.",
+        "target": 2.0,
+        "budget": 0.0,
+        "raw_code": "Not linked with AOP",
+        "uom": "lumpsum"
+      },
+      {
+        "id": "src-migration-nc-31",
+        "name": "Organise experience-sharing and dissemination workshops with relevant stakeholders, including internal teams, partners, and decision-makers, to incorporate findings into programme actions.",
+        "target": 1.0,
+        "budget": 0.0,
+        "raw_code": "Not linked with AOP",
+        "uom": "# of workshops"
+      },
+      {
+        "id": "src-migration-nc-32",
+        "name": "Conduct training and sensitization workshops for government officials and border authorities, and National Society branches on humanitarian principles and migrants\u2019 rights.",
+        "target": 1.0,
+        "budget": 0.0,
+        "raw_code": "Not linked with AOP",
+        "uom": "# of workshops"
+      },
+      {
+        "id": "src-migration-nc-33",
+        "name": "Salaries  _Project Coordinator, Head Quarter (100%)",
+        "target": 5.0,
+        "budget": 762237.0,
+        "raw_code": "Not linked with AOP",
+        "uom": "FTE/Month"
+      },
+      {
+        "id": "src-migration-nc-34",
+        "name": "Salaries  _Senior Livlihood Officer (100%)",
+        "target": 5.0,
+        "budget": 508459.0,
+        "raw_code": "Not linked with AOP",
+        "uom": "FTE/Month"
+      },
+      {
+        "id": "src-migration-nc-35",
+        "name": "Salaries  _Senior Mental Health and Psychosocial support officer (100%)",
+        "target": 2.0,
+        "budget": 203384.0,
+        "raw_code": "Not linked with AOP",
+        "uom": "FTE/Month"
+      },
+      {
+        "id": "src-migration-nc-36",
+        "name": "Salaries  _Senior Protection Officer, Head Quarter (100%)",
+        "target": 0.0,
+        "budget": 0.0,
+        "raw_code": "Not linked with AOP",
+        "uom": "FTE/Month"
+      },
+      {
+        "id": "src-migration-nc-37",
+        "name": "Salaries  _PMER Officer (PMER department)  (100%)",
+        "target": 5.0,
+        "budget": 508459.0,
+        "raw_code": "Not linked with AOP",
+        "uom": "FTE/Month"
+      },
+      {
+        "id": "src-migration-nc-38",
+        "name": "Salaries  _Project Coordinator 1 (Zonal branches)  (100%)",
+        "target": 6.0,
+        "budget": 457342.0,
+        "raw_code": "Not linked with AOP",
+        "uom": "FTE/Month"
+      },
+      {
+        "id": "src-migration-nc-39",
+        "name": "Salaries  _Project Coordinator 2 (Zonal branches)  (100%)",
+        "target": 6.0,
+        "budget": 457342.0,
+        "raw_code": "Not linked with AOP",
+        "uom": "FTE/Month"
+      },
+      {
+        "id": "src-migration-nc-40",
+        "name": "MHPSS Field Officer 1 (zonal branch) (100%)",
+        "target": 6.0,
+        "budget": 384731.0,
+        "raw_code": "Not linked with AOP",
+        "uom": "FTE/Month"
+      },
+      {
+        "id": "src-migration-nc-41",
+        "name": "MHPSS Field Officer 2 (zonal branch) (100%)",
+        "target": 6.0,
+        "budget": 384731.0,
+        "raw_code": "Not linked with AOP",
+        "uom": "FTE/Month"
+      },
+      {
+        "id": "src-migration-nc-42",
+        "name": "Livelihood Field Officer 1 (zonal branch) (100%)",
+        "target": 6.0,
+        "budget": 384731.0,
+        "raw_code": "Not linked with AOP",
+        "uom": "FTE/Month"
+      },
+      {
+        "id": "src-migration-nc-43",
+        "name": "Livelihood Field Officer 2 (zonal branch) (100%)",
+        "target": 6.0,
+        "budget": 384731.0,
+        "raw_code": "Not linked with AOP",
+        "uom": "FTE/Month"
+      },
+      {
+        "id": "src-migration-nc-44",
+        "name": "Salaries  _Project Accountant, Head Quarter (Finance department) 100%",
+        "target": 7.0,
+        "budget": 533566.0,
+        "raw_code": "Not linked with AOP",
+        "uom": "FTE/Month"
+      },
+      {
+        "id": "src-migration-nc-45",
+        "name": "Salaries  _Project Accountant 1 (Zonal branches) (100%)",
+        "target": 6.0,
+        "budget": 346800.0,
+        "raw_code": "Not linked with AOP",
+        "uom": "FTE/Month"
+      },
+      {
+        "id": "src-migration-nc-46",
+        "name": "Salaries  _Project Accountant 2 (Zonal branches) (100%)",
+        "target": 6.0,
+        "budget": 346800.0,
+        "raw_code": "Not linked with AOP",
+        "uom": "FTE/Month"
+      },
+      {
+        "id": "src-migration-nc-47",
+        "name": "Salaries  _Security Guard 1 (zonal branches) (100%)",
+        "target": 6.0,
+        "budget": 108375.0,
+        "raw_code": "Not linked with AOP",
+        "uom": "FTE/Month"
+      },
+      {
+        "id": "src-migration-nc-48",
+        "name": "Salaries  _Security Guard 2 (zonal branches) (100%)",
+        "target": 6.0,
+        "budget": 108375.0,
+        "raw_code": "Not linked with AOP",
+        "uom": "FTE/Month"
+      },
+      {
+        "id": "src-migration-nc-49",
+        "name": "Salaries  _Cashier 1 (100%)",
+        "target": 6.0,
+        "budget": 184237.0,
+        "raw_code": "Not linked with AOP",
+        "uom": "FTE/Month"
+      },
+      {
+        "id": "src-migration-nc-50",
+        "name": "Salaries  _Cashier 2 (100%)",
+        "target": 6.0,
+        "budget": 184237.0,
+        "raw_code": "Not linked with AOP",
+        "uom": "FTE/Month"
+      },
+      {
+        "id": "src-migration-nc-51",
+        "name": "Salaries  _Medical and life insurance (16 staff)",
+        "target": 10.0,
+        "budget": 180625.0,
+        "raw_code": "Not linked with AOP",
+        "uom": "FTE/Month"
+      },
+      {
+        "id": "src-migration-nc-52",
+        "name": "Monitoring and Follow-up activity 1  _Activity M1: Inception workshop",
+        "target": 2.0,
+        "budget": 2167498.8,
+        "raw_code": "Not linked with AOP",
+        "uom": "# of workshops"
+      },
+      {
+        "id": "src-migration-nc-53",
+        "name": "Monitoring and Follow-up activity 1  _Activity M2:Quarter based supervison and Monitoring visite",
+        "target": 3.0,
+        "budget": 2438436.15,
+        "raw_code": "Not linked with AOP",
+        "uom": "# of visits"
+      },
+      {
+        "id": "src-migration-nc-54",
+        "name": "Monitoring and Follow-up activity 1  _Activity M4 Annual Review metting",
+        "target": 3.0,
+        "budget": 1354686.75,
+        "raw_code": "Not linked with AOP",
+        "uom": "# of meetings"
+      },
+      {
+        "id": "src-migration-nc-55",
+        "name": "Evaluation  _Activity E1: Baseline survey",
+        "target": 4.0,
+        "budget": 1087361.9,
+        "raw_code": "Not linked with AOP",
+        "uom": "Survey"
+      },
+      {
+        "id": "src-migration-nc-56",
+        "name": "Green Response _Activity GR1: Organize tree planting and reforestation campaigns in project areas.",
+        "target": 2.0,
+        "budget": 722499.6,
+        "raw_code": "Not linked with AOP",
+        "uom": "# event"
+      },
+      {
+        "id": "src-migration-nc-57",
+        "name": "Green Response _Activity GR2: Conduct regular community clean-up initiatives to promote environmental hygiene.",
+        "target": 4.0,
+        "budget": 386074.51,
+        "raw_code": "Not linked with AOP",
+        "uom": "month"
+      },
+      {
+        "id": "src-migration-nc-58",
+        "name": "Green Response _Activity GR4: Deliver environmental awareness sessions integrated into community engagement activities",
+        "target": 1.0,
+        "budget": 386074.51,
+        "raw_code": "Not linked with AOP",
+        "uom": "workshop"
+      },
+      {
+        "id": "src-migration-nc-59",
+        "name": "Safety and Security of Volunteers _Activity SSV2: Insurance volunteers",
+        "target": 40.0,
+        "budget": 11582.24,
+        "raw_code": "Not linked with AOP",
+        "uom": "# volunteers"
+      },
+      {
+        "id": "src-migration-nc-60",
+        "name": "General Expenditure _Laptop procurement",
+        "target": 11.0,
+        "budget": 2471671.13,
+        "raw_code": "Not linked with AOP",
+        "uom": "# of Laptop"
+      },
+      {
+        "id": "src-migration-nc-61",
+        "name": "General Expenditure _Printers/photo copy machine, Filing Cabinet ( 1 per zonal branch,)",
+        "target": 2.0,
+        "budget": 1083749.4,
+        "raw_code": "Not linked with AOP",
+        "uom": "#of Printers"
+      },
+      {
+        "id": "src-migration-nc-62",
+        "name": "General Expenditure _Office stationaries, translations and others",
+        "target": 2.0,
+        "budget": 722499.6,
+        "raw_code": "Not linked with AOP",
+        "uom": "lumpsum"
+      },
+      {
+        "id": "src-migration-nc-63",
+        "name": "General Expenditure _Vehicle mileage/Driver allowance",
+        "target": 2.0,
+        "budget": 1806249.0,
+        "raw_code": "Not linked with AOP",
+        "uom": "lumpsum"
+      },
+      {
+        "id": "src-migration-nc-64",
+        "name": "General Expenditure _Fuel and Lubricants",
+        "target": 2.0,
+        "budget": 1806249.0,
+        "raw_code": "Not linked with AOP",
+        "uom": "lumpsum"
+      },
+      {
+        "id": "src-migration-nc-65",
+        "name": "General Expenditure _Vehicle service & maintenance",
+        "target": 4.0,
+        "budget": 1864914.7,
+        "raw_code": "Not linked with AOP",
+        "uom": "lumpsum"
+      },
+      {
+        "id": "src-migration-nc-66",
+        "name": "General Expenditure _Vehicle insurance",
+        "target": 2.0,
+        "budget": 722499.6,
+        "raw_code": "Not linked with AOP",
+        "uom": "lumpsum"
+      },
+      {
+        "id": "src-migration-nc-67",
+        "name": "General Expenditure _Tires for vehicle with iner tube",
+        "target": 4.0,
+        "budget": 3088596.05,
+        "raw_code": "Not linked with AOP",
+        "uom": "lumpsum"
+      },
+      {
+        "id": "src-migration-nc-68",
+        "name": "General Expenditure _Spare parts",
+        "target": 2.0,
+        "budget": 1083749.4,
+        "raw_code": "Not linked with AOP",
+        "uom": "lumpsum"
+      },
+      {
+        "id": "src-migration-nc-69",
+        "name": "General Expenditure _Communication cost (mobile)",
+        "target": 11.0,
+        "budget": 19868.74,
+        "raw_code": "Not linked with AOP",
+        "uom": "Month"
+      },
+      {
+        "id": "src-migration-nc-70",
+        "name": "General Expenditure _Table & chairs for project staff",
+        "target": 2.0,
+        "budget": 1112649.38,
+        "raw_code": "Not linked with AOP",
+        "uom": "lumpsum"
+      },
+      {
+        "id": "src-migration-nc-71",
+        "name": "General Expenditure _Bank charges",
+        "target": 4.0,
+        "budget": 346799.81,
+        "raw_code": "Not linked with AOP",
+        "uom": "Month"
+      },
+      {
+        "id": "src-migration-nc-72",
+        "name": "Indirect Cost _Shared Office and Services Costs  7% Donor",
+        "target": 1.0,
+        "budget": 5437819.9,
+        "raw_code": "Not linked with AOP",
+        "uom": "Percentage"
+      },
+      {
+        "id": "src-migration-nc-73",
+        "name": "Indirect Cost _Shared Office and Services Costs   3% SRC",
+        "target": 1.0,
+        "budget": 2330494.24,
+        "raw_code": "Not linked with AOP",
+        "uom": "Percentage"
+      }
+    ]
   }
 ];
 

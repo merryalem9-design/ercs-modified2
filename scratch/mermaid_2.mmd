@@ -1,0 +1,114 @@
+erDiagram
+    STRATEGIC_PLAN ||--|{ STRATEGIC_PRIORITY : "establishes"
+    STRATEGIC_PRIORITY ||--|{ STRATEGIC_OBJECTIVE : "defines"
+    STRATEGIC_OBJECTIVE ||--|{ NATIONAL_ACTIVITY : "structures"
+    
+    STRATEGIC_PRIORITY ||--o{ IMPACT : "aims_for"
+    IMPACT ||--|{ IMPACT_INDICATOR : "measured_by"
+    
+    STRATEGIC_OBJECTIVE ||--o{ OUTCOME : "achieves"
+    OUTCOME ||--|{ OUTCOME_INDICATOR : "measured_by"
+    
+    NATIONAL_ACTIVITY ||--|{ OUTPUT : "produces"
+    OUTPUT ||--|{ OUTPUT_INDICATOR : "measured_by"
+    
+    STRATEGIC_PRIORITY ||--o{ STRATEGIC_KPI : "monitored_by"
+    STRATEGIC_OBJECTIVE ||--o{ STRATEGIC_KPI : "aligns_to"
+    STRATEGIC_KPI ||--o{ KPI_PROGRESS_ENTRY : "evaluates_period"
+    
+    STRATEGIC_PRIORITY {
+        string priority_id PK
+        string strategic_plan_id FK
+        string code "SP1..SP8"
+        string name
+        int order_index
+    }
+    STRATEGIC_OBJECTIVE {
+        string objective_id PK
+        string strategic_priority_id FK
+        string code "1.1, 1.2"
+        string name
+    }
+    NATIONAL_ACTIVITY {
+        string activity_id PK
+        string activity_code "Unique 1.1.1"
+        string strategic_objective_id FK
+        string department_id FK
+        string name
+        string uom FK
+        string responsibility "HQ|Branch|Both"
+        decimal indicative_multi_year_budget
+    }
+    IMPACT {
+        string impact_id PK
+        string strategic_priority_id FK
+        string statement
+    }
+    IMPACT_INDICATOR {
+        string indicator_id PK
+        string impact_id FK
+        string indicator_code
+        string name
+        string baseline
+        string target
+    }
+    OUTCOME {
+        string outcome_id PK
+        string strategic_objective_id FK
+        string statement
+    }
+    OUTCOME_INDICATOR {
+        string indicator_id PK
+        string outcome_id FK
+        string indicator_code "EPR-OUT-01"
+        string name
+        string baseline
+        string target
+        string frequency
+    }
+    OUTPUT {
+        string output_id PK
+        string activity_id FK
+        string statement
+    }
+    OUTPUT_INDICATOR {
+        string indicator_id PK
+        string output_id FK
+        string indicator_code "Standardized"
+        string name
+        decimal baseline
+        decimal target
+        string uom FK
+        string frequency "Monthly|Quarterly"
+        boolean disaggregation_required
+    }
+    STRATEGIC_KPI {
+        string kpi_id PK
+        string strategic_priority_id FK
+        string strategic_objective_id FK
+        string description
+        string means_of_verification
+        text notes
+        string baseline "Static Benchmark"
+        string target_2030
+        string frequency "Mid-Year|End-Year"
+        string source_type "Manual|AOP Rollup"
+    }
+    KPI_PROGRESS_ENTRY {
+        string progress_id PK
+        string strategic_kpi_id FK
+        string period "FY2026 Mid-Term"
+        string value
+        string recorded_by FK
+        text note
+        date evaluation_date
+        string performance_status "Green|Yellow|Red"
+    }
+
+    STRATEGIC_PLAN {
+        string plan_id PK
+        string plan_name
+        int start_year
+        int end_year
+        string status
+    }

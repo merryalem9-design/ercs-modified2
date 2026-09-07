@@ -113,6 +113,7 @@ export type UserRole =
   | `Project Coordinator — ${string}`
   | 'Project Coordinator — HQ'
   | 'PMER Officer'
+  | 'PMER Head'
   | 'System Admin'
   | 'Program Director'
   | `${string} coordinators`
@@ -210,6 +211,8 @@ export interface MonitoringRecord {
   verification_result?: VerificationResult;
   data_quality_concern?: DataQualityConcern;
   evidence_checked?: string;
+  evidence_attachment_name?: string;
+  evidence_attachment_url?: string;
   quality_rating?: QualityRating;
   finding?: string;
   finding_reason?: string;
@@ -220,6 +223,12 @@ export interface MonitoringRecord {
   due_date?: string;
   status?: MonitoringStatus;
   remarks?: string;
+  reported_expenditure?: number;
+  verified_expenditure?: number;
+  approval_status: ApprovalStatus;
+  submitted_at?: string;
+  reviewed_at?: string;
+  rejection_reason?: string;
 }
 
 export interface FilterState {

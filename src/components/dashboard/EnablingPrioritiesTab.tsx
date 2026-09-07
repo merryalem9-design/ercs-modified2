@@ -29,7 +29,7 @@ import {
   CartesianGrid,
   Legend,
 } from 'recharts';
-import { Target, Wallet, Users, Activity, BarChart3, ArrowUpDown, ChevronDown, ChevronUp, DollarSign } from 'lucide-react';
+import { Target, Wallet, Users, UserCheck, Activity, BarChart3, ArrowUpDown, ChevronDown, ChevronUp, DollarSign } from 'lucide-react';
 import { PlanEntry } from '../../types';
 
 const ENABLING_PRIORITY_IDS = ['sp-4', 'sp-5', 'sp-6', 'sp-7', 'sp-8'];
@@ -154,19 +154,57 @@ export const EnablingPrioritiesTab: React.FC = () => {
     : drillActivities.reduce((s, na) => s + (na.ercs_budget ?? 0), 0);
   const drillUtil = budgetUtilizationPct(drillSpent, drillBudget);
 
-  // Beneficiaries (only used for P4)
-  const drillBeneficiariesReached = drillEntries.reduce((sum, e) => {
-    const na = nationalActivities.find(n => n.id === e.national_activity_id);
-    const act = sumActual([e], quarterlyActuals, q);
-    return sum + convertToBeneficiaries(act, e.uom || na?.uom || '', uomConfigs);
-  }, 0);
+  // SP4 Distinct Volunteers (so-4-2: Recruitment & Management, so-4-3: Youth Volunteers)
+  const volunteerActivities = useMemo(() => {
+    return nationalActivities.filter(na => {
+      if (na.strategic_objective_id !== 'so-4-2' && na.strategic_objective_id !== 'so-4-3') return false;
+      if (selectedRegionId) {
+        const hasRegTarget = (na.regional_targets?.[selectedRegionId]?.target || 0) > 0 || (na.regional_targets?.[selectedRegionId]?.budget || 0) > 0;
+        const isEligible = na.eligible_region_ids?.includes(selectedRegionId);
+        if (!hasRegTarget && !isEligible) return false;
+      }
+      if (filters.strategicObjectiveId && filters.strategicObjectiveId !== 'ALL') {
+        if (na.strategic_objective_id !== filters.strategicObjectiveId) return false;
+      }
+      return true;
+    });
+  }, [nationalActivities, selectedRegionId, filters.strategicObjectiveId]);
 
-  const drillBeneficiariesTargeted = drillActivities.reduce((sum, na) => {
-    const t = selectedRegionId
-      ? (na.regional_targets?.[selectedRegionId]?.target ?? 0)
-      : (na.ercs_target ?? 0);
-    return sum + convertToBeneficiaries(t, na.uom, uomConfigs);
-  }, 0);
+  const volunteerActIds = useMemo(() => new Set(volunteerActivities.map(na => na.id)), [volunteerActivities]);
+  const volunteerEntries = useMemo(() => allContributing.filter(e => volunteerActIds.has(e.national_activity_id)), [allContributing, volunteerActIds]);
+  const volunteerAct = sumActual(volunteerEntries, quarterlyActuals, q);
+  const volunteerTgt = selectedRegionId
+    ? volunteerActivities.reduce((s, na) => s + (na.regional_targets?.[selectedRegionId]?.target ?? 0), 0)
+    : volunteerActivities.reduce((s, na) => s + (na.ercs_target ?? 0), 0);
+  const volunteerAch = achievementPct(volunteerAct, volunteerTgt);
+  const volunteerStatus = get3WayStatus(volunteerAch, statusThresholds);
+  const volunteerBadge = get3WayBadge(volunteerStatus);
+
+  // SP4 Distinct Members (so-4-1: Membership Recruitment, Retention & Engagement)
+  const memberActivities = useMemo(() => {
+    return nationalActivities.filter(na => {
+      if (na.strategic_objective_id !== 'so-4-1') return false;
+      if (selectedRegionId) {
+        const hasRegTarget = (na.regional_targets?.[selectedRegionId]?.target || 0) > 0 || (na.regional_targets?.[selectedRegionId]?.budget || 0) > 0;
+        const isEligible = na.eligible_region_ids?.includes(selectedRegionId);
+        if (!hasRegTarget && !isEligible) return false;
+      }
+      if (filters.strategicObjectiveId && filters.strategicObjectiveId !== 'ALL') {
+        if (na.strategic_objective_id !== filters.strategicObjectiveId) return false;
+      }
+      return true;
+    });
+  }, [nationalActivities, selectedRegionId, filters.strategicObjectiveId]);
+
+  const memberActIds = useMemo(() => new Set(memberActivities.map(na => na.id)), [memberActivities]);
+  const memberEntries = useMemo(() => allContributing.filter(e => memberActIds.has(e.national_activity_id)), [allContributing, memberActIds]);
+  const memberAct = sumActual(memberEntries, quarterlyActuals, q);
+  const memberTgt = selectedRegionId
+    ? memberActivities.reduce((s, na) => s + (na.regional_targets?.[selectedRegionId]?.target ?? 0), 0)
+    : memberActivities.reduce((s, na) => s + (na.ercs_target ?? 0), 0);
+  const memberAch = achievementPct(memberAct, memberTgt);
+  const memberStatus = get3WayStatus(memberAch, statusThresholds);
+  const memberBadge = get3WayBadge(memberStatus);
 
   // SP8 Income Proxy:
   // Derived from SP8 (Resource Development, Mobilization & Utilization) activities
@@ -282,6 +320,44 @@ export const EnablingPrioritiesTab: React.FC = () => {
             allowedPriorityIds={ENABLING_PRIORITY_IDS}
             title="Enabling Priorities Filters (P4–P8)"
           />
+
+          {/* Supporting Priorities Institutional Indicators (Volunteers, Members, Budget & Spend) */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3.5">
+            <DashboardKPICard
+              icon={Users}
+              title="Total Volunteers"
+              val={formatCompactNumber(volunteerAct)}
+              sub={`${Math.round(volunteerAct).toLocaleString()} actual / ${Math.round(volunteerTgt).toLocaleString()} plan (SP4 4.2 & 4.3)`}
+              badge={{
+                label: `${volunteerBadge.label} (${volunteerAch.toFixed(0)}%)`,
+                color: volunteerBadge.color,
+              }}
+              tooltip="Total volunteers mobilized and youth volunteers engaged"
+            />
+            <DashboardKPICard
+              icon={UserCheck}
+              title="Total Members"
+              val={formatCompactNumber(memberAct)}
+              sub={`${Math.round(memberAct).toLocaleString()} actual / ${Math.round(memberTgt).toLocaleString()} plan (SP4 4.1)`}
+              badge={{
+                label: `${memberBadge.label} (${memberAch.toFixed(0)}%)`,
+                color: memberBadge.color,
+              }}
+              tooltip="Total members recruited and registered"
+            />
+            <DashboardKPICard
+              icon={Wallet}
+              title="Supporting Priorities Budget"
+              val={formatETB(totalEnablingBudget)}
+              sub="P4–P8 total allocated corporate budget"
+            />
+            <DashboardKPICard
+              icon={Activity}
+              title="Supporting Priorities Spend"
+              val={formatETB(enablingSummaryRows.reduce((s, r) => s + r.spend, 0))}
+              sub={`${((enablingSummaryRows.reduce((s, r) => s + r.spend, 0) / (totalEnablingBudget || 1)) * 100).toFixed(1)}% corporate budget utilization`}
+            />
+          </div>
 
           {/* Compact 5-row Metric Matrix Table showing all 10 numbers */}
           <div className="bg-white rounded-xl border border-slate-200 shadow-xs p-4">
@@ -480,7 +556,7 @@ export const EnablingPrioritiesTab: React.FC = () => {
           )}
 
           {/* KPI Cards for the selected priority */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3.5">
+          <div className={`grid grid-cols-1 sm:grid-cols-2 ${selectedPriId === 'sp-4' ? 'lg:grid-cols-5' : 'lg:grid-cols-4'} gap-3.5`}>
             <DashboardKPICard
               icon={Target}
               title={`${drillPriority?.code} Achievement`}
@@ -496,7 +572,11 @@ export const EnablingPrioritiesTab: React.FC = () => {
               sub={`${formatETB(drillSpent)} spent / ${formatETB(drillBudget)} budget`}
               badge={{
                 label: drillUtil > 100 ? 'Over Budget' : `${drillUtil.toFixed(0)}% Utilized`,
-                color: drillUtil > 100 ? 'bg-rose-100 text-rose-800 border-rose-300' : 'bg-blue-100 text-blue-800 border-blue-300',
+                color: drillUtil > 100
+                  ? 'bg-rose-100 text-rose-800 border-rose-300'
+                  : drillUtil >= 60
+                  ? 'bg-emerald-100 text-emerald-800 border-emerald-300'
+                  : 'bg-amber-100 text-amber-800 border-amber-300',
               }}
             />
             <DashboardKPICard
@@ -506,24 +586,40 @@ export const EnablingPrioritiesTab: React.FC = () => {
               sub={`${drillObjStatusCounts['at-risk']} at risk • ${drillObjStatusCounts['off-track']} off track`}
               badge={{
                 label: `${drillObjStatusCounts['on-track']} On / ${drillObjStatusCounts['at-risk']} Risk / ${drillObjStatusCounts['off-track']} Off`,
-                color: drillObjStatusCounts['off-track'] > 0 ? 'bg-amber-100 text-amber-800 border-amber-300' : 'bg-emerald-100 text-emerald-800 border-emerald-300',
+                color: drillObjStatusCounts['off-track'] > 0
+                  ? 'bg-rose-100 text-rose-800 border-rose-300'
+                  : drillObjStatusCounts['at-risk'] > 0
+                  ? 'bg-amber-100 text-amber-800 border-amber-300'
+                  : 'bg-emerald-100 text-emerald-800 border-emerald-300',
               }}
             />
 
-            {/* Per-Priority 4th Card Differences */}
+            {/* Per-Priority Cards: Distinct Volunteers (4.2/4.3) and Members (4.1) for SP-4 */}
             {selectedPriId === 'sp-4' && (
-              <DashboardKPICard
-                icon={Users}
-                title="Volunteers / Members"
-                val={formatCompactNumber(drillBeneficiariesReached)}
-                sub={`${Math.round(drillBeneficiariesReached).toLocaleString()} reached / ${Math.round(drillBeneficiariesTargeted).toLocaleString()} targeted`}
-                badge={{
-                  label: drillBeneficiariesTargeted > 0
-                    ? `${((drillBeneficiariesReached / drillBeneficiariesTargeted) * 100).toFixed(0)}%`
-                    : '0%',
-                  color: 'bg-indigo-100 text-indigo-800 border-indigo-300',
-                }}
-              />
+              <>
+                <DashboardKPICard
+                  icon={Users}
+                  title="Total Volunteers"
+                  val={formatCompactNumber(volunteerAct)}
+                  sub={`${Math.round(volunteerAct).toLocaleString()} actual / ${Math.round(volunteerTgt).toLocaleString()} plan`}
+                  badge={{
+                    label: `${volunteerBadge.label} (${volunteerAch.toFixed(0)}%)`,
+                    color: volunteerBadge.color,
+                  }}
+                  tooltip="SP4 4.2 (Recruitment & Management) & 4.3 (Youth Volunteers)"
+                />
+                <DashboardKPICard
+                  icon={UserCheck}
+                  title="Total Members"
+                  val={formatCompactNumber(memberAct)}
+                  sub={`${Math.round(memberAct).toLocaleString()} actual / ${Math.round(memberTgt).toLocaleString()} plan`}
+                  badge={{
+                    label: `${memberBadge.label} (${memberAch.toFixed(0)}%)`,
+                    color: memberBadge.color,
+                  }}
+                  tooltip="SP4 4.1 (Membership Recruitment, Retention & Engagement)"
+                />
+              </>
             )}
 
             {(selectedPriId === 'sp-5' || selectedPriId === 'sp-6' || selectedPriId === 'sp-7') && (
@@ -543,7 +639,11 @@ export const EnablingPrioritiesTab: React.FC = () => {
                 sub={`Target: ${formatETB(sp8IncomeTarget)} (${sp8IncomePct.toFixed(1)}% secured) • Derived from SP8 Mobilization`}
                 badge={{
                   label: `${sp8IncomePct.toFixed(0)}% Secured`,
-                  color: sp8IncomePct >= 80 ? 'bg-emerald-100 text-emerald-800 border-emerald-300' : 'bg-amber-100 text-amber-800 border-amber-300',
+                  color: sp8IncomePct >= 80
+                    ? 'bg-emerald-100 text-emerald-800 border-emerald-300'
+                    : sp8IncomePct >= 60
+                    ? 'bg-amber-100 text-amber-800 border-amber-300'
+                    : 'bg-rose-100 text-rose-800 border-rose-300',
                 }}
               />
             )}

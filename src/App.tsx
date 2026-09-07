@@ -26,6 +26,7 @@ import { AdminSettingsPage } from './pages/AdminSettingsPage';
 import { NotificationsPage } from './pages/NotificationsPage';
 import { ProjectConfigurationPage } from './pages/ProjectConfigurationPage';
 import { NonProgrammaticActivitiesPage } from './pages/NonProgrammaticActivitiesPage';
+import { MonitoringSubmissionsPage } from './pages/MonitoringSubmissionsPage';
 
 const RESTRICTED_FOR_AOP = new Set(['quarterly-plan', 'quarterly']);
 
@@ -45,17 +46,19 @@ const MainLayout: React.FC = () => {
   const { activeRoute, setActiveRoute, currentRole, filters } = useApp();
   const isNationalAop = currentRole === 'National Activity AOP';
   const isMonitor = currentRole === 'PMER Officer';
+  const isPmerHead = currentRole === 'PMER Head';
   const isBranchHead = currentRole.startsWith('Branch Head — ');
   const isZoneCoordinator = currentRole.endsWith(' coordinators');
   const isProgramDirector = currentRole === 'Program Director';
   const isSystemAdmin = currentRole === 'System Admin';
 
   const onRestrictedRoute = isNationalAop && RESTRICTED_FOR_AOP.has(activeRoute);
-  const onMonitorOnlyRouteAsOther = !isMonitor && MONITOR_ONLY_ROUTES.has(activeRoute);
+  const onMonitorOnlyRouteAsOther = !isMonitor && !isPmerHead && MONITOR_ONLY_ROUTES.has(activeRoute);
   const onAopOnlyRouteAsOther = !isNationalAop && AOP_ONLY_ROUTES.has(activeRoute);
   const onRestrictedRouteForBranchHead = isBranchHead && RESTRICTED_FOR_BRANCH_HEAD.has(activeRoute);
   const onRestrictedRouteForPd = isProgramDirector && RESTRICTED_FOR_PD.has(activeRoute);
-  const monitorOffItsOwnRoutes = isMonitor && !['monitoring', 'monitoring-dashboard', 'strategic-kpi', 'knowledge-library'].includes(activeRoute);
+  const monitorOffItsOwnRoutes = isMonitor && !['monitoring', 'monitoring-dashboard', 'strategic-kpi', 'knowledge-library', 'notifications'].includes(activeRoute);
+  const pmerHeadOffItsOwnRoutes = isPmerHead && !['monitoring-submissions', 'monitoring-dashboard', 'monitoring', 'strategic-kpi', 'knowledge-library'].includes(activeRoute);
   const adminOffItsOwnRoutes = isSystemAdmin && activeRoute !== 'admin-settings';
 
   React.useEffect(() => {
@@ -69,6 +72,8 @@ const MainLayout: React.FC = () => {
       setActiveRoute('plan');
     } else if (monitorOffItsOwnRoutes) {
       setActiveRoute('monitoring');
+    } else if (pmerHeadOffItsOwnRoutes) {
+      setActiveRoute('monitoring-submissions');
     } else if (adminOffItsOwnRoutes) {
       setActiveRoute('admin-settings');
     }
@@ -79,6 +84,7 @@ const MainLayout: React.FC = () => {
     onRestrictedRouteForBranchHead,
     onRestrictedRouteForPd,
     monitorOffItsOwnRoutes,
+    pmerHeadOffItsOwnRoutes,
     adminOffItsOwnRoutes,
     setActiveRoute,
   ]);
@@ -94,6 +100,7 @@ const MainLayout: React.FC = () => {
       return <PlanPage />;
     }
     if (monitorOffItsOwnRoutes) return <MonitoringRegisterPage />;
+    if (pmerHeadOffItsOwnRoutes) return <MonitoringSubmissionsPage />;
     if (adminOffItsOwnRoutes) return <AdminSettingsPage />;
 
     switch (activeRoute) {
@@ -111,6 +118,7 @@ const MainLayout: React.FC = () => {
       case 'region-detail': return <RegionDetailPage />;
       case 'submissions': return <SubmissionsPage />;
       case 'monitoring': return <MonitoringRegisterPage />;
+      case 'monitoring-submissions': return <MonitoringSubmissionsPage />;
       case 'monitoring-dashboard': return <MonitoringDashboardPage />;
       case 'performance': return <PerformancePage />;
       case 'strategic-plan': return <StrategicPlanPage />;

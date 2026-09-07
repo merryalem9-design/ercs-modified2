@@ -15,6 +15,7 @@ import { QuarterFilterValue } from '../types';
 import { StatusBadge } from '../components/common/StatusBadge';
 import { BudgetStatusBadge } from '../components/common/BudgetStatusBadge';
 import { PlanEntryWizardModal, type PeWizardFormState } from './PlanPage';
+import { NationalActivityDrillDown } from '../components/common/NationalActivityDrillDown';
 import {
   ArrowLeft,
   ArrowUpRight,
@@ -40,6 +41,7 @@ export const NationalActivityDetailPage: React.FC = () => {
     regions,
     zones,
     projects,
+    planEntries,
     quarterlyPlans,
     quarterlyActuals,
     uomConfigs,
@@ -49,7 +51,13 @@ export const NationalActivityDetailPage: React.FC = () => {
   } = useApp();
 
   const [peWizard, setPeWizard] = useState<null | { initial: PeWizardFormState; startStep: 1 | 2 }>(null);
-  const [quarterId, setQuarterId] = useState<QuarterFilterValue>('ALL');
+  const [quarterId, setQuarterId] = useState<QuarterFilterValue>(() => (filters.quarterId as QuarterFilterValue) || 'ALL');
+
+  React.useEffect(() => {
+    if (filters.quarterId) {
+      setQuarterId(filters.quarterId as QuarterFilterValue);
+    }
+  }, [filters.quarterId, selectedNationalActivityId]);
 
   const na = selectedNationalActivityId
     ? nationalActivities.find(n => n.id === selectedNationalActivityId)
@@ -90,10 +98,10 @@ export const NationalActivityDetailPage: React.FC = () => {
   const activeProject = assignedProject || filterProject;
   const projectShare = activeProject ? getProjectAopShare(na.id, activeProject.id) : { target: 0, budget: 0 };
 
-  const roleVisibleEntries = getFilteredPlanEntries();
-  const allChildren = roleVisibleEntries.filter(pe => pe.national_activity_id === na.id);
-  const regionalChildren = allChildren.filter(c => c.scope_type === 'Regional');
-  const projectChildren = allChildren.filter(c => c.scope_type === 'Project');
+  const baseEntries = planEntries.filter(pe => pe.national_activity_id === na.id && pe.is_contributing !== false);
+  const regionalChildren = baseEntries.filter(c => c.scope_type === 'Regional' && (!activeRegion || c.region_id === activeRegion.id));
+  const projectChildren = baseEntries.filter(c => c.scope_type === 'Project' && (!activeProject || c.project_id === activeProject.id));
+  const allChildren = baseEntries;
   const children = isRegionalRole ? regionalChildren : isProjectRole ? projectChildren : allChildren;
 
   const target = sumPlannedTarget(children, quarterlyPlans, quarterId);
@@ -176,7 +184,8 @@ export const NationalActivityDetailPage: React.FC = () => {
 
   const goBackToPlan = () => {
     setParentFilter(null);
-    setActiveRoute('plan');
+    const origin = (typeof window !== 'undefined' && window.sessionStorage?.getItem('na_detail_origin')) || 'plan';
+    setActiveRoute(origin);
   };
 
   const openChild = (pe: PlanEntry) => {
@@ -288,13 +297,20 @@ export const NationalActivityDetailPage: React.FC = () => {
     setActiveRoute('quarterly');
   };
 
+  const detailOrigin = (typeof window !== 'undefined' && window.sessionStorage?.getItem('na_detail_origin')) || 'plan';
+  const backLabel = detailOrigin === 'strategic-plan'
+    ? 'Back to Strategic Plan'
+    : detailOrigin === 'report'
+      ? 'Back to Report'
+      : 'Back to Plan';
+
   return (
     <div className="space-y-6">
       <button
         onClick={goBackToPlan}
-        className="flex items-center gap-1.5 text-xs font-bold text-slate-600 hover:text-ercs-red"
+        className="flex items-center gap-1.5 text-xs font-bold text-slate-600 hover:text-ercs-red cursor-pointer"
       >
-        <ArrowLeft className="w-3.5 h-3.5" /> Back to Plan
+        <ArrowLeft className="w-3.5 h-3.5" /> {backLabel}
       </button>
 
       <div className="bg-white p-5 rounded-xl border shadow-sm">
@@ -385,6 +401,7 @@ export const NationalActivityDetailPage: React.FC = () => {
             sub={quarterId === 'ALL' && target > 0 && target !== effectiveTarget
               ? `${target.toLocaleString()} from plan entries`
               : `${actual.toLocaleString()} achieved so far`}
+            status={effectiveTarget > 0 ? (actual / effectiveTarget >= 0.8 ? 'green' : actual / effectiveTarget >= 0.6 ? 'amber' : 'red') : 'green'}
           />
 
           <StatCard
@@ -397,6 +414,7 @@ export const NationalActivityDetailPage: React.FC = () => {
                 hasActuals={actual > 0}
               />
             }
+            status={actual > 0 ? (pct >= 80 ? 'green' : pct >= 60 ? 'amber' : 'red') : 'amber'}
           />
 
           <StatCard
@@ -412,6 +430,7 @@ export const NationalActivityDetailPage: React.FC = () => {
                 />
               </div>
             }
+            status={spent > 0 ? (util > 100 ? 'red' : util >= 60 ? 'green' : 'amber') : 'amber'}
           />
 
           <StatCard
@@ -423,9 +442,12 @@ export const NationalActivityDetailPage: React.FC = () => {
                 of {totalBeneficiaries.toLocaleString()} planned · {na.uom} × {factor}
               </span>
             }
+            status={totalBeneficiaries > 0 ? ((actualBeneficiaries / totalBeneficiaries) >= 0.8 ? 'green' : (actualBeneficiaries / totalBeneficiaries) >= 0.6 ? 'amber' : 'red') : 'green'}
           />
         </div>
       </div>
+
+      <NationalActivityDrillDown nationalActivityId={na.id} quarterId={quarterId} />
 
       <section className="bg-white rounded-xl border shadow-sm overflow-hidden">
         <div className="p-4 border-b flex items-center justify-between bg-slate-50">
@@ -483,6 +505,13 @@ export const NationalActivityDetailPage: React.FC = () => {
                   const peTotalBeneficiaries = convertToBeneficiaries(peTarget, na.uom, uomConfigs);
                   const peActualBeneficiaries = convertToBeneficiaries(peActual, na.uom, uomConfigs);
 
+                  const peActuals = quarterlyActuals.filter(a => a.plan_entry_id === pe.id && (quarterId === 'ALL' || a.quarter_id === quarterId));
+                  const peActF = peActuals.reduce((sum, a) => sum + (a.actual_female || 0), 0);
+                  const peActM = peActuals.reduce((sum, a) => sum + (a.actual_male || 0), 0);
+                  const peActY = peActuals.reduce((sum, a) => sum + (a.actual_youth || 0), 0);
+                  const hasPeDemographics = peActuals.some(a => a.actual_female != null || a.actual_male != null || a.actual_youth != null);
+                  const peComments = peActuals.filter(a => !!a.comment);
+
                   return (
                     <tr key={pe.id} className="hover:bg-slate-50">
                       <td className="p-3">
@@ -495,6 +524,11 @@ export const NationalActivityDetailPage: React.FC = () => {
                         <span className="font-semibold">
                           {scopeName || '—'}
                         </span>
+                        {pe.activity_name && pe.activity_name !== na.description && (
+                          <div className="text-[10px] text-slate-500 truncate max-w-xs mt-0.5 font-normal">
+                            {pe.activity_name}
+                          </div>
+                        )}
                       </td>
 
                       <td className="p-3 text-right font-bold whitespace-nowrap">
@@ -502,7 +536,19 @@ export const NationalActivityDetailPage: React.FC = () => {
                       </td>
 
                       <td className="p-3 text-right whitespace-nowrap">
-                        {peActual.toLocaleString()} {na.uom}
+                        <div className={`font-bold ${peActual > 0 ? 'text-blue-700' : 'text-slate-700'}`}>
+                          {peActual.toLocaleString()} {na.uom}
+                        </div>
+                        {hasPeDemographics && (
+                          <div className="text-[10px] text-slate-500 font-normal mt-0.5" title="Demographics: Female / Male / Youth">
+                            F: {peActF.toLocaleString()} · M: {peActM.toLocaleString()} · Y: {peActY.toLocaleString()}
+                          </div>
+                        )}
+                        {peComments.length > 0 && (
+                          <div className="text-[9px] text-slate-400 italic truncate max-w-[140px] ml-auto mt-0.5" title={peComments.map(c => `${c.quarter_id}: ${c.comment}`).join(' | ')}>
+                            💬 {peComments[peComments.length - 1].comment}
+                          </div>
+                        )}
                       </td>
 
                       <td className="p-3 text-right whitespace-nowrap">
@@ -620,21 +666,26 @@ const StatCard: React.FC<{
   label: string;
   value: React.ReactNode;
   sub?: React.ReactNode;
-}> = ({ icon: Icon, label, value, sub }) => (
-  <div className="bg-slate-50 border rounded-lg p-3">
-    <div className="flex items-center justify-between text-[10px] font-bold text-slate-500 uppercase">
-      <span>{label}</span>
-      <Icon className="w-3.5 h-3.5" />
-    </div>
-
-    <div className="text-lg font-black text-slate-800 mt-1">
-      {value}
-    </div>
-
-    {sub && (
-      <div className="text-[10px] text-slate-500 mt-1">
-        {sub}
+  status?: 'green' | 'amber' | 'red';
+}> = ({ icon: Icon, label, value, sub, status }) => {
+  const borderClass = status === 'green' ? 'border-l-4 border-l-emerald-500' : status === 'amber' ? 'border-l-4 border-l-amber-500' : status === 'red' ? 'border-l-4 border-l-rose-500' : '';
+  const iconClass = status === 'green' ? 'text-emerald-600' : status === 'amber' ? 'text-amber-600' : status === 'red' ? 'text-rose-600' : 'text-slate-400';
+  return (
+    <div className={`bg-slate-50 border rounded-lg p-3 ${borderClass}`}>
+      <div className="flex items-center justify-between text-[10px] font-bold text-slate-500 uppercase">
+        <span>{label}</span>
+        <Icon className={`w-3.5 h-3.5 ${iconClass}`} />
       </div>
-    )}
-  </div>
-);
+
+      <div className="text-lg font-black text-slate-800 mt-1">
+        {value}
+      </div>
+
+      {sub && (
+        <div className="text-[10px] text-slate-500 mt-1">
+          {sub}
+        </div>
+      )}
+    </div>
+  );
+};

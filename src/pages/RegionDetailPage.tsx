@@ -79,10 +79,28 @@ export const RegionDetailPage: React.FC = () => {
         </div>
 
         <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mt-4">
-          <StatCard label="Aggregated Target" value={target.toLocaleString()} sub={`${actual.toLocaleString()} achieved`} />
-          <StatCard label="Aggregated Budget" value={`ETB ${budget.toLocaleString()}`} sub={`ETB ${spent.toLocaleString()} spent`} />
-          <StatCard label="Budget Utilization" value={`${util.toFixed(1)}%`} />
-          <StatCard label="Zones with Links" value={String(zones.filter(z => z.region_id === region.id).length)} />
+          <StatCard
+            label="Aggregated Target"
+            value={target.toLocaleString()}
+            sub={`${actual.toLocaleString()} achieved`}
+            status={target > 0 ? (actual / target >= 0.8 ? 'green' : actual / target >= 0.6 ? 'amber' : 'red') : 'green'}
+          />
+          <StatCard
+            label="Aggregated Budget"
+            value={`ETB ${budget.toLocaleString()}`}
+            sub={`ETB ${spent.toLocaleString()} spent`}
+            status={budget > 0 ? (spent > budget ? 'red' : spent / budget >= 0.6 ? 'green' : 'amber') : 'green'}
+          />
+          <StatCard
+            label="Budget Utilization"
+            value={`${util.toFixed(1)}%`}
+            status={util > 100 ? 'red' : util >= 60 ? 'green' : 'amber'}
+          />
+          <StatCard
+            label="Zones with Links"
+            value={String(zones.filter(z => z.region_id === region.id).length)}
+            status="green"
+          />
         </div>
       </div>
 
@@ -187,11 +205,19 @@ export const RegionDetailPage: React.FC = () => {
   );
 };
 
-const StatCard: React.FC<{ label: string; value: React.ReactNode; sub?: React.ReactNode }> = ({ label, value, sub }) => (
-  <div className="bg-slate-50 border rounded-lg p-3">
-    <div className="text-[10px] font-bold text-slate-500 uppercase">{label}</div>
-    <div className="text-lg font-black text-slate-800 mt-1">{value}</div>
-    {sub && <div className="text-[10px] text-slate-500 mt-1">{sub}</div>}
-  </div>
-);
+const StatCard: React.FC<{
+  label: string;
+  value: React.ReactNode;
+  sub?: React.ReactNode;
+  status?: 'green' | 'amber' | 'red';
+}> = ({ label, value, sub, status }) => {
+  const borderClass = status === 'green' ? 'border-l-4 border-l-emerald-500' : status === 'amber' ? 'border-l-4 border-l-amber-500' : status === 'red' ? 'border-l-4 border-l-rose-500' : '';
+  return (
+    <div className={`bg-slate-50 border rounded-lg p-3 ${borderClass}`}>
+      <div className="text-[10px] font-bold text-slate-500 uppercase">{label}</div>
+      <div className="text-lg font-black text-slate-800 mt-1">{value}</div>
+      {sub && <div className="text-[10px] text-slate-500 mt-1">{sub}</div>}
+    </div>
+  );
+};
 void getApprovalBadge;

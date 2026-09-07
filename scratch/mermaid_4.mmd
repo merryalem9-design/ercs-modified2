@@ -1,0 +1,131 @@
+erDiagram
+    PLAN_ENTRY ||--|{ QUARTERLY_PLAN : "schedules"
+    PLAN_ENTRY ||--o{ QUARTERLY_ACTUAL : "executes"
+    QUARTERLY_PLAN ||--o{ QUARTERLY_ACTUAL : "preconditions"
+    
+    QUARTERLY_ACTUAL ||--o{ FINANCIAL_VERIFICATION : "verified_by_finance"
+    
+    OUTPUT_INDICATOR ||--o{ MONTHLY_INDICATOR_VALUE : "tracks_period"
+    PLAN_ENTRY ||--o{ MONTHLY_INDICATOR_VALUE : "generates"
+    MONTHLY_INDICATOR_VALUE ||--o{ INDICATOR_DISAGGREGATION_ENTRY : "disaggregated_by"
+    
+    PLAN_ENTRY ||--o{ MONITORING_REGISTER_RECORD : "logged_in_register"
+    PLAN_ENTRY ||--o{ FIELD_MONITORING_VISIT : "inspected_in"
+    
+    PROJECT ||--o{ FIELD_MONITORING_VISIT : "site_of"
+    REGION ||--o{ FIELD_MONITORING_VISIT : "located_in"
+    FIELD_MONITORING_VISIT ||--o{ EVIDENCE_ATTACHMENT : "evidenced_by"
+    MONITORING_REGISTER_RECORD ||--o{ EVIDENCE_ATTACHMENT : "supports"
+    
+    QUARTERLY_PLAN {
+        string quarterly_plan_id PK
+        string plan_entry_id FK
+        string quarter_id "Q1|Q2|Q3|Q4"
+        decimal target
+        decimal budget "0 if no budget"
+        decimal fx_rate_to_etb
+        string approval_status "Draft|Pending Approval|Approved|Rejected|Locked"
+        string rejection_reason
+    }
+    QUARTERLY_ACTUAL {
+        string quarterly_actual_id PK
+        string plan_entry_id FK
+        string quarter_id "Q1|Q2|Q3|Q4"
+        decimal actual
+        decimal expenditure
+        decimal actual_female
+        decimal actual_male
+        decimal actual_youth
+        decimal fx_rate_to_etb
+        string variance_narrative "Required if in threshold alert band"
+        string rejection_reason
+        datetime submitted_at
+        datetime reviewed_at
+        string approval_status
+    }
+    FINANCIAL_VERIFICATION {
+        string verification_id PK
+        string quarterly_actual_id FK
+        string finance_officer_id FK
+        decimal verified_expenditure
+        string verification_status "Verified|Flagged"
+        datetime verification_timestamp
+    }
+    MONTHLY_INDICATOR_VALUE {
+        string monthly_val_id PK
+        string indicator_id FK
+        string plan_entry_id FK
+        string reporting_month "YYYY-MM"
+        decimal actual_value
+        string variance_narrative "Required if in threshold alert band"
+        string entered_by FK
+    }
+    INDICATOR_DISAGGREGATION_ENTRY {
+        string disagg_id PK
+        string monthly_val_id FK
+        string sex "Male|Female"
+        string age_group "Youth|Adult"
+        string disability_status
+        decimal disaggregated_count
+    }
+    MONITORING_REGISTER_RECORD {
+        string record_id PK
+        string plan_entry_id FK
+        string quarter_id
+        date monitoring_date
+        string monitoring_method "Field Visit|Desk Review"
+        string verified_by FK
+        decimal verified_achieved
+        string verification_result
+        string quality_rating
+        string severity
+        string status
+    }
+    FIELD_MONITORING_VISIT {
+        string visit_id PK
+        string project_id FK
+        string region_id FK
+        string plan_entry_id FK
+        date visit_date
+        string woreda_id FK
+        string implementing_branch
+        text achievement
+        text challenges
+        text recommendations
+    }
+    EVIDENCE_ATTACHMENT {
+        string attachment_id PK
+        string parent_doctype
+        string parent_id FK
+        string file_name
+        string file_url
+        string file_type
+        datetime upload_date
+    }
+
+    OUTPUT_INDICATOR {
+        string indicator_id PK
+        string indicator_code
+        string name
+        string frequency "Monthly"
+    }
+    PLAN_ENTRY {
+        string plan_entry_id PK
+        string national_activity_id FK
+        string zone_id FK
+        string project_id FK
+        decimal annual_target
+        decimal annual_budget
+        string approval_status
+    }
+    PROJECT {
+        string project_id PK
+        string name
+        decimal total_budget
+        string currency
+    }
+    REGION {
+        string region_id PK
+        string code
+        string name
+    }

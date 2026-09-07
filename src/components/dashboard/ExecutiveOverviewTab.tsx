@@ -32,7 +32,7 @@ import {
   CartesianGrid,
   Legend,
 } from 'recharts';
-import { Target, Wallet, Users, BarChart3, Activity } from 'lucide-react';
+import { Target, Wallet, Users, UserCheck, BarChart3, Activity } from 'lucide-react';
 import { PlanEntry } from '../../types';
 
 export const ExecutiveOverviewTab: React.FC = () => {
@@ -112,6 +112,51 @@ export const ExecutiveOverviewTab: React.FC = () => {
       return sum + convertToBeneficiaries(t, na.uom, uomConfigs);
     }, 0);
   }, [inScopeNas, selectedRegionId, uomConfigs]);
+
+  // 3b. Institutional Mobilization: Volunteers (SP4 4.2 & 4.3) and Members (SP4 4.1)
+  const execVolActivities = useMemo(() => {
+    return nationalActivities.filter(na => {
+      if (na.strategic_objective_id !== 'so-4-2' && na.strategic_objective_id !== 'so-4-3') return false;
+      if (selectedRegionId) {
+        const hasRegTarget = (na.regional_targets?.[selectedRegionId]?.target || 0) > 0 || (na.regional_targets?.[selectedRegionId]?.budget || 0) > 0;
+        const isEligible = na.eligible_region_ids?.includes(selectedRegionId);
+        if (!hasRegTarget && !isEligible) return false;
+      }
+      return true;
+    });
+  }, [nationalActivities, selectedRegionId]);
+
+  const execVolActIds = useMemo(() => new Set(execVolActivities.map(na => na.id)), [execVolActivities]);
+  const execVolEntries = useMemo(() => entries.filter(e => execVolActIds.has(e.national_activity_id)), [entries, execVolActIds]);
+  const execVolunteersAct = sumActual(execVolEntries, quarterlyActuals, q);
+  const execVolunteersTgt = selectedRegionId
+    ? execVolActivities.reduce((s, na) => s + (na.regional_targets?.[selectedRegionId]?.target ?? 0), 0)
+    : execVolActivities.reduce((s, na) => s + (na.ercs_target ?? 0), 0);
+  const execVolunteersAch = achievementPct(execVolunteersAct, execVolunteersTgt);
+  const execVolunteersStatus = get3WayStatus(execVolunteersAch, statusThresholds);
+  const execVolunteersBadge = get3WayBadge(execVolunteersStatus);
+
+  const execMemActivities = useMemo(() => {
+    return nationalActivities.filter(na => {
+      if (na.strategic_objective_id !== 'so-4-1') return false;
+      if (selectedRegionId) {
+        const hasRegTarget = (na.regional_targets?.[selectedRegionId]?.target || 0) > 0 || (na.regional_targets?.[selectedRegionId]?.budget || 0) > 0;
+        const isEligible = na.eligible_region_ids?.includes(selectedRegionId);
+        if (!hasRegTarget && !isEligible) return false;
+      }
+      return true;
+    });
+  }, [nationalActivities, selectedRegionId]);
+
+  const execMemActIds = useMemo(() => new Set(execMemActivities.map(na => na.id)), [execMemActivities]);
+  const execMemEntries = useMemo(() => entries.filter(e => execMemActIds.has(e.national_activity_id)), [entries, execMemActIds]);
+  const execMembersAct = sumActual(execMemEntries, quarterlyActuals, q);
+  const execMembersTgt = selectedRegionId
+    ? execMemActivities.reduce((s, na) => s + (na.regional_targets?.[selectedRegionId]?.target ?? 0), 0)
+    : execMemActivities.reduce((s, na) => s + (na.ercs_target ?? 0), 0);
+  const execMembersAch = achievementPct(execMembersAct, execMembersTgt);
+  const execMembersStatus = get3WayStatus(execMembersAch, statusThresholds);
+  const execMembersBadge = get3WayBadge(execMembersStatus);
 
   // 4. Priorities On-track / At-risk / Off-track (counts out of 8)
   const priorityStatusCounts = { 'on-track': 0, 'at-risk': 0, 'off-track': 0 };
@@ -221,7 +266,11 @@ export const ExecutiveOverviewTab: React.FC = () => {
           sub={`${formatETB(totalSpent)} spent / ${formatETB(totalPlannedBudget)} plan`}
           badge={{
             label: overallBudgetUtilization > 100 ? 'Over Budget' : `${overallBudgetUtilization.toFixed(0)}% Utilized`,
-            color: overallBudgetUtilization > 100 ? 'bg-rose-100 text-rose-800 border-rose-300' : 'bg-blue-100 text-blue-800 border-blue-300',
+            color: overallBudgetUtilization > 100
+              ? 'bg-rose-100 text-rose-800 border-rose-300'
+              : overallBudgetUtilization >= 60
+              ? 'bg-emerald-100 text-emerald-800 border-emerald-300'
+              : 'bg-amber-100 text-amber-800 border-amber-300',
           }}
           onClick={() => {
             setReportFocusSection('top');
@@ -235,7 +284,11 @@ export const ExecutiveOverviewTab: React.FC = () => {
           sub={`${Math.round(totalBeneficiariesReached).toLocaleString()} reached / ${Math.round(totalBeneficiariesTargeted).toLocaleString()} targeted`}
           badge={{
             label: totalBeneficiariesTargeted > 0 ? `${((totalBeneficiariesReached / totalBeneficiariesTargeted) * 100).toFixed(0)}%` : '0%',
-            color: 'bg-indigo-100 text-indigo-800 border-indigo-300',
+            color: (totalBeneficiariesTargeted > 0 && (totalBeneficiariesReached / totalBeneficiariesTargeted) >= 0.8)
+              ? 'bg-emerald-100 text-emerald-800 border-emerald-300'
+              : (totalBeneficiariesTargeted > 0 && (totalBeneficiariesReached / totalBeneficiariesTargeted) >= 0.6)
+              ? 'bg-amber-100 text-amber-800 border-amber-300'
+              : 'bg-rose-100 text-rose-800 border-rose-300',
           }}
         />
         <DashboardKPICard
@@ -251,10 +304,42 @@ export const ExecutiveOverviewTab: React.FC = () => {
           sub={`${priorityStatusCounts['at-risk']} at risk • ${priorityStatusCounts['off-track']} off track`}
           badge={{
             label: `${priorityStatusCounts['on-track']} On / ${priorityStatusCounts['at-risk']} Risk / ${priorityStatusCounts['off-track']} Off`,
-            color: priorityStatusCounts['off-track'] > 0 ? 'bg-amber-100 text-amber-800 border-amber-300' : 'bg-emerald-100 text-emerald-800 border-emerald-300',
+            color: priorityStatusCounts['off-track'] > 0
+              ? 'bg-rose-100 text-rose-800 border-rose-300'
+              : priorityStatusCounts['at-risk'] > 0
+              ? 'bg-amber-100 text-amber-800 border-amber-300'
+              : 'bg-emerald-100 text-emerald-800 border-emerald-300',
           }}
         />
       </div>
+
+      {/* Institutional Mobilization: Distinct Volunteers & Members KPI Cards */}
+      {(filters.strategicPriorityId === 'ALL' || filters.strategicPriorityId === 'sp-4') && (
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+          <DashboardKPICard
+            icon={Users}
+            title="Total Volunteers"
+            val={formatCompactNumber(execVolunteersAct)}
+            sub={`${Math.round(execVolunteersAct).toLocaleString()} actual / ${Math.round(execVolunteersTgt).toLocaleString()} planned (SP4 4.2 & 4.3)`}
+            badge={{
+              label: `${execVolunteersBadge.label} (${execVolunteersAch.toFixed(0)}%)`,
+              color: execVolunteersBadge.color,
+            }}
+            tooltip="Total volunteers mobilized and youth volunteers engaged (Strategic Priority 4)"
+          />
+          <DashboardKPICard
+            icon={UserCheck}
+            title="Total Members"
+            val={formatCompactNumber(execMembersAct)}
+            sub={`${Math.round(execMembersAct).toLocaleString()} actual / ${Math.round(execMembersTgt).toLocaleString()} planned (SP4 4.1)`}
+            badge={{
+              label: `${execMembersBadge.label} (${execMembersAch.toFixed(0)}%)`,
+              color: execMembersBadge.color,
+            }}
+            tooltip="Total individual and institutional members recruited (Strategic Priority 4)"
+          />
+        </div>
+      )}
 
       {/* Row 1: Achievement % by Priority Bar + Budget Share Donut */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">

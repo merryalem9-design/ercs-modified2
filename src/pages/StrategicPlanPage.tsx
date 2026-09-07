@@ -2,8 +2,9 @@
 import React, { useState, useMemo } from 'react';
 import { useApp } from '../context/AppContext';
 import { FilterBar } from '../components/common/FilterBar';
-import { ChevronDown, ChevronRight, Compass, Maximize2, Minimize2 } from 'lucide-react';
+import { ChevronDown, ChevronRight, Compass, Maximize2, Minimize2, ArrowUpRight } from 'lucide-react';
 import { NationalActivity, StrategicObjective } from '../types';
+import { NationalActivityDrillDown } from '../components/common/NationalActivityDrillDown';
 
 export const StrategicPlanPage: React.FC = () => {
   const {
@@ -16,7 +17,17 @@ export const StrategicPlanPage: React.FC = () => {
     planEntries,
     filters,
     currentRole,
+    setActiveRoute,
+    setSelectedNationalActivityId,
   } = useApp();
+
+  const viewActivityDetail = (naId: string) => {
+    if (typeof window !== 'undefined') {
+      sessionStorage.setItem('na_detail_origin', 'strategic-plan');
+    }
+    setSelectedNationalActivityId(naId);
+    setActiveRoute('national-detail');
+  };
 
   const isBranchHead = currentRole.startsWith('Branch Head — ');
   const isZoneCoordinator = currentRole.endsWith(' coordinators');
@@ -63,9 +74,20 @@ export const StrategicPlanPage: React.FC = () => {
 
   // Collapsed / expanded state for objectives (collapsed by default)
   const [expandedObjectiveIds, setExpandedObjectiveIds] = useState<Set<string>>(new Set());
+  // Collapsed / expanded state for activities drill-down
+  const [expandedActivityIds, setExpandedActivityIds] = useState<Set<string>>(new Set());
 
   const toggleObjective = (id: string) => {
     setExpandedObjectiveIds(prev => {
+      const next = new Set(prev);
+      if (next.has(id)) next.delete(id);
+      else next.add(id);
+      return next;
+    });
+  };
+
+  const toggleActivityExpand = (id: string) => {
+    setExpandedActivityIds(prev => {
       const next = new Set(prev);
       if (next.has(id)) next.delete(id);
       else next.add(id);
@@ -491,74 +513,90 @@ export const StrategicPlanPage: React.FC = () => {
                       {isExpanded &&
                         childActivities.map((na: NationalActivity, idx: number) => {
                           const actTotals = computeActivityTotals(na.id);
+                          const isActExpanded = expandedActivityIds.has(na.id);
+                          const totalColSpan = 5 + 2 + (showHqColumns ? 2 : 0) + (showRbColumns ? 2 : 0) + visibleRegions.length * 2;
                           return (
-                            <tr
-                              key={na.id}
-                              className={`text-xs hover:bg-sky-50/50 transition-colors ${
-                                idx % 2 === 0 ? 'bg-white' : 'bg-slate-50/50'
-                              }`}
-                            >
-                              <td className="p-2.5 pl-6 sticky left-0 bg-inherit z-10 border-r border-slate-200 font-mono font-bold text-slate-700">
-                                Activity {na.code}
-                              </td>
-                              <td className="p-2.5 sticky left-[140px] bg-inherit z-10 border-r border-slate-200 text-slate-800">
-                                {na.description}
-                              </td>
-                              <td className="p-2.5 border-r border-slate-200 text-slate-600 font-medium">
-                                {na.uom || '—'}
-                              </td>
-                              <td className="p-2.5 border-r border-slate-200 font-semibold text-slate-700">
-                                <span className="px-1.5 py-0.5 rounded bg-slate-100 text-slate-700 border border-slate-200 text-[11px]">
-                                  {na.responsibility || 'Both'}
-                                </span>
-                              </td>
-                              <td className="p-2.5 border-r border-slate-200 text-slate-600 font-medium">
-                                {na.department || '—'}
-                              </td>
-                              {/* Scoped Total */}
-                              <td className="p-2 text-right border-r border-slate-200 font-mono text-slate-800 font-semibold">
-                                {formatNum(isRegionalRole ? actTotals.rbTarget : isProjectRole ? actTotals.hqTarget : actTotals.ercsTarget)}
-                              </td>
-                              <td className="p-2 text-right border-r border-slate-200 font-mono text-slate-900 font-bold">
-                                {formatNum(isRegionalRole ? actTotals.rbBudget : isProjectRole ? actTotals.hqBudget : actTotals.ercsBudget)}
-                              </td>
-                              {/* HQ */}
-                              {showHqColumns && (
-                                <>
-                                  <td className="p-2 text-right border-r border-slate-200 font-mono text-slate-600">
-                                    {formatNum(actTotals.hqTarget)}
-                                  </td>
-                                  <td className="p-2 text-right border-r border-slate-200 font-mono text-slate-600">
-                                    {formatNum(actTotals.hqBudget)}
-                                  </td>
-                                </>
-                              )}
-                              {/* Summary RB */}
-                              {showRbColumns && (
-                                <>
-                                  <td className="p-2 text-right border-r border-slate-200 font-mono text-slate-600">
-                                    {formatNum(actTotals.rbTarget)}
-                                  </td>
-                                  <td className="p-2 text-right border-r border-slate-200 font-mono text-slate-600">
-                                    {formatNum(actTotals.rbBudget)}
-                                  </td>
-                                </>
-                              )}
-                              {/* Per-Region */}
-                              {visibleRegions.map(r => {
-                                const regData = actTotals.perRegion.find(pr => pr.regionId === r.id);
-                                return (
-                                  <React.Fragment key={`act-${na.id}-${r.id}`}>
-                                    <td className="p-2 text-right border-r border-slate-100 font-mono text-slate-600">
-                                      {formatNum(regData?.target || 0)}
+                            <React.Fragment key={na.id}>
+                              <tr
+                                className={`text-xs hover:bg-sky-50/50 transition-colors ${
+                                  idx % 2 === 0 ? 'bg-white' : 'bg-slate-50/50'
+                                }`}
+                              >
+                                <td className="p-2.5 pl-6 sticky left-0 bg-inherit z-10 border-r border-slate-200 font-mono font-bold text-slate-700">
+                                  <button
+                                    type="button"
+                                    onClick={() => viewActivityDetail(na.id)}
+                                    className="inline-flex items-center gap-1.5 text-ercs-red hover:text-red-700 hover:underline cursor-pointer font-bold text-left"
+                                    title="Click to view activity details and contributing projects/regions on details screen"
+                                  >
+                                    <span>Activity {na.code}</span>
+                                    <ArrowUpRight className="w-3.5 h-3.5 text-slate-400 hover:text-ercs-red shrink-0" />
+                                  </button>
+                                </td>
+                                <td
+                                  onClick={() => viewActivityDetail(na.id)}
+                                  className="p-2.5 sticky left-[140px] bg-inherit z-10 border-r border-slate-200 text-slate-800 cursor-pointer hover:text-ercs-red font-medium"
+                                  title="Click to view activity details and contributing projects/regions on details screen"
+                                >
+                                  {na.description}
+                                </td>
+                                <td className="p-2.5 border-r border-slate-200 text-slate-600 font-medium">
+                                  {na.uom || '—'}
+                                </td>
+                                <td className="p-2.5 border-r border-slate-200 font-semibold text-slate-700">
+                                  <span className="px-1.5 py-0.5 rounded bg-slate-100 text-slate-700 border border-slate-200 text-[11px]">
+                                    {na.responsibility || 'Both'}
+                                  </span>
+                                </td>
+                                <td className="p-2.5 border-r border-slate-200 text-slate-600 font-medium">
+                                  {na.department || '—'}
+                                </td>
+                                {/* Scoped Total */}
+                                <td className="p-2 text-right border-r border-slate-200 font-mono text-slate-800 font-semibold">
+                                  {formatNum(isRegionalRole ? actTotals.rbTarget : isProjectRole ? actTotals.hqTarget : actTotals.ercsTarget)}
+                                </td>
+                                <td className="p-2 text-right border-r border-slate-200 font-mono text-slate-900 font-bold">
+                                  {formatNum(isRegionalRole ? actTotals.rbBudget : isProjectRole ? actTotals.hqBudget : actTotals.ercsBudget)}
+                                </td>
+                                {/* HQ */}
+                                {showHqColumns && (
+                                  <>
+                                    <td className="p-2 text-right border-r border-slate-200 font-mono text-slate-600">
+                                      {formatNum(actTotals.hqTarget)}
                                     </td>
-                                    <td className="p-2 text-right border-r border-slate-100 font-mono text-slate-600">
-                                      {formatNum(regData?.budget || 0)}
+                                    <td className="p-2 text-right border-r border-slate-200 font-mono text-slate-600">
+                                      {formatNum(actTotals.hqBudget)}
                                     </td>
-                                  </React.Fragment>
-                                );
-                              })}
-                            </tr>
+                                  </>
+                                )}
+                                {/* Summary RB */}
+                                {showRbColumns && (
+                                  <>
+                                    <td className="p-2 text-right border-r border-slate-200 font-mono text-slate-600">
+                                      {formatNum(actTotals.rbTarget)}
+                                    </td>
+                                    <td className="p-2 text-right border-r border-slate-200 font-mono text-slate-600">
+                                      {formatNum(actTotals.rbBudget)}
+                                    </td>
+                                  </>
+                                )}
+                                {/* Per-Region */}
+                                {visibleRegions.map(r => {
+                                  const regData = actTotals.perRegion.find(pr => pr.regionId === r.id);
+                                  return (
+                                    <React.Fragment key={`act-${na.id}-${r.id}`}>
+                                      <td className="p-2 text-right border-r border-slate-100 font-mono text-slate-600">
+                                        {formatNum(regData?.target || 0)}
+                                      </td>
+                                      <td className="p-2 text-right border-r border-slate-100 font-mono text-slate-600">
+                                        {formatNum(regData?.budget || 0)}
+                                      </td>
+                                    </React.Fragment>
+                                  );
+                                })}
+                              </tr>
+                              {/* Contributing projects/regions are rendered via NationalActivityDrillDown on the dedicated detail screen (NationalActivityDetailPage) */}
+                            </React.Fragment>
                           );
                         })}
                     </React.Fragment>

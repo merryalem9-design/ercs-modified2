@@ -2,11 +2,11 @@
 import React from 'react';
 import { useApp } from '../context/AppContext';
 import { getApprovalBadge } from '../utils/calculations';
-import { Bell, CalendarClock, CalendarCheck2 } from 'lucide-react';
+import { Bell, CalendarClock, CalendarCheck2, ShieldCheck } from 'lucide-react';
 
 interface NotificationRow {
   id: string;
-  type: 'Quarterly Plan' | 'Quarterly Actual';
+  type: 'Quarterly Plan' | 'Quarterly Actual' | 'Monitoring Verification';
   quarter: string;
   activityCode: string;
   activityName: string;
@@ -19,9 +19,12 @@ interface NotificationRow {
 
 export const NotificationsPage: React.FC = () => {
   const {
+    currentRole,
     getFilteredPlanEntries,
+    planEntries,
     quarterlyPlans,
     quarterlyActuals,
+    monitoringRecords,
     nationalActivities,
   } = useApp();
 
@@ -29,6 +32,27 @@ export const NotificationsPage: React.FC = () => {
   const ownedEntryIds = new Set(ownedEntries.map(e => e.id));
 
   const rows: NotificationRow[] = [];
+
+  // Monitoring records for PMER Officer
+  if (currentRole === 'PMER Officer') {
+    monitoringRecords.forEach(mr => {
+      if (!mr.submitted_at && !mr.reviewed_at) return;
+      const pe = planEntries.find(e => e.id === mr.plan_entry_id);
+      const na = nationalActivities.find(n => n.id === pe?.national_activity_id);
+      rows.push({
+        id: `monitoring-${mr.plan_entry_id}`,
+        type: 'Monitoring Verification',
+        quarter: mr.quarter_id || 'Period',
+        activityCode: na?.code || pe?.activity_code || '',
+        activityName: pe?.activity_name || '',
+        status: mr.approval_status,
+        rejectionReason: mr.rejection_reason,
+        submittedAt: mr.submitted_at,
+        reviewedAt: mr.reviewed_at,
+        sortDate: mr.reviewed_at || mr.submitted_at || '',
+      });
+    });
+  }
 
   // Quarterly Plans belonging to owned entries with submitted_at set
   quarterlyPlans.forEach(qp => {
@@ -105,8 +129,10 @@ export const NotificationsPage: React.FC = () => {
                     <div className="flex items-center gap-2">
                       {row.type === 'Quarterly Plan' ? (
                         <CalendarClock className="w-4 h-4 text-blue-600 shrink-0" />
-                      ) : (
+                      ) : row.type === 'Quarterly Actual' ? (
                         <CalendarCheck2 className="w-4 h-4 text-purple-600 shrink-0" />
+                      ) : (
+                        <ShieldCheck className="w-4 h-4 text-emerald-600 shrink-0" />
                       )}
                       <span className="font-bold text-ercs-red text-xs">{row.activityCode}</span>
                       <span className="text-xs font-bold text-slate-800">{row.activityName}</span>

@@ -143,16 +143,16 @@ const KpiCard: React.FC<{ kpi: StrategicKpi; isMonitor: boolean }> = ({ kpi, isM
         </div>
       </div>
 
-      <div className="rounded-lg bg-blue-50 border border-blue-100 px-3.5 py-2.5">
+      <div className={`rounded-lg px-3.5 py-2.5 border ${latest ? 'bg-emerald-50 border-emerald-200 text-emerald-900' : 'bg-amber-50 border-amber-200 text-amber-900'}`}>
         <div className="flex items-center justify-between">
-          <span className="text-[9px] font-black uppercase tracking-wider text-blue-700">Latest Progress</span>
-          {latest && <span className="text-[9px] text-blue-500">{latest.date}</span>}
+          <span className={`text-[9px] font-black uppercase tracking-wider ${latest ? 'text-emerald-700' : 'text-amber-700'}`}>Latest Progress</span>
+          {latest && <span className="text-[9px] text-emerald-600">{latest.date}</span>}
         </div>
-        <div className="text-sm font-black text-blue-900 mt-0.5">
+        <div className={`text-sm font-black mt-0.5 ${latest ? 'text-emerald-950' : 'text-amber-950'}`}>
           {latest ? `${latest.value} (${latest.period})` : 'No progress logged yet'}
         </div>
         {latest && (
-          <div className="text-[10px] text-blue-700/80 mt-0.5 flex flex-wrap gap-x-2">
+          <div className="text-[10px] text-emerald-700/80 mt-0.5 flex flex-wrap gap-x-2">
             <span>By: {latest.recorded_by}</span>
             {latest.means_of_verification && <span>• Source: {latest.means_of_verification}</span>}
             {latest.note && <span>• &ldquo;{latest.note}&rdquo;</span>}
@@ -183,7 +183,7 @@ const KpiCard: React.FC<{ kpi: StrategicKpi; isMonitor: boolean }> = ({ kpi, isM
                 {history.map(h => (
                   <tr key={h.id} className="hover:bg-slate-50">
                     <td className="py-1 px-2 font-semibold whitespace-nowrap text-slate-800">{h.period}</td>
-                    <td className="py-1 px-2 font-bold text-blue-700 whitespace-nowrap">{h.value}</td>
+                    <td className="py-1 px-2 font-bold text-emerald-700 whitespace-nowrap">{h.value}</td>
                     <td className="py-1 px-2 text-slate-600 whitespace-nowrap">{h.means_of_verification || '—'}</td>
                     <td className="py-1 px-2 text-slate-700 whitespace-nowrap">{h.recorded_by}</td>
                     <td className="py-1 px-2 text-slate-500 whitespace-nowrap">{h.date}</td>

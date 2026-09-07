@@ -95,8 +95,7 @@ const QuarterlyPlanRow: React.FC<{ entry: PlanEntry }> = ({ entry }) => {
   };
 
   const setQuarterBudget = (quarterId: QuarterId, rawVal: number) => {
-    const othersBudget = rowPlans.reduce((s, qp, idx) => (quarters[idx].id === quarterId ? s : s + (qp?.budget || 0)), 0);
-    const value = Math.min(rawVal, Math.max(0, entry.annual_budget - othersBudget));
+    const value = Math.max(0, rawVal);
     const currentTarget = rowPlans.find(qp => qp?.quarter_id === quarterId)?.target || 0;
     upsertQuarterlyPlan({
       id: `qp-${entry.id}-${quarterId}`, plan_entry_id: entry.id, quarter_id: quarterId,

@@ -428,7 +428,11 @@ export const DepartmentsAndFinanceTab: React.FC = () => {
             sub={`${branchStatusCounts['at-risk']} at risk • ${branchStatusCounts['off-track']} off track`}
             badge={{
               label: `${branchStatusCounts['on-track']} On / ${branchStatusCounts['at-risk']} Risk / ${branchStatusCounts['off-track']} Off`,
-              color: branchStatusCounts['off-track'] > 0 ? 'bg-amber-100 text-amber-800 border-amber-300' : 'bg-emerald-100 text-emerald-800 border-emerald-300',
+              color: branchStatusCounts['off-track'] > 0
+                ? 'bg-rose-100 text-rose-800 border-rose-300'
+                : branchStatusCounts['at-risk'] > 0
+                ? 'bg-amber-100 text-amber-800 border-amber-300'
+                : 'bg-emerald-100 text-emerald-800 border-emerald-300',
             }}
           />
           <DashboardKPICard
@@ -598,7 +602,11 @@ export const DepartmentsAndFinanceTab: React.FC = () => {
                 sub={`${deptStatusCounts['at-risk']} at risk • ${deptStatusCounts['off-track']} off track`}
                 badge={{
                   label: `${deptStatusCounts['on-track']} On / ${deptStatusCounts['at-risk']} Risk / ${deptStatusCounts['off-track']} Off`,
-                  color: deptStatusCounts['off-track'] > 0 ? 'bg-amber-100 text-amber-800 border-amber-300' : 'bg-emerald-100 text-emerald-800 border-emerald-300',
+                  color: deptStatusCounts['off-track'] > 0
+                    ? 'bg-rose-100 text-rose-800 border-rose-300'
+                    : deptStatusCounts['at-risk'] > 0
+                    ? 'bg-amber-100 text-amber-800 border-amber-300'
+                    : 'bg-emerald-100 text-emerald-800 border-emerald-300',
                 }}
               />
               <DashboardKPICard
@@ -711,7 +719,11 @@ export const DepartmentsAndFinanceTab: React.FC = () => {
                 sub={totalNonProgSpend > 0 ? `Spent: ${formatETB(totalNonProgSpend)} (${totalNonProgUtil.toFixed(1)}% util)` : "1.80M Legal • 8.91M SC • 19.08M SG"}
                 badge={totalNonProgSpend > 0 ? {
                   label: `${totalNonProgUtil.toFixed(1)}% Utilized`,
-                  color: totalNonProgUtil > 100 ? 'bg-rose-100 text-rose-800 border-rose-300' : 'bg-emerald-100 text-emerald-800 border-emerald-300',
+                  color: totalNonProgUtil > 100
+                    ? 'bg-rose-100 text-rose-800 border-rose-300'
+                    : totalNonProgUtil >= 60
+                    ? 'bg-emerald-100 text-emerald-800 border-emerald-300'
+                    : 'bg-amber-100 text-amber-800 border-amber-300',
                 } : undefined}
               />
             </div>
@@ -880,7 +892,11 @@ export const DepartmentsAndFinanceTab: React.FC = () => {
             sub={`Spent: ${formatETB(grandTotalSpend)} (${grandUtilization.toFixed(1)}% utilization)`}
             badge={{
               label: `${grandUtilization.toFixed(0)}% Spent`,
-              color: grandUtilization > 100 ? 'bg-rose-100 text-rose-800 border-rose-300' : 'bg-emerald-100 text-emerald-800 border-emerald-300',
+              color: grandUtilization > 100
+                ? 'bg-rose-100 text-rose-800 border-rose-300'
+                : grandUtilization >= 60
+                ? 'bg-emerald-100 text-emerald-800 border-emerald-300'
+                : 'bg-amber-100 text-amber-800 border-amber-300',
             }}
             accentBorder
           />
@@ -902,7 +918,16 @@ export const DepartmentsAndFinanceTab: React.FC = () => {
                 grandTotalSpend > 0
                   ? `${((adminCost / grandTotalSpend) * 100).toFixed(0)}% Admin`
                   : `${grandTotalBudget > 0 ? ((adminBaselineBudget / grandTotalBudget) * 100).toFixed(0) : 0}% Admin`,
-              color: 'bg-slate-100 text-slate-800 border-slate-300',
+              color: (() => {
+                const adminPct = grandTotalSpend > 0
+                  ? (adminCost / grandTotalSpend) * 100
+                  : (grandTotalBudget > 0 ? (adminBaselineBudget / grandTotalBudget) * 100 : 0);
+                return adminPct <= 20
+                  ? 'bg-emerald-100 text-emerald-800 border-emerald-300'
+                  : adminPct <= 30
+                  ? 'bg-amber-100 text-amber-800 border-amber-300'
+                  : 'bg-rose-100 text-rose-800 border-rose-300';
+              })(),
             }}
           />
           <DashboardKPICard
@@ -912,7 +937,11 @@ export const DepartmentsAndFinanceTab: React.FC = () => {
             sub={`Target: ${formatETB(incomeTarget)} • Funding Gap: ${formatETB(fundingGap)} (${incomePct.toFixed(1)}% secured)`}
             badge={{
               label: `${incomePct.toFixed(0)}% Secured`,
-              color: incomePct >= 80 ? 'bg-emerald-100 text-emerald-800 border-emerald-300' : 'bg-amber-100 text-amber-800 border-amber-300',
+              color: incomePct >= 80
+                ? 'bg-emerald-100 text-emerald-800 border-emerald-300'
+                : incomePct >= 60
+                ? 'bg-amber-100 text-amber-800 border-amber-300'
+                : 'bg-rose-100 text-rose-800 border-rose-300',
             }}
           />
         </div>

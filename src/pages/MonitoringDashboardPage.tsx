@@ -2,12 +2,12 @@
 import React from 'react';
 import { useApp } from '../context/AppContext';
 import { FilterBar } from '../components/common/FilterBar';
-import { sumActual } from '../utils/calculations';
+import { sumActual, sumExpenditure } from '../utils/calculations';
 import {
   DataQualityConcern, FindingSeverity, MonitoringStatus, QualityRating, VerificationResult, MonitoringMethod,
 } from '../types';
 import {
-  ShieldCheck, AlertTriangle, CheckCircle2, Clock, Layers, Gauge, Award, ListChecks, AlertOctagon, ClipboardList,
+  ShieldCheck, AlertTriangle, CheckCircle2, Clock, Layers, Gauge, Award, ListChecks, AlertOctagon, ClipboardList, FileText,
 } from 'lucide-react';
 
 const sumOf = (obj: Record<string, number>): number => Object.values(obj).reduce((a, b) => a + b, 0);
@@ -20,6 +20,7 @@ export const MonitoringDashboardPage: React.FC = () => {
     quarterlyActuals,
     getFilteredPlanEntries,
     getMonitoringRecordForPlanEntry,
+    nonProgrammaticActivities,
   } = useApp();
 
   const entries = getFilteredPlanEntries();
@@ -56,8 +57,9 @@ export const MonitoringDashboardPage: React.FC = () => {
   let reportedSumForVerified = 0;
 
   entries.forEach(pe => {
-    const r = getMonitoringRecordForPlanEntry(pe.id);
-    if (!r) return;
+    const rawR = getMonitoringRecordForPlanEntry(pe.id);
+    if (!rawR || rawR.approval_status !== 'Approved') return;
+    const r = rawR;
     if (r.quarter_id !== '') monitoredRecords += 1;
 
     if (r.verification_result) verificationCounts[r.verification_result] += 1;
@@ -120,7 +122,8 @@ export const MonitoringDashboardPage: React.FC = () => {
       if (scopeEntries.length === 0) return null;
       let monitored = 0, fully = 0, partial = 0, notVerified = 0, unable = 0, concerns = 0, openFindingsCount = 0;
       scopeEntries.forEach(pe => {
-        const r = getMonitoringRecordForPlanEntry(pe.id);
+        const rawR = getMonitoringRecordForPlanEntry(pe.id);
+        const r = (rawR && rawR.approval_status === 'Approved') ? rawR : undefined;
         if (r && r.quarter_id !== '') monitored += 1;
         if (r?.verification_result === 'Fully verified') fully += 1;
         if (r?.verification_result === 'Partially verified') partial += 1;
@@ -146,7 +149,8 @@ export const MonitoringDashboardPage: React.FC = () => {
       if (naEntries.length === 0) return null;
       let monitored = 0, concerns = 0, openFindingsCount = 0;
       naEntries.forEach(pe => {
-        const r = getMonitoringRecordForPlanEntry(pe.id);
+        const rawR = getMonitoringRecordForPlanEntry(pe.id);
+        const r = (rawR && rawR.approval_status === 'Approved') ? rawR : undefined;
         if (r && r.quarter_id !== '') monitored += 1;
         if (r?.data_quality_concern && r.data_quality_concern !== 'None') concerns += 1;
         if (r?.status && r.status !== 'Closed') openFindingsCount += 1;
@@ -158,6 +162,21 @@ export const MonitoringDashboardPage: React.FC = () => {
       };
     })
     .filter((s): s is NaStat => s !== null);
+
+  const approvedRecords = entries
+    .map(pe => {
+      const rawR = getMonitoringRecordForPlanEntry(pe.id);
+      if (!rawR || rawR.approval_status !== 'Approved') return null;
+      const na = nationalActivities.find(n => n.id === pe.national_activity_id);
+      const npa = pe.non_programmatic_activity_id ? nonProgrammaticActivities.find(a => a.id === pe.non_programmatic_activity_id) : undefined;
+      const scopeLabel = pe.scope_type === 'Regional'
+        ? regions.find(reg => reg.id === pe.region_id)?.name
+        : pe.scope_type === 'NonProgrammatic'
+          ? `Department: ${npa?.department || 'HQ Department'}`
+          : projects.find(proj => proj.id === pe.project_id)?.name;
+      return { pe, r: rawR, na, scopeLabel };
+    })
+    .filter((item): item is { pe: typeof entries[0]; r: NonNullable<ReturnType<typeof getMonitoringRecordForPlanEntry>>; na: typeof nationalActivities[0] | undefined; scopeLabel: string | undefined } => item !== null);
 
   return (
     <div className="space-y-6">
@@ -177,30 +196,35 @@ export const MonitoringDashboardPage: React.FC = () => {
           title="Coverage"
           val={`${coveragePct.toFixed(1)}%`}
           sub={`${monitoredRecords} / ${totalRecords} rows monitored`}
+          status={coveragePct >= 80 ? 'green' : coveragePct >= 60 ? 'amber' : 'red'}
         />
         <DashboardCard
           icon={CheckCircle2}
           title="Verification Results"
           val={String(verificationCounts['Fully verified'])}
           sub={`Fully verified · ${verificationCounts['Partially verified']} partial · ${verificationCounts['Not verified']} not verified · ${verificationCounts['Unable to verify']} unable`}
+          status={verificationCounts['Fully verified'] > 0 ? 'green' : 'amber'}
         />
         <DashboardCard
           icon={Gauge}
           title="Verification Accuracy"
           val={verificationAccuracyPct === null ? '—' : `${verificationAccuracyPct.toFixed(1)}%`}
           sub={reportedSumForVerified === 0 ? 'No verified-vs-reported comparisons yet' : `${verifiedSum.toLocaleString()} verified / ${reportedSumForVerified.toLocaleString()} reported`}
+          status={verificationAccuracyPct === null ? 'amber' : verificationAccuracyPct >= 80 ? 'green' : verificationAccuracyPct >= 60 ? 'amber' : 'red'}
         />
         <DashboardCard
           icon={AlertTriangle}
           title="Data Quality Concerns"
           val={String(dataQualityConcernCount)}
           sub="Validity / Integrity / Precision / Reliability / Timeliness — breakdown below"
+          status={dataQualityConcernCount === 0 ? 'green' : dataQualityConcernCount <= 3 ? 'amber' : 'red'}
         />
         <DashboardCard
           icon={Clock}
           title="Findings"
           val={String(openFindings)}
           sub={`${overdueFindings} overdue · ${statusCounts.Closed} closed of ${statusTotal} total`}
+          status={overdueFindings > 0 ? 'red' : openFindings > 0 ? 'amber' : 'green'}
           warn={overdueFindings > 0}
         />
       </div>
@@ -373,6 +397,143 @@ export const MonitoringDashboardPage: React.FC = () => {
         </section>
       )}
 
+      {approvedRecords.length > 0 && (
+        <section className="bg-white rounded-xl border shadow-sm overflow-hidden">
+          <div className="p-4 border-b bg-slate-50 text-xs font-bold text-slate-800 uppercase tracking-wider flex items-center justify-between">
+            <span className="flex items-center gap-2">
+              <ShieldCheck className="w-4 h-4 text-emerald-600" /> Approved Monitoring Findings &amp; Evidence ({approvedRecords.length})
+            </span>
+            <span className="text-[10px] font-normal text-slate-500 lowercase">
+              Finalized records approved by PMER Head
+            </span>
+          </div>
+          <div className="overflow-x-auto">
+            <table className="w-full text-left text-xs">
+              <thead className="bg-slate-50 text-slate-600 font-bold uppercase border-b text-[10px]">
+                <tr>
+                  <th className="p-3">Activity</th>
+                  <th className="p-3">Scope</th>
+                  <th className="p-3">Period</th>
+                  <th className="p-3">Verification Result</th>
+                  <th className="p-3 text-right">Target Verif. %</th>
+                  <th className="p-3 text-right">Budget Verif. %</th>
+                  <th className="p-3">Evidence Document</th>
+                  <th className="p-3">Finding / Recommendation</th>
+                  <th className="p-3 text-center">Severity</th>
+                  <th className="p-3 text-center">Status</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y text-[11px]">
+                {approvedRecords.map(({ pe, r, na, scopeLabel }) => {
+                  const repAch = r.quarter_id === ''
+                    ? null
+                    : r.quarter_id === 'Annual'
+                      ? sumActual([pe], quarterlyActuals)
+                      : sumActual([pe], quarterlyActuals, r.quarter_id);
+                  const verAchPct = repAch !== null && repAch > 0 && typeof r.verified_achieved === 'number'
+                    ? (r.verified_achieved / repAch) * 100
+                    : null;
+                  const repExp = r.quarter_id === ''
+                    ? 0
+                    : r.quarter_id === 'Annual'
+                      ? sumExpenditure([pe], quarterlyActuals)
+                      : sumExpenditure([pe], quarterlyActuals, r.quarter_id);
+                  const verExpPct = repExp > 0 && typeof r.verified_expenditure === 'number'
+                    ? (r.verified_expenditure / repExp) * 100
+                    : null;
+
+                  return (
+                    <tr key={pe.id} className="hover:bg-slate-50">
+                      <td className="p-3 font-bold text-slate-800 whitespace-nowrap">
+                        <span className="text-ercs-red mr-1.5">{na?.code || pe.activity_code || '—'}</span>
+                        <div className="text-[10px] text-slate-600 font-normal max-w-[12rem] truncate" title={pe.activity_name}>{pe.activity_name}</div>
+                      </td>
+                      <td className="p-3 whitespace-nowrap text-slate-700">
+                        <span className="font-semibold">{scopeLabel || '—'}</span>
+                        <span className="text-[10px] text-slate-400 block">{pe.scope_type}</span>
+                      </td>
+                      <td className="p-3 font-semibold text-slate-800">{r.quarter_id || '—'}</td>
+                      <td className="p-3">
+                        {r.verification_result ? (
+                          <span className={`inline-block px-2 py-0.5 rounded-full text-[9px] font-bold ${
+                            r.verification_result === 'Fully verified' ? 'bg-emerald-100 text-emerald-800' :
+                            r.verification_result === 'Partially verified' ? 'bg-blue-100 text-blue-800' :
+                            'bg-amber-100 text-amber-800'
+                          }`}>
+                            {r.verification_result}
+                          </span>
+                        ) : <span className="text-slate-300">—</span>}
+                      </td>
+                      <td className="p-3 text-right font-black">
+                        {verAchPct === null ? '—' : `${verAchPct.toFixed(1)}%`}
+                      </td>
+                      <td className="p-3 text-right font-black">
+                        {repExp === 0 ? 'N/A' : verExpPct === null ? '—' : `${verExpPct.toFixed(1)}%`}
+                      </td>
+                      <td className="p-3">
+                        {r.evidence_attachment_name ? (
+                          <div className="flex items-center gap-1.5 text-[10px]">
+                            <FileText className="w-3.5 h-3.5 text-blue-600 shrink-0" />
+                            {r.evidence_attachment_url ? (
+                              <a
+                                href={r.evidence_attachment_url}
+                                download={r.evidence_attachment_name}
+                                target="_blank"
+                                rel="noreferrer"
+                                className="text-blue-600 hover:text-blue-800 font-bold underline truncate max-w-[8rem]"
+                                title={`Download ${r.evidence_attachment_name}`}
+                              >
+                                {r.evidence_attachment_name}
+                              </a>
+                            ) : (
+                              <span className="font-semibold text-slate-700 truncate max-w-[8rem]" title={r.evidence_attachment_name}>
+                                {r.evidence_attachment_name}
+                              </span>
+                            )}
+                          </div>
+                        ) : r.evidence_checked ? (
+                          <span className="text-[10px] text-slate-600 italic truncate max-w-[8rem] block" title={r.evidence_checked}>
+                            {r.evidence_checked}
+                          </span>
+                        ) : <span className="text-slate-300">—</span>}
+                      </td>
+                      <td className="p-3 max-w-[14rem]">
+                        {r.finding && <div className="font-medium text-slate-800 text-[11px] truncate" title={r.finding}>{r.finding}</div>}
+                        {r.recommendation && <div className="text-[10px] text-slate-500 truncate" title={r.recommendation}>{r.recommendation}</div>}
+                        {!r.finding && !r.recommendation && <span className="text-slate-300">—</span>}
+                      </td>
+                      <td className="p-3 text-center">
+                        {r.severity ? (
+                          <span className={`inline-block px-2 py-0.5 rounded text-[9px] font-bold ${
+                            r.severity === 'Critical' ? 'bg-rose-100 text-rose-800' :
+                            r.severity === 'High' ? 'bg-orange-100 text-orange-800' :
+                            r.severity === 'Medium' ? 'bg-amber-100 text-amber-800' :
+                            'bg-blue-100 text-blue-800'
+                          }`}>
+                            {r.severity}
+                          </span>
+                        ) : <span className="text-slate-300">—</span>}
+                      </td>
+                      <td className="p-3 text-center">
+                        {r.status ? (
+                          <span className={`inline-block px-2 py-0.5 rounded-full text-[9px] font-bold ${
+                            r.status === 'Closed' ? 'bg-emerald-100 text-emerald-800' :
+                            r.status === 'In Progress' ? 'bg-blue-100 text-blue-800' :
+                            'bg-amber-100 text-amber-800'
+                          }`}>
+                            {r.status}
+                          </span>
+                        ) : <span className="text-slate-300">—</span>}
+                      </td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
+          </div>
+        </section>
+      )}
+
       {entries.length === 0 && (
         <div className="bg-white p-8 rounded-xl border text-center text-xs text-slate-500">
           No plan entries match this filter.
@@ -382,16 +543,29 @@ export const MonitoringDashboardPage: React.FC = () => {
   );
 };
 
-const DashboardCard: React.FC<{ icon: any; title: string; val: React.ReactNode; sub?: React.ReactNode; warn?: boolean }> = ({ icon: Icon, title, val, sub, warn }) => (
-  <div className="bg-white p-4 rounded-xl border shadow-sm">
-    <div className="flex justify-between mb-2 text-xs font-bold text-slate-500">
-      <span>{title}</span>
-      <Icon className={`w-4 h-4 ${warn ? 'text-rose-500' : ''}`} />
+const DashboardCard: React.FC<{
+  icon: any;
+  title: string;
+  val: React.ReactNode;
+  sub?: React.ReactNode;
+  warn?: boolean;
+  status?: 'green' | 'amber' | 'red';
+}> = ({ icon: Icon, title, val, sub, warn, status }) => {
+  const resolvedStatus = status ?? (warn ? 'red' : 'green');
+  const borderClass = resolvedStatus === 'green' ? 'border-l-4 border-l-emerald-500' : resolvedStatus === 'amber' ? 'border-l-4 border-l-amber-500' : 'border-l-4 border-l-rose-500';
+  const iconColor = resolvedStatus === 'green' ? 'text-emerald-500' : resolvedStatus === 'amber' ? 'text-amber-500' : 'text-rose-500';
+  const valColor = resolvedStatus === 'red' ? 'text-rose-700' : 'text-slate-800';
+  return (
+    <div className={`bg-white p-4 rounded-xl border shadow-sm ${borderClass}`}>
+      <div className="flex justify-between mb-2 text-xs font-bold text-slate-500">
+        <span>{title}</span>
+        <Icon className={`w-4 h-4 ${iconColor}`} />
+      </div>
+      <div className={`text-2xl font-black ${valColor}`}>{val}</div>
+      {sub && <div className="text-[10px] mt-1 text-slate-500">{sub}</div>}
     </div>
-    <div className={`text-2xl font-black ${warn ? 'text-rose-700' : 'text-slate-800'}`}>{val}</div>
-    {sub && <div className="text-[10px] mt-1 text-slate-500">{sub}</div>}
-  </div>
-);
+  );
+};
 
 const BreakdownCard: React.FC<{
   icon: any;

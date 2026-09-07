@@ -143,7 +143,7 @@ export const NonProgrammaticActivitiesPage: React.FC = () => {
 
         {/* Total Spend */}
         <div className="bg-white p-4 rounded-xl border border-slate-200 shadow-xs flex items-center gap-3">
-          <div className="p-3 rounded-lg bg-amber-50 text-amber-600">
+          <div className={`p-3 rounded-lg ${totalUtil > 100 ? 'bg-rose-50 text-rose-600' : totalUtil >= 60 ? 'bg-emerald-50 text-emerald-600' : 'bg-amber-50 text-amber-600'}`}>
             <Wallet className="w-5 h-5" />
           </div>
           <div>
@@ -157,7 +157,7 @@ export const NonProgrammaticActivitiesPage: React.FC = () => {
 
         {/* Operational Achievement */}
         <div className="bg-white p-4 rounded-xl border border-slate-200 shadow-xs flex items-center gap-3">
-          <div className="p-3 rounded-lg bg-blue-50 text-blue-600">
+          <div className={`p-3 rounded-lg ${totalTarget > 0 ? (overallAch >= 80 ? 'bg-emerald-50 text-emerald-600' : overallAch >= 60 ? 'bg-amber-50 text-amber-600' : 'bg-rose-50 text-rose-600') : 'bg-emerald-50 text-emerald-600'}`}>
             <TrendingUp className="w-5 h-5" />
           </div>
           <div>
@@ -173,7 +173,7 @@ export const NonProgrammaticActivitiesPage: React.FC = () => {
 
         {/* Activities & Plans */}
         <div className="bg-white p-4 rounded-xl border border-slate-200 shadow-xs flex items-center gap-3">
-          <div className="p-3 rounded-lg bg-purple-50 text-purple-600">
+          <div className="p-3 rounded-lg bg-emerald-50 text-emerald-600">
             <Briefcase className="w-5 h-5" />
           </div>
           <div>

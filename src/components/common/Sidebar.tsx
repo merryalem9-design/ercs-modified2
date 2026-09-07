@@ -18,6 +18,15 @@ const MONITOR_NAV = [
   { id: 'monitoring-dashboard', label: 'Monitoring Dashboard', sub: 'Coverage & findings overview', icon: LayoutDashboard },
   { id: 'monitoring', label: 'Monitoring Register', sub: 'Verify reported achievements', icon: ShieldCheck },
   { id: 'strategic-kpi', label: 'Strategic KPI Tracking', sub: 'Baseline, target & progress vs the Five-Year Plan', icon: Target },
+  { id: 'notifications', label: 'Notifications', sub: 'Submission outcomes & review notes', icon: Bell },
+  { id: 'knowledge-library', label: 'Knowledge Library', sub: 'Policies, guidance & reports', icon: BookOpen },
+];
+
+const PMER_HEAD_NAV = [
+  { id: 'monitoring-submissions', label: 'Monitoring Submissions', sub: 'Review & approve monitoring verifications', icon: CalendarCheck2 },
+  { id: 'monitoring-dashboard', label: 'Monitoring Dashboard', sub: 'Coverage & findings overview', icon: LayoutDashboard },
+  { id: 'monitoring', label: 'Monitoring Register', sub: 'View monitoring register entries', icon: ShieldCheck },
+  { id: 'strategic-kpi', label: 'Strategic KPI Tracking', sub: 'Five-Year Plan indicators', icon: Target },
   { id: 'knowledge-library', label: 'Knowledge Library', sub: 'Policies, guidance & reports', icon: BookOpen },
 ];
 
@@ -75,6 +84,7 @@ export const Sidebar: React.FC = () => {
 
   const isNationalAop = currentRole === 'National Activity AOP';
   const isMonitor = currentRole === 'PMER Officer';
+  const isPmerHead = currentRole === 'PMER Head';
   const isBranchHead = currentRole.startsWith('Branch Head — ');
   const isZoneCoordinator = currentRole.endsWith(' coordinators');
   const isProgramDirector = currentRole === 'Program Director';
@@ -88,13 +98,15 @@ export const Sidebar: React.FC = () => {
       ? PROJECT_COORDINATOR_HQ_NAV
       : isProgramDirector
         ? PROGRAM_DIRECTOR_NAV
-        : isMonitor
-          ? MONITOR_NAV
-          : isNationalAop
-            ? AOP_NAV.filter(item => !RESTRICTED_FOR_AOP.has(item.id))
-            : isBranchHead
-              ? BRANCH_HEAD_NAV
-              : BASE_NAV;
+        : isPmerHead
+          ? PMER_HEAD_NAV
+          : isMonitor
+            ? MONITOR_NAV
+            : isNationalAop
+              ? AOP_NAV.filter(item => !RESTRICTED_FOR_AOP.has(item.id))
+              : isBranchHead
+                ? BRANCH_HEAD_NAV
+                : BASE_NAV;
 
   const roleHint = isSystemAdmin
     ? 'Manage master data: regions, zones, status thresholds, and quarterly periods.'
@@ -102,6 +114,8 @@ export const Sidebar: React.FC = () => {
       ? 'Create and configure projects, and manage project execution plans.'
       : isProgramDirector
         ? 'Review and approve or reject quarterly plan and actual submissions from Project Coordinators.'
+      : isPmerHead
+        ? 'Review and approve or reject monitoring verifications submitted by PMER Officers.'
       : isNationalAop
         ? 'Create National Activities, view Performance, and review submissions.'
         : isMonitor

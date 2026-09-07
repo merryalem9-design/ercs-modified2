@@ -31,6 +31,8 @@ export const ProjectQuarterlyActualSubmissionsPage: React.FC = () => {
   const [rejecting, setRejecting] = useState<null | { plan_entry_id: string; quarter_id: QuarterId }>(null);
   const [rejectReason, setRejectReason] = useState('');
   const [expandedIds, setExpandedIds] = useState<Set<string>>(new Set());
+  const [entryTypeFilter, setEntryTypeFilter] = useState<'ALL' | 'Programmatic' | 'Non-Programmatic'>('ALL');
+  const [selectedDept, setSelectedDept] = useState<string>('ALL');
 
   const toggle = (peId: string) =>
     setExpandedIds(prev => {
@@ -39,7 +41,20 @@ export const ProjectQuarterlyActualSubmissionsPage: React.FC = () => {
       return next;
     });
 
-  const entries = getFilteredPlanEntries().filter(pe => pe.scope_type === 'Project' || pe.scope_type === 'NonProgrammatic');
+  const entries = getFilteredPlanEntries()
+    .filter(pe => pe.scope_type === 'Project' || pe.scope_type === 'NonProgrammatic')
+    .filter(pe => {
+      if (entryTypeFilter === 'Programmatic') return pe.scope_type === 'Project';
+      if (entryTypeFilter === 'Non-Programmatic') {
+        if (pe.scope_type !== 'NonProgrammatic') return false;
+        if (selectedDept !== 'ALL') {
+          const npa = nonProgrammaticActivities.find(a => a.id === pe.non_programmatic_activity_id);
+          return npa?.department === selectedDept;
+        }
+        return true;
+      }
+      return true;
+    });
 
   const singleQuarterFilter: QuarterId | null =
     filters.quarterId === 'Q1' || filters.quarterId === 'Q2' || filters.quarterId === 'Q3' || filters.quarterId === 'Q4'
@@ -75,11 +90,59 @@ export const ProjectQuarterlyActualSubmissionsPage: React.FC = () => {
   return (
     <div className="space-y-6">
       <div>
-        <h2 className="text-xl font-black text-slate-800">Project & Department Quarterly Actual Submissions</h2>
+        <h2 className="text-xl font-black text-slate-800">Project &amp; Department Quarterly Actual Submissions</h2>
         <p className="text-xs text-slate-500 mt-1">
           Every Quarterly Actual submitted by Project Coordinators and Department Heads. Approve or reject
           Pending submissions below.
         </p>
+      </div>
+
+      <div className="flex flex-wrap items-center justify-between gap-3 bg-white p-3 rounded-xl border shadow-sm">
+        <div className="flex items-center gap-1 bg-slate-100 p-1 rounded-lg">
+          <button
+            type="button"
+            onClick={() => setEntryTypeFilter('ALL')}
+            className={`px-3 py-1.5 rounded-md text-xs font-bold transition-all ${
+              entryTypeFilter === 'ALL' ? 'bg-white text-slate-800 shadow-sm' : 'text-slate-500 hover:text-slate-800'
+            }`}
+          >
+            All Submissions
+          </button>
+          <button
+            type="button"
+            onClick={() => setEntryTypeFilter('Programmatic')}
+            className={`px-3 py-1.5 rounded-md text-xs font-bold transition-all ${
+              entryTypeFilter === 'Programmatic' ? 'bg-white text-slate-800 shadow-sm' : 'text-slate-500 hover:text-slate-800'
+            }`}
+          >
+            Programmatic (Projects)
+          </button>
+          <button
+            type="button"
+            onClick={() => setEntryTypeFilter('Non-Programmatic')}
+            className={`px-3 py-1.5 rounded-md text-xs font-bold transition-all ${
+              entryTypeFilter === 'Non-Programmatic' ? 'bg-white text-slate-800 shadow-sm' : 'text-slate-500 hover:text-slate-800'
+            }`}
+          >
+            Non-Programmatic (Departments)
+          </button>
+        </div>
+
+        {entryTypeFilter === 'Non-Programmatic' && (
+          <div className="flex items-center gap-2">
+            <label className="text-xs font-bold text-slate-600 whitespace-nowrap">Department:</label>
+            <select
+              value={selectedDept}
+              onChange={e => setSelectedDept(e.target.value)}
+              className="text-xs font-bold border rounded-lg px-2.5 py-1.5 bg-slate-50 text-slate-800 outline-none"
+            >
+              <option value="ALL">All Departments</option>
+              <option value="Legal & Contract Administrator Department">Legal &amp; Contract Administrator Department</option>
+              <option value="Humanitarian Supply Chain Department">Humanitarian Supply Chain Department</option>
+              <option value="SG Office">SG Office</option>
+            </select>
+          </div>
+        )}
       </div>
 
       <FilterBar />

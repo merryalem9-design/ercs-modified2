@@ -2,7 +2,7 @@ import React, { createContext, useContext, useEffect, useState } from 'react';
 import {
   StrategicPriority, StrategicObjective, NationalActivity, Region, Zone, Project, PlanEntry, Quarter, QuarterId, QuarterlyPlan, QuarterlyActual, UomFactorConfig, FilterState, UserRole, ScopeType, MonitoringRecord, RegionActivityLink, StrategicKpi, KpiProgressEntry,
   VaultReportRecord, ToolRecord, LessonLearnedRecord, MediaUpdateRecord, TemplateGuidelineRecord, ResourceCenterRecord,
-  StatusThresholdBand, QuarterPeriodConfig, NonProgrammaticActivity, NonProgrammaticDepartment,
+  StatusThresholdBand, QuarterPeriodConfig, NonProgrammaticActivity, NonProgrammaticDepartment, ApprovalStatus,
 } from '../types';
 import {
   INITIAL_STRATEGIC_PRIORITIES, INITIAL_STRATEGIC_OBJECTIVES, INITIAL_NATIONAL_ACTIVITIES, INITIAL_REGIONS, INITIAL_ZONES, INITIAL_PROJECTS, INITIAL_PLAN_ENTRIES,
@@ -96,6 +96,9 @@ interface AppContextType {
   monitoringRecords: MonitoringRecord[];
   upsertMonitoringRecord: (mr: MonitoringRecordInput) => void;
   getMonitoringRecordForPlanEntry: (planEntryId: string) => MonitoringRecord | undefined;
+  submitMonitoringRecordForApproval: (planEntryId: string) => void;
+  approveMonitoringRecord: (planEntryId: string) => void;
+  rejectMonitoringRecord: (planEntryId: string, reason: string) => void;
 
   uomConfigs: UomFactorConfig[];
   addUomConfig: (cfg: UomFactorConfig) => void;
@@ -188,6 +191,7 @@ const DEPT_HEAD_PREFIX = 'Department Head — ';
 const parseRoleScope = (role: UserRole, regions: Region[], projects: Project[], zones: Zone[]): RoleScope => {
   if (role === 'National Activity AOP') return { kind: 'National' };
   if (role === 'PMER Officer') return { kind: 'National' };
+  if (role === 'PMER Head') return { kind: 'National' };
   if (role === 'Program Director') return { kind: 'ProgramDirector' };
   if (role === 'Project Coordinator — HQ') return { kind: 'ProjectCoordinatorHQ' };
   if (role === 'System Admin') return { kind: 'SystemAdmin' };
@@ -264,13 +268,13 @@ const roleCanWritePlanEntry = (
 };
 
 const normalizePersistedRole = (raw: UserRole, regions: Region[], projects: Project[], zones: Zone[]): UserRole => {
-  if (raw === 'National Activity AOP' || raw === 'PMER Officer' || raw === 'Program Director' || raw === 'Project Coordinator — HQ' || raw === 'System Admin') return raw;
+  if (raw === 'National Activity AOP' || raw === 'PMER Officer' || raw === 'PMER Head' || raw === 'Program Director' || raw === 'Project Coordinator — HQ' || raw === 'System Admin') return raw;
   if (raw.startsWith(DEPT_HEAD_PREFIX)) return raw;
   if (parseRoleScope(raw, regions, projects, zones).kind !== 'National') return raw;
   return 'National Activity AOP';
 };
 
-const PERSISTENCE_KEY = 'ercs-aop-bottom-up-v14';
+const PERSISTENCE_KEY = 'ercs-aop-bottom-up-v15';
 
 const readPersisted = <T,>(key: string, fallback: T): T => {
   if (typeof window === 'undefined') return fallback;
@@ -306,7 +310,13 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   const [planEntries, setPlanEntries] = useState<PlanEntry[]>(() => readPersisted('planEntries', INITIAL_PLAN_ENTRIES));
   const [quarterlyPlans, setQuarterlyPlans] = useState<QuarterlyPlan[]>(() => readPersisted('quarterlyPlans', INITIAL_QUARTERLY_PLANS));
   const [quarterlyActuals, setQuarterlyActuals] = useState<QuarterlyActual[]>(() => readPersisted('quarterlyActuals', INITIAL_QUARTERLY_ACTUALS));
-  const [monitoringRecords, setMonitoringRecords] = useState<MonitoringRecord[]>(() => readPersisted('monitoringRecords', INITIAL_MONITORING_RECORDS));
+  const [monitoringRecords, setMonitoringRecords] = useState<MonitoringRecord[]>(() => {
+    const loaded = readPersisted<MonitoringRecord[]>('monitoringRecords', INITIAL_MONITORING_RECORDS);
+    return loaded.map(m => ({
+      ...m,
+      approval_status: m.approval_status || 'Approved',
+    }));
+  });
   const [kpiProgressEntries, setKpiProgressEntries] = useState<KpiProgressEntry[]>(() => readPersisted('kpiProgressEntries', INITIAL_KPI_PROGRESS_ENTRIES));
   const [vaultReports, setVaultReports] = useState<VaultReportRecord[]>(INITIAL_VAULT_REPORTS);
   const [toolRecords, setToolRecords] = useState<ToolRecord[]>(INITIAL_TOOLS);
@@ -716,21 +726,72 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     if (currentRole !== 'PMER Officer') { showToast('Only the PMER Officer role can add or edit Monitoring Register entries.'); return; }
     const parentEntry = planEntries.find(x => x.id === input.plan_entry_id);
     if (!parentEntry) { showToast('Plan entry not found for this monitoring record.'); return; }
+    const existing = monitoringRecords.find(m => m.plan_entry_id === input.plan_entry_id);
+    if (existing && existing.approval_status === 'Pending Approval') {
+      showToast('This monitoring record is currently pending approval and cannot be modified.');
+      return;
+    }
     setMonitoringRecords(prev => {
       const idx = prev.findIndex(m => m.plan_entry_id === input.plan_entry_id);
       const findingVal = input.finding_reason ?? input.finding;
       const recVal = input.recommendation_corrective_action ?? input.recommendation;
-      const normalized: MonitoringRecordInput = {
+      const currentStatus: ApprovalStatus = existing?.approval_status === 'Rejected'
+        ? 'Draft'
+        : (input.approval_status || existing?.approval_status || 'Draft');
+      const normalized: MonitoringRecord = {
         ...input,
+        id: input.id || prev[idx]?.id || `mr-${input.plan_entry_id}`,
         finding: findingVal,
         finding_reason: findingVal,
         recommendation: recVal,
         recommendation_corrective_action: recVal,
+        approval_status: currentStatus,
       };
-      const merged: MonitoringRecord = { ...normalized, id: input.id || prev[idx]?.id || `mr-${input.plan_entry_id}` };
-      if (idx >= 0) { const copy = [...prev]; copy[idx] = merged; return copy; }
-      return [...prev, merged];
+      if (idx >= 0) { const copy = [...prev]; copy[idx] = normalized; return copy; }
+      return [...prev, normalized];
     });
+  };
+
+  const submitMonitoringRecordForApproval = (planEntryId: string) => {
+    if (currentRole !== 'PMER Officer') { showToast('Only the PMER Officer can submit monitoring records for approval.'); return; }
+    const existing = monitoringRecords.find(m => m.plan_entry_id === planEntryId);
+    if (!existing) { showToast('Monitoring record not found. Please save first.'); return; }
+    if (existing.approval_status === 'Pending Approval') { showToast('Record is already pending approval.'); return; }
+    if (existing.approval_status === 'Approved') { showToast('Record is already approved.'); return; }
+    setMonitoringRecords(prev => prev.map(m => m.plan_entry_id === planEntryId ? {
+      ...m,
+      approval_status: 'Pending Approval',
+      submitted_at: new Date().toISOString(),
+      rejection_reason: undefined,
+    } : m));
+    showToast('Monitoring record submitted to PMER Head for approval.');
+  };
+
+  const approveMonitoringRecord = (planEntryId: string) => {
+    if (currentRole !== 'PMER Head') { showToast('Only the PMER Head can approve monitoring records.'); return; }
+    const existing = monitoringRecords.find(m => m.plan_entry_id === planEntryId);
+    if (!existing) { showToast('Monitoring record not found.'); return; }
+    setMonitoringRecords(prev => prev.map(m => m.plan_entry_id === planEntryId ? {
+      ...m,
+      approval_status: 'Approved',
+      reviewed_at: new Date().toISOString(),
+      rejection_reason: undefined,
+    } : m));
+    showToast('Monitoring record approved.');
+  };
+
+  const rejectMonitoringRecord = (planEntryId: string, reason: string) => {
+    if (currentRole !== 'PMER Head') { showToast('Only the PMER Head can reject monitoring records.'); return; }
+    if (!reason || !reason.trim()) { showToast('Rejection reason is required.'); return; }
+    const existing = monitoringRecords.find(m => m.plan_entry_id === planEntryId);
+    if (!existing) { showToast('Monitoring record not found.'); return; }
+    setMonitoringRecords(prev => prev.map(m => m.plan_entry_id === planEntryId ? {
+      ...m,
+      approval_status: 'Rejected',
+      reviewed_at: new Date().toISOString(),
+      rejection_reason: reason.trim(),
+    } : m));
+    showToast('Monitoring record rejected.');
   };
 
   // -----------------------------------------------------------------------
@@ -952,6 +1013,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       quarterlyPlans, upsertQuarterlyPlan, submitQuarterlyPlanForApproval, approveQuarterlyPlan, rejectQuarterlyPlan,
       quarterlyActuals, upsertQuarterlyActual, submitQuarterlyActualForApproval, approveQuarterlyActual, rejectQuarterlyActual,
       monitoringRecords, upsertMonitoringRecord, getMonitoringRecordForPlanEntry,
+      submitMonitoringRecordForApproval, approveMonitoringRecord, rejectMonitoringRecord,
       uomConfigs, addUomConfig,
       statusThresholds, setStatusThresholds, addStatusThresholdBand, saveStatusThresholds,
       quarterPeriodConfigs, setQuarterPeriodConfigs, updateQuarterPeriodConfig,

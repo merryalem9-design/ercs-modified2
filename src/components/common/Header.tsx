@@ -15,6 +15,7 @@ export const Header: React.FC = () => {
     'Department Head — SG Office',
     'Program Director',
     'PMER Officer',
+    'PMER Head',
     'System Admin',
   ];
 
@@ -29,7 +30,13 @@ export const Header: React.FC = () => {
       projectId: ['ALL'],
       zoneId: 'ALL',
     }));
-    setActiveRoute('plan');
+    if (role === 'PMER Head') {
+      setActiveRoute('monitoring-submissions');
+    } else if (role === 'PMER Officer') {
+      setActiveRoute('monitoring');
+    } else {
+      setActiveRoute('plan');
+    }
   };
 
   const branchHeadPrefix = 'Branch Head — ';

@@ -21,7 +21,7 @@ export const sumActual = (
   return actuals
     .filter(a => ids.has(a.plan_entry_id))
     .filter(a => {
-      if (!quarterId || quarterId === 'ALL') return true;
+      if (!quarterId || quarterId === 'ALL' || quarterId === 'Annual') return true;
       if (multi) return multi.includes(a.quarter_id);
       return a.quarter_id === quarterId;
     })
@@ -38,7 +38,7 @@ export const sumExpenditure = (
   return actuals
     .filter(a => ids.has(a.plan_entry_id))
     .filter(a => {
-      if (!quarterId || quarterId === 'ALL') return true;
+      if (!quarterId || quarterId === 'ALL' || quarterId === 'Annual') return true;
       if (multi) return multi.includes(a.quarter_id);
       return a.quarter_id === quarterId;
     })
@@ -93,12 +93,12 @@ export const getBandColorClass = (color?: string, label?: string): string => {
     if (c === 'rose' || c === 'red') return 'bg-rose-100 text-rose-800 border-rose-300';
     if (c === 'amber' || c === 'yellow' || c === 'orange') return 'bg-amber-100 text-amber-800 border-amber-300';
     if (c === 'emerald' || c === 'green') return 'bg-emerald-100 text-emerald-800 border-emerald-300';
-    if (c === 'blue' || c === 'indigo') return 'bg-blue-100 text-blue-800 border-blue-300';
+    if (c === 'blue' || c === 'indigo') return 'bg-emerald-100 text-emerald-800 border-emerald-300';
     if (c === 'slate' || c === 'gray') return 'bg-slate-100 text-slate-700 border-slate-300';
   }
   if (label) {
     const l = label.toLowerCase();
-    if (l.includes('exceed') || l.includes('overachiev')) return 'bg-blue-100 text-blue-800 border-blue-300';
+    if (l.includes('exceed') || l.includes('overachiev')) return 'bg-emerald-100 text-emerald-800 border-emerald-300';
     if (l.includes('on track') || l.includes('complet')) return 'bg-emerald-100 text-emerald-800 border-emerald-300';
     if (l.includes('improv') || l.includes('risk') || l.includes('near')) return 'bg-amber-100 text-amber-800 border-amber-300';
     if (l.includes('off track') || l.includes('behind') || l.includes('over budget')) return 'bg-rose-100 text-rose-800 border-rose-300';
@@ -122,7 +122,7 @@ export const getStatusBadge = (
     const lowest = sorted[sorted.length - 1];
     return { label: lowest.label, color: getBandColorClass(lowest.color, lowest.label) };
   }
-  if (achievement > 100) return { label: 'Overachieved', color: 'bg-indigo-100 text-indigo-800 border-indigo-300' };
+  if (achievement > 100) return { label: 'Overachieved', color: 'bg-emerald-100 text-emerald-800 border-emerald-300' };
   if (achievement >= 100) return { label: 'Completed', color: 'bg-emerald-100 text-emerald-800 border-emerald-300' };
   if (achievement >= 85) return { label: 'On Track', color: 'bg-emerald-100 text-emerald-800 border-emerald-300' };
   if (achievement >= 60) return { label: 'At Risk', color: 'bg-amber-100 text-amber-800 border-amber-300' };
