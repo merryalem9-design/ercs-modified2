@@ -404,16 +404,38 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   const getNationalActivitiesForRole = (): NationalActivity[] => {
     const scope = parseRoleScope(currentRole, regions, projects, zones);
     if (scope.kind === 'National' || scope.kind === 'SystemAdmin') return nationalActivities;
-    if (scope.kind === 'ProgramDirector' || scope.kind === 'ProjectCoordinatorHQ') return nationalActivities.filter(na => na.eligible_project_ids.length > 0);
-    if (scope.kind === 'Regional') return nationalActivities.filter(na => na.eligible_region_ids.includes(scope.regionId));
+    if (scope.kind === 'ProgramDirector' || scope.kind === 'ProjectCoordinatorHQ') {
+      return nationalActivities.filter(na =>
+        (na.eligible_project_ids && na.eligible_project_ids.length > 0) ||
+        (na.project_targets && Object.values(na.project_targets).some(t => ((t?.target ?? 0) > 0 || (t?.budget ?? 0) > 0))) ||
+        planEntries.some(pe => pe.national_activity_id === na.id && pe.scope_type === 'Project')
+      );
+    }
+    if (scope.kind === 'Regional') {
+      return nationalActivities.filter(na =>
+        (na.eligible_region_ids && na.eligible_region_ids.includes(scope.regionId)) ||
+        Boolean(na.regional_targets?.[scope.regionId] && ((na.regional_targets[scope.regionId]?.target ?? 0) > 0 || (na.regional_targets[scope.regionId]?.budget ?? 0) > 0)) ||
+        regionActivityLinks.some(l => l.national_activity_id === na.id && l.region_id === scope.regionId) ||
+        planEntries.some(pe => pe.national_activity_id === na.id && pe.scope_type === 'Regional' && pe.region_id === scope.regionId)
+      );
+    }
     if (scope.kind === 'Zone') {
       const linkedActivityIds = new Set(
-        regionActivityLinks.filter(l => l.region_id === scope.regionId && l.eligible_zone_ids.includes(scope.zoneId)).map(l => l.national_activity_id)
+        regionActivityLinks.filter(l => l.region_id === scope.regionId && l.eligible_zone_ids?.includes(scope.zoneId)).map(l => l.national_activity_id)
       );
-      return nationalActivities.filter(na => linkedActivityIds.has(na.id));
+      return nationalActivities.filter(na =>
+        linkedActivityIds.has(na.id) ||
+        planEntries.some(pe => pe.national_activity_id === na.id && pe.zone_id === scope.zoneId) ||
+        (na.eligible_region_ids && na.eligible_region_ids.includes(scope.regionId)) ||
+        Boolean(na.regional_targets?.[scope.regionId] && ((na.regional_targets[scope.regionId]?.target ?? 0) > 0 || (na.regional_targets[scope.regionId]?.budget ?? 0) > 0))
+      );
     }
     if (scope.kind === 'Project') {
-      return nationalActivities.filter(na => na.eligible_project_ids.includes(scope.projectId));
+      return nationalActivities.filter(na =>
+        (na.eligible_project_ids && na.eligible_project_ids.includes(scope.projectId)) ||
+        Boolean(na.project_targets?.[scope.projectId] && ((na.project_targets[scope.projectId]?.target ?? 0) > 0 || (na.project_targets[scope.projectId]?.budget ?? 0) > 0)) ||
+        planEntries.some(pe => pe.national_activity_id === na.id && pe.scope_type === 'Project' && pe.project_id === scope.projectId)
+      );
     }
     return nationalActivities;
   };

@@ -21,12 +21,18 @@ export interface NationalActivityInlineTablesProps {
   mode: 'report' | 'plan';
   isBranchHead?: boolean;
   assignedRegionId?: string;
+  scopeFilter?: 'Regional' | 'Project';
+  assignedProjectId?: string;
 }
 
 export const NationalActivityInlineTables: React.FC<NationalActivityInlineTablesProps> = ({
   nationalActivityId,
   quarterId: propQuarterId,
   mode,
+  isBranchHead: propIsBranchHead,
+  assignedRegionId: propAssignedRegionId,
+  scopeFilter: propScopeFilter,
+  assignedProjectId: propAssignedProjectId,
 }) => {
   const {
     nationalActivities,
@@ -38,6 +44,7 @@ export const NationalActivityInlineTables: React.FC<NationalActivityInlineTables
     quarterlyActuals,
     regionActivityLinks,
     filters,
+    currentRole,
   } = useApp();
 
   const q = propQuarterId || filters.quarterId || 'ALL';
@@ -201,21 +208,59 @@ export const NationalActivityInlineTables: React.FC<NationalActivityInlineTables
     return regSum + projSum;
   }, [contributingRegions, contributingProjects]);
 
+  const isRegionalRole = Boolean(
+    propIsBranchHead ||
+    currentRole.startsWith('Branch Head — ') ||
+    currentRole.endsWith(' coordinators')
+  );
+  const isProjectRole = currentRole.startsWith('Project Coordinator');
+  const effectiveScopeFilter = propScopeFilter || (isRegionalRole ? 'Regional' : isProjectRole ? 'Project' : undefined);
+
+  const effectiveRegionId = propAssignedRegionId || (
+    currentRole.startsWith('Branch Head — ')
+      ? regions.find(r => `Branch Head — ${r.name}` === currentRole)?.id
+      : currentRole.endsWith(' coordinators')
+        ? zones.find(z => `${z.name} coordinators` === currentRole)?.region_id
+        : undefined
+  );
+
+  const effectiveProjectId = propAssignedProjectId || (
+    currentRole.startsWith('Project Coordinator — ') && currentRole !== 'Project Coordinator — HQ'
+      ? projects.find(p => `Project Coordinator — ${p.name}` === currentRole)?.id
+      : undefined
+  );
+
+  const displayedRegions = useMemo(() => {
+    if (effectiveScopeFilter === 'Project') return [];
+    if (effectiveRegionId) {
+      return contributingRegions.filter(r => r.region.id === effectiveRegionId);
+    }
+    return contributingRegions;
+  }, [contributingRegions, effectiveScopeFilter, effectiveRegionId]);
+
+  const displayedProjects = useMemo(() => {
+    if (effectiveScopeFilter === 'Regional') return [];
+    if (effectiveProjectId) {
+      return contributingProjects.filter(p => p.project.id === effectiveProjectId);
+    }
+    return contributingProjects;
+  }, [contributingProjects, effectiveScopeFilter, effectiveProjectId]);
+
   // Aggregate Regional Performance
-  const regionalTotalTarget = contributingRegions.reduce((s, r) => s + r.target, 0);
-  const regionalTotalBudget = contributingRegions.reduce((s, r) => s + r.budget, 0);
-  const regionalTotalActual = contributingRegions.reduce((s, r) => s + r.actual, 0);
-  const regionalTotalSpent = contributingRegions.reduce((s, r) => s + r.spent, 0);
+  const regionalTotalTarget = displayedRegions.reduce((s, r) => s + r.target, 0);
+  const regionalTotalBudget = displayedRegions.reduce((s, r) => s + r.budget, 0);
+  const regionalTotalActual = displayedRegions.reduce((s, r) => s + r.actual, 0);
+  const regionalTotalSpent = displayedRegions.reduce((s, r) => s + r.spent, 0);
   const regionalAch = achievementPct(regionalTotalActual, regionalTotalTarget);
   const regionalTargetPct = totalActivityTarget > 0 ? (regionalTotalTarget / totalActivityTarget) * 100 : 0;
   const regionalBudgetPct = totalActivityBudget > 0 ? (regionalTotalBudget / totalActivityBudget) * 100 : 0;
   const regionalAchievedPct = totalActivityTarget > 0 ? (regionalTotalActual / totalActivityTarget) * 100 : 0;
 
   // Aggregate Project Performance
-  const projectTotalTarget = contributingProjects.reduce((s, p) => s + p.target, 0);
-  const projectTotalBudget = contributingProjects.reduce((s, p) => s + p.budget, 0);
-  const projectTotalActual = contributingProjects.reduce((s, p) => s + p.actual, 0);
-  const projectTotalSpent = contributingProjects.reduce((s, p) => s + p.spent, 0);
+  const projectTotalTarget = displayedProjects.reduce((s, p) => s + p.target, 0);
+  const projectTotalBudget = displayedProjects.reduce((s, p) => s + p.budget, 0);
+  const projectTotalActual = displayedProjects.reduce((s, p) => s + p.actual, 0);
+  const projectTotalSpent = displayedProjects.reduce((s, p) => s + p.spent, 0);
   const projectAch = achievementPct(projectTotalActual, projectTotalTarget);
   const projectTargetPct = totalActivityTarget > 0 ? (projectTotalTarget / totalActivityTarget) * 100 : 0;
   const projectBudgetPct = totalActivityBudget > 0 ? (projectTotalBudget / totalActivityBudget) * 100 : 0;
@@ -234,22 +279,23 @@ export const NationalActivityInlineTables: React.FC<NationalActivityInlineTables
   return (
     <div className="border-l-4 border-ercs-red/80 bg-slate-50/70 rounded-xl p-3 my-2 space-y-4 text-xs text-left shadow-2xs">
       {/* 1. Contributing Regions / Zones (N) Table */}
-      <div className="bg-white border border-slate-200 rounded-xl overflow-hidden shadow-2xs flex flex-col">
-        <div className="p-2.5 bg-slate-100/90 border-b border-slate-200 flex items-center justify-between">
-          <div className="flex items-center gap-2 font-bold text-slate-800 text-xs">
-            <MapPin className="w-4 h-4 text-blue-600" />
-            <span>Contributing Regions / Zones ({contributingRegions.length})</span>
+      {effectiveScopeFilter !== 'Project' && (
+        <div className="bg-white border border-slate-200 rounded-xl overflow-hidden shadow-2xs flex flex-col">
+          <div className="p-2.5 bg-slate-100/90 border-b border-slate-200 flex items-center justify-between">
+            <div className="flex items-center gap-2 font-bold text-slate-800 text-xs">
+              <MapPin className="w-4 h-4 text-blue-600" />
+              <span>Contributing Regions / Zones ({displayedRegions.length})</span>
+            </div>
+            <span className="text-[10px] text-slate-400">
+              {isPlanMode ? 'Target & Budget Breakdown' : 'Execution & Budget Breakdown'}
+            </span>
           </div>
-          <span className="text-[10px] text-slate-400">
-            {isPlanMode ? 'Target & Budget Breakdown' : 'Execution & Budget Breakdown'}
-          </span>
-        </div>
 
-        {contributingRegions.length === 0 ? (
-          <div className="p-4 text-center text-slate-400 text-xs italic">
-            No contributing regions or zones linked to this activity.
-          </div>
-        ) : (
+          {displayedRegions.length === 0 ? (
+            <div className="p-4 text-center text-slate-400 text-xs italic">
+              No contributing regions or zones linked to this activity.
+            </div>
+          ) : (
           <div className="overflow-x-auto flex-1">
             <table className="w-full text-left text-xs">
               <thead className="bg-slate-50 text-slate-600 font-semibold border-b border-slate-200 text-[11px]">
@@ -284,7 +330,7 @@ export const NationalActivityInlineTables: React.FC<NationalActivityInlineTables
                 </tr>
               </thead>
               <tbody className="divide-y divide-slate-100">
-                {contributingRegions.map(cr => {
+                {displayedRegions.map(cr => {
                   const targetPct = totalActivityTarget > 0 ? (cr.target / totalActivityTarget) * 100 : 0;
                   const budgetPct = totalActivityBudget > 0 ? (cr.budget / totalActivityBudget) * 100 : 0;
                   const achievedPct = totalActivityTarget > 0 ? (cr.actual / totalActivityTarget) * 100 : 0;
@@ -512,29 +558,31 @@ export const NationalActivityInlineTables: React.FC<NationalActivityInlineTables
           </div>
         )}
       </div>
+    )}
 
       {/* 2. Contributing Projects (N) Table */}
-      <div className="bg-white border border-slate-200 rounded-xl overflow-hidden shadow-2xs flex flex-col">
-        <div className="p-2.5 bg-slate-100/90 border-b border-slate-200 flex items-center justify-between">
-          <div className="flex items-center gap-2 font-bold text-slate-800 text-xs">
-            <FolderGit2 className="w-4 h-4 text-purple-600" />
-            <span>Contributing Projects ({contributingProjects.length})</span>
+      {effectiveScopeFilter !== 'Regional' && (
+        <div className="bg-white border border-slate-200 rounded-xl overflow-hidden shadow-2xs flex flex-col">
+          <div className="p-2.5 bg-slate-100/90 border-b border-slate-200 flex items-center justify-between">
+            <div className="flex items-center gap-2 font-bold text-slate-800 text-xs">
+              <FolderGit2 className="w-4 h-4 text-purple-600" />
+              <span>Contributing Projects ({displayedProjects.length})</span>
+            </div>
+            <span className="text-[10px] text-slate-400">
+              {isPlanMode ? 'Target & Budget Breakdown' : 'Execution & Budget Breakdown'}
+            </span>
           </div>
-          <span className="text-[10px] text-slate-400">
-            {isPlanMode ? 'Target & Budget Breakdown' : 'Execution & Budget Breakdown'}
-          </span>
-        </div>
 
-        {contributingProjects.length === 0 ? (
-          <div className="p-4 text-center text-slate-400 text-xs italic">
-            No contributing projects linked to this activity.
-          </div>
-        ) : (
-          <div className="overflow-x-auto flex-1">
-            <table className="w-full text-left text-xs">
-              <thead className="bg-slate-50 text-slate-600 font-semibold border-b border-slate-200 text-[11px]">
-                <tr>
-                  <th className="p-2.5">Project Details</th>
+          {displayedProjects.length === 0 ? (
+            <div className="p-4 text-center text-slate-400 text-xs italic">
+              No contributing projects linked to this activity.
+            </div>
+          ) : (
+            <div className="overflow-x-auto flex-1">
+              <table className="w-full text-left text-xs">
+                <thead className="bg-slate-50 text-slate-600 font-semibold border-b border-slate-200 text-[11px]">
+                  <tr>
+                    <th className="p-2.5">Project Details</th>
                   <th className="p-2.5 text-right">Target ({na.uom})</th>
                   <th className="p-2.5 text-right">% of Activity Target</th>
                   {!isPlanMode && <th className="p-2.5 text-right">Actual</th>}
@@ -564,7 +612,7 @@ export const NationalActivityInlineTables: React.FC<NationalActivityInlineTables
                 </tr>
               </thead>
               <tbody className="divide-y divide-slate-100">
-                {contributingProjects.map(cp => {
+                {displayedProjects.map(cp => {
                   const targetPct = totalActivityTarget > 0 ? (cp.target / totalActivityTarget) * 100 : 0;
                   const budgetPct = totalActivityBudget > 0 ? (cp.budget / totalActivityBudget) * 100 : 0;
                   const achievedPct = totalActivityTarget > 0 ? (cp.actual / totalActivityTarget) * 100 : 0;
@@ -751,6 +799,7 @@ export const NationalActivityInlineTables: React.FC<NationalActivityInlineTables
           </div>
         )}
       </div>
+    )}
 
       {modalWizard && (
         <PlanEntryWizardModal

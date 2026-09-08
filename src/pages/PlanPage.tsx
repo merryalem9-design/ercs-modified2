@@ -96,7 +96,9 @@ export const PlanPage: React.FC = () => {
     ? projects.find(p => p.id === filters.projectId[0])
     : undefined;
 
-  const showAggregatedView = isAop && !hasRegionOrProjectFilter;
+  const isRegionalRole = isBranchHead || isZoneCoordinator;
+  const isProjectRole = isProjectCoordinator || isProjectCoordinatorHQ;
+  const showAggregatedView = isAop || isRegionalRole || isProjectRole;
   const canAddPlanEntry = isProjectCoordinator || isProjectCoordinatorHQ || isZoneCoordinator || (isAop && !!filterProject) || isDepartmentHead;
 
   const roleScopedNationalActivities = getNationalActivitiesForRole();
@@ -212,35 +214,85 @@ export const PlanPage: React.FC = () => {
     });
   };
 
-  const naInScope = roleScopedNationalActivities.filter(na =>
-    filters.nationalActivityId === 'ALL' || na.id === filters.nationalActivityId
-  );
+  const naInScope = roleScopedNationalActivities.filter(na => {
+    if (filters.nationalActivityId !== 'ALL' && na.id !== filters.nationalActivityId) return false;
+    if (filters.strategicPriorityId !== 'ALL' && na.strategic_priority_id !== filters.strategicPriorityId) return false;
+    if (filters.strategicObjectiveId !== 'ALL' && na.strategic_objective_id !== filters.strategicObjectiveId) return false;
+    return true;
+  });
 
   const aggregatedRows = naInScope.map(na => {
-    const naEntries = filteredEntries.filter(pe => pe.national_activity_id === na.id);
-    const totalLinkedEntries = planEntries.filter(pe => pe.national_activity_id === na.id).length;
-    const hasLinkedRegionLinks = regionActivityLinks.some(l => l.national_activity_id === na.id);
-    const hasBaselineProjects = (na.eligible_project_ids && na.eligible_project_ids.length > 0) ||
-      (na.project_targets && Object.keys(na.project_targets).length > 0);
-    const hasBaselineRegions = (na.eligible_region_ids && na.eligible_region_ids.length > 0) ||
-      (na.regional_targets && Object.values(na.regional_targets).some(t => (t.target > 0 || t.budget > 0)));
-    const isLinked = hasBaselineProjects || hasBaselineRegions || totalLinkedEntries > 0 || hasLinkedRegionLinks;
-    const target = sumPlannedTarget(naEntries, quarterlyPlans, q);
-    const actual = sumActual(naEntries, quarterlyActuals, q);
-    const budget = sumPlannedBudget(naEntries, quarterlyPlans, q);
-    const spent = sumExpenditure(naEntries, quarterlyActuals, q);
-    const utilization = budgetUtilizationPct(spent, budget);
-    const factor = uomConfigs.find(c => c.uom.toLowerCase() === na.uom.toLowerCase())?.factor ?? 0;
-    const beneficiaries = convertToBeneficiaries(target, na.uom, uomConfigs);
-    const actualBeneficiaries = convertToBeneficiaries(actual, na.uom, uomConfigs);
-    return { na, entryCount: naEntries.length, totalLinkedEntries, hasLinkedRegionLinks, isLinked, target, actual, budget, spent, utilization, beneficiaries, actualBeneficiaries, factor };
+    let scopedEntries: PlanEntry[] = [];
+    let rowTarget = 0;
+    let rowBudget = 0;
+
+    if (isProjectCoordinator && assignedProject) {
+      scopedEntries = planEntries.filter(
+        pe => pe.national_activity_id === na.id && pe.scope_type === 'Project' && pe.project_id === assignedProject.id
+      );
+      const seeded = na.project_targets?.[assignedProject.id];
+      const seededTarget = seeded?.target ?? 0;
+      const seededBudget = seeded?.budget ?? 0;
+      const planTarget = sumPlannedTarget(scopedEntries, quarterlyPlans, q);
+      const planBudget = sumPlannedBudget(scopedEntries, quarterlyPlans, q);
+      rowTarget = q === 'ALL' ? (planTarget > 0 ? planTarget : seededTarget) : (planTarget > 0 ? planTarget : seededTarget);
+      rowBudget = q === 'ALL' ? (planBudget > 0 ? planBudget : seededBudget) : (planBudget > 0 ? planBudget : seededBudget);
+    } else if (isBranchHead && currentRegion) {
+      scopedEntries = planEntries.filter(
+        pe => pe.national_activity_id === na.id && pe.scope_type === 'Regional' && pe.region_id === currentRegion.id
+      );
+      const seeded = na.regional_targets?.[currentRegion.id];
+      const seededTarget = seeded?.target ?? 0;
+      const seededBudget = seeded?.budget ?? 0;
+      const planTarget = sumPlannedTarget(scopedEntries, quarterlyPlans, q);
+      const planBudget = sumPlannedBudget(scopedEntries, quarterlyPlans, q);
+      rowTarget = q === 'ALL' ? (planTarget > 0 ? planTarget : seededTarget) : (planTarget > 0 ? planTarget : seededTarget);
+      rowBudget = q === 'ALL' ? (planBudget > 0 ? planBudget : seededBudget) : (planBudget > 0 ? planBudget : seededBudget);
+    } else if (isZoneCoordinator && currentZone) {
+      scopedEntries = planEntries.filter(
+        pe => pe.national_activity_id === na.id && pe.zone_id === currentZone.id
+      );
+      const planTarget = sumPlannedTarget(scopedEntries, quarterlyPlans, q);
+      const planBudget = sumPlannedBudget(scopedEntries, quarterlyPlans, q);
+      rowTarget = planTarget;
+      rowBudget = planBudget;
+    } else if (isProjectCoordinatorHQ) {
+      scopedEntries = planEntries.filter(
+        pe => pe.national_activity_id === na.id && pe.scope_type === 'Project'
+      );
+      const seededTarget = na.project_targets
+        ? Object.values(na.project_targets).reduce((s, t) => s + (t.target || 0), 0)
+        : 0;
+      const seededBudget = na.project_targets
+        ? Object.values(na.project_targets).reduce((s, t) => s + (t.budget || 0), 0)
+        : 0;
+      const planTarget = sumPlannedTarget(scopedEntries, quarterlyPlans, q);
+      const planBudget = sumPlannedBudget(scopedEntries, quarterlyPlans, q);
+      rowTarget = planTarget > 0 ? planTarget : seededTarget;
+      rowBudget = planBudget > 0 ? planBudget : seededBudget;
+    } else {
+      scopedEntries = filteredEntries.filter(pe => pe.national_activity_id === na.id);
+      const planTarget = sumPlannedTarget(scopedEntries, quarterlyPlans, q);
+      const planBudget = sumPlannedBudget(scopedEntries, quarterlyPlans, q);
+      const seededTarget = na.ercs_target || 0;
+      const seededBudget = na.ercs_budget || 0;
+      rowTarget = planTarget > 0 ? planTarget : seededTarget;
+      rowBudget = planBudget > 0 ? planBudget : seededBudget;
+    }
+
+    const beneficiaries = convertToBeneficiaries(rowTarget, na.uom, uomConfigs);
+
+    return {
+      na,
+      scopedEntries,
+      target: rowTarget,
+      budget: rowBudget,
+      beneficiaries,
+    };
   });
 
   const aggregatedTotalBudget = aggregatedRows.reduce((s, r) => s + r.budget, 0);
-  const aggregatedTotalSpent = aggregatedRows.reduce((s, r) => s + r.spent, 0);
   const aggregatedTotalBeneficiaries = aggregatedRows.reduce((s, r) => s + r.beneficiaries, 0);
-  const aggregatedTotalActualBeneficiaries = aggregatedRows.reduce((s, r) => s + r.actualBeneficiaries, 0);
-  const aggregatedTotalUtilization = budgetUtilizationPct(aggregatedTotalSpent, aggregatedTotalBudget);
 
   const executionRows = filteredEntries.map(pe => {
     const na = pe.national_activity_id ? nationalActivities.find(n => n.id === pe.national_activity_id) : undefined;
@@ -274,174 +326,151 @@ export const PlanPage: React.FC = () => {
 
       <FilterBar />
 
-      {isBranchHead ? (
-        <section className="bg-white rounded-xl border shadow-sm overflow-hidden">
-          <div className="p-4 border-b flex items-center justify-between bg-slate-50">
-            <div className="flex items-center gap-2 text-xs font-bold text-slate-800 uppercase tracking-wider">
-              <Layers className="w-4 h-4 text-ercs-red" /> Region Activity Links ({branchHeadLinks.length})
-            </div>
-            <button onClick={openZoneLinkWizard} className="flex items-center gap-1.5 bg-ercs-red text-white px-3 py-1.5 rounded-lg text-xs font-bold">
-              <Plus className="w-3.5 h-3.5" /> Add Plan (Link to National Activity)
-            </button>
+      <section className="bg-white rounded-xl border shadow-sm overflow-hidden">
+        <div className="p-4 border-b flex items-center justify-between bg-slate-50">
+          <div className="flex items-center gap-2 text-xs font-bold text-slate-800 uppercase tracking-wider">
+            <Layers className="w-4 h-4 text-ercs-red" />
+            <span>{showAggregatedView ? `National Activities (${aggregatedRows.length})` : `Execution Plan Entries (${executionRows.length})`}</span>
           </div>
-          {branchHeadLinks.length === 0 ? (
-            <div className="p-8 text-center">
-              <p className="text-xs text-slate-500 mb-3">No National Activities linked yet.</p>
-              <button onClick={openZoneLinkWizard} className="inline-flex items-center gap-1.5 bg-ercs-red text-white px-3 py-1.5 rounded-lg text-xs font-bold">
+          <div className="flex items-center gap-2">
+            {showAggregatedView && isAop && (
+              <button onClick={() => setNaFormOpen(true)} className="flex items-center gap-1.5 bg-slate-800 text-white px-3 py-1.5 rounded-lg text-xs font-bold">
+                <Plus className="w-3.5 h-3.5" /> Add National Activity
+              </button>
+            )}
+            {isBranchHead && (
+              <button onClick={openZoneLinkWizard} className="flex items-center gap-1.5 bg-ercs-red text-white px-3 py-1.5 rounded-lg text-xs font-bold">
                 <Plus className="w-3.5 h-3.5" /> Add Plan (Link to National Activity)
               </button>
+            )}
+            {isZoneCoordinator && (
+              <button onClick={openZoneEntryWizard} className="flex items-center gap-1.5 bg-ercs-red text-white px-3 py-1.5 rounded-lg text-xs font-bold">
+                <Plus className="w-3.5 h-3.5" /> Add Plan Entry
+              </button>
+            )}
+            {(isProjectCoordinator || isProjectCoordinatorHQ || (isAop && !!filterProject)) && (
+              <button onClick={openAddPlanWizard} className="flex items-center gap-1.5 bg-ercs-red text-white px-3 py-1.5 rounded-lg text-xs font-bold">
+                <Plus className="w-3.5 h-3.5" /> Add Plan Entry
+              </button>
+            )}
+            {isDepartmentHead && (
+              <button onClick={openDeptPlanWizard} className="flex items-center gap-1.5 bg-ercs-red text-white px-3 py-1.5 rounded-lg text-xs font-bold">
+                <Plus className="w-3.5 h-3.5" /> Add Department Plan Entry
+              </button>
+            )}
+          </div>
+        </div>
+
+        {showAggregatedView ? (
+          aggregatedRows.length === 0 ? (
+            <div className="p-8 text-center">
+              <p className="text-xs text-slate-500 mb-3">No National Activities match this filter.</p>
+              {isAop && (
+                <button onClick={() => setNaFormOpen(true)} className="inline-flex items-center gap-1.5 bg-slate-800 text-white px-3 py-1.5 rounded-lg text-xs font-bold">
+                  <Plus className="w-3.5 h-3.5" /> Add National Activity
+                </button>
+              )}
+              {isBranchHead && (
+                <button onClick={openZoneLinkWizard} className="inline-flex items-center gap-1.5 bg-ercs-red text-white px-3 py-1.5 rounded-lg text-xs font-bold">
+                  <Plus className="w-3.5 h-3.5" /> Add Plan (Link to National Activity)
+                </button>
+              )}
+              {isZoneCoordinator && (
+                <button onClick={openZoneEntryWizard} className="inline-flex items-center gap-1.5 bg-ercs-red text-white px-3 py-1.5 rounded-lg text-xs font-bold">
+                  <Plus className="w-3.5 h-3.5" /> Add Plan Entry
+                </button>
+              )}
+              {(isProjectCoordinator || isProjectCoordinatorHQ) && (
+                <button onClick={openAddPlanWizard} className="inline-flex items-center gap-1.5 bg-ercs-red text-white px-3 py-1.5 rounded-lg text-xs font-bold">
+                  <Plus className="w-3.5 h-3.5" /> Add Plan Entry
+                </button>
+              )}
             </div>
           ) : (
             <div className="overflow-x-auto">
               <table className="w-full text-left text-xs">
                 <thead className="bg-slate-50 text-slate-600 font-bold uppercase border-b">
-                  <tr><th className="p-3">Code</th><th className="p-3">Activity</th><th className="p-3">UOM</th><th className="p-3 text-right">Target</th><th className="p-3 text-right">Budget</th></tr>
+                  <tr>
+                    <th className="p-3">Code</th><th className="p-3">Activity Name</th>
+                    <th className="p-3 text-right">Target</th>
+                    <th className="p-3 text-right">Budget (ETB)</th>
+                    <th className="p-3 text-right">Beneficiaries</th>
+                    {visibleQuarters.map(qId => (
+                      <th key={qId} className="p-2 text-center bg-blue-50 border-l whitespace-nowrap" colSpan={2}>
+                        {qId} Target / Budget
+                      </th>
+                    ))}
+                  </tr>
                 </thead>
                 <tbody className="divide-y">
-                  {branchHeadLinks.map(link => {
-                    const na = nationalActivities.find(n => n.id === link.national_activity_id);
-                    const es = planEntries.filter(pe => pe.region_activity_link_id === link.id);
-                    const t = sumPlannedTarget(es, quarterlyPlans, q);
-                    const b = sumPlannedBudget(es, quarterlyPlans, q);
+                  {aggregatedRows.map(row => {
+                    const isNaExpanded = expandedNaIds.has(row.na.id);
                     return (
-                      <tr key={link.id} className="hover:bg-slate-50">
-                        <td className="p-3 font-bold text-ercs-red">{na?.code}</td>
-                        <td className="p-3 font-bold">{link.activity_name}</td>
-                        <td className="p-3">{na?.uom}</td>
-                        <td className="p-3 text-right">{t.toLocaleString()}</td>
-                        <td className="p-3 text-right">ETB {b.toLocaleString()}</td>
-                      </tr>
+                      <React.Fragment key={row.na.id}>
+                        <tr
+                          onClick={() => toggleNaExpand(row.na.id)}
+                          className={`hover:bg-slate-50 transition-colors cursor-pointer ${
+                            isNaExpanded ? 'bg-amber-50/40 font-medium' : ''
+                          }`}
+                        >
+                          <td className="p-3 font-bold text-ercs-red whitespace-nowrap">
+                            <button
+                              type="button"
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                toggleNaExpand(row.na.id);
+                              }}
+                              className="inline-flex items-center gap-1.5 text-ercs-red hover:text-red-700 cursor-pointer text-left font-bold"
+                              title="Click to toggle contributing breakdown"
+                            >
+                              {isNaExpanded ? (
+                                <ChevronDown className="w-3.5 h-3.5 text-ercs-red shrink-0" />
+                              ) : (
+                                <ChevronRight className="w-3.5 h-3.5 text-slate-400 hover:text-ercs-red shrink-0" />
+                              )}
+                              <span>{row.na.code}</span>
+                            </button>
+                          </td>
+                          <td
+                            className="p-3 min-w-48 font-bold text-slate-800 hover:text-ercs-red cursor-pointer"
+                            onClick={() => toggleNaExpand(row.na.id)}
+                            title="Click to toggle contributing breakdown"
+                          >
+                            {row.na.description}
+                          </td>
+                          <td className="p-3 text-right font-bold whitespace-nowrap">{row.target.toLocaleString()} {row.na.uom}</td>
+                          <td className="p-3 text-right whitespace-nowrap">{row.budget.toLocaleString()}</td>
+                          <td className="p-3 text-right whitespace-nowrap">{row.beneficiaries.toLocaleString()}</td>
+                          {/* Per-quarter Target / Budget columns */}
+                          {visibleQuarters.map(qId => {
+                            const qd = qDataForEntries(row.scopedEntries, qId);
+                            return (
+                              <React.Fragment key={qId}>
+                                <td className="p-2 text-right whitespace-nowrap bg-blue-50 border-l text-[11px]">{qd.target.toLocaleString()}</td>
+                                <td className="p-2 text-right whitespace-nowrap bg-blue-50 text-[11px]">{qd.budget.toLocaleString()}</td>
+                              </React.Fragment>
+                            );
+                          })}
+                        </tr>
+                        {isNaExpanded && (
+                          <tr className="bg-slate-100/70 border-b-2 border-slate-300">
+                            <td colSpan={5 + visibleQuarters.length * 2} className="p-3 pl-8 sticky left-0 max-w-[calc(100vw-3rem)] bg-slate-50/95 z-10 border-b-2 border-slate-300">
+                              <div className="max-w-6xl w-full">
+                                <NationalActivityInlineTables
+                                  nationalActivityId={row.na.id}
+                                  quarterId={q}
+                                  mode="plan"
+                                  scopeFilter={isRegionalRole ? 'Regional' : isProjectRole ? 'Project' : undefined}
+                                  assignedRegionId={currentRegion?.id || currentZone?.region_id}
+                                  assignedProjectId={assignedProject?.id}
+                                />
+                              </div>
+                            </td>
+                          </tr>
+                        )}
+                      </React.Fragment>
                     );
                   })}
-                </tbody>
-              </table>
-            </div>
-          )}
-        </section>
-      ) : (
-        <section className="bg-white rounded-xl border shadow-sm overflow-hidden">
-          <div className="p-4 border-b flex items-center justify-between bg-slate-50">
-            <div className="flex items-center gap-2 text-xs font-bold text-slate-800 uppercase tracking-wider">
-              <Layers className="w-4 h-4 text-ercs-red" />
-              <span>{showAggregatedView ? `National Activities (${aggregatedRows.length})` : `Execution Plan Entries (${executionRows.length})`}</span>
-            </div>
-            <div className="flex items-center gap-2">
-              {showAggregatedView && isAop && (
-                <button onClick={() => setNaFormOpen(true)} className="flex items-center gap-1.5 bg-slate-800 text-white px-3 py-1.5 rounded-lg text-xs font-bold">
-                  <Plus className="w-3.5 h-3.5" /> Add National Activity
-                </button>
-              )}
-              {isZoneCoordinator && (
-                <button onClick={openZoneEntryWizard} className="flex items-center gap-1.5 bg-ercs-red text-white px-3 py-1.5 rounded-lg text-xs font-bold">
-                  <Plus className="w-3.5 h-3.5" /> Add Plan Entry
-                </button>
-              )}
-              {(isProjectCoordinator || isProjectCoordinatorHQ || isAop) && canAddPlanEntry && (
-                <button onClick={openAddPlanWizard} className="flex items-center gap-1.5 bg-ercs-red text-white px-3 py-1.5 rounded-lg text-xs font-bold">
-                  <Plus className="w-3.5 h-3.5" /> Add Plan Entry
-                </button>
-              )}
-              {isDepartmentHead && (
-                <button onClick={openDeptPlanWizard} className="flex items-center gap-1.5 bg-ercs-red text-white px-3 py-1.5 rounded-lg text-xs font-bold">
-                  <Plus className="w-3.5 h-3.5" /> Add Department Plan Entry
-                </button>
-              )}
-            </div>
-          </div>
-
-          {showAggregatedView ? (
-            aggregatedRows.length === 0 ? (
-              <div className="p-8 text-center">
-                <p className="text-xs text-slate-500 mb-3">No National Activities match this filter.</p>
-                {isAop && (
-                  <button onClick={() => setNaFormOpen(true)} className="inline-flex items-center gap-1.5 bg-slate-800 text-white px-3 py-1.5 rounded-lg text-xs font-bold">
-                    <Plus className="w-3.5 h-3.5" /> Add National Activity
-                  </button>
-                )}
-              </div>
-            ) : (
-              <div className="overflow-x-auto">
-                <table className="w-full text-left text-xs">
-                  <thead className="bg-slate-50 text-slate-600 font-bold uppercase border-b">
-                    <tr>
-                      <th className="p-3">Code</th><th className="p-3">Activity Name</th>
-                      <th className="p-3 text-right">Target</th>
-                      <th className="p-3 text-right">Budget (ETB)</th>
-                      <th className="p-3 text-right">Beneficiaries</th>
-                      {visibleQuarters.map(qId => (
-                        <th key={qId} className="p-2 text-center bg-blue-50 border-l whitespace-nowrap" colSpan={2}>
-                          {qId} Target / Budget
-                        </th>
-                      ))}
-                    </tr>
-                  </thead>
-                  <tbody className="divide-y">
-                    {aggregatedRows.map(row => {
-                      const isNaExpanded = expandedNaIds.has(row.na.id);
-                      return (
-                        <React.Fragment key={row.na.id}>
-                          <tr
-                            onClick={() => toggleNaExpand(row.na.id)}
-                            className={`hover:bg-slate-50 transition-colors cursor-pointer ${
-                              isNaExpanded ? 'bg-amber-50/40 font-medium' : ''
-                            }`}
-                          >
-                            <td className="p-3 font-bold text-ercs-red whitespace-nowrap">
-                              <button
-                                type="button"
-                                onClick={(e) => {
-                                  e.stopPropagation();
-                                  toggleNaExpand(row.na.id);
-                                }}
-                                className="inline-flex items-center gap-1.5 text-ercs-red hover:text-red-700 cursor-pointer text-left font-bold"
-                                title="Click to toggle contributing projects and regions breakdown"
-                              >
-                                {isNaExpanded ? (
-                                  <ChevronDown className="w-3.5 h-3.5 text-ercs-red shrink-0" />
-                                ) : (
-                                  <ChevronRight className="w-3.5 h-3.5 text-slate-400 hover:text-ercs-red shrink-0" />
-                                )}
-                                <span>{row.na.code}</span>
-                              </button>
-                            </td>
-                            <td
-                              className="p-3 min-w-48 font-bold text-slate-800 hover:text-ercs-red cursor-pointer"
-                              onClick={() => toggleNaExpand(row.na.id)}
-                              title="Click to toggle contributing projects and regions breakdown"
-                            >
-                              {row.na.description}
-                            </td>
-                            <td className="p-3 text-right font-bold whitespace-nowrap">{row.target.toLocaleString()} {row.na.uom}</td>
-                            <td className="p-3 text-right whitespace-nowrap">{row.budget.toLocaleString()}</td>
-                            <td className="p-3 text-right whitespace-nowrap">{row.beneficiaries.toLocaleString()}</td>
-                            {/* Per-quarter Target / Budget columns */}
-                            {visibleQuarters.map(qId => {
-                              const naEntries = filteredEntries.filter(pe => pe.national_activity_id === row.na.id);
-                              const qd = qDataForEntries(naEntries, qId);
-                              return (
-                                <React.Fragment key={qId}>
-                                  <td className="p-2 text-right whitespace-nowrap bg-blue-50 border-l text-[11px]">{qd.target.toLocaleString()}</td>
-                                  <td className="p-2 text-right whitespace-nowrap bg-blue-50 text-[11px]">{qd.budget.toLocaleString()}</td>
-                                </React.Fragment>
-                              );
-                            })}
-                          </tr>
-                          {isNaExpanded && (
-                            <tr className="bg-slate-100/70 border-b-2 border-slate-300">
-                              <td colSpan={5 + visibleQuarters.length * 2} className="p-3 pl-8 sticky left-0 max-w-[calc(100vw-3rem)] bg-slate-50/95 z-10 border-b-2 border-slate-300">
-                                <div className="max-w-6xl w-full">
-                                  <NationalActivityInlineTables
-                                    nationalActivityId={row.na.id}
-                                    quarterId={q}
-                                    mode="plan"
-                                  />
-                                </div>
-                              </td>
-                            </tr>
-                          )}
-                        </React.Fragment>
-                      );
-                    })}
                     {/* Contributing projects/regions are rendered via NationalActivityDrillDown on the dedicated detail screen (NationalActivityDetailPage) */}
                   </tbody>
                   <tfoot>
@@ -568,7 +597,6 @@ export const PlanPage: React.FC = () => {
             )
           )}
         </section>
-      )}
 
       {peWizard && (
         <PlanEntryWizardModal initial={peWizard.initial} startStep={peWizard.startStep} onClose={() => setPeWizard(null)} onSaved={() => setPeWizard(null)} />
