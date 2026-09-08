@@ -278,7 +278,9 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
     "activity_description": "Develop National level Multi hazard contingency plan",
     "year": 2019,
     "eligible_region_ids": [],
-    "eligible_project_ids": [],
+    "eligible_project_ids": [
+      "ercs-icrc-pp"
+    ],
     "ercs_target": 2.0,
     "ercs_budget": 1000000.0,
     "hq_target": 2.0,
@@ -347,7 +349,12 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
         "budget": 0.0
       }
     },
-    "project_targets": {}
+    "project_targets": {
+      "ercs-icrc-pp": {
+        "target": 35.0,
+        "budget": 238198.0
+      }
+    }
   },
   {
     "id": "na-1-1-2",
@@ -377,7 +384,11 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "reg-afar",
       "reg-moyale"
     ],
-    "eligible_project_ids": [],
+    "eligible_project_ids": [
+      "nlrc-rp-strengthening-ercs",
+      "grc-gffo-aa",
+      "echo-hip-2026"
+    ],
     "ercs_target": 22.0,
     "ercs_budget": 1775000.0,
     "hq_target": 0.0,
@@ -446,7 +457,20 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
         "budget": 70000.0
       }
     },
-    "project_targets": {}
+    "project_targets": {
+      "nlrc-rp-strengthening-ercs": {
+        "target": 4.0,
+        "budget": 1200000.0
+      },
+      "grc-gffo-aa": {
+        "target": 1.0,
+        "budget": 534000.0
+      },
+      "echo-hip-2026": {
+        "target": 3.0,
+        "budget": 749997.98
+      }
+    }
   },
   {
     "id": "na-1-1-3",
@@ -460,7 +484,9 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
     "activity_description": "Update SoPs and Guidelines (ECVA, and EOC)",
     "year": 2019,
     "eligible_region_ids": [],
-    "eligible_project_ids": [],
+    "eligible_project_ids": [
+      "echo-hip-2026"
+    ],
     "ercs_target": 2.0,
     "ercs_budget": 500000.0,
     "hq_target": 2.0,
@@ -529,7 +555,12 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
         "budget": 0.0
       }
     },
-    "project_targets": {}
+    "project_targets": {
+      "echo-hip-2026": {
+        "target": 25.0,
+        "budget": 749997.98
+      }
+    }
   },
   {
     "id": "na-1-1-4",
@@ -560,7 +591,8 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "reg-moyale"
     ],
     "eligible_project_ids": [
-      "grc-hacap3"
+      "grc-hacap3",
+      "echo-hip-2026"
     ],
     "ercs_target": 10.0,
     "ercs_budget": 7331000.0,
@@ -634,6 +666,10 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "grc-hacap3": {
         "target": 1.0,
         "budget": 3000560000.0
+      },
+      "echo-hip-2026": {
+        "target": 2.0,
+        "budget": 7999984.43
       }
     }
   },
@@ -748,7 +784,9 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "reg-afar",
       "reg-moyale"
     ],
-    "eligible_project_ids": [],
+    "eligible_project_ids": [
+      "ercs-icrc-pp"
+    ],
     "ercs_target": 5.0,
     "ercs_budget": 18000000.0,
     "hq_target": 0.0,
@@ -817,7 +855,12 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
         "budget": 0.0
       }
     },
-    "project_targets": {}
+    "project_targets": {
+      "ercs-icrc-pp": {
+        "target": 3.0,
+        "budget": 29914431.0
+      }
+    }
   },
   {
     "id": "na-1-1-7",
@@ -831,7 +874,9 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
     "activity_description": "Estabilish and provide training to multidisciplinary search and rescue team",
     "year": 2019,
     "eligible_region_ids": [],
-    "eligible_project_ids": [],
+    "eligible_project_ids": [
+      "nlrc-rp-strengthening-ercs"
+    ],
     "ercs_target": 42.0,
     "ercs_budget": 3000000.0,
     "hq_target": 42.0,
@@ -900,7 +945,12 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
         "budget": 0.0
       }
     },
-    "project_targets": {}
+    "project_targets": {
+      "nlrc-rp-strengthening-ercs": {
+        "target": 1.0,
+        "budget": 500000.0
+      }
+    }
   },
   {
     "id": "na-1-1-8",
@@ -931,7 +981,9 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "reg-moyale"
     ],
     "eligible_project_ids": [
-      "rise-project"
+      "rise-project",
+      "src-drought-response-aa",
+      "echo-hip-2026"
     ],
     "ercs_target": 819.0,
     "ercs_budget": 20607900.0,
@@ -1005,6 +1057,14 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "rise-project": {
         "target": 45.0,
         "budget": 990000.0
+      },
+      "src-drought-response-aa": {
+        "target": 25.0,
+        "budget": 350000.0
+      },
+      "echo-hip-2026": {
+        "target": 4.0,
+        "budget": 1888162.86
       }
     }
   },
@@ -1038,7 +1098,12 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
     ],
     "eligible_project_ids": [
       "grc-hacap3",
-      "ehppr"
+      "ehppr",
+      "nlrc-rp-strengthening-ercs",
+      "grc-gffo-aa",
+      "echo-hip-2026",
+      "water-at-the-heart",
+      "ercs-icrc-pp"
     ],
     "ercs_target": 14752.0,
     "ercs_budget": 135140920.0,
@@ -1116,6 +1181,26 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "ehppr": {
         "target": 1.0,
         "budget": 4243962.0
+      },
+      "nlrc-rp-strengthening-ercs": {
+        "target": 500.0,
+        "budget": 1500000.0
+      },
+      "grc-gffo-aa": {
+        "target": 100.0,
+        "budget": 2670000.0
+      },
+      "echo-hip-2026": {
+        "target": 1.0,
+        "budget": 5322770.63
+      },
+      "water-at-the-heart": {
+        "target": 1.0,
+        "budget": 2400000.0
+      },
+      "ercs-icrc-pp": {
+        "target": 2000.0,
+        "budget": 23000000.0
       }
     }
   },
@@ -1150,7 +1235,8 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
     "eligible_project_ids": [
       "grc-hacap3",
       "l4r",
-      "rise-project"
+      "rise-project",
+      "echo-hip-2026"
     ],
     "ercs_target": 9.0,
     "ercs_budget": 10953357.66,
@@ -1232,6 +1318,10 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "rise-project": {
         "target": 2.0,
         "budget": 3250000.0
+      },
+      "echo-hip-2026": {
+        "target": 2.0,
+        "budget": 1321713.1
       }
     }
   },
@@ -1248,7 +1338,9 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
     "year": 2019,
     "eligible_region_ids": [],
     "eligible_project_ids": [
-      "ethiopia-mfa-dev-2026"
+      "ethiopia-mfa-dev-2026",
+      "grc-gffo-aa",
+      "echo-hip-2026"
     ],
     "ercs_target": 1.0,
     "ercs_budget": 400000.0,
@@ -1322,6 +1414,14 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "ethiopia-mfa-dev-2026": {
         "target": 1.0,
         "budget": 8333.333333333334
+      },
+      "grc-gffo-aa": {
+        "target": 1.0,
+        "budget": 1246000.0
+      },
+      "echo-hip-2026": {
+        "target": 233.0,
+        "budget": 5899988.65
       }
     }
   },
@@ -1437,7 +1537,9 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "reg-moyale"
     ],
     "eligible_project_ids": [
-      "l4r"
+      "l4r",
+      "nlrc-rp-strengthening-ercs",
+      "water-at-the-heart"
     ],
     "ercs_target": 22.0,
     "ercs_budget": 1522000.0,
@@ -1511,6 +1613,14 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "l4r": {
         "target": 1.0,
         "budget": 184000.0
+      },
+      "nlrc-rp-strengthening-ercs": {
+        "target": 4.0,
+        "budget": 400000.0
+      },
+      "water-at-the-heart": {
+        "target": 43.0,
+        "budget": 4123000.0
       }
     }
   },
@@ -1543,7 +1653,10 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "reg-moyale"
     ],
     "eligible_project_ids": [
-      "ethiopia-mfa-dev-2026"
+      "ethiopia-mfa-dev-2026",
+      "nlrc-rp-strengthening-ercs",
+      "echo-hip-2026",
+      "water-at-the-heart"
     ],
     "ercs_target": 643.0,
     "ercs_budget": 3778400.0,
@@ -1617,6 +1730,18 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "ethiopia-mfa-dev-2026": {
         "target": 3.0,
         "budget": 11111.111166666667
+      },
+      "nlrc-rp-strengthening-ercs": {
+        "target": 40.0,
+        "budget": 800000.0
+      },
+      "echo-hip-2026": {
+        "target": 268.0,
+        "budget": 4509993.15
+      },
+      "water-at-the-heart": {
+        "target": 1.0,
+        "budget": 1184000.0
       }
     }
   },
@@ -1649,7 +1774,9 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "reg-moyale"
     ],
     "eligible_project_ids": [
-      "ethiopia-mfa-dev-2026"
+      "ethiopia-mfa-dev-2026",
+      "grc-gffo-aa",
+      "echo-hip-2026"
     ],
     "ercs_target": 19.0,
     "ercs_budget": 2527000.0,
@@ -1723,6 +1850,14 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "ethiopia-mfa-dev-2026": {
         "target": 1.0,
         "budget": 8888.888888888889
+      },
+      "grc-gffo-aa": {
+        "target": 1.0,
+        "budget": 712000.0
+      },
+      "echo-hip-2026": {
+        "target": 33.0,
+        "budget": 14299973.57
       }
     }
   },
@@ -1738,7 +1873,9 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
     "activity_description": "Strenghthen AA team to lead on AA planning and execution.",
     "year": 2019,
     "eligible_region_ids": [],
-    "eligible_project_ids": [],
+    "eligible_project_ids": [
+      "scala-project"
+    ],
     "ercs_target": 4.0,
     "ercs_budget": 4800000.0,
     "hq_target": 4.0,
@@ -1807,7 +1944,12 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
         "budget": 0.0
       }
     },
-    "project_targets": {}
+    "project_targets": {
+      "scala-project": {
+        "target": 181.0,
+        "budget": 22855166.05
+      }
+    }
   },
   {
     "id": "na-1-2-7",
@@ -1821,7 +1963,9 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
     "activity_description": "Design and Execute AA projects in high-risk areas.",
     "year": 2019,
     "eligible_region_ids": [],
-    "eligible_project_ids": [],
+    "eligible_project_ids": [
+      "echo-hip-2026"
+    ],
     "ercs_target": 40000.0,
     "ercs_budget": 20000000.0,
     "hq_target": 40000.0,
@@ -1890,7 +2034,12 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
         "budget": 0.0
       }
     },
-    "project_targets": {}
+    "project_targets": {
+      "echo-hip-2026": {
+        "target": 6.0,
+        "budget": 16499969.02
+      }
+    }
   },
   {
     "id": "na-1-2-8",
@@ -1922,7 +2071,10 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
     ],
     "eligible_project_ids": [
       "ethiopia-mfa-dev-2026",
-      "l4r"
+      "l4r",
+      "nlrc-rp-strengthening-ercs",
+      "grc-gffo-aa",
+      "water-at-the-heart"
     ],
     "ercs_target": 314.0,
     "ercs_budget": 2633000.0,
@@ -2000,6 +2152,18 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "l4r": {
         "target": 1.0,
         "budget": 452640.0
+      },
+      "nlrc-rp-strengthening-ercs": {
+        "target": 20.0,
+        "budget": 234115.0
+      },
+      "grc-gffo-aa": {
+        "target": 1.0,
+        "budget": 534000.0
+      },
+      "water-at-the-heart": {
+        "target": 1.0,
+        "budget": 428300.0
       }
     }
   },
@@ -2031,7 +2195,9 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "reg-afar",
       "reg-moyale"
     ],
-    "eligible_project_ids": [],
+    "eligible_project_ids": [
+      "nlrc-rp-strengthening-ercs"
+    ],
     "ercs_target": 597.0,
     "ercs_budget": 2115000.0,
     "hq_target": 0.0,
@@ -2100,7 +2266,12 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
         "budget": 0.0
       }
     },
-    "project_targets": {}
+    "project_targets": {
+      "nlrc-rp-strengthening-ercs": {
+        "target": 3.0,
+        "budget": 900000.0
+      }
+    }
   },
   {
     "id": "na-1-3-1",
@@ -2130,7 +2301,12 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "reg-afar",
       "reg-moyale"
     ],
-    "eligible_project_ids": [],
+    "eligible_project_ids": [
+      "src-drought-response-aa",
+      "nlrc-rp-strengthening-ercs",
+      "echo-hip-2026",
+      "frc-hum"
+    ],
     "ercs_target": 91.0,
     "ercs_budget": 6831900.0,
     "hq_target": 25.0,
@@ -2199,7 +2375,24 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
         "budget": 70000.0
       }
     },
-    "project_targets": {}
+    "project_targets": {
+      "src-drought-response-aa": {
+        "target": 1.0,
+        "budget": 75000.0
+      },
+      "nlrc-rp-strengthening-ercs": {
+        "target": 3.0,
+        "budget": 600000.0
+      },
+      "echo-hip-2026": {
+        "target": 3.0,
+        "budget": 599998.92
+      },
+      "frc-hum": {
+        "target": 1.0,
+        "budget": 800000.0
+      }
+    }
   },
   {
     "id": "na-1-3-2",
@@ -2234,7 +2427,10 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "stream-ercs",
       "tesfa",
       "ec2r-cash",
-      "sudan-pop-movement"
+      "sudan-pop-movement",
+      "echo-cash-consortium",
+      "echo-hip-2026",
+      "frc-hum"
     ],
     "ercs_target": 75000.0,
     "ercs_budget": 2205900000.0,
@@ -2314,8 +2510,8 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
         "budget": 49451.48
       },
       "tesfa": {
-        "target": 1020.0,
-        "budget": 32895000.0
+        "target": 1500.0,
+        "budget": 48375000.0
       },
       "ec2r-cash": {
         "target": 18233.0,
@@ -2324,6 +2520,18 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "sudan-pop-movement": {
         "target": 687.0,
         "budget": 6839300.0
+      },
+      "echo-cash-consortium": {
+        "target": 3955.0,
+        "budget": 178255500.0
+      },
+      "echo-hip-2026": {
+        "target": 100.0,
+        "budget": 944084.0
+      },
+      "frc-hum": {
+        "target": 2706.0,
+        "budget": 97821900.0
       }
     }
   },
@@ -2464,7 +2672,8 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
     "eligible_project_ids": [
       "grc-hacap3",
       "akobo",
-      "sudan-pop-movement"
+      "sudan-pop-movement",
+      "ercs-icrc-pp"
     ],
     "ercs_target": 22650.0,
     "ercs_budget": 123570000.0,
@@ -2546,6 +2755,10 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "sudan-pop-movement": {
         "target": 315.0,
         "budget": 3937500.0
+      },
+      "ercs-icrc-pp": {
+        "target": 2000.0,
+        "budget": 2719976.0
       }
     }
   },
@@ -3298,7 +3511,8 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
     ],
     "eligible_project_ids": [
       "l4r",
-      "rise-project"
+      "rise-project",
+      "nlrc-rp-strengthening-ercs"
     ],
     "ercs_target": 88.0,
     "ercs_budget": 7370000.0,
@@ -3376,6 +3590,10 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "rise-project": {
         "target": 3.0,
         "budget": 1369086.0
+      },
+      "nlrc-rp-strengthening-ercs": {
+        "target": 2.0,
+        "budget": 643773.0
       }
     }
   },
@@ -4216,7 +4434,8 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "wb-resilience-migration",
       "sudan-pop-movement",
       "social-cohesion",
-      "src-migration"
+      "src-migration",
+      "frc-hum"
     ],
     "ercs_target": 2352.0,
     "ercs_budget": 7025000.0,
@@ -4297,7 +4516,7 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       },
       "tesfa": {
         "target": 120.0,
-        "budget": 3048528.0000000005
+        "budget": 3048528.0
       },
       "wb-resilience-migration": {
         "target": 316.0,
@@ -4314,6 +4533,10 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "src-migration": {
         "target": 238.0,
         "budget": 5062916.43
+      },
+      "frc-hum": {
+        "target": 80.0,
+        "budget": 3158000.0
       }
     }
   },
@@ -5716,7 +5939,8 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
     "year": 2019,
     "eligible_region_ids": [],
     "eligible_project_ids": [
-      "tesfa"
+      "tesfa",
+      "frc-hum"
     ],
     "ercs_target": 550.0,
     "ercs_budget": 5500000.0,
@@ -5790,6 +6014,10 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "tesfa": {
         "target": 164.0,
         "budget": 2107997.6
+      },
+      "frc-hum": {
+        "target": 30.0,
+        "budget": 1218000.0
       }
     }
   },
@@ -8465,7 +8693,9 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "tesfa",
       "ec2r-wash",
       "sudan-pop-movement",
-      "rise-project"
+      "rise-project",
+      "water-at-the-heart",
+      "frc-hum"
     ],
     "ercs_target": 139.0,
     "ercs_budget": 288508560.0,
@@ -8554,7 +8784,7 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       },
       "tesfa": {
         "target": 6.0,
-        "budget": 24020907.6456
+        "budget": 24020907.65
       },
       "ec2r-wash": {
         "target": 14.0,
@@ -8567,6 +8797,14 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "rise-project": {
         "target": 1700000.0,
         "budget": 5100000.0
+      },
+      "water-at-the-heart": {
+        "target": 2.0,
+        "budget": 52000000.0
+      },
+      "frc-hum": {
+        "target": 12.0,
+        "budget": 1200000.0
       }
     }
   },
@@ -8603,7 +8841,9 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "l4r",
       "sraps",
       "tesfa",
-      "ec2r-wash"
+      "ec2r-wash",
+      "water-at-the-heart",
+      "frc-hum"
     ],
     "ercs_target": 139.0,
     "ercs_budget": 9030000.0,
@@ -8693,6 +8933,14 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "ec2r-wash": {
         "target": 71.0,
         "budget": 6700000.0
+      },
+      "water-at-the-heart": {
+        "target": 3.0,
+        "budget": 1600000.0
+      },
+      "frc-hum": {
+        "target": 1.0,
+        "budget": 823642.0
       }
     }
   },
@@ -8835,7 +9083,9 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "sraps",
       "ec2r-wash",
       "akobo",
-      "sudan-pop-movement"
+      "sudan-pop-movement",
+      "water-at-the-heart",
+      "frc-hum"
     ],
     "ercs_target": 24.0,
     "ercs_budget": 42800000.0,
@@ -8925,6 +9175,14 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "sudan-pop-movement": {
         "target": 79.0,
         "budget": 13410000.0
+      },
+      "water-at-the-heart": {
+        "target": 1001.0,
+        "budget": 2800000.0
+      },
+      "frc-hum": {
+        "target": 2.0,
+        "budget": 1000000.0
       }
     }
   },
@@ -9041,7 +9299,8 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
     "eligible_region_ids": [],
     "eligible_project_ids": [
       "tesfa",
-      "sudan-pop-movement"
+      "sudan-pop-movement",
+      "ercs-icrc-pp"
     ],
     "ercs_target": 59.0,
     "ercs_budget": 106200000.0,
@@ -9119,6 +9378,10 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "sudan-pop-movement": {
         "target": 3.0,
         "budget": 750000.0
+      },
+      "ercs-icrc-pp": {
+        "target": 37.0,
+        "budget": 46999577.0
       }
     }
   },
@@ -9136,7 +9399,8 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
     "eligible_region_ids": [],
     "eligible_project_ids": [
       "cidca",
-      "eccmp-malaria"
+      "eccmp-malaria",
+      "ercs-icrc-pp"
     ],
     "ercs_target": 27.0,
     "ercs_budget": 135000000.0,
@@ -9214,6 +9478,10 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "eccmp-malaria": {
         "target": 2.0,
         "budget": 19000000.0
+      },
+      "ercs-icrc-pp": {
+        "target": 2.0,
+        "budget": 16948847.0
       }
     }
   },
@@ -9335,7 +9603,9 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "reg-afar",
       "reg-moyale"
     ],
-    "eligible_project_ids": [],
+    "eligible_project_ids": [
+      "ercs-icrc-pp"
+    ],
     "ercs_target": 33.0,
     "ercs_budget": 22010000.0,
     "hq_target": 0.0,
@@ -9404,7 +9674,12 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
         "budget": 0.0
       }
     },
-    "project_targets": {}
+    "project_targets": {
+      "ercs-icrc-pp": {
+        "target": 15.0,
+        "budget": 21671867.0
+      }
+    }
   },
   {
     "id": "na-3-4-5",
@@ -9713,7 +9988,9 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
     "activity_description": "Provide ToT first aid training",
     "year": 2019,
     "eligible_region_ids": [],
-    "eligible_project_ids": [],
+    "eligible_project_ids": [
+      "ercs-icrc-pp"
+    ],
     "ercs_target": 30.0,
     "ercs_budget": 1500000.0,
     "hq_target": 30.0,
@@ -9782,7 +10059,12 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
         "budget": 0.0
       }
     },
-    "project_targets": {}
+    "project_targets": {
+      "ercs-icrc-pp": {
+        "target": 25.0,
+        "budget": 1731984.0
+      }
+    }
   },
   {
     "id": "na-3-4-9",
@@ -9814,7 +10096,9 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
     ],
     "eligible_project_ids": [
       "ec2r-health",
-      "sudan-pop-movement"
+      "sudan-pop-movement",
+      "src-drought-response-aa",
+      "ercs-icrc-pp"
     ],
     "ercs_target": 11482.0,
     "ercs_budget": 12583250.0,
@@ -9892,6 +10176,14 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "sudan-pop-movement": {
         "target": 15.0,
         "budget": 150000.0
+      },
+      "src-drought-response-aa": {
+        "target": 60.0,
+        "budget": 445000.0
+      },
+      "ercs-icrc-pp": {
+        "target": 300.0,
+        "budget": 2663976.0
       }
     }
   },
@@ -10039,7 +10331,9 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "reg-afar",
       "reg-moyale"
     ],
-    "eligible_project_ids": [],
+    "eligible_project_ids": [
+      "src-drought-response-aa"
+    ],
     "ercs_target": 189115.0,
     "ercs_budget": 7730472.0,
     "hq_target": 0.0,
@@ -10108,7 +10402,12 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
         "budget": 16000.0
       }
     },
-    "project_targets": {}
+    "project_targets": {
+      "src-drought-response-aa": {
+        "target": 250.0,
+        "budget": 150000.0
+      }
+    }
   },
   {
     "id": "na-3-4-12",
@@ -10140,7 +10439,8 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
     ],
     "eligible_project_ids": [
       "ehppr",
-      "eccmp-malaria"
+      "eccmp-malaria",
+      "ercs-icrc-pp"
     ],
     "ercs_target": 449802.0,
     "ercs_budget": 249900716.9,
@@ -10218,6 +10518,10 @@ export const INITIAL_NATIONAL_ACTIVITIES: NationalActivity[] = [
       "eccmp-malaria": {
         "target": 57.0,
         "budget": 24720000.0
+      },
+      "ercs-icrc-pp": {
+        "target": 29.0,
+        "budget": 70508865.0
       }
     }
   },
@@ -30168,398 +30472,373 @@ export const INITIAL_PROJECTS: Project[] = [
   },
   {
     "id": "tesfa",
-    "name": "TESFA (Transforming Emergency and Recovery Support for Future Advancement in Conflict-Affected Communities, North Wollo)",
-    "description": "TESFA (Transforming Emergency and Recovery Support for Future Advancement in Conflict-Affected Communities, North Wollo)",
+    "name": "TESFA (Transforming Emergency and Recovery Support for Future Advancement in Conflict-Affected Communities in North Wollo Zone, Amhara Region)",
+    "description": "TESFA (Transforming Emergency and Recovery Support for Future Advancement in Conflict-Affected Communities in North Wollo Zone, Amhara Region)",
     "currency": "ETB",
     "project_only_activities": [
       {
         "id": "tesfa-nc-1",
         "name": "ERCS branch project coordinator (2 persons, 50%)",
-        "uom": "month",
-        "target": 24.0,
+        "target": 12.0,
         "budget": 3058654.978034899,
-        "raw_code": "Not linked to AOP"
+        "raw_code": "NL",
+        "uom": "month"
       },
       {
         "id": "tesfa-nc-2",
         "name": "ERCS field officers (4 persons, 100%)",
-        "uom": "month",
-        "target": 96.0,
+        "target": 12.0,
         "budget": 9299026.863359999,
-        "raw_code": "Not linked to AOP"
+        "raw_code": "NL",
+        "uom": "month"
       },
       {
         "id": "tesfa-nc-3",
         "name": "ERCS accountants (2 persons, 50%)",
-        "uom": "month",
-        "target": 24.0,
+        "target": 12.0,
         "budget": 2065549.536,
-        "raw_code": "Not linked to AOP"
+        "raw_code": "NL",
+        "uom": "month"
       },
       {
         "id": "tesfa-nc-4",
         "name": "ERCS HQ project focal person (1 person 50%)",
-        "uom": "month",
         "target": 12.0,
         "budget": 1811992.752,
-        "raw_code": "Not linked to AOP"
+        "raw_code": "NL",
+        "uom": "month"
       },
       {
         "id": "tesfa-nc-5",
         "name": "ERCS HQ accountant (1 person, 50%)",
-        "uom": "month",
         "target": 12.0,
         "budget": 1175589.3599999999,
-        "raw_code": "Not linked to AOP"
+        "raw_code": "NL",
+        "uom": "month"
       },
       {
         "id": "tesfa-nc-6",
         "name": "ERCS operational vehicle driver for North Wollo and South Wollo (2 persons, 50%)",
-        "uom": "month",
-        "target": 24.0,
+        "target": 12.0,
         "budget": 855191.52,
-        "raw_code": "Not linked to AOP"
+        "raw_code": "NL",
+        "uom": "month"
       },
       {
         "id": "tesfa-nc-7",
         "name": "ERCS HQ WASH Engineer (10%)",
-        "uom": "month",
-        "target": 2.4000000000000004,
+        "target": 12.0,
         "budget": 362398.5504199319,
-        "raw_code": "Not linked to AOP"
+        "raw_code": "NL",
+        "uom": "month"
       },
       {
         "id": "tesfa-nc-8",
         "name": "ERCS HQ Health and WASH Manager (25%)",
-        "uom": "month",
-        "target": 6.0,
+        "target": 12.0,
         "budget": 996603.6239999998,
-        "raw_code": "Not linked to AOP"
+        "raw_code": "NL",
+        "uom": "month"
       },
       {
         "id": "tesfa-nc-9",
         "name": "ERCS HQ EMS Coordinator (30%)",
-        "uom": "month",
-        "target": 7.199999999999999,
+        "target": 12.0,
         "budget": 1195930.1471420159,
-        "raw_code": "Not linked to AOP"
+        "raw_code": "NL",
+        "uom": "month"
       },
       {
         "id": "tesfa-nc-10",
         "name": "ERCS HQ Procurement Manager (15%)",
-        "uom": "month",
-        "target": 3.5999999999999996,
+        "target": 12.0,
         "budget": 412629.2270517599,
-        "raw_code": "Not linked to AOP"
+        "raw_code": "NL",
+        "uom": "month"
       },
       {
         "id": "tesfa-nc-11",
         "name": "ERCS HQ CVA Coordinator (18%)",
-        "uom": "month",
-        "target": 4.32,
+        "target": 12.0,
         "budget": 619197.5232,
-        "raw_code": "Not linked to AOP"
+        "raw_code": "NL",
+        "uom": "month"
       },
       {
         "id": "tesfa-nc-12",
         "name": "ERCS HQ PGI (Protection, Gender, Inclusion) Coordinator (25%)",
-        "uom": "month",
-        "target": 6.0,
+        "target": 12.0,
         "budget": 859996.56,
-        "raw_code": "Not linked to AOP"
+        "raw_code": "NL",
+        "uom": "month"
       },
       {
         "id": "tesfa-nc-13",
         "name": "ERCS HQ Mental Health and Psychosocial Support Coordinator (30%)",
-        "uom": "month",
-        "target": 7.199999999999999,
+        "target": 12.0,
         "budget": 1049271.552,
-        "raw_code": "Not linked to AOP"
+        "raw_code": "NL",
+        "uom": "month"
       },
       {
         "id": "tesfa-nc-14",
         "name": "Cost recovery for 4 Emergency Medical Technicians (EMTs) or nurses for EMS advanced service to facilitate members fee collection in collaboration with Dissimination, Volunteers and Members (DVM) focal person - pilot for one ambulance per woreda",
-        "uom": "month",
         "target": 96.0,
         "budget": 2476800.0,
-        "raw_code": "Not linked to AOP"
+        "raw_code": "NL",
+        "uom": "month"
       },
       {
         "id": "tesfa-nc-15",
         "name": "In-country travel ERCS project team (HQ and branches; land transport, etc.)",
-        "uom": "travel",
         "target": 6.0,
         "budget": 990720.0,
-        "raw_code": "Not linked to AOP"
+        "raw_code": "NL",
+        "uom": "travel"
       },
       {
         "id": "tesfa-nc-16",
-        "name": "International flights",
-        "uom": "flight",
-        "target": 0.0,
-        "budget": 0.0,
-        "raw_code": "Not linked to AOP"
+        "name": "South Wollo and North Wollo project vehicle operation costs",
+        "target": 24.0,
+        "budget": 4128000.0,
+        "raw_code": "NL",
+        "uom": "month"
       },
       {
         "id": "tesfa-nc-17",
-        "name": "South Wollo and North Wollo project vehicle operation costs",
-        "uom": "month",
-        "target": 24.0,
-        "budget": 4128000.0,
-        "raw_code": "Not linked to AOP"
+        "name": "Purchase of Laptops for ERCS project staff for North Wollo & South Wollo zonal branches",
+        "target": 2.0,
+        "budget": 516000.0,
+        "raw_code": "NL",
+        "uom": "Laptop"
       },
       {
         "id": "tesfa-nc-18",
-        "name": "Purchase of Laptops for ERCS project staff for North Wollo & South Wollo zonal branches",
-        "uom": "Laptop",
-        "target": 2.0,
-        "budget": 516000.0,
-        "raw_code": "Not linked to AOP"
+        "name": "ERCS  woreda branches offices support (basic furnitures and office running ) for four woredas",
+        "target": 4.0,
+        "budget": 412800.0,
+        "raw_code": "NL",
+        "uom": "branch"
       },
       {
         "id": "tesfa-nc-19",
-        "name": "ERCS  woreda branches offices support (basic furnitures and office running ) for four woredas",
-        "uom": "branch",
-        "target": 4.0,
-        "budget": 412800.0,
-        "raw_code": "Not linked to AOP"
+        "name": "ERCS (zonal) branch office costs support (maintenance, communication, water, electricity,\u2026)",
+        "target": 2.0,
+        "budget": 533200.0,
+        "raw_code": "NL",
+        "uom": "branch"
       },
       {
         "id": "tesfa-nc-20",
-        "name": "ERCS (zonal) branch office costs support (maintenance, communication, water, electricity,\u2026)",
-        "uom": "branch",
-        "target": 2.0,
-        "budget": 533200.0,
-        "raw_code": "Not linked to AOP"
+        "name": "ERCS partner's bank charges",
+        "target": 8.0,
+        "budget": 48160.0,
+        "raw_code": "NL",
+        "uom": "tranche"
       },
       {
         "id": "tesfa-nc-21",
-        "name": "ERCS partner's bank charges",
-        "uom": "tranche",
-        "target": 8.0,
-        "budget": 48160.0,
-        "raw_code": "Not linked to AOP"
+        "name": "Project kick-off and planning meeting in Dessie or Woldiya",
+        "target": 1.0,
+        "budget": 860000.0,
+        "raw_code": "NL",
+        "uom": "event"
       },
       {
         "id": "tesfa-nc-22",
-        "name": "Project kick-off and planning meeting in Dessie or Woldiya",
-        "uom": "event",
-        "target": 1.0,
-        "budget": 860000.0,
-        "raw_code": "Not linked to AOP"
+        "name": "Project kick-off meeting in the target area with community and IDP representatives (4 events; 1 per Woreda), ten persons per woreda.",
+        "target": 40.0,
+        "budget": 286689.60000000003,
+        "raw_code": "NL",
+        "uom": "participant"
       },
       {
         "id": "tesfa-nc-23",
-        "name": "Project kick-off meeting in the target area with community and IDP representatives (4 events; 1 per Woreda), ten persons per woreda.",
-        "uom": "participant",
-        "target": 40.0,
-        "budget": 286689.60000000003,
-        "raw_code": "Not linked to AOP"
+        "name": "Baseline assessment including rapid gender analysis",
+        "target": 1.0,
+        "budget": 516000.0,
+        "raw_code": "NL",
+        "uom": "survey"
       },
       {
         "id": "tesfa-nc-24",
-        "name": "Baseline assessment including rapid gender analysis",
-        "uom": "survey",
+        "name": "Final review of the project performance",
         "target": 1.0,
-        "budget": 516000.0,
-        "raw_code": "Not linked to AOP"
+        "budget": 1720000.0,
+        "raw_code": "NL",
+        "uom": "survey"
       },
       {
         "id": "tesfa-nc-25",
-        "name": "Final review of the project performance",
-        "uom": "survey",
-        "target": 1.0,
-        "budget": 1720000.0,
-        "raw_code": "Not linked to AOP"
+        "name": "Lessons learned / project review and closing workshop",
+        "target": 2.0,
+        "budget": 860000.0,
+        "raw_code": "NL",
+        "uom": "event"
       },
       {
         "id": "tesfa-nc-26",
-        "name": "Lessons learned / project review and closing workshop",
-        "uom": "event",
-        "target": 2.0,
-        "budget": 860000.0,
-        "raw_code": "Not linked to AOP"
+        "name": "Gender-specific and GBV survivor-supportive rapid market assessment & cash feasibility study",
+        "target": 1.0,
+        "budget": 172000.0,
+        "raw_code": "NL",
+        "uom": "survey"
       },
       {
         "id": "tesfa-nc-27",
-        "name": "Gender-specific and GBV survivor-supportive rapid market assessment & cash feasibility study",
-        "uom": "survey",
-        "target": 1.0,
-        "budget": 172000.0,
-        "raw_code": "Not linked to AOP"
+        "name": "Post distribution Monitoring (PDM) for MPCA",
+        "target": 3.0,
+        "budget": 648441.7200000001,
+        "raw_code": "NL",
+        "uom": "survey"
+      },
+      {
+        "id": "tesfa-nc-28",
+        "name": "Provision of veterinary medicine to 4 veterinary clinics",
+        "target": 4.0,
+        "budget": 2824900.48,
+        "raw_code": "NL",
+        "uom": "clinic"
       },
       {
         "id": "tesfa-nc-29",
-        "name": "Conditional Cash Assistance through Cash for Work (soil and conservation works including physical and biological interventions) for 480 households (3 monthly instalments)",
-        "uom": "household",
-        "target": 480.0,
-        "budget": 15480000.0,
-        "raw_code": "Not linked to AOP"
+        "name": "Support to the resumption of livestock artificial insemination (AI) services in the Borana and Mekdela Woreda Livestock Development Agencies in S-Wollo",
+        "target": 2.0,
+        "budget": 3096000.0,
+        "raw_code": "NL",
+        "uom": "woreda"
       },
       {
         "id": "tesfa-nc-30",
-        "name": "Post distribution Monitoring (PDM) for MPCA",
-        "uom": "survey",
-        "target": 3.0,
-        "budget": 648441.7200000001,
-        "raw_code": "Not linked to AOP"
+        "name": "Support to SHGs to advance to cooperative level",
+        "target": 4.0,
+        "budget": 2408000.0,
+        "raw_code": "NL",
+        "uom": "Self Help Group"
+      },
+      {
+        "id": "tesfa-nc-31",
+        "name": "Service and partner mapping and strengthening of referral pathway",
+        "target": 1.0,
+        "budget": 158240.0,
+        "raw_code": "NL",
+        "uom": "mapping exercise"
+      },
+      {
+        "id": "tesfa-nc-32",
+        "name": "Community outreach campaigns to raise MHPSS and SGBV awareness and address stigma",
+        "target": 32.0,
+        "budget": 1967680.0,
+        "raw_code": "NL",
+        "uom": "session/event"
       },
       {
         "id": "tesfa-nc-33",
-        "name": "Provision of veterinary medicine to 4 veterinary clinics",
-        "uom": "clinic",
-        "target": 4.0,
-        "budget": 2824900.48,
-        "raw_code": "Not linked to AOP"
+        "name": "Inclusive dialogues at the Woreda level with key stakeholders to promote gender equality, mental health, fight SGBV and reduce stigma against SGBV survivors. 15 participants per woreda for one day.",
+        "target": 60.0,
+        "budget": 217752.0,
+        "raw_code": "NL",
+        "uom": "participant"
       },
       {
         "id": "tesfa-nc-34",
-        "name": "Support to the resumption of livestock artificial insemination (AI) services in the Borana and Mekdela Woreda Livestock Development Agencies in S-Wollo",
-        "uom": "woreda",
+        "name": "Establish/strengthen Zonal-level multi-agency SGBV cluster (AoR)",
+        "target": 8.0,
+        "budget": 584800.0,
+        "raw_code": "NL",
+        "uom": "meeting"
+      },
+      {
+        "id": "tesfa-nc-35",
+        "name": "Gender-sensitive and inclusive assessments of water supply systems",
         "target": 2.0,
-        "budget": 3096000.0,
-        "raw_code": "Not linked to AOP"
+        "budget": 550400.0,
+        "raw_code": "NL",
+        "uom": "survey"
+      },
+      {
+        "id": "tesfa-nc-36",
+        "name": "Stakeholder workshop on operation and maintenance of water points with water authorities, user committees, community leaders (approx. 40 participants)",
+        "target": 40.0,
+        "budget": 290336.0,
+        "raw_code": "NL",
+        "uom": "participant"
       },
       {
         "id": "tesfa-nc-37",
-        "name": "Support to SHGs to advance to cooperative level",
-        "uom": "Self Help Group",
-        "target": 4.0,
-        "budget": 2408000.0,
-        "raw_code": "Not linked to AOP"
+        "name": "Procurement & distribution of maintenance kits and tools to local water offices and 6 WASHCOs",
+        "target": 6.0,
+        "budget": 1032000.0,
+        "raw_code": "NL",
+        "uom": "kit"
       },
       {
         "id": "tesfa-nc-38",
-        "name": "Service and partner mapping and strengthening of referral pathway",
-        "uom": "mapping exercise",
+        "name": "Preference assessment on menstrual hygiene management",
         "target": 1.0,
-        "budget": 158240.0,
-        "raw_code": "Not linked to AOP"
+        "budget": 258000.0,
+        "raw_code": "NL",
+        "uom": "survey"
+      },
+      {
+        "id": "tesfa-nc-39",
+        "name": "Procurement and distribution of MHM kit for 800 girls and women",
+        "target": 800.0,
+        "budget": 2064000.0,
+        "raw_code": "NL",
+        "uom": "kit"
+      },
+      {
+        "id": "tesfa-nc-40",
+        "name": "Training on social behavioral change hygiene practices for 40 health workers, ERCS staff, and volunteers, 10 participants per woreda.",
+        "target": 40.0,
+        "budget": 725840.0,
+        "raw_code": "NL",
+        "uom": "training"
+      },
+      {
+        "id": "tesfa-nc-41",
+        "name": "Ambulance attendant allowances for 10 ERCS volunteers in Emergency Medical Service (EMS) sector",
+        "target": 240.0,
+        "budget": 1548000.0,
+        "raw_code": "NL",
+        "uom": "month"
       },
       {
         "id": "tesfa-nc-42",
-        "name": "Community outreach campaigns to raise MHPSS and SGBV awareness and address stigma",
-        "uom": "session/event",
-        "target": 32.0,
-        "budget": 1967680.0,
-        "raw_code": "Not linked to AOP"
+        "name": "Ambulance operation cost support (running and maintenance cost for 4 ambulances)",
+        "target": 24.0,
+        "budget": 12185856.0,
+        "raw_code": "NL",
+        "uom": "month"
       },
       {
         "id": "tesfa-nc-43",
-        "name": "Inclusive dialogues at the Woreda level with key stakeholders to promote gender equality, mental health, fight SGBV and reduce stigma against SGBV survivors. 15 participants per woreda for one day.",
-        "uom": "participant",
-        "target": 60.0,
-        "budget": 217752.0,
-        "raw_code": "Not linked to AOP"
-      },
-      {
-        "id": "tesfa-nc-47",
-        "name": "Establish/strengthen Zonal-level multi-agency SGBV cluster (AoR)",
-        "uom": "meeting",
-        "target": 8.0,
-        "budget": 584800.0,
-        "raw_code": "Not linked to AOP"
-      },
-      {
-        "id": "tesfa-nc-49",
-        "name": "Gender-sensitive and inclusive assessments of water supply systems",
-        "uom": "survey",
-        "target": 2.0,
-        "budget": 550400.0,
-        "raw_code": "Not linked to AOP"
-      },
-      {
-        "id": "tesfa-nc-52",
-        "name": "Stakeholder workshop on operation and maintenance of water points with water authorities, user committees, community leaders (approx. 40 participants)",
-        "uom": "participant",
-        "target": 40.0,
-        "budget": 290336.0,
-        "raw_code": "Not linked to AOP"
-      },
-      {
-        "id": "tesfa-nc-53",
-        "name": "Procurement & distribution of maintenance kits and tools to local water offices and 6 WASHCOs",
-        "uom": "kit",
-        "target": 6.0,
-        "budget": 1032000.0,
-        "raw_code": "Not linked to AOP"
-      },
-      {
-        "id": "tesfa-nc-55",
-        "name": "Preference assessment on menstrual hygiene management",
-        "uom": "survey",
-        "target": 1.0,
-        "budget": 258000.0,
-        "raw_code": "Not linked to AOP"
-      },
-      {
-        "id": "tesfa-nc-57",
-        "name": "Training on social behavioral change hygiene practices for 40 health workers, ERCS staff, and volunteers, 10 participants per woreda.",
-        "uom": "training",
-        "target": 40.0,
-        "budget": 725840.0,
-        "raw_code": "Not linked to AOP"
-      },
-      {
-        "id": "tesfa-nc-62",
-        "name": "Ambulance attendant allowances for 10 ERCS volunteers in Emergency Medical Service (EMS) sector",
-        "uom": "month",
-        "target": 240.0,
-        "budget": 1548000.0,
-        "raw_code": "Not linked to AOP"
-      },
-      {
-        "id": "tesfa-nc-63",
-        "name": "Ambulance operation cost support (running and maintenance cost for 4 ambulances)",
-        "uom": "month",
-        "target": 24.0,
-        "budget": 12185856.0,
-        "raw_code": "Not linked to AOP"
-      },
-      {
-        "id": "tesfa-nc-64",
         "name": "Crisis modifier/ Emergency fund (1.2% of the over all budget) - activation with ADA by grant recipient AutRC",
-        "uom": "funds",
         "target": 1.0,
         "budget": 0.0,
-        "raw_code": "Not linked to AOP"
+        "raw_code": "NL",
+        "uom": "funds"
       },
       {
-        "id": "tesfa-nc-65",
+        "id": "tesfa-nc-44",
         "name": "Project Visibility materials (t-shirt, cape, keyholder and billboard, video production)",
-        "uom": "visibility",
         "target": 1.0,
         "budget": 904204.0,
-        "raw_code": "Not linked to AOP"
+        "raw_code": "NL",
+        "uom": "visibility"
       },
       {
-        "id": "tesfa-nc-66",
+        "id": "tesfa-nc-45",
         "name": "Audit/expenditure verification",
-        "uom": "",
         "target": 0.0,
         "budget": 694192.0,
-        "raw_code": null
-      },
-      {
-        "id": "tesfa-nc-67",
-        "name": "Total",
-        "uom": "",
-        "target": 0.0,
-        "budget": 173078137.2388086,
-        "raw_code": null
-      },
-      {
-        "id": "tesfa-nc-68",
-        "name": "Admin",
-        "uom": "",
-        "target": 0.0,
-        "budget": 0.0,
-        "raw_code": null
+        "raw_code": "NL"
       }
     ],
     "budget": 189200058.61,
     "donor": "AustRC",
-    "location": "North Wollo Zone, Amhara",
+    "location": "North Wollo Zone, Amhara Region",
     "totalBudget": "189,200,058.61 ETB",
     "startDate": "2026-02-01",
     "start_date": "2026-02-01",
@@ -34951,6 +35230,2927 @@ export const INITIAL_PROJECTS: Project[] = [
         "uom": "Percentage"
       }
     ]
+  },
+  {
+    "id": "echo-cash-consortium",
+    "name": "ERCS-DRC - ECHO Cash Consortium MR2 Phase II Project Semi Annual Work Plan (HIP 2026)",
+    "description": "ERCS-DRC - ECHO Cash Consortium MR2 Phase II Project Semi Annual Work Plan (HIP 2026)",
+    "currency": "ETB",
+    "project_only_activities": [
+      {
+        "id": "echo-cash-consortium-nc-1",
+        "name": "Cash transfer feasibility & risk assessment",
+        "target": 3.0,
+        "budget": 841800.0,
+        "raw_code": "NL",
+        "uom": "# of assesemnts"
+      },
+      {
+        "id": "echo-cash-consortium-nc-2",
+        "name": "Training for project field staff and local government representatives on MPCT, tools and accountability issues",
+        "target": 32.0,
+        "budget": 561600.0,
+        "raw_code": "NL",
+        "uom": "# of people trained"
+      },
+      {
+        "id": "echo-cash-consortium-nc-3",
+        "name": "Community mobilization: awareness/sensitization and information communication and targeting (beneficiary targeting and appeal committees, beneficiary targeting, verification)",
+        "target": 3.0,
+        "budget": 640000.0,
+        "raw_code": "NL",
+        "uom": "Session"
+      },
+      {
+        "id": "echo-cash-consortium-nc-4",
+        "name": "Registration and data management",
+        "target": 1.0,
+        "budget": 1269600.0,
+        "raw_code": "NL",
+        "uom": "Session"
+      },
+      {
+        "id": "echo-cash-consortium-nc-5",
+        "name": "Know-your-customer documentation requirements for MPCA beneficiary\u00a0(Printing Cards)",
+        "target": 3955.0,
+        "budget": 79500.0,
+        "raw_code": "NL",
+        "uom": "# of cards printed"
+      },
+      {
+        "id": "echo-cash-consortium-nc-6",
+        "name": "Orientation of direct beneficiaries",
+        "target": 4.0,
+        "budget": 493500.0,
+        "raw_code": "NL",
+        "uom": "Sessions"
+      },
+      {
+        "id": "echo-cash-consortium-nc-7",
+        "name": "Monitoring and Evaluation\u00a0(PDM)",
+        "target": 3.0,
+        "budget": 1763700.0,
+        "raw_code": "NL",
+        "uom": "# PDM Condcuted"
+      },
+      {
+        "id": "echo-cash-consortium-nc-8",
+        "name": "Baseline Survey",
+        "target": 1.0,
+        "budget": 170000.0,
+        "raw_code": "NL",
+        "uom": "#survey"
+      },
+      {
+        "id": "echo-cash-consortium-nc-9",
+        "name": "Endline/Evaluation internal",
+        "target": 1.0,
+        "budget": 170000.0,
+        "raw_code": "NL",
+        "uom": "#survey"
+      },
+      {
+        "id": "echo-cash-consortium-nc-10",
+        "name": "Conduct Jointly supportive supervision(JSS) with government staffs, review meeting",
+        "target": 3.0,
+        "budget": 315000.0,
+        "raw_code": "NL",
+        "uom": "#Visits"
+      }
+    ],
+    "budget": 184560200.0,
+    "donor": "DRC",
+    "location": "Amhara & Oromia",
+    "totalBudget": "184,560,200 ETB",
+    "startDate": "2025-01-01",
+    "start_date": "2025-01-01",
+    "endDate": "2027-12-31",
+    "end_date": "2027-12-31",
+    "target": "3,955 HHs",
+    "totalBeneficiaries": 3955
+  },
+  {
+    "id": "src-drought-response-aa",
+    "name": "Drought Response and Anticipatory Actions in Moyale",
+    "description": "Drought Response and Anticipatory Actions in Moyale",
+    "currency": "ETB",
+    "project_only_activities": [
+      {
+        "id": "src-drought-response-aa-nc-1",
+        "name": "1.1 Expansion of grassroots structures/Red Cross committees (Training for committees on RC fundamental principles, roles & responsibilities of the committee etc.)",
+        "target": 6.0,
+        "budget": 400000.0,
+        "raw_code": "NL",
+        "uom": "Number of Red Cross Committees"
+      },
+      {
+        "id": "src-drought-response-aa-nc-2",
+        "name": "2.3 Strengthen School Red Cross clubs (First Aid training, First Aid kit support and refilling)",
+        "target": 12.0,
+        "budget": 420000.0,
+        "raw_code": "NL",
+        "uom": "#of RC Clubs strengthened"
+      },
+      {
+        "id": "src-drought-response-aa-nc-3",
+        "name": "2.4 Conduct BOCA (Branch Organizational Capaicty to Act) at branch level",
+        "target": 1.0,
+        "budget": 150000.0,
+        "raw_code": "NL",
+        "uom": "Assessment"
+      },
+      {
+        "id": "src-drought-response-aa-nc-4",
+        "name": "3.1 Develop and implement a resource mobilization starategy/plan, including support the construction of the branch multipurpose building.",
+        "target": 1.0,
+        "budget": 8080000.0,
+        "raw_code": "NL",
+        "uom": "Plan"
+      },
+      {
+        "id": "src-drought-response-aa-nc-5",
+        "name": "3.2 Organize memebership expansion campaigns",
+        "target": 2.0,
+        "budget": 250000.0,
+        "raw_code": "NL",
+        "uom": "Campaigns"
+      },
+      {
+        "id": "src-drought-response-aa-nc-6",
+        "name": "3.3 Visual documentation (video and photos) of the impact of ERCS-SRC partnership in Moyale in the past 14 years with focus on the branch key services and support/impact in communities",
+        "target": 1.0,
+        "budget": 80000.0,
+        "raw_code": "NL",
+        "uom": "Documentary"
+      },
+      {
+        "id": "src-drought-response-aa-nc-7",
+        "name": "4.1 Establish space for youth volunteers (procurement of chess, checkers, table tennis, office furniture such as table and chairs)",
+        "target": 1.0,
+        "budget": 500000.0,
+        "raw_code": "NL",
+        "uom": "Office space"
+      },
+      {
+        "id": "src-drought-response-aa-nc-8",
+        "name": "5.1 Conduct RC dissemination to 120 participants from government partners, community members,CBOs",
+        "target": 3.0,
+        "budget": 300000.0,
+        "raw_code": "NL",
+        "uom": "Sessions"
+      },
+      {
+        "id": "src-drought-response-aa-nc-9",
+        "name": "5.2 Attend in humanitarian coordination/cluster meetings",
+        "target": 3.0,
+        "budget": 0.0,
+        "raw_code": "NL",
+        "uom": "Meetings"
+      },
+      {
+        "id": "src-drought-response-aa-nc-10",
+        "name": "5.3 Sign MoUs or agreements with Dawa Zone administration, Moyale Oromia Woreda and Moyale town administrations for subsidies and membership expansion support",
+        "target": 3.0,
+        "budget": 150000.0,
+        "raw_code": "NL",
+        "uom": "No. of MoUs"
+      },
+      {
+        "id": "src-drought-response-aa-nc-11",
+        "name": "6.1 Conduct general assembly and board elections",
+        "target": 1.0,
+        "budget": 250000.0,
+        "raw_code": "NL",
+        "uom": "Event"
+      },
+      {
+        "id": "src-drought-response-aa-nc-12",
+        "name": "6.2 Experience sharing with other ERCS branches",
+        "target": 4.0,
+        "budget": 400000.0,
+        "raw_code": "NL",
+        "uom": "Person"
+      }
+    ],
+    "budget": 134762206.0,
+    "donor": "SRC",
+    "location": "Oromia and Somali regions, Dawa, Moyale",
+    "totalBudget": "134,762,206 ETB",
+    "startDate": "2023-07-01",
+    "start_date": "2023-07-01",
+    "endDate": "2026-09-30",
+    "end_date": "2026-09-30",
+    "target": "3,515 HHs",
+    "totalBeneficiaries": 3515
+  },
+  {
+    "id": "nlrc-rp-strengthening-ercs",
+    "name": "Strengthening ERCS and Community Anticipatory, Preparedness Response Capacity in Amhara, Tigray, Afar, and Oromia",
+    "description": "Strengthening ERCS and Community Anticipatory, Preparedness Response Capacity in Amhara, Tigray, Afar, and Oromia",
+    "currency": "ETB",
+    "project_only_activities": [
+      {
+        "id": "nlrc-rp-strengthening-ercs-nc-1",
+        "name": "Implement prioritised actions raised through the branch-level readiness checks in two target branches (Tigray and Amhara)",
+        "target": 2.0,
+        "budget": 4350000.0,
+        "raw_code": "NL",
+        "uom": "no branches"
+      },
+      {
+        "id": "nlrc-rp-strengthening-ercs-nc-2",
+        "name": "Conduct comprehensive assessment on policy and legislative framework on DRM law, and facilitate capacity building training on IDRL.at HQ",
+        "target": 1.0,
+        "budget": 1000000.0,
+        "raw_code": "NL",
+        "uom": "assessment/ meeting"
+      },
+      {
+        "id": "nlrc-rp-strengthening-ercs-nc-3",
+        "name": "Train 30 ERCS participants on dead body management training integrated with IPC",
+        "target": 30.0,
+        "budget": 1000000.0,
+        "raw_code": "NL",
+        "uom": "person"
+      },
+      {
+        "id": "nlrc-rp-strengthening-ercs-nc-4",
+        "name": "Develop dead body management SOP for ERCS",
+        "target": 1.0,
+        "budget": 150000.0,
+        "raw_code": "NL",
+        "uom": "workshop"
+      },
+      {
+        "id": "nlrc-rp-strengthening-ercs-nc-5",
+        "name": "Procure and preposition PPE for dead body management",
+        "target": 1.0,
+        "budget": 1725000.0,
+        "raw_code": "NL",
+        "uom": "lumpsum"
+      },
+      {
+        "id": "nlrc-rp-strengthening-ercs-nc-6",
+        "name": "Procure and preposition PPE for Search and Rescue team of ERCS",
+        "target": 1.0,
+        "budget": 2000000.0,
+        "raw_code": "NL",
+        "uom": "lumpsum"
+      },
+      {
+        "id": "nlrc-rp-strengthening-ercs-nc-7",
+        "name": "Conduct a bi annual debrief to provide psychosocial support to 20 ERCS staff and volunteers involved in response activities in the 4 target regions",
+        "target": 1.0,
+        "budget": 800000.0,
+        "raw_code": "NL",
+        "uom": "meetings"
+      },
+      {
+        "id": "nlrc-rp-strengthening-ercs-nc-8",
+        "name": "Upgrade the emergency roster database from excel to a digitized version to facilitate rapid deployment of ERCS response teams",
+        "target": 1.0,
+        "budget": 300000.0,
+        "raw_code": "NL",
+        "uom": "lumpsum"
+      },
+      {
+        "id": "nlrc-rp-strengthening-ercs-nc-9",
+        "name": "Procurement of hardware materials to support ONE TO ONE related activities",
+        "target": 1.0,
+        "budget": 4980000.0,
+        "raw_code": "NL",
+        "uom": "lumpsum"
+      },
+      {
+        "id": "nlrc-rp-strengthening-ercs-nc-10",
+        "name": "Disseminate PSEA policy and SEA SOP to staff, volunteers and board members of ERCS.",
+        "target": 1.0,
+        "budget": 1000000.0,
+        "raw_code": "NL",
+        "uom": "lumpsum"
+      },
+      {
+        "id": "nlrc-rp-strengthening-ercs-nc-11",
+        "name": "Finalise Fleet Management Manual (Security Vehicle Management)",
+        "target": 1.0,
+        "budget": 700000.0,
+        "raw_code": "NL",
+        "uom": "workshop"
+      },
+      {
+        "id": "nlrc-rp-strengthening-ercs-nc-12",
+        "name": "Disseminate the revised Procurement Manual to ERCS staff and volunteers",
+        "target": 1.0,
+        "budget": 100000.0,
+        "raw_code": "NL",
+        "uom": "workshop"
+      },
+      {
+        "id": "nlrc-rp-strengthening-ercs-nc-13",
+        "name": "Develop and publish articles internally and externally on disaster preparedness and response initiatives of ERCS .",
+        "target": 1.0,
+        "budget": 500000.0,
+        "raw_code": "NL",
+        "uom": "lumpsum"
+      },
+      {
+        "id": "nlrc-rp-strengthening-ercs-nc-14",
+        "name": "ERCS staffs participate in technical meetings internally and externally at national and regional levels (e.g. CWG, WASH Cluster, Protection cluster meetings, ECC, national and regional AA TWGs, Movement coordination meetings, movement emergency committee coordination meetings etc)",
+        "target": 4.0,
+        "budget": 200000.0,
+        "raw_code": "NL",
+        "uom": "lumpsum"
+      },
+      {
+        "id": "nlrc-rp-strengthening-ercs-nc-15",
+        "name": "Peer to peer learning visits within ERCS branches and with other neighbouring national societies",
+        "target": 1.0,
+        "budget": 1344846.0,
+        "raw_code": "NL",
+        "uom": "lumpsum"
+      },
+      {
+        "id": "nlrc-rp-strengthening-ercs-nc-16",
+        "name": "CEA: installation of toll free lines in Amhara and Oromia regions and related fees costs; training",
+        "target": 1.0,
+        "budget": 1000000.0,
+        "raw_code": "NL",
+        "uom": "lumpsum"
+      },
+      {
+        "id": "nlrc-rp-strengthening-ercs-nc-17",
+        "name": "Implement anticipatory action, disaster preparedness and response as per the community preparedness plans prepared by the communities (pasture land development in Afar)",
+        "target": 1.0,
+        "budget": 6199374.0,
+        "raw_code": "NL",
+        "uom": "lumpsum"
+      },
+      {
+        "id": "nlrc-rp-strengthening-ercs-nc-18",
+        "name": "Activate crisis modifier in anticipatory mode or response mode(for in kind or cash assistance) based on the needs and market assessment",
+        "target": 1.0,
+        "budget": 8412728.71,
+        "raw_code": "NL",
+        "uom": "lumpsum"
+      },
+      {
+        "id": "nlrc-rp-strengthening-ercs-nc-19",
+        "name": "Undertake post distribution monitoring (PDM) of the assistance provided",
+        "target": 3.0,
+        "budget": 450000.0,
+        "raw_code": "NL",
+        "uom": "number"
+      },
+      {
+        "id": "nlrc-rp-strengthening-ercs-nc-20",
+        "name": "Undertake after action learning after crisis modifier activation.",
+        "target": 3.0,
+        "budget": 900000.0,
+        "raw_code": "NL",
+        "uom": "workshop"
+      },
+      {
+        "id": "nlrc-rp-strengthening-ercs-nc-21",
+        "name": "Project design coordinator/ instead of Project C (HQ)",
+        "target": 8.0,
+        "budget": 560000.0,
+        "raw_code": "NL",
+        "uom": "month"
+      },
+      {
+        "id": "nlrc-rp-strengthening-ercs-nc-22",
+        "name": "Finance officer HQ(100%)",
+        "target": 7.0,
+        "budget": 536000.0,
+        "raw_code": "NL",
+        "uom": "month"
+      },
+      {
+        "id": "nlrc-rp-strengthening-ercs-nc-23",
+        "name": "Project officer x 3 (100%)",
+        "target": 7.0,
+        "budget": 1656000.0,
+        "raw_code": "NL",
+        "uom": "month"
+      },
+      {
+        "id": "nlrc-rp-strengthening-ercs-nc-24",
+        "name": "PMEAL officer HQ (100%)",
+        "target": 8.0,
+        "budget": 630000.0,
+        "raw_code": "NL",
+        "uom": "month"
+      },
+      {
+        "id": "nlrc-rp-strengthening-ercs-nc-25",
+        "name": "Finance officers - Branch level(100%)",
+        "target": 7.0,
+        "budget": 371000.0,
+        "raw_code": "NL",
+        "uom": "month"
+      },
+      {
+        "id": "nlrc-rp-strengthening-ercs-nc-26",
+        "name": "Early Warning Officer (100%)",
+        "target": 8.0,
+        "budget": 563500.0,
+        "raw_code": "NL",
+        "uom": "month"
+      },
+      {
+        "id": "nlrc-rp-strengthening-ercs-nc-27",
+        "name": "CEA focal point (50%)",
+        "target": 7.0,
+        "budget": 156000.0,
+        "raw_code": "NL",
+        "uom": "month"
+      },
+      {
+        "id": "nlrc-rp-strengthening-ercs-nc-28",
+        "name": "HQ support staff positions",
+        "target": 1.0,
+        "budget": 1334619.58,
+        "raw_code": "NL",
+        "uom": "month"
+      },
+      {
+        "id": "nlrc-rp-strengthening-ercs-nc-29",
+        "name": "Direct HR Costs",
+        "target": 0.0,
+        "budget": 0.0,
+        "raw_code": "NL"
+      },
+      {
+        "id": "nlrc-rp-strengthening-ercs-nc-30",
+        "name": "Fuel, mileage and transportation costs for HQ and 4 regions",
+        "target": 5.0,
+        "budget": 1200000.0,
+        "raw_code": "NL",
+        "uom": "hHQ and region"
+      },
+      {
+        "id": "nlrc-rp-strengthening-ercs-nc-31",
+        "name": "Monitoring for HQ and 3 regions",
+        "target": 4.0,
+        "budget": 400000.0,
+        "raw_code": "NL",
+        "uom": "trip"
+      },
+      {
+        "id": "nlrc-rp-strengthening-ercs-nc-32",
+        "name": "Bank charges for HQ and 3 branches",
+        "target": 7.0,
+        "budget": 18150.0,
+        "raw_code": "NL",
+        "uom": "month"
+      },
+      {
+        "id": "nlrc-rp-strengthening-ercs-nc-33",
+        "name": "Communication and internet  (air time and internet - Regions + HQ)",
+        "target": 5.0,
+        "budget": 50000.0,
+        "raw_code": "NL",
+        "uom": "Hq and regions"
+      },
+      {
+        "id": "nlrc-rp-strengthening-ercs-nc-34",
+        "name": "Laptops for HQ and field staff",
+        "target": 5.0,
+        "budget": 1000000.0,
+        "raw_code": "NL",
+        "uom": "piece"
+      },
+      {
+        "id": "nlrc-rp-strengthening-ercs-nc-35",
+        "name": "End of project review",
+        "target": 1.0,
+        "budget": 1000000.0,
+        "raw_code": "NL",
+        "uom": "piece"
+      },
+      {
+        "id": "nlrc-rp-strengthening-ercs-nc-36",
+        "name": "Audit cost",
+        "target": 1.0,
+        "budget": 60000.0,
+        "raw_code": "NL",
+        "uom": "piece"
+      },
+      {
+        "id": "nlrc-rp-strengthening-ercs-nc-37",
+        "name": "Stationary HQ",
+        "target": 6.0,
+        "budget": 90000.0,
+        "raw_code": "NL",
+        "uom": "month"
+      },
+      {
+        "id": "nlrc-rp-strengthening-ercs-nc-38",
+        "name": "Stationary - branches",
+        "target": 4.0,
+        "budget": 320000.0,
+        "raw_code": "NL",
+        "uom": "regions"
+      }
+    ],
+    "budget": 77790786.47,
+    "donor": "NLRC",
+    "location": "Amhara, Tigray, Afar, and Oromia",
+    "totalBudget": "77,790,786.47 ETB",
+    "startDate": "2025-06-01",
+    "start_date": "2025-06-01",
+    "endDate": "2026-12-31",
+    "end_date": "2026-12-31",
+    "target": "1,600 HHs",
+    "totalBeneficiaries": 1600
+  },
+  {
+    "id": "grc-gffo-aa",
+    "name": "GFFO Anticipatory Action-Ethiopia 2026-2028",
+    "description": "GFFO Anticipatory Action-Ethiopia 2026-2028",
+    "currency": "ETB",
+    "project_only_activities": [
+      {
+        "id": "grc-gffo-aa-nc-1",
+        "name": "Support the updating/development of Woreda Disaster Risk Profiles in targeted woredas",
+        "target": 1.0,
+        "budget": 356000.0,
+        "raw_code": "NL",
+        "uom": "# woreda"
+      },
+      {
+        "id": "grc-gffo-aa-nc-2",
+        "name": "Technical follow up workshops for each EAP",
+        "target": 1.0,
+        "budget": 828554.4,
+        "raw_code": "NL",
+        "uom": "# workshop"
+      },
+      {
+        "id": "grc-gffo-aa-nc-3",
+        "name": "Training and awareness sessions of localized EAPs and EW dissemination",
+        "target": 1.0,
+        "budget": 534000.0,
+        "raw_code": "NL",
+        "uom": "# trainings"
+      },
+      {
+        "id": "grc-gffo-aa-nc-4",
+        "name": "Feasibility studies on multihazards",
+        "target": 1.0,
+        "budget": 890000.0,
+        "raw_code": "NL",
+        "uom": "assesment"
+      },
+      {
+        "id": "grc-gffo-aa-nc-5",
+        "name": "Technical workshops for regional stakeholders on FbF implementation",
+        "target": 2.0,
+        "budget": 712000.0,
+        "raw_code": "NL",
+        "uom": "# of training"
+      },
+      {
+        "id": "grc-gffo-aa-nc-6",
+        "name": "Training on MHCPs",
+        "target": 1.0,
+        "budget": 534000.0,
+        "raw_code": "NL",
+        "uom": "# of training"
+      },
+      {
+        "id": "grc-gffo-aa-nc-7",
+        "name": "Simulations to test MHCPs, EAPs, IBF, and early warning messages, including evaluation",
+        "target": 1.0,
+        "budget": 890000.0,
+        "raw_code": "NL",
+        "uom": "Simulation exercise"
+      },
+      {
+        "id": "grc-gffo-aa-nc-8",
+        "name": "Support the development and activation of EAPs for for Malaria and Cholera response",
+        "target": 1.0,
+        "budget": 890000.0,
+        "raw_code": "NL",
+        "uom": "# of activation"
+      },
+      {
+        "id": "grc-gffo-aa-nc-9",
+        "name": "Integrate AA approaches into existing CBDRR systems",
+        "target": 1.0,
+        "budget": 178000.0,
+        "raw_code": "NL",
+        "uom": "# AA approach integrated"
+      },
+      {
+        "id": "grc-gffo-aa-nc-10",
+        "name": "Sector specific technical trainings, assessments for ERCS and volunteers to enhance sustainable capacities and readiness for early action implementation in WASH and AA",
+        "target": 1.0,
+        "budget": 534000.0,
+        "raw_code": "NL",
+        "uom": "# of training"
+      },
+      {
+        "id": "grc-gffo-aa-nc-11",
+        "name": "Transportation of items",
+        "target": 0.0,
+        "budget": 677585.4800000058,
+        "raw_code": "NL",
+        "uom": "lumsum"
+      },
+      {
+        "id": "grc-gffo-aa-nc-12",
+        "name": "Staff",
+        "target": 0.0,
+        "budget": 6123527.52,
+        "raw_code": "NL"
+      },
+      {
+        "id": "grc-gffo-aa-nc-13",
+        "name": "Local Program Staff",
+        "target": 12.0,
+        "budget": 3837281.2800000003,
+        "raw_code": "NL",
+        "uom": "months"
+      },
+      {
+        "id": "grc-gffo-aa-nc-14",
+        "name": "Project coordinator Asosa 50%",
+        "target": 12.0,
+        "budget": 765948.24,
+        "raw_code": "NL",
+        "uom": "months"
+      },
+      {
+        "id": "grc-gffo-aa-nc-15",
+        "name": "Project manager Asosa",
+        "target": 12.0,
+        "budget": 1148933.04,
+        "raw_code": "NL",
+        "uom": "months"
+      },
+      {
+        "id": "grc-gffo-aa-nc-16",
+        "name": "EOC Coordinator (Asosa)",
+        "target": 12.0,
+        "budget": 1922400.0,
+        "raw_code": "NL",
+        "uom": "months"
+      },
+      {
+        "id": "grc-gffo-aa-nc-17",
+        "name": "Local Admin/Support Staff",
+        "target": 12.0,
+        "budget": 1485246.24,
+        "raw_code": "NL",
+        "uom": "months"
+      },
+      {
+        "id": "grc-gffo-aa-nc-18",
+        "name": "Finance and admin Coordinator- Addis 50%",
+        "target": 12.0,
+        "budget": 1058046.24,
+        "raw_code": "NL",
+        "uom": "months"
+      },
+      {
+        "id": "grc-gffo-aa-nc-19",
+        "name": "Project accountant Asosa 50%",
+        "target": 12.0,
+        "budget": 427200.0,
+        "raw_code": "NL",
+        "uom": "months"
+      },
+      {
+        "id": "grc-gffo-aa-nc-20",
+        "name": "Local travel/accommodation",
+        "target": 0.0,
+        "budget": 801000.0,
+        "raw_code": "NL",
+        "uom": "lumsum"
+      },
+      {
+        "id": "grc-gffo-aa-nc-21",
+        "name": "Local flights",
+        "target": 1.0,
+        "budget": 178000.0,
+        "raw_code": "NL",
+        "uom": "lumsum"
+      },
+      {
+        "id": "grc-gffo-aa-nc-22",
+        "name": "Accommodation (delegate and local staff)",
+        "target": 1.0,
+        "budget": 356000.0,
+        "raw_code": "NL",
+        "uom": "lumsum"
+      },
+      {
+        "id": "grc-gffo-aa-nc-23",
+        "name": "Per diem - local staff",
+        "target": 1.0,
+        "budget": 267000.0,
+        "raw_code": "NL",
+        "uom": "lumsum"
+      },
+      {
+        "id": "grc-gffo-aa-nc-24",
+        "name": "Training/Workshops/Capacity strengthening activities",
+        "target": 1.0,
+        "budget": 178000.0,
+        "raw_code": "NL",
+        "uom": "# of training"
+      },
+      {
+        "id": "grc-gffo-aa-nc-25",
+        "name": "Lessons learning workshop - field level",
+        "target": 1.0,
+        "budget": 267000.0,
+        "raw_code": "NL",
+        "uom": "# of workshop"
+      },
+      {
+        "id": "grc-gffo-aa-nc-26",
+        "name": "Translation of project documents",
+        "target": 1.0,
+        "budget": 124600.0,
+        "raw_code": "NL",
+        "uom": "lumsum"
+      },
+      {
+        "id": "grc-gffo-aa-nc-27",
+        "name": "Assesments/ Baseline - endline",
+        "target": 1.0,
+        "budget": 89000.0,
+        "raw_code": "NL",
+        "uom": "assesment"
+      },
+      {
+        "id": "grc-gffo-aa-nc-28",
+        "name": "Other Expenses",
+        "target": 1.0,
+        "budget": 1851200.0,
+        "raw_code": "NL",
+        "uom": "lumsum"
+      },
+      {
+        "id": "grc-gffo-aa-nc-29",
+        "name": "Office expenses",
+        "target": 1.0,
+        "budget": 1744400.0,
+        "raw_code": "NL",
+        "uom": "lumsum"
+      },
+      {
+        "id": "grc-gffo-aa-nc-30",
+        "name": "office furniture",
+        "target": 1.0,
+        "budget": 124600.0,
+        "raw_code": "NL",
+        "uom": "lumsum"
+      },
+      {
+        "id": "grc-gffo-aa-nc-31",
+        "name": "Office equipments",
+        "target": 1.0,
+        "budget": 534000.0,
+        "raw_code": "NL",
+        "uom": "lumsum"
+      },
+      {
+        "id": "grc-gffo-aa-nc-32",
+        "name": "Project communication cost",
+        "target": 1.0,
+        "budget": 89000.0,
+        "raw_code": "NL",
+        "uom": "lumsum"
+      },
+      {
+        "id": "grc-gffo-aa-nc-33",
+        "name": "Office runing cost",
+        "target": 1.0,
+        "budget": 89000.0,
+        "raw_code": "NL",
+        "uom": "lumsum"
+      },
+      {
+        "id": "grc-gffo-aa-nc-34",
+        "name": "SRCS Service fees",
+        "target": 1.0,
+        "budget": 640800.0,
+        "raw_code": "NL",
+        "uom": "lumsum"
+      },
+      {
+        "id": "grc-gffo-aa-nc-35",
+        "name": "Postal fees and DHL service",
+        "target": 1.0,
+        "budget": 178000.0,
+        "raw_code": "NL",
+        "uom": "lumsum"
+      },
+      {
+        "id": "grc-gffo-aa-nc-36",
+        "name": "Bank Charge",
+        "target": 1.0,
+        "budget": 89000.0,
+        "raw_code": "NL",
+        "uom": "lumsum"
+      },
+      {
+        "id": "grc-gffo-aa-nc-37",
+        "name": "Visibility/External Communication",
+        "target": 1.0,
+        "budget": 53400.0,
+        "raw_code": "NL",
+        "uom": "lumsum"
+      },
+      {
+        "id": "grc-gffo-aa-nc-38",
+        "name": "visibility material",
+        "target": 1.0,
+        "budget": 53400.0,
+        "raw_code": "NL",
+        "uom": "lumsum"
+      }
+    ],
+    "budget": 134762206.0,
+    "donor": "GRC",
+    "location": "Benishangul Gumuz region",
+    "totalBudget": "134,762,206 ETB",
+    "startDate": "2026-01-01",
+    "start_date": "2026-01-01",
+    "endDate": "2028-12-31",
+    "end_date": "2028-12-31",
+    "target": "7,924 HHs",
+    "totalBeneficiaries": 7924
+  },
+  {
+    "id": "echo-hip-2026",
+    "name": "Enhancing and scaling institutional Multi-Hazard Disaster Preparedness, Anticipatory Action and Early Response in Ethiopia from local to national levels (ECHO HIP 2026)",
+    "description": "Enhancing and scaling institutional Multi-Hazard Disaster Preparedness, Anticipatory Action and Early Response in Ethiopia from local to national levels (ECHO HIP 2026)",
+    "currency": "ETB",
+    "project_only_activities": [
+      {
+        "id": "echo-hip-2026-nc-1",
+        "name": "Afar: workshop on triggers for geological hazards and windstorm",
+        "target": 3.0,
+        "budget": 270000.27991,
+        "raw_code": "NL",
+        "uom": "days"
+      },
+      {
+        "id": "echo-hip-2026-nc-2",
+        "name": "Technical workshops on multi-hazard and livelihood-sensitive risk and vulnerability assessments to refine localized triggers for droughts, floods, epidemics, and displacement",
+        "target": 220.0,
+        "budget": 549998.63738,
+        "raw_code": "NL",
+        "uom": "persons"
+      },
+      {
+        "id": "echo-hip-2026-nc-3",
+        "name": "Simulation exercises and trigger-based drills at woreda level",
+        "target": 3.0,
+        "budget": 1499997.75609,
+        "raw_code": "NL",
+        "uom": "simulation exercise"
+      },
+      {
+        "id": "echo-hip-2026-nc-4",
+        "name": "Simulation exercises to test the CBEW protocols",
+        "target": 11.0,
+        "budget": 4399992.69806,
+        "raw_code": "NL",
+        "uom": "simulation exercise"
+      },
+      {
+        "id": "echo-hip-2026-nc-5",
+        "name": "Procure EW equipments with protective gear,\u00a0equipments, whistle, megaphone, colored flags, sirens, shovels,\u00a0wheel barrows, PPEs etc - for 3 regions",
+        "target": 11.0,
+        "budget": 9349982.233989999,
+        "raw_code": "NL",
+        "uom": "woredas"
+      },
+      {
+        "id": "echo-hip-2026-nc-6",
+        "name": "Radio spots for early warning disemination",
+        "target": 2.0,
+        "budget": 342856.5271342857,
+        "raw_code": "NL",
+        "uom": "# regions"
+      },
+      {
+        "id": "echo-hip-2026-nc-7",
+        "name": "Afar and Tigray: Update MHEAPs - align with the national common AA frameworks",
+        "target": 2.0,
+        "budget": 599998.02273,
+        "raw_code": "NL",
+        "uom": "Workshop"
+      },
+      {
+        "id": "echo-hip-2026-nc-8",
+        "name": "All 3 regions: After Action Review after activation of regional MHCP",
+        "target": 1.0,
+        "budget": 899997.93385,
+        "raw_code": "NL",
+        "uom": "Workshop"
+      },
+      {
+        "id": "echo-hip-2026-nc-9",
+        "name": "national level: simulation exercise to test SOP for response",
+        "target": 25.0,
+        "budget": 374999.8889,
+        "raw_code": "NL",
+        "uom": "simulation exercise"
+      },
+      {
+        "id": "echo-hip-2026-nc-10",
+        "name": "all regions: conflict sensitivity training: 90 pax(30 per region)",
+        "target": 90.0,
+        "budget": 836998.88826,
+        "raw_code": "NL",
+        "uom": "training"
+      },
+      {
+        "id": "echo-hip-2026-nc-11",
+        "name": "all regions: Protection Mainstreaming in DRM interventions training: 90 pax(30 per region)",
+        "target": 90.0,
+        "budget": 836998.88826,
+        "raw_code": "NL",
+        "uom": "training"
+      },
+      {
+        "id": "echo-hip-2026-nc-12",
+        "name": "all regions: Community, engagement and accountability training: 90 pax(30 per region)",
+        "target": 90.0,
+        "budget": 836998.88826,
+        "raw_code": "NL",
+        "uom": "training"
+      },
+      {
+        "id": "echo-hip-2026-nc-13",
+        "name": "training of 20 warehouse staff(national and all regions) - central location",
+        "target": 20.0,
+        "budget": 1388996.78125,
+        "raw_code": "NL",
+        "uom": "participants"
+      },
+      {
+        "id": "echo-hip-2026-nc-14",
+        "name": "Local and international travels for the project team members and local actors to learn AA, ER from other sister national societies and or other agencies(3 per region) plus 4 from ERCS",
+        "target": 18.0,
+        "budget": 2598294.4938999997,
+        "raw_code": "NL",
+        "uom": "lumpsum"
+      },
+      {
+        "id": "echo-hip-2026-nc-15",
+        "name": "workshop - diseminate SEA SOP to branch managers and other key staff of ERCS",
+        "target": 20.0,
+        "budget": 925999.05384,
+        "raw_code": "NL",
+        "uom": "participants"
+      },
+      {
+        "id": "echo-hip-2026-nc-16",
+        "name": "adapt the PSEAH network SEA materials, create posters, print and distribute widely across ERCS branche and HQ",
+        "target": 1.0,
+        "budget": 399998.68182,
+        "raw_code": "NL",
+        "uom": "lumpsum"
+      },
+      {
+        "id": "echo-hip-2026-nc-17",
+        "name": "Cost for setting and rolling up the CFM system - as per the community preference",
+        "target": 1.0,
+        "budget": 999998.5040600001,
+        "raw_code": "NL",
+        "uom": "lumpsum"
+      },
+      {
+        "id": "echo-hip-2026-nc-18",
+        "name": "Printing costs for outreach materials",
+        "target": 1.0,
+        "budget": 499999.25203000003,
+        "raw_code": "NL",
+        "uom": "lumpsum"
+      },
+      {
+        "id": "echo-hip-2026-nc-19",
+        "name": "Orientation of CEA focal points and related cost for closing feedback at community meetings",
+        "target": 1.0,
+        "budget": 999998.5040600001,
+        "raw_code": "NL",
+        "uom": "lumpsum"
+      },
+      {
+        "id": "echo-hip-2026-nc-20",
+        "name": "Cost of establishing/maintaining toll-free lines in target branches",
+        "target": 4.0,
+        "budget": 245461.56171333333,
+        "raw_code": "NL",
+        "uom": "Branches"
+      },
+      {
+        "id": "echo-hip-2026-nc-21",
+        "name": "Update curriculum of BDRT to integrate CVA - workshop",
+        "target": 1.0,
+        "budget": 188817.18576999998,
+        "raw_code": "NL",
+        "uom": "workshop"
+      },
+      {
+        "id": "echo-hip-2026-nc-22",
+        "name": "Training of Senior Management and Leadership",
+        "target": 1.0,
+        "budget": 472040.26515999995,
+        "raw_code": "NL",
+        "uom": "Training"
+      },
+      {
+        "id": "echo-hip-2026-nc-23",
+        "name": "Regional Branch CVA Capacity Assessement in 9 regional branches",
+        "target": 1.0,
+        "budget": 188817.18576999998,
+        "raw_code": "NL",
+        "uom": "lumpsum"
+      },
+      {
+        "id": "echo-hip-2026-nc-24",
+        "name": "Capacity Development Activities as per the assessement findings (Trainings, digital equipments etc..)",
+        "target": 3.0,
+        "budget": 1132899.5156,
+        "raw_code": "NL",
+        "uom": "Region"
+      },
+      {
+        "id": "echo-hip-2026-nc-25",
+        "name": "Training in 5 branches of 100 volunteers",
+        "target": 4.0,
+        "budget": 1510532.0876299997,
+        "raw_code": "NL",
+        "uom": "Training"
+      },
+      {
+        "id": "echo-hip-2026-nc-26",
+        "name": "Refresher Training on CVA for Regional FPs",
+        "target": 1.0,
+        "budget": 566449.7578,
+        "raw_code": "NL",
+        "uom": "Training"
+      },
+      {
+        "id": "echo-hip-2026-nc-27",
+        "name": "Software and tool development -Lump sum cost (TBD)",
+        "target": 1.0,
+        "budget": 660857.4509299999,
+        "raw_code": "NL",
+        "uom": "lumpsum"
+      },
+      {
+        "id": "echo-hip-2026-nc-28",
+        "name": "IM Training for EOC BDRT on EOC/IM",
+        "target": 4.0,
+        "budget": 1888164.65966,
+        "raw_code": "NL",
+        "uom": "Training"
+      },
+      {
+        "id": "echo-hip-2026-nc-29",
+        "name": "Develop a framework for Cash For Anticipatory Action Workshop",
+        "target": 1.0,
+        "budget": 472040.26515999995,
+        "raw_code": "NL",
+        "uom": "Workshop"
+      },
+      {
+        "id": "echo-hip-2026-nc-30",
+        "name": "Training for CVA in AA",
+        "target": 4.0,
+        "budget": 1510534.08,
+        "raw_code": "NL",
+        "uom": "Training"
+      },
+      {
+        "id": "echo-hip-2026-nc-31",
+        "name": "Field Operations costs(fuel,perdiem,allowances)",
+        "target": 1.0,
+        "budget": 255688.47696166666,
+        "raw_code": "NL",
+        "uom": "Lumpsum"
+      },
+      {
+        "id": "echo-hip-2026-nc-32",
+        "name": "After action/pilot  review workshop",
+        "target": 1.0,
+        "budget": 472041.9,
+        "raw_code": "NL",
+        "uom": "Workshop"
+      },
+      {
+        "id": "echo-hip-2026-nc-33",
+        "name": "National Coordination meeting support",
+        "target": 8.0,
+        "budget": 377633.52,
+        "raw_code": "NL",
+        "uom": "Meetings"
+      },
+      {
+        "id": "echo-hip-2026-nc-34",
+        "name": "Internal ERCS TWG review meetings",
+        "target": 4.0,
+        "budget": 188816.76,
+        "raw_code": "NL",
+        "uom": "Meetings"
+      },
+      {
+        "id": "echo-hip-2026-nc-35",
+        "name": "CVAP Self assessment review (workshop)",
+        "target": 0.0,
+        "budget": 0.0,
+        "raw_code": "NL",
+        "uom": "workshop"
+      },
+      {
+        "id": "echo-hip-2026-nc-36",
+        "name": "HQ Cash Coordinator (50%)",
+        "target": 12.0,
+        "budget": 1129121.8192529168,
+        "raw_code": "NL",
+        "uom": "per month"
+      },
+      {
+        "id": "echo-hip-2026-nc-37",
+        "name": "HQ Cash Officer 1 (100%)",
+        "target": 12.0,
+        "budget": 1693683.216246667,
+        "raw_code": "NL",
+        "uom": "per month"
+      },
+      {
+        "id": "echo-hip-2026-nc-38",
+        "name": "HQ Cash IM Officer (50%)",
+        "target": 12.0,
+        "budget": 846841.6081233335,
+        "raw_code": "NL",
+        "uom": "per month"
+      },
+      {
+        "id": "echo-hip-2026-nc-39",
+        "name": "Regional EOC Coordinators (100%) - Tigray, Somali",
+        "target": 3.0,
+        "budget": 2540524.8243699996,
+        "raw_code": "NL",
+        "uom": "persons"
+      },
+      {
+        "id": "echo-hip-2026-nc-40",
+        "name": "ERCS Monitoring costs",
+        "target": 2.0,
+        "budget": 283224.15909599996,
+        "raw_code": "NL",
+        "uom": "Year"
+      },
+      {
+        "id": "echo-hip-2026-nc-41",
+        "name": "Office supplies and other related running costs",
+        "target": 1.0,
+        "budget": 991288.0,
+        "raw_code": "NL",
+        "uom": "lumpsum"
+      },
+      {
+        "id": "echo-hip-2026-nc-42",
+        "name": "Result 4: Activation of the Crisis Modifier ensures timely Anticipatory Action and/or Early Response",
+        "target": 0.0,
+        "budget": 0.0,
+        "raw_code": "NL"
+      },
+      {
+        "id": "echo-hip-2026-nc-43",
+        "name": "Post distribution Monitoring including protection KOI measurement, and evaluation of Crisis Modifier intervention.",
+        "target": 3.0,
+        "budget": 599998.922485,
+        "raw_code": "NL",
+        "uom": "number"
+      },
+      {
+        "id": "echo-hip-2026-nc-44",
+        "name": "Project coordinator (100%) - HQ",
+        "target": 12.0,
+        "budget": 2152797.4511175,
+        "raw_code": "NL",
+        "uom": "per month"
+      },
+      {
+        "id": "echo-hip-2026-nc-45",
+        "name": "AA Liasion officer (100%)",
+        "target": 12.0,
+        "budget": 1076398.4256404166,
+        "raw_code": "NL",
+        "uom": "per month"
+      },
+      {
+        "id": "echo-hip-2026-nc-46",
+        "name": "Early warning coordinator(100%) (from jan 2027-May 2028)",
+        "target": 12.0,
+        "budget": 1345497.300999583,
+        "raw_code": "NL",
+        "uom": "per month"
+      },
+      {
+        "id": "echo-hip-2026-nc-47",
+        "name": "PMER Officer(100%)",
+        "target": 12.0,
+        "budget": 1435197.251030833,
+        "raw_code": "NL",
+        "uom": "per month"
+      },
+      {
+        "id": "echo-hip-2026-nc-48",
+        "name": "PGI Coordinator (25%)",
+        "target": 12.0,
+        "budget": 538198.7254529166,
+        "raw_code": "NL",
+        "uom": "per month"
+      },
+      {
+        "id": "echo-hip-2026-nc-49",
+        "name": "CEA Coordinator (25%)",
+        "target": 12.0,
+        "budget": 538198.7254529166,
+        "raw_code": "NL",
+        "uom": "per month"
+      },
+      {
+        "id": "echo-hip-2026-nc-50",
+        "name": "Project coordinator(100%) - branch level",
+        "target": 3.0,
+        "budget": 3498293.177545834,
+        "raw_code": "NL",
+        "uom": "persons"
+      },
+      {
+        "id": "echo-hip-2026-nc-51",
+        "name": "Finance officer(100%) - 3 regions",
+        "target": 3.0,
+        "budget": 2437556.787190416,
+        "raw_code": "NL",
+        "uom": "persons"
+      },
+      {
+        "id": "echo-hip-2026-nc-52",
+        "name": "HQ ECHO Accountant (100%)",
+        "target": 1.0,
+        "budget": 1076398.4256404166,
+        "raw_code": "NL",
+        "uom": "per month"
+      },
+      {
+        "id": "echo-hip-2026-nc-53",
+        "name": "Baseline survey",
+        "target": 1.0,
+        "budget": 999998.5040600001,
+        "raw_code": "NL",
+        "uom": "survey"
+      },
+      {
+        "id": "echo-hip-2026-nc-54",
+        "name": "Inception meeting",
+        "target": 1.0,
+        "budget": 1569996.89558,
+        "raw_code": "NL",
+        "uom": "meetings"
+      },
+      {
+        "id": "echo-hip-2026-nc-55",
+        "name": "Mid term review meetings",
+        "target": 1.0,
+        "budget": 499999.25203000003,
+        "raw_code": "NL",
+        "uom": "meetings"
+      },
+      {
+        "id": "echo-hip-2026-nc-56",
+        "name": "Endline survey/evaluation",
+        "target": 0.0,
+        "budget": 0.0,
+        "raw_code": "NL",
+        "uom": "survey"
+      },
+      {
+        "id": "echo-hip-2026-nc-57",
+        "name": "ERCS office supplies, communication and other related running costs(national and regional offices)",
+        "target": 1.0,
+        "budget": 812498.7845487498,
+        "raw_code": "NL",
+        "uom": "lumpsum"
+      },
+      {
+        "id": "echo-hip-2026-nc-58",
+        "name": "ERCS Office furniture -regional level",
+        "target": 1.0,
+        "budget": 199999.34091,
+        "raw_code": "NL",
+        "uom": "Lumpsum"
+      },
+      {
+        "id": "echo-hip-2026-nc-59",
+        "name": "Bank charges",
+        "target": 1.0,
+        "budget": 13000.035137916664,
+        "raw_code": "NL",
+        "uom": "per month"
+      },
+      {
+        "id": "echo-hip-2026-nc-60",
+        "name": "Vehicle leasing",
+        "target": 1.0,
+        "budget": 2935810.889418333,
+        "raw_code": "NL",
+        "uom": "Lumpsum"
+      },
+      {
+        "id": "echo-hip-2026-nc-61",
+        "name": "Mantainance/fuel/insurance",
+        "target": 1.0,
+        "budget": 1083331.7127316664,
+        "raw_code": "NL",
+        "uom": "Lumpsum"
+      }
+    ],
+    "budget": 185802253.0,
+    "donor": "NLRC & DRC",
+    "location": "Afar, Somali and Tigray regions",
+    "totalBudget": "185,802,253 ETB",
+    "startDate": "2026-06-01",
+    "start_date": "2026-06-01",
+    "endDate": "2028-05-31",
+    "end_date": "2028-05-31",
+    "target": "4,125 HHs",
+    "totalBeneficiaries": 4125
+  },
+  {
+    "id": "scala-project",
+    "name": "Scaling coordinated, multi-hazard and conflict-sensitive Anticipatory Action for improved disaster preparedness and humanitarian response (SCALAA)",
+    "description": "Scaling coordinated, multi-hazard and conflict-sensitive Anticipatory Action for improved disaster preparedness and humanitarian response (SCALAA)",
+    "currency": "ETB",
+    "project_only_activities": [
+      {
+        "id": "scala-project-nc-1",
+        "name": "Staff and Other Personell Costs",
+        "target": 0.0,
+        "budget": 5719557.195571955,
+        "raw_code": "NL"
+      },
+      {
+        "id": "scala-project-nc-2",
+        "name": "International staff",
+        "target": 0.0,
+        "budget": 0.0,
+        "raw_code": "NL"
+      },
+      {
+        "id": "scala-project-nc-3",
+        "name": "Int. Delegate Coorination- Regional",
+        "target": 0.0,
+        "budget": 0.0,
+        "raw_code": "NL"
+      },
+      {
+        "id": "scala-project-nc-4",
+        "name": "Int. Delegate Programs- Regional",
+        "target": 0.0,
+        "budget": 0.0,
+        "raw_code": "NL"
+      },
+      {
+        "id": "scala-project-nc-5",
+        "name": "National staff",
+        "target": 0.0,
+        "budget": 5719557.195571955,
+        "raw_code": "NL"
+      },
+      {
+        "id": "scala-project-nc-6",
+        "name": "ERCS AA Officer- ETH",
+        "target": 24.0,
+        "budget": 5719557.195571955,
+        "raw_code": "NL",
+        "uom": "month"
+      },
+      {
+        "id": "scala-project-nc-7",
+        "name": "Supplies, Commodities/Cash, Materials",
+        "target": 0.0,
+        "budget": 0.0,
+        "raw_code": "NL"
+      },
+      {
+        "id": "scala-project-nc-8",
+        "name": "Equipment, Vehicles and furniture including Depreciation",
+        "target": 0.0,
+        "budget": 0.0,
+        "raw_code": "NL"
+      },
+      {
+        "id": "scala-project-nc-9",
+        "name": "Contractual Services",
+        "target": 0.0,
+        "budget": 0.0,
+        "raw_code": "NL"
+      },
+      {
+        "id": "scala-project-nc-10",
+        "name": "Travel",
+        "target": 0.0,
+        "budget": 0.0,
+        "raw_code": "NL"
+      },
+      {
+        "id": "scala-project-nc-11",
+        "name": "Transfers and Grants to Counteraprts",
+        "target": 0.0,
+        "budget": 18265682.65682657,
+        "raw_code": "NL"
+      },
+      {
+        "id": "scala-project-nc-12",
+        "name": "Tranings, Workshops, Meetings GRC/ETH",
+        "target": 0.0,
+        "budget": 0.0,
+        "raw_code": "NL"
+      },
+      {
+        "id": "scala-project-nc-13",
+        "name": "Travel Expenses ETH",
+        "target": 35.0,
+        "budget": 461254.6125461254,
+        "raw_code": "NL",
+        "uom": "# of paticipants"
+      },
+      {
+        "id": "scala-project-nc-14",
+        "name": "Travel Expenses GRC/ETH",
+        "target": 0.0,
+        "budget": 0.0,
+        "raw_code": "NL"
+      },
+      {
+        "id": "scala-project-nc-15",
+        "name": "Studies and consultancies-Partners",
+        "target": 0.0,
+        "budget": 0.0,
+        "raw_code": "NL"
+      },
+      {
+        "id": "scala-project-nc-16",
+        "name": "Bussiness case-Tranings, Workshops, Meetings-  ERCS Staff",
+        "target": 30.0,
+        "budget": 1545202.9520295202,
+        "raw_code": "NL",
+        "uom": "# of paticipants"
+      },
+      {
+        "id": "scala-project-nc-17",
+        "name": "Bussiness case-Travel Expenses- ERCS Staff",
+        "target": 30.0,
+        "budget": 968634.6863468634,
+        "raw_code": "NL",
+        "uom": "# of paticipants"
+      },
+      {
+        "id": "scala-project-nc-18",
+        "name": "Studies and consultancies- ERCS Staff",
+        "target": 1.0,
+        "budget": 553505.5350553505,
+        "raw_code": "NL",
+        "uom": "# of rounds"
+      },
+      {
+        "id": "scala-project-nc-19",
+        "name": "National climate, humanitarian and disaster risk financing instruments are improved and aligned.",
+        "target": 0.0,
+        "budget": 5073800.73800738,
+        "raw_code": "NL"
+      },
+      {
+        "id": "scala-project-nc-20",
+        "name": "Tranings, Workshops, Meetings - ETH",
+        "target": 35.0,
+        "budget": 2214022.140221402,
+        "raw_code": "NL",
+        "uom": "# of paticipants"
+      },
+      {
+        "id": "scala-project-nc-21",
+        "name": "Travel expenses - ETH",
+        "target": 35.0,
+        "budget": 2490774.9077490773,
+        "raw_code": "NL",
+        "uom": "# of paticipants"
+      },
+      {
+        "id": "scala-project-nc-22",
+        "name": "Studies and consultancies- ETH",
+        "target": 3.0,
+        "budget": 369003.69003690034,
+        "raw_code": "NL",
+        "uom": "# of rounds"
+      },
+      {
+        "id": "scala-project-nc-23",
+        "name": "RCCC Support",
+        "target": 0.0,
+        "budget": 0.0,
+        "raw_code": "NL"
+      },
+      {
+        "id": "scala-project-nc-24",
+        "name": "Lumpsum for RCCC project support",
+        "target": 0.0,
+        "budget": 0.0,
+        "raw_code": "NL"
+      },
+      {
+        "id": "scala-project-nc-25",
+        "name": "Contribution to Inception and Planning Workshops and Monitoring Visits",
+        "target": 0.0,
+        "budget": 0.0,
+        "raw_code": "NL"
+      },
+      {
+        "id": "scala-project-nc-26",
+        "name": "Tranings, Workshops, Meetings- GRC/ETH",
+        "target": 0.0,
+        "budget": 0.0,
+        "raw_code": "NL"
+      },
+      {
+        "id": "scala-project-nc-27",
+        "name": "Travel Expences- GRC/ETH",
+        "target": 0.0,
+        "budget": 0.0,
+        "raw_code": "NL"
+      },
+      {
+        "id": "scala-project-nc-28",
+        "name": "Studies and consultancies- ETH",
+        "target": 0.0,
+        "budget": 0.0,
+        "raw_code": "NL"
+      },
+      {
+        "id": "scala-project-nc-29",
+        "name": "General Operating and Other Direct Costs",
+        "target": 0.0,
+        "budget": 553505.5350553505,
+        "raw_code": "NL"
+      },
+      {
+        "id": "scala-project-nc-30",
+        "name": "ERCS Service Fee Delegate and Coordinator (1delegate 5 months, 1 local 17 months) GRC-ETH",
+        "target": 0.0,
+        "budget": 0.0,
+        "raw_code": "NL"
+      },
+      {
+        "id": "scala-project-nc-31",
+        "name": "Running and IT Costs REG / AA Hub",
+        "target": 0.0,
+        "budget": 0.0,
+        "raw_code": "NL"
+      },
+      {
+        "id": "scala-project-nc-32",
+        "name": "Running and IT Costs ETH",
+        "target": 4.0,
+        "budget": 553505.5350553505,
+        "raw_code": "NL",
+        "uom": "# of Itemes"
+      },
+      {
+        "id": "scala-project-nc-33",
+        "name": "Running and IT Costs GRC/ETH",
+        "target": 0.0,
+        "budget": 0.0,
+        "raw_code": "NL"
+      },
+      {
+        "id": "scala-project-nc-34",
+        "name": "Shared permises/office runing cost GRC/ETH",
+        "target": 0.0,
+        "budget": 0.0,
+        "raw_code": "NL"
+      },
+      {
+        "id": "scala-project-nc-35",
+        "name": "Shared vehicle cost GRC/ETH",
+        "target": 0.0,
+        "budget": 0.0,
+        "raw_code": "NL"
+      },
+      {
+        "id": "scala-project-nc-36",
+        "name": "Shared vehicle cost GRC/Reg",
+        "target": 0.0,
+        "budget": 0.0,
+        "raw_code": "NL"
+      },
+      {
+        "id": "scala-project-nc-37",
+        "name": "Indirect cost",
+        "target": 0.0,
+        "budget": 1717712.1771217715,
+        "raw_code": "NL"
+      },
+      {
+        "id": "scala-project-nc-38",
+        "name": "Indirect cost 7%",
+        "target": 0.0,
+        "budget": 1717712.1771217715,
+        "raw_code": "NL"
+      }
+    ],
+    "budget": 26256458.0,
+    "donor": "GRC",
+    "location": "Benishangul Gumuz region",
+    "totalBudget": "26,256,458 ETB",
+    "startDate": "2026-01-01",
+    "start_date": "2026-01-01",
+    "endDate": "2027-04-30",
+    "end_date": "2027-04-30"
+  },
+  {
+    "id": "water-at-the-heart",
+    "name": "Water at the Heart of Climate Action",
+    "description": "Water at the Heart of Climate Action",
+    "currency": "ETB",
+    "project_only_activities": [
+      {
+        "id": "water-at-the-heart-nc-1",
+        "name": "Engaging  key stakeholders (EMI, Ministry of Water) to produce tailored forecasting information to the WHCA target Woredas areas (developing an agreement of collaboration including data/information sharing agreement,etc)",
+        "target": 1.0,
+        "budget": 1496000.0,
+        "raw_code": "NL",
+        "uom": "Meeting"
+      },
+      {
+        "id": "water-at-the-heart-nc-2",
+        "name": "A contextualization workshop and a process engaging target communities through IFRC PAPE",
+        "target": 1.0,
+        "budget": 430000.0,
+        "raw_code": "NL",
+        "uom": "Workshop"
+      },
+      {
+        "id": "water-at-the-heart-nc-3",
+        "name": "Influencing water and climate  change adaptation and mitigation  policies, investment and practices at  national and regional levels (Somali Region)",
+        "target": 1.0,
+        "budget": 4800000.0,
+        "raw_code": "NL",
+        "uom": "Workshop"
+      },
+      {
+        "id": "water-at-the-heart-nc-4",
+        "name": "Updating existing policy based on recommendation including validation meeting  (to consulatncy and related Budget)",
+        "target": 1.0,
+        "budget": 4800000.0,
+        "raw_code": "NL",
+        "uom": "#policy"
+      },
+      {
+        "id": "water-at-the-heart-nc-5",
+        "name": "Developing woreda early action protocol (Local level SOP for Fafan and kellafo by intergrating improved climate and water data and with consideration to PG)",
+        "target": 2.0,
+        "budget": 2500000.0,
+        "raw_code": "NL",
+        "uom": "Workshop"
+      },
+      {
+        "id": "water-at-the-heart-nc-6",
+        "name": "Collaborate with EDRMC to conduct a meeting with NTWG to Activate  EAP",
+        "target": 2.0,
+        "budget": 860000.0,
+        "raw_code": "NL",
+        "uom": "Meeting"
+      },
+      {
+        "id": "water-at-the-heart-nc-7",
+        "name": "Activation and implemnetation of the EAP (CFW etc)",
+        "target": 2.0,
+        "budget": 1900000.0,
+        "raw_code": "NL",
+        "uom": "Meeting"
+      },
+      {
+        "id": "water-at-the-heart-nc-8",
+        "name": "Conduct a borehole camera inspection and yield test (testpumping) of 2 existing boreholes to determine if they are feasible  for solarization, and maintenance -( the consultant develop adetailed BOQ for solarization)",
+        "target": 1.0,
+        "budget": 1230000.0,
+        "raw_code": "NL",
+        "uom": "inspection"
+      },
+      {
+        "id": "water-at-the-heart-nc-9",
+        "name": "Upgrade or Solarize 1 borehole in Harshin",
+        "target": 2.0,
+        "budget": 31000000.0,
+        "raw_code": "NL",
+        "uom": "# of boreholes"
+      },
+      {
+        "id": "water-at-the-heart-nc-10",
+        "name": "Conduct a feasibility study on Hydrological  and Geophysical surveyfor drilling and developing new boreholes if Sub-Activity 2.1 & 2.2 are not successful- (consultant to develop adetailed BOQ for drilling new BH)",
+        "target": 1.0,
+        "budget": 1200000.0,
+        "raw_code": "NL",
+        "uom": "study"
+      },
+      {
+        "id": "water-at-the-heart-nc-11",
+        "name": "Raising of the platform of 10 handpumps to make them floodproof and contaminated during flood season in Kellafo with emphasis on communities with low access to water and accessibility by people with disabilities.",
+        "target": 2.0,
+        "budget": 7400000.0,
+        "raw_code": "NL",
+        "uom": "Hand pump"
+      },
+      {
+        "id": "water-at-the-heart-nc-12",
+        "name": "Community sensitization on improved water management practices",
+        "target": 1.0,
+        "budget": 315000.0,
+        "raw_code": "NL",
+        "uom": "Volunteers"
+      },
+      {
+        "id": "water-at-the-heart-nc-13",
+        "name": "Introduce water treatment and purification practices (create a value chain for sustainability-  filters and point-of use chemicals) to vulnerable households with special consideration to women, and child headed households.",
+        "target": 1.0,
+        "budget": 630000.0,
+        "raw_code": "NL",
+        "uom": "Meeting"
+      },
+      {
+        "id": "water-at-the-heart-nc-14",
+        "name": "Establish 2 water spare-part shops at Woredas levels to ensure availability of spare parts (Including train committees on transparent finance tracking",
+        "target": 2.0,
+        "budget": 1200000.0,
+        "raw_code": "NL",
+        "uom": "shops"
+      },
+      {
+        "id": "water-at-the-heart-nc-15",
+        "name": "Provide the rain water harvesting facilities to SELECTED  public places( health centers and schools, pastoralists training centers, government institutes) in Both Woredas",
+        "target": 1.0,
+        "budget": 2800000.0,
+        "raw_code": "NL",
+        "uom": "Accessories"
+      },
+      {
+        "id": "water-at-the-heart-nc-16",
+        "name": "Feasibility study and development of Social Behaviour Change and Communication (SBCC) Plan in the two woredas  communities",
+        "target": 2.0,
+        "budget": 3150000.0,
+        "raw_code": "NL",
+        "uom": "# study"
+      },
+      {
+        "id": "water-at-the-heart-nc-17",
+        "name": "Awareness creation for hands washing before &after using toilets, promote and support local made handwashing facilities( Jerrycans,etc) using women groups, youth groups, etc.",
+        "target": 1.0,
+        "budget": 603000.0,
+        "raw_code": "NL",
+        "uom": "Campaign"
+      },
+      {
+        "id": "water-at-the-heart-nc-18",
+        "name": "Integrate AA in local and National contengency plan development",
+        "target": 1.0,
+        "budget": 727000.0,
+        "raw_code": "NL",
+        "uom": "Plans"
+      },
+      {
+        "id": "water-at-the-heart-nc-19",
+        "name": "Mobilizing and provision of training  to the community based health workers for Water borne disease surveillance",
+        "target": 1.0,
+        "budget": 727000.0,
+        "raw_code": "NL",
+        "uom": "Campaign"
+      },
+      {
+        "id": "water-at-the-heart-nc-20",
+        "name": "Training and support the functionality of the woreda NRM committee to enforce the regulations for Natural resource management( Forestation, Prepare and enforce by-laws to protect indigenous forest,Protect the riverbanks by delineating no-go zone)",
+        "target": 1.0,
+        "budget": 484000.0,
+        "raw_code": "NL",
+        "uom": "training"
+      },
+      {
+        "id": "water-at-the-heart-nc-21",
+        "name": "Promoting the tree planting in schools ( Tree nursery beds, creation of environmental protection clubs in the school, etc)",
+        "target": 1.0,
+        "budget": 485000.0,
+        "raw_code": "NL",
+        "uom": "session"
+      },
+      {
+        "id": "water-at-the-heart-nc-22",
+        "name": "Awareness and mobilizing the community  on tree planting(Miramiri, Amde, Zeitune, Hammer, Equalyptus, Damas, Gobe)",
+        "target": 1.0,
+        "budget": 485000.0,
+        "raw_code": "NL",
+        "uom": "session"
+      },
+      {
+        "id": "water-at-the-heart-nc-23",
+        "name": "Establish community feedback mechanism",
+        "target": 1.0,
+        "budget": 485000.0,
+        "raw_code": "NL",
+        "uom": "mechanism"
+      },
+      {
+        "id": "water-at-the-heart-nc-24",
+        "name": "Awareness raising on the roles of women and other special groups  in decision making",
+        "target": 1.0,
+        "budget": 846000.0,
+        "raw_code": "NL",
+        "uom": "session"
+      },
+      {
+        "id": "water-at-the-heart-nc-25",
+        "name": "Capacity building, IBF model handovering, tailoring IBF model to the target woreda",
+        "target": 2.0,
+        "budget": 1570000.0,
+        "raw_code": "NL",
+        "uom": "training"
+      },
+      {
+        "id": "water-at-the-heart-nc-26",
+        "name": "Holding National meetings",
+        "target": 2.0,
+        "budget": 970000.0,
+        "raw_code": "NL",
+        "uom": "meeting"
+      },
+      {
+        "id": "water-at-the-heart-nc-27",
+        "name": "Identify, document and share best practices and lessons learned in the program",
+        "target": 1.0,
+        "budget": 456000.0,
+        "raw_code": "NL",
+        "uom": "training"
+      },
+      {
+        "id": "water-at-the-heart-nc-28",
+        "name": "Integrate PGI content in all trainings and workshops conducted in all pillars.",
+        "target": 1.0,
+        "budget": 600000.0,
+        "raw_code": "NL",
+        "uom": "Training"
+      },
+      {
+        "id": "water-at-the-heart-nc-29",
+        "name": "Mid term workshops for monitoring and evaluation of the progress of the project",
+        "target": 1.0,
+        "budget": 456000.0,
+        "raw_code": "NL",
+        "uom": "Workshop"
+      },
+      {
+        "id": "water-at-the-heart-nc-30",
+        "name": "Regional evaluation meetings( among the 4 pillar organisations )",
+        "target": 1.0,
+        "budget": 669000.0,
+        "raw_code": "NL",
+        "uom": "Workshop"
+      },
+      {
+        "id": "water-at-the-heart-nc-31",
+        "name": "Peer to peer learning with one of W@HCA implimenting country",
+        "target": 1.0,
+        "budget": 364000.0,
+        "raw_code": "NL",
+        "uom": "Workshop"
+      },
+      {
+        "id": "water-at-the-heart-nc-32",
+        "name": "Disaster risk governance study (includes study, capacity building and follow-on advocacy with government)including vallidation workshop",
+        "target": 1.0,
+        "budget": 1500000.0,
+        "raw_code": "NL",
+        "uom": "study"
+      },
+      {
+        "id": "water-at-the-heart-nc-33",
+        "name": "Sensitization workshop on the newly developed DRM Policy and Legislation, Disaster risk governance and CEA study with stakeholders",
+        "target": 2.0,
+        "budget": 848000.0,
+        "raw_code": "NL",
+        "uom": "training"
+      },
+      {
+        "id": "water-at-the-heart-nc-34",
+        "name": "Staff Costs (Technical staff involved in the implementation of the activities)",
+        "target": 0.0,
+        "budget": 0.0,
+        "raw_code": "NL"
+      },
+      {
+        "id": "water-at-the-heart-nc-35",
+        "name": "Project Coordinator (1x)",
+        "target": 1.0,
+        "budget": 2617500.0,
+        "raw_code": "NL",
+        "uom": "Person"
+      },
+      {
+        "id": "water-at-the-heart-nc-36",
+        "name": "Project Technical advisor(1x) ( 40%)",
+        "target": 1.0,
+        "budget": 1357511.93649765,
+        "raw_code": "NL",
+        "uom": "Person"
+      },
+      {
+        "id": "water-at-the-heart-nc-37",
+        "name": "Project Officer at Branch office (2x)",
+        "target": 1.0,
+        "budget": 3202396.50218695,
+        "raw_code": "NL",
+        "uom": "Person"
+      },
+      {
+        "id": "water-at-the-heart-nc-38",
+        "name": "Accountant Branch (1x)",
+        "target": 1.0,
+        "budget": 872686.39040985,
+        "raw_code": "NL",
+        "uom": "Person"
+      },
+      {
+        "id": "water-at-the-heart-nc-39",
+        "name": "Acountant HQ (1x)",
+        "target": 1.0,
+        "budget": 1745372.8826826506,
+        "raw_code": "NL",
+        "uom": "Person"
+      },
+      {
+        "id": "water-at-the-heart-nc-40",
+        "name": "DRR Director HQ (30%)",
+        "target": 1.0,
+        "budget": 545000.0000000001,
+        "raw_code": "NL",
+        "uom": "Person"
+      },
+      {
+        "id": "water-at-the-heart-nc-41",
+        "name": "Health and WASH Manager HQ (30%)",
+        "target": 1.0,
+        "budget": 727238.3333333335,
+        "raw_code": "NL",
+        "uom": "Person"
+      },
+      {
+        "id": "water-at-the-heart-nc-42",
+        "name": "Direct Programme Support Costs",
+        "target": 0.0,
+        "budget": 11067706.045110434,
+        "raw_code": "NL"
+      },
+      {
+        "id": "water-at-the-heart-nc-43",
+        "name": "Staff Costs - Management & Support staff  pro-rated to their contribution to the programme (representation, planning, coordination, logistics, drivers,IT, admin, finance)",
+        "target": 0.0,
+        "budget": 727238.5737890814,
+        "raw_code": "NL"
+      },
+      {
+        "id": "water-at-the-heart-nc-44",
+        "name": "Fuel and mileage",
+        "target": 1.0,
+        "budget": 15417459.9034505,
+        "raw_code": "NL",
+        "uom": "Mileage"
+      },
+      {
+        "id": "water-at-the-heart-nc-45",
+        "name": "Somali Regional Branch Head (30%)",
+        "target": 1.0,
+        "budget": 639969.9517252566,
+        "raw_code": "NL",
+        "uom": "Person"
+      },
+      {
+        "id": "water-at-the-heart-nc-46",
+        "name": "Branch Program Staffs ( 30%)",
+        "target": 1.0,
+        "budget": 969651.4317187768,
+        "raw_code": "NL",
+        "uom": "Person"
+      },
+      {
+        "id": "water-at-the-heart-nc-47",
+        "name": "Operational costs pro-rated to their contribution to the programme (office space, equipment, office supplies, maintenance)",
+        "target": 0.0,
+        "budget": 17027081.286894534,
+        "raw_code": "NL"
+      },
+      {
+        "id": "water-at-the-heart-nc-48",
+        "name": "Office running costs  including stationary , electricity , internet fees, Fuel, car maintinance/services",
+        "target": 1.0,
+        "budget": 808608.8216426367,
+        "raw_code": "NL",
+        "uom": "lumpsum"
+      },
+      {
+        "id": "water-at-the-heart-nc-49",
+        "name": "Knowledge, Monitoring, Learning (KML)",
+        "target": 1.0,
+        "budget": 745586.8925967934,
+        "raw_code": "NL",
+        "uom": "lumpsum"
+      },
+      {
+        "id": "water-at-the-heart-nc-50",
+        "name": "Communication",
+        "target": 1.0,
+        "budget": 394651.3682164268,
+        "raw_code": "NL",
+        "uom": "lumpsum"
+      },
+      {
+        "id": "water-at-the-heart-nc-51",
+        "name": "Audit",
+        "target": 1.0,
+        "budget": 630699.5,
+        "raw_code": "NL",
+        "uom": "Audit"
+      }
+    ],
+    "budget": 311912822.63,
+    "donor": "NLRC",
+    "location": "Somali region",
+    "totalBudget": "311,912,822.63 ETB",
+    "startDate": "2023-01-01",
+    "start_date": "2023-01-01",
+    "endDate": "2028-12-31",
+    "end_date": "2028-12-31",
+    "target": "26,000 HHs",
+    "totalBeneficiaries": 26000
+  },
+  {
+    "id": "frc-hum",
+    "name": "Tigray Bilateral Humanitarian Operation",
+    "description": "Tigray Bilateral Humanitarian Operation",
+    "currency": "ETB",
+    "project_only_activities": [
+      {
+        "id": "frc-hum-nc-1",
+        "name": "Post Distribution Monitoring",
+        "target": 2.0,
+        "budget": 1000000.0,
+        "raw_code": "NL",
+        "uom": "Rounds"
+      },
+      {
+        "id": "frc-hum-nc-2",
+        "name": "Conduct CEA and safeguarding training for community committees",
+        "target": 1.0,
+        "budget": 1600000.0,
+        "raw_code": "NL",
+        "uom": "Lumpsum"
+      },
+      {
+        "id": "frc-hum-nc-3",
+        "name": "Reasonable accommodation measures  ( travel expense for beneficiaries if needed, payment for FSP in case cash in hand support is provided)",
+        "target": 1.0,
+        "budget": 800000.0,
+        "raw_code": "NL",
+        "uom": "Lumpsum"
+      },
+      {
+        "id": "frc-hum-nc-4",
+        "name": "Solar power system installation for one health facility (procurement, installation, battery storage, inverter, wiring, and commissioning)",
+        "target": 1.0,
+        "budget": 7901959.0,
+        "raw_code": "NL",
+        "uom": "Lumpsum"
+      },
+      {
+        "id": "frc-hum-nc-5",
+        "name": "Provision of  twelve months health insurance for 1200 HH (300 per woreda)",
+        "target": 1200.0,
+        "budget": 1920000.0,
+        "raw_code": "NL",
+        "uom": "HH"
+      },
+      {
+        "id": "frc-hum-nc-6",
+        "name": "Conduct assessments of water points and systems requiring rehabilitation",
+        "target": 1.0,
+        "budget": 250000.0,
+        "raw_code": "NL",
+        "uom": "Lumpsum"
+      },
+      {
+        "id": "frc-hum-nc-7",
+        "name": "Solarization of 1 selected water system",
+        "target": 1.0,
+        "budget": 9939089.38,
+        "raw_code": "NL",
+        "uom": "Lumpsum"
+      },
+      {
+        "id": "frc-hum-nc-8",
+        "name": "Distribution of water containers/plastic barrel for vulnerable community members",
+        "target": 400.0,
+        "budget": 800000.0,
+        "raw_code": "NL",
+        "uom": "HH"
+      },
+      {
+        "id": "frc-hum-nc-9",
+        "name": "Conduct training on hygiene promotion for 25 volunteers from 4 target woredas",
+        "target": 25.0,
+        "budget": 500000.0,
+        "raw_code": "NL",
+        "uom": "#Participants"
+      },
+      {
+        "id": "frc-hum-nc-10",
+        "name": "Deploy volunteers to undertake 15 days hygiene promotion activities",
+        "target": 25.0,
+        "budget": 375000.0,
+        "raw_code": "NL",
+        "uom": "volunteer"
+      },
+      {
+        "id": "frc-hum-nc-11",
+        "name": "Distribute ecofriendly dignity and hygiene kits to schools and one stop center",
+        "target": 500.0,
+        "budget": 565000.0,
+        "raw_code": "NL",
+        "uom": "Hygiene kits"
+      },
+      {
+        "id": "frc-hum-nc-12",
+        "name": "Conduct feasibility assessment on start-up business ideas",
+        "target": 1.0,
+        "budget": 138130.0,
+        "raw_code": "NL",
+        "uom": "Lumpsum"
+      },
+      {
+        "id": "frc-hum-nc-13",
+        "name": "Training of volunteers on VSLA methodology (8 male and 8 female) and 4 project staffs",
+        "target": 12.0,
+        "budget": 360000.0,
+        "raw_code": "NL",
+        "uom": "#Participants"
+      },
+      {
+        "id": "frc-hum-nc-14",
+        "name": "Volunteers/ Animators fee for 9 months (3000 per/volunteer/month)",
+        "target": 9.0,
+        "budget": 223650.0,
+        "raw_code": "NL",
+        "uom": "Animator"
+      },
+      {
+        "id": "frc-hum-nc-15",
+        "name": "Procurement and distribution of office materials  e.g stationaries to VSLA groups",
+        "target": 1.0,
+        "budget": 100000.0,
+        "raw_code": "NL",
+        "uom": "Lumpsum"
+      },
+      {
+        "id": "frc-hum-nc-16",
+        "name": "Provision of Business start up capital and one round MPCA for basic need for 80 vulnerable women",
+        "target": 80.0,
+        "budget": 5764000.0,
+        "raw_code": "NL",
+        "uom": "#HHS"
+      },
+      {
+        "id": "frc-hum-nc-17",
+        "name": "Post Distribution Monitoring & Follow up of conditional cash",
+        "target": 1.0,
+        "budget": 200000.0,
+        "raw_code": "NL",
+        "uom": "Rounds"
+      },
+      {
+        "id": "frc-hum-nc-18",
+        "name": "Conduct branch-level Safer Access Framework training and dissemination activities",
+        "target": 1.0,
+        "budget": 1098225.54,
+        "raw_code": "NL",
+        "uom": "Lumpsum"
+      },
+      {
+        "id": "frc-hum-nc-19",
+        "name": "Regular dissemination of RCRC Fundamental Principles and humanitarian values for volunteers and through community engagement activities",
+        "target": 4.0,
+        "budget": 986593.1299999999,
+        "raw_code": "NL",
+        "uom": "Quarterly"
+      },
+      {
+        "id": "frc-hum-nc-20",
+        "name": "Establish gender and disability sensitive feedback mechanisms for project beneficiaries (including persons with disabilities and the elderly)",
+        "target": 1.0,
+        "budget": 250000.0,
+        "raw_code": "NL",
+        "uom": "Lumpsum"
+      },
+      {
+        "id": "frc-hum-nc-21",
+        "name": "Provision of sign language training to one stop centres and safe house staff members (As per the standard for 21 days)",
+        "target": 12.0,
+        "budget": 1800000.0,
+        "raw_code": "NL",
+        "uom": "Trainees"
+      },
+      {
+        "id": "frc-hum-nc-22",
+        "name": "Provision of assistive devices for SGBV survivors at the community level and accessing one stop centres",
+        "target": 1.0,
+        "budget": 500000.0,
+        "raw_code": "NL",
+        "uom": "Lumpsum"
+      },
+      {
+        "id": "frc-hum-nc-23",
+        "name": "Three days training on community outreach (SGBV stigma reduction and DI) for ERCS staff members and community volunteers in six target kebeles",
+        "target": 60.0,
+        "budget": 1500000.0,
+        "raw_code": "NL",
+        "uom": "Trainees"
+      },
+      {
+        "id": "frc-hum-nc-24",
+        "name": "Community outreach and sensitization on SGBV in six target kebeles for ten days",
+        "target": 1.0,
+        "budget": 700000.0,
+        "raw_code": "NL",
+        "uom": "Lumpsum"
+      },
+      {
+        "id": "frc-hum-nc-25",
+        "name": "Provision of medical expense support for SGBV survivors (referred by one stop center and safe house)",
+        "target": 1.0,
+        "budget": 2000000.0,
+        "raw_code": "NL",
+        "uom": "Lumpsum"
+      },
+      {
+        "id": "frc-hum-nc-26",
+        "name": "Access to SGBV specilized services and Psychological support (Medicine, transportaion and accommodation for referral service)",
+        "target": 1.0,
+        "budget": 500000.0,
+        "raw_code": "NL",
+        "uom": "Lumpsum"
+      },
+      {
+        "id": "frc-hum-nc-27",
+        "name": "One day briefing on PGI, safeguarding for staff and volunteers (In two session)",
+        "target": 40.0,
+        "budget": 440000.0,
+        "raw_code": "NL",
+        "uom": "Participants"
+      },
+      {
+        "id": "frc-hum-nc-28",
+        "name": "Local staff (position, organization) 2.2",
+        "target": 0.0,
+        "budget": 0.0,
+        "raw_code": "NL"
+      },
+      {
+        "id": "frc-hum-nc-29",
+        "name": "HQ Project Coordinator-100%",
+        "target": 12.0,
+        "budget": 1656000.0,
+        "raw_code": "NL",
+        "uom": "months"
+      },
+      {
+        "id": "frc-hum-nc-30",
+        "name": "HQ Accountant -100%",
+        "target": 12.0,
+        "budget": 828000.0,
+        "raw_code": "NL",
+        "uom": "months"
+      },
+      {
+        "id": "frc-hum-nc-31",
+        "name": "HQ CVA coordinator-25%",
+        "target": 12.0,
+        "budget": 414000.0,
+        "raw_code": "NL",
+        "uom": "months"
+      },
+      {
+        "id": "frc-hum-nc-32",
+        "name": "Regional Project Coordinator-100%",
+        "target": 12.0,
+        "budget": 1035000.0,
+        "raw_code": "NL",
+        "uom": "months"
+      },
+      {
+        "id": "frc-hum-nc-33",
+        "name": "Regional Accountant",
+        "target": 12.0,
+        "budget": 625015.7999999999,
+        "raw_code": "NL",
+        "uom": "months"
+      },
+      {
+        "id": "frc-hum-nc-34",
+        "name": "PGI Regional Coordinator 100%",
+        "target": 12.0,
+        "budget": 828000.0,
+        "raw_code": "NL",
+        "uom": "months"
+      },
+      {
+        "id": "frc-hum-nc-35",
+        "name": "Regional Branch Head (20%)",
+        "target": 9.0,
+        "budget": 121944.6,
+        "raw_code": "NL",
+        "uom": "months"
+      },
+      {
+        "id": "frc-hum-nc-36",
+        "name": "Regional Project driver 100 %",
+        "target": 12.0,
+        "budget": 168622.19999999998,
+        "raw_code": "NL",
+        "uom": "months"
+      },
+      {
+        "id": "frc-hum-nc-37",
+        "name": "ZONAL Branch Head-50%",
+        "target": 9.0,
+        "budget": 243405.675,
+        "raw_code": "NL",
+        "uom": "months"
+      },
+      {
+        "id": "frc-hum-nc-38",
+        "name": "Zonal Branch Accountant 100%",
+        "target": 9.0,
+        "budget": 468761.85,
+        "raw_code": "NL",
+        "uom": "months"
+      },
+      {
+        "id": "frc-hum-nc-39",
+        "name": "Zonal Branch Project Livelihood Officer 100%",
+        "target": 9.0,
+        "budget": 468761.85,
+        "raw_code": "NL",
+        "uom": "months"
+      },
+      {
+        "id": "frc-hum-nc-40",
+        "name": "Zonal PGI officer",
+        "target": 9.0,
+        "budget": 468765.0,
+        "raw_code": "NL",
+        "uom": "months"
+      },
+      {
+        "id": "frc-hum-nc-41",
+        "name": "Zonal DRM Head (50%)",
+        "target": 9.0,
+        "budget": 234380.925,
+        "raw_code": "NL",
+        "uom": "months"
+      },
+      {
+        "id": "frc-hum-nc-42",
+        "name": "Regional DRM Head 20%",
+        "target": 10.0,
+        "budget": 104169.29999999999,
+        "raw_code": "NL",
+        "uom": "months"
+      },
+      {
+        "id": "frc-hum-nc-43",
+        "name": "FRC Monitoring from Finland",
+        "target": 1.0,
+        "budget": 975735.05,
+        "raw_code": "NL",
+        "uom": "Lumpsum"
+      },
+      {
+        "id": "frc-hum-nc-44",
+        "name": "FRC Monitoring from the region",
+        "target": 1.0,
+        "budget": 2700000.0,
+        "raw_code": "NL",
+        "uom": "months"
+      },
+      {
+        "id": "frc-hum-nc-45",
+        "name": "Project evaluation and review meeting",
+        "target": 1.0,
+        "budget": 1800000.0,
+        "raw_code": "NL",
+        "uom": "Lumpsum"
+      },
+      {
+        "id": "frc-hum-nc-46",
+        "name": "Monitoring from ERCS HQ",
+        "target": 1.0,
+        "budget": 840000.0,
+        "raw_code": "NL",
+        "uom": "Lumpsum"
+      },
+      {
+        "id": "frc-hum-nc-47",
+        "name": "Monitoring from ERCS regional offices",
+        "target": 1.0,
+        "budget": 500000.0,
+        "raw_code": "NL",
+        "uom": "Lumpsum"
+      },
+      {
+        "id": "frc-hum-nc-48",
+        "name": "Monitoring from ERCS zonal offices",
+        "target": 1.0,
+        "budget": 400000.0,
+        "raw_code": "NL",
+        "uom": "Lumpsum"
+      },
+      {
+        "id": "frc-hum-nc-49",
+        "name": "Audit fees",
+        "target": 1.0,
+        "budget": 200000.0,
+        "raw_code": "NL",
+        "uom": "Lumpsum"
+      },
+      {
+        "id": "frc-hum-nc-50",
+        "name": "Internal project evaluation by ERCS",
+        "target": 1.0,
+        "budget": 400000.0,
+        "raw_code": "NL",
+        "uom": "Lumpsum"
+      },
+      {
+        "id": "frc-hum-nc-51",
+        "name": "Project kick off",
+        "target": 1.0,
+        "budget": 700000.0,
+        "raw_code": "NL",
+        "uom": "Lumpsum"
+      },
+      {
+        "id": "frc-hum-nc-52",
+        "name": "Lessons learned Workshop",
+        "target": 1.0,
+        "budget": 885000.0,
+        "raw_code": "NL",
+        "uom": "Lumpsum"
+      },
+      {
+        "id": "frc-hum-nc-53",
+        "name": "Provide fundamental project management training on project lifecycles, initiating, planning, executing, and closing projects to 5 project staff members",
+        "target": 5.0,
+        "budget": 506568.28500000003,
+        "raw_code": "NL",
+        "uom": "Trainees"
+      },
+      {
+        "id": "frc-hum-nc-54",
+        "name": "Office Equipments, IT, Communication and stationery HQ",
+        "target": 1.0,
+        "budget": 800000.0,
+        "raw_code": "NL",
+        "uom": "Lumpsum"
+      },
+      {
+        "id": "frc-hum-nc-55",
+        "name": "Branch support, (Office maintenance, Utility fees, communication, staionery, IT equipments etc) for zonal branch at Axum",
+        "target": 1.0,
+        "budget": 1000000.0,
+        "raw_code": "NL",
+        "uom": "Lumpsum"
+      },
+      {
+        "id": "frc-hum-nc-56",
+        "name": "Office equipments cost  contribution including furniture and IT  equipments at the 4 woredas",
+        "target": 1.0,
+        "budget": 800000.0,
+        "raw_code": "NL",
+        "uom": "Lumpsum"
+      },
+      {
+        "id": "frc-hum-nc-57",
+        "name": "Vehicle maintenance, insurance and other running costs in branch (excluding fuel) for regional branch",
+        "target": 12.0,
+        "budget": 540000.0,
+        "raw_code": "NL",
+        "uom": "months"
+      },
+      {
+        "id": "frc-hum-nc-58",
+        "name": "Vehicle maintenance, insurance and other running costs in branch (excluding fuel) for zonal branch",
+        "target": 12.0,
+        "budget": 540000.0,
+        "raw_code": "NL",
+        "uom": "months"
+      },
+      {
+        "id": "frc-hum-nc-59",
+        "name": "Fuel cost for regional branch",
+        "target": 12.0,
+        "budget": 540000.0,
+        "raw_code": "NL",
+        "uom": "months"
+      },
+      {
+        "id": "frc-hum-nc-60",
+        "name": "Fuel cost for zonal branch",
+        "target": 12.0,
+        "budget": 540000.0,
+        "raw_code": "NL",
+        "uom": "months"
+      },
+      {
+        "id": "frc-hum-nc-61",
+        "name": "Visibility and Communication Materials",
+        "target": 1.0,
+        "budget": 250000.0,
+        "raw_code": "NL",
+        "uom": "Lumpsum"
+      },
+      {
+        "id": "frc-hum-nc-62",
+        "name": "ERCS -10% CORE costs(MFA)",
+        "target": 12.0,
+        "budget": 11922534.828000002,
+        "raw_code": "NL",
+        "uom": "months"
+      },
+      {
+        "id": "frc-hum-nc-63",
+        "name": "Branch support, (Communication, utilities, estationery, office maintenance...) for regional branch",
+        "target": 1.0,
+        "budget": 1600000.0,
+        "raw_code": "NL",
+        "uom": "Lumpsum"
+      },
+      {
+        "id": "frc-hum-nc-64",
+        "name": "Bank Charges",
+        "target": 12.0,
+        "budget": 36000.0,
+        "raw_code": "NL",
+        "uom": "months"
+      },
+      {
+        "id": "frc-hum-nc-65",
+        "name": "ERCS -10% CORE costs(DRF)",
+        "target": 12.0,
+        "budget": 4775023.6255,
+        "raw_code": "NL",
+        "uom": "months"
+      }
+    ],
+    "budget": 189148878.0,
+    "donor": "FRC",
+    "location": "Tigray region",
+    "totalBudget": "189,148,878 ETB",
+    "startDate": "2026-01-01",
+    "start_date": "2026-01-01",
+    "endDate": "2026-12-31",
+    "end_date": "2026-12-31"
+  },
+  {
+    "id": "ercs-icrc-pp",
+    "name": "ERCS-ICRC Partnership Programme",
+    "description": "ERCS-ICRC Partnership Programme",
+    "currency": "ETB",
+    "project_only_activities": [
+      {
+        "id": "ercs-icrc-pp-nc-1",
+        "name": "Organize two ERCS-ICRC partnership program planning (2027) and review (2026) workshop",
+        "target": 2.0,
+        "budget": 1123590.0,
+        "raw_code": "NL",
+        "uom": "# of meeting"
+      },
+      {
+        "id": "ercs-icrc-pp-nc-2",
+        "name": "Conduct ERCS- ICRC partnership Program PFA 2024-2026 end-review sessions",
+        "target": 1.0,
+        "budget": 587995.0,
+        "raw_code": "NL",
+        "uom": "# of meeting"
+      },
+      {
+        "id": "ercs-icrc-pp-nc-3",
+        "name": "Organize 2 days validation and lessons learning workshop on partnership frame work agreement(PFA) 2024-2026",
+        "target": 1.0,
+        "budget": 667994.0,
+        "raw_code": "NL",
+        "uom": "# of meeting"
+      },
+      {
+        "id": "ercs-icrc-pp-nc-4",
+        "name": "New PFA signing and familiarization workshop",
+        "target": 1.0,
+        "budget": 667994.0,
+        "raw_code": "NL",
+        "uom": "# of meeting"
+      },
+      {
+        "id": "ercs-icrc-pp-nc-5",
+        "name": "Organize six induction workshops for newly elected board members and for new staff/volunteers principally for ERCS-ICRC partnership program priority branches",
+        "target": 180.0,
+        "budget": 4027764.0,
+        "raw_code": "NL",
+        "uom": "# of participants"
+      },
+      {
+        "id": "ercs-icrc-pp-nc-6",
+        "name": "Organize four SAF lessons learning workshops for  staff, volunteers, and board members",
+        "target": 120.0,
+        "budget": 3088172.0,
+        "raw_code": "NL",
+        "uom": "# of participants"
+      },
+      {
+        "id": "ercs-icrc-pp-nc-7",
+        "name": "Organize a session to draw a draft SAF mainstreaming SOP",
+        "target": 25.0,
+        "budget": 593795.0,
+        "raw_code": "NL",
+        "uom": "# of participants"
+      },
+      {
+        "id": "ercs-icrc-pp-nc-8",
+        "name": "Organize two sessions on the role of Leadership in Conflict preparedness and response",
+        "target": 50.0,
+        "budget": 945791.0,
+        "raw_code": "NL",
+        "uom": "# of participants"
+      },
+      {
+        "id": "ercs-icrc-pp-nc-9",
+        "name": "Conduct ERCS Security management capacity assessment and ToT",
+        "target": 1.0,
+        "budget": 879992.0,
+        "raw_code": "NL",
+        "uom": "# of assessment"
+      },
+      {
+        "id": "ercs-icrc-pp-nc-10",
+        "name": "Organize one consultative workshop on the findings of the security management capacity assessment",
+        "target": 29.0,
+        "budget": 678793.0,
+        "raw_code": "NL",
+        "uom": "# of participants"
+      },
+      {
+        "id": "ercs-icrc-pp-nc-11",
+        "name": "Develop light data base to organize success stories and challenges on emblem use and organize a two-day awareness workshop",
+        "target": 1.0,
+        "budget": 678794.0,
+        "raw_code": "NL",
+        "uom": "# of workshop"
+      },
+      {
+        "id": "ercs-icrc-pp-nc-12",
+        "name": "Organize SAF as conflict preparedness-peer exchange visit with other NSs",
+        "target": 2.0,
+        "budget": 407451.0,
+        "raw_code": "NL",
+        "uom": "# of participants"
+      },
+      {
+        "id": "ercs-icrc-pp-nc-13",
+        "name": "Salary support",
+        "target": 111.0,
+        "budget": 66833398.0,
+        "raw_code": "NL",
+        "uom": "# of staff"
+      },
+      {
+        "id": "ercs-icrc-pp-nc-14",
+        "name": "Office operation and monitoring support for ERCS-ICRC partnership program units & focal staff at ERCS HQ.",
+        "target": 12.0,
+        "budget": 3999964.0,
+        "raw_code": "NL",
+        "uom": "# of monitoring"
+      },
+      {
+        "id": "ercs-icrc-pp-nc-15",
+        "name": "Office operation subsidy, allocated based on quarter-based context assessment",
+        "target": 30.0,
+        "budget": 60688254.0,
+        "raw_code": "NL",
+        "uom": "No. of branches"
+      },
+      {
+        "id": "ercs-icrc-pp-nc-16",
+        "name": "Organize one workshop to cascade NSD Roadmap across ERCS branches and HQ",
+        "target": 40.0,
+        "budget": 897192.0,
+        "raw_code": "NL",
+        "uom": "# of participants"
+      },
+      {
+        "id": "ercs-icrc-pp-nc-17",
+        "name": "Organize one training on Conflict Contingency planning for selected conflict prone branches",
+        "target": 25.0,
+        "budget": 1100990.0,
+        "raw_code": "NL",
+        "uom": "# of participants"
+      },
+      {
+        "id": "ercs-icrc-pp-nc-18",
+        "name": "Organize two contingency planning workshops to develop contingency plan for selected three conflict prone branches",
+        "target": 50.0,
+        "budget": 1242789.0,
+        "raw_code": "NL",
+        "uom": "# of participants"
+      },
+      {
+        "id": "ercs-icrc-pp-nc-19",
+        "name": "Two days PMER outcome mapping workshop for 25 participants",
+        "target": 25.0,
+        "budget": 621394.0,
+        "raw_code": "NL",
+        "uom": "# of participants"
+      },
+      {
+        "id": "ercs-icrc-pp-nc-20",
+        "name": "Conduct light assessment on volunteers\u2019 management",
+        "target": 1.0,
+        "budget": 679993.0,
+        "raw_code": "NL",
+        "uom": "# of assessment"
+      },
+      {
+        "id": "ercs-icrc-pp-nc-21",
+        "name": "Support for the development of Volunteers Management strategy through organizing three consultative meetings",
+        "target": 75.0,
+        "budget": 1864183.0,
+        "raw_code": "NL",
+        "uom": "# of participants"
+      },
+      {
+        "id": "ercs-icrc-pp-nc-22",
+        "name": "Contribute for the development, implementation and upgrading of volunteers\u2019 management and membership registration system including Hub",
+        "target": 1.0,
+        "budget": 4999955.0,
+        "raw_code": "NL",
+        "uom": "# of system"
+      },
+      {
+        "id": "ercs-icrc-pp-nc-23",
+        "name": "Capacitate 30 RC volunteer clubs with materials",
+        "target": 30.0,
+        "budget": 14999865.0,
+        "raw_code": "NL",
+        "uom": "# of clubs"
+      },
+      {
+        "id": "ercs-icrc-pp-nc-24",
+        "name": "Organise 8 volunteers code of conduct training",
+        "target": 8.0,
+        "budget": 1529986.0,
+        "raw_code": "NL",
+        "uom": "# of participants"
+      },
+      {
+        "id": "ercs-icrc-pp-nc-25",
+        "name": "Support to strengthen RM initiative campaign",
+        "target": 4.0,
+        "budget": 4999955.0,
+        "raw_code": "NL",
+        "uom": "# of campain"
+      },
+      {
+        "id": "ercs-icrc-pp-nc-26",
+        "name": "Training on resource mobilization and financial sustainability in conflict setting",
+        "target": 30.0,
+        "budget": 956791.0,
+        "raw_code": "NL",
+        "uom": "# of participants"
+      },
+      {
+        "id": "ercs-icrc-pp-nc-27",
+        "name": "Assist NS on Digitalization initiatives focussing on National and Regional EOCs",
+        "target": 6.0,
+        "budget": 39999642.0,
+        "raw_code": "NL",
+        "uom": "# system"
+      },
+      {
+        "id": "ercs-icrc-pp-nc-28",
+        "name": "Organize Elections contingency Plan consultation and validation workshop 2 days",
+        "target": 1.0,
+        "budget": 238197.0,
+        "raw_code": "NL",
+        "uom": "# of meeting"
+      },
+      {
+        "id": "ercs-icrc-pp-nc-29",
+        "name": "Hold reflection and review session on Movement coordination practice and the Movement Coordination Agreement (2024-2026)",
+        "target": 20.0,
+        "budget": 282737.0,
+        "raw_code": "NL",
+        "uom": "# of participants"
+      },
+      {
+        "id": "ercs-icrc-pp-nc-30",
+        "name": "Disseminate SMCC and Seville 2.0 commitments- 2 days training",
+        "target": 18.0,
+        "budget": 282737.0,
+        "raw_code": "NL",
+        "uom": "# of participants"
+      },
+      {
+        "id": "ercs-icrc-pp-nc-31",
+        "name": "Organize  Operational Communication (dissemination sessions) led by ERCS",
+        "target": 16.0,
+        "budget": 4860000.0,
+        "raw_code": "NL",
+        "uom": "# of sessions"
+      },
+      {
+        "id": "ercs-icrc-pp-nc-32",
+        "name": "Organize a ToT for branch heads, Com focal persons and DVM officers",
+        "target": 1.0,
+        "budget": 585000.0,
+        "raw_code": "NL",
+        "uom": "# of sessions"
+      },
+      {
+        "id": "ercs-icrc-pp-nc-33",
+        "name": "Organize an annual review meeting for branch heads, communication focal persons and DVM officers",
+        "target": 1.0,
+        "budget": 590000.0,
+        "raw_code": "NL",
+        "uom": "# of sessions"
+      },
+      {
+        "id": "ercs-icrc-pp-nc-34",
+        "name": "Salary support from the ICRC (six positions)",
+        "target": 6.0,
+        "budget": 3240000.0,
+        "raw_code": "NL",
+        "uom": "No. of staffs"
+      },
+      {
+        "id": "ercs-icrc-pp-nc-35",
+        "name": "Transmission of TV/Radio Spots",
+        "target": 30.0,
+        "budget": 2240000.0,
+        "raw_code": "NL",
+        "uom": "# of spots"
+      },
+      {
+        "id": "ercs-icrc-pp-nc-36",
+        "name": "Printing of publications (calendars, brochures, etc)",
+        "target": 200.0,
+        "budget": 980000.0,
+        "raw_code": "NL",
+        "uom": "No. of print docs"
+      },
+      {
+        "id": "ercs-icrc-pp-nc-37",
+        "name": "Celebration of World Red Cross Day",
+        "target": 1.0,
+        "budget": 1000000.0,
+        "raw_code": "NL",
+        "uom": "Event"
+      }
+    ],
+    "budget": 532556326.0,
+    "donor": "ICRC",
+    "location": "Oromia, Amhara, Tigray, Somali, Afar, Benishangul-Gumuz & Gambella regions",
+    "totalBudget": "532,556,326 ETB",
+    "startDate": "2026-01-01",
+    "start_date": "2026-01-01",
+    "endDate": "2026-12-31",
+    "end_date": "2026-12-31",
+    "target": "8,000 HHs",
+    "totalBeneficiaries": 8000
   }
 ];
 

@@ -2,9 +2,9 @@
 import React, { useState, useMemo } from 'react';
 import { useApp } from '../context/AppContext';
 import { FilterBar } from '../components/common/FilterBar';
-import { ChevronDown, ChevronRight, Compass, Maximize2, Minimize2, ArrowUpRight } from 'lucide-react';
+import { ChevronDown, ChevronRight, Compass, Maximize2, Minimize2 } from 'lucide-react';
 import { NationalActivity, StrategicObjective } from '../types';
-import { NationalActivityDrillDown } from '../components/common/NationalActivityDrillDown';
+import { NationalActivityInlineTables } from '../components/common/NationalActivityInlineTables';
 
 export const StrategicPlanPage: React.FC = () => {
   const {
@@ -17,17 +17,7 @@ export const StrategicPlanPage: React.FC = () => {
     planEntries,
     filters,
     currentRole,
-    setActiveRoute,
-    setSelectedNationalActivityId,
   } = useApp();
-
-  const viewActivityDetail = (naId: string) => {
-    if (typeof window !== 'undefined') {
-      sessionStorage.setItem('na_detail_origin', 'strategic-plan');
-    }
-    setSelectedNationalActivityId(naId);
-    setActiveRoute('national-detail');
-  };
 
   const isBranchHead = currentRole.startsWith('Branch Head — ');
   const isZoneCoordinator = currentRole.endsWith(' coordinators');
@@ -518,25 +508,37 @@ export const StrategicPlanPage: React.FC = () => {
                           return (
                             <React.Fragment key={na.id}>
                               <tr
-                                className={`text-xs hover:bg-sky-50/50 transition-colors ${
-                                  idx % 2 === 0 ? 'bg-white' : 'bg-slate-50/50'
+                                onClick={() => toggleActivityExpand(na.id)}
+                                className={`text-xs hover:bg-sky-50/50 transition-colors cursor-pointer ${
+                                  isActExpanded
+                                    ? 'bg-amber-50/40 font-medium'
+                                    : idx % 2 === 0
+                                    ? 'bg-white'
+                                    : 'bg-slate-50/50'
                                 }`}
                               >
                                 <td className="p-2.5 pl-6 sticky left-0 bg-inherit z-10 border-r border-slate-200 font-mono font-bold text-slate-700">
                                   <button
                                     type="button"
-                                    onClick={() => viewActivityDetail(na.id)}
-                                    className="inline-flex items-center gap-1.5 text-ercs-red hover:text-red-700 hover:underline cursor-pointer font-bold text-left"
-                                    title="Click to view activity details and contributing projects/regions on details screen"
+                                    onClick={(e) => {
+                                      e.stopPropagation();
+                                      toggleActivityExpand(na.id);
+                                    }}
+                                    className="inline-flex items-center gap-1.5 text-ercs-red hover:text-red-700 cursor-pointer font-bold text-left"
+                                    title="Click to toggle contributing projects and regions breakdown"
                                   >
+                                    {isActExpanded ? (
+                                      <ChevronDown className="w-3.5 h-3.5 text-ercs-red shrink-0" />
+                                    ) : (
+                                      <ChevronRight className="w-3.5 h-3.5 text-slate-400 hover:text-ercs-red shrink-0" />
+                                    )}
                                     <span>Activity {na.code}</span>
-                                    <ArrowUpRight className="w-3.5 h-3.5 text-slate-400 hover:text-ercs-red shrink-0" />
                                   </button>
                                 </td>
                                 <td
-                                  onClick={() => viewActivityDetail(na.id)}
+                                  onClick={() => toggleActivityExpand(na.id)}
                                   className="p-2.5 sticky left-[140px] bg-inherit z-10 border-r border-slate-200 text-slate-800 cursor-pointer hover:text-ercs-red font-medium"
-                                  title="Click to view activity details and contributing projects/regions on details screen"
+                                  title="Click to toggle contributing projects and regions breakdown"
                                 >
                                   {na.description}
                                 </td>
@@ -595,7 +597,21 @@ export const StrategicPlanPage: React.FC = () => {
                                   );
                                 })}
                               </tr>
-                              {/* Contributing projects/regions are rendered via NationalActivityDrillDown on the dedicated detail screen (NationalActivityDetailPage) */}
+                              {isActExpanded && (
+                                <tr className="bg-slate-100/70 border-b-2 border-slate-300">
+                                  <td
+                                    colSpan={totalColSpan}
+                                    className="p-3 pl-8 sticky left-0 max-w-[calc(100vw-3rem)] bg-slate-50/95 z-10 border-b-2 border-slate-300"
+                                  >
+                                    <div className="max-w-6xl w-full">
+                                      <NationalActivityInlineTables
+                                        nationalActivityId={na.id}
+                                        mode="plan"
+                                      />
+                                    </div>
+                                  </td>
+                                </tr>
+                              )}
                             </React.Fragment>
                           );
                         })}

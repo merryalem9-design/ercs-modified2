@@ -11,6 +11,7 @@ import {
 import { PlanEntry, ScopeType, Project, NationalActivity, RegionActivityLink, NonProgrammaticDepartment } from '../types';
 import { ArrowLeft, ArrowUpRight, Layers, Plus, Save, Trash2, X, ChevronDown, ChevronRight } from 'lucide-react';
 import { NationalActivityDrillDown } from '../components/common/NationalActivityDrillDown';
+import { NationalActivityInlineTables } from '../components/common/NationalActivityInlineTables';
 
 import { PlanEntryWizardModal, type PeWizardFormState } from '../components/plan/PlanEntryWizardModal';
 export { PlanEntryWizardModal, type PeWizardFormState };
@@ -19,7 +20,7 @@ export const PlanPage: React.FC = () => {
   const {
     nationalActivities, regions, zones, projects, planEntries, regionActivityLinks, deletePlanEntry,
     uomConfigs, quarterlyPlans, quarterlyActuals, filters, getFilteredPlanEntries,
-    setSelectedNationalActivityId, setActiveRoute, currentRole,
+    currentRole,
     deleteNationalActivity, getNationalActivitiesForRole,
     nonProgrammaticActivities,
   } = useApp();
@@ -99,14 +100,6 @@ export const PlanPage: React.FC = () => {
   const canAddPlanEntry = isProjectCoordinator || isProjectCoordinatorHQ || isZoneCoordinator || (isAop && !!filterProject) || isDepartmentHead;
 
   const roleScopedNationalActivities = getNationalActivitiesForRole();
-
-  const viewLinkMap = (naId: string) => {
-    if (typeof window !== 'undefined') {
-      sessionStorage.setItem('na_detail_origin', 'plan');
-    }
-    setSelectedNationalActivityId(naId);
-    setActiveRoute('national-detail');
-  };
 
   // ------------------------------------------------------------------
   // BRANCH HEAD VIEW — one row per RegionActivityLink.
@@ -372,13 +365,9 @@ export const PlanPage: React.FC = () => {
                   <thead className="bg-slate-50 text-slate-600 font-bold uppercase border-b">
                     <tr>
                       <th className="p-3">Code</th><th className="p-3">Activity Name</th>
-                      <th className="p-3 text-right">Target</th><th className="p-3 text-right">Actual</th>
-                      <th className="p-3 text-right">Ach. %</th>
-                      <th className="p-3 text-right">Budget (ETB)</th><th className="p-3 text-right">Spent (ETB)</th>
-                      <th className="p-3 text-right">Util. %</th>
+                      <th className="p-3 text-right">Target</th>
+                      <th className="p-3 text-right">Budget (ETB)</th>
                       <th className="p-3 text-right">Beneficiaries</th>
-                      <th className="p-3 text-center">Linked</th>
-                      <th className="p-3 text-center">Map</th>
                       {visibleQuarters.map(qId => (
                         <th key={qId} className="p-2 text-center bg-blue-50 border-l whitespace-nowrap" colSpan={2}>
                           {qId} Target / Budget
@@ -387,71 +376,80 @@ export const PlanPage: React.FC = () => {
                     </tr>
                   </thead>
                   <tbody className="divide-y">
-                    {aggregatedRows.map(row => (
-                      <tr key={row.na.id} className="hover:bg-slate-50 transition-colors">
-                        <td className="p-3 font-bold text-ercs-red whitespace-nowrap">
-                          <button
-                            type="button"
-                            onClick={() => viewLinkMap(row.na.id)}
-                            className="inline-flex items-center gap-1.5 text-ercs-red hover:text-red-700 hover:underline cursor-pointer text-left font-bold"
-                            title="Click to view details and contributing projects/regions on details screen"
+                    {aggregatedRows.map(row => {
+                      const isNaExpanded = expandedNaIds.has(row.na.id);
+                      return (
+                        <React.Fragment key={row.na.id}>
+                          <tr
+                            onClick={() => toggleNaExpand(row.na.id)}
+                            className={`hover:bg-slate-50 transition-colors cursor-pointer ${
+                              isNaExpanded ? 'bg-amber-50/40 font-medium' : ''
+                            }`}
                           >
-                            <span>{row.na.code}</span>
-                            <ArrowUpRight className="w-3.5 h-3.5 text-slate-400 hover:text-ercs-red shrink-0" />
-                          </button>
-                        </td>
-                        <td
-                          className="p-3 min-w-48 font-bold text-slate-800 hover:text-ercs-red cursor-pointer"
-                          onClick={() => viewLinkMap(row.na.id)}
-                          title="Click to view details and contributing projects/regions on details screen"
-                        >
-                          {row.na.description}
-                        </td>
-                        <td className="p-3 text-right font-bold whitespace-nowrap">{row.target.toLocaleString()} {row.na.uom}</td>
-                        <td className="p-3 text-right font-bold whitespace-nowrap">{row.actual.toLocaleString()}</td>
-                        <td className="p-3 text-right whitespace-nowrap"><StatusBadge achievementPct={achievementPct(row.actual, row.target)} hasActuals={row.actual > 0} /></td>
-                        <td className="p-3 text-right whitespace-nowrap">{row.budget.toLocaleString()}</td>
-                        <td className="p-3 text-right whitespace-nowrap">{row.spent.toLocaleString()}</td>
-                        <td className="p-3 text-right whitespace-nowrap">{budgetUtilizationPct(row.spent, row.budget).toFixed(1)}%</td>
-                        <td className="p-3 text-right whitespace-nowrap">{row.beneficiaries.toLocaleString()}</td>
-                        <td className="p-3 text-center whitespace-nowrap">
-                          {row.isLinked ? (
-                            <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-50 text-emerald-700">Linked</span>
-                          ) : (
-                            <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-slate-100 text-slate-500">Unlinked</span>
+                            <td className="p-3 font-bold text-ercs-red whitespace-nowrap">
+                              <button
+                                type="button"
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  toggleNaExpand(row.na.id);
+                                }}
+                                className="inline-flex items-center gap-1.5 text-ercs-red hover:text-red-700 cursor-pointer text-left font-bold"
+                                title="Click to toggle contributing projects and regions breakdown"
+                              >
+                                {isNaExpanded ? (
+                                  <ChevronDown className="w-3.5 h-3.5 text-ercs-red shrink-0" />
+                                ) : (
+                                  <ChevronRight className="w-3.5 h-3.5 text-slate-400 hover:text-ercs-red shrink-0" />
+                                )}
+                                <span>{row.na.code}</span>
+                              </button>
+                            </td>
+                            <td
+                              className="p-3 min-w-48 font-bold text-slate-800 hover:text-ercs-red cursor-pointer"
+                              onClick={() => toggleNaExpand(row.na.id)}
+                              title="Click to toggle contributing projects and regions breakdown"
+                            >
+                              {row.na.description}
+                            </td>
+                            <td className="p-3 text-right font-bold whitespace-nowrap">{row.target.toLocaleString()} {row.na.uom}</td>
+                            <td className="p-3 text-right whitespace-nowrap">{row.budget.toLocaleString()}</td>
+                            <td className="p-3 text-right whitespace-nowrap">{row.beneficiaries.toLocaleString()}</td>
+                            {/* Per-quarter Target / Budget columns */}
+                            {visibleQuarters.map(qId => {
+                              const naEntries = filteredEntries.filter(pe => pe.national_activity_id === row.na.id);
+                              const qd = qDataForEntries(naEntries, qId);
+                              return (
+                                <React.Fragment key={qId}>
+                                  <td className="p-2 text-right whitespace-nowrap bg-blue-50 border-l text-[11px]">{qd.target.toLocaleString()}</td>
+                                  <td className="p-2 text-right whitespace-nowrap bg-blue-50 text-[11px]">{qd.budget.toLocaleString()}</td>
+                                </React.Fragment>
+                              );
+                            })}
+                          </tr>
+                          {isNaExpanded && (
+                            <tr className="bg-slate-100/70 border-b-2 border-slate-300">
+                              <td colSpan={5 + visibleQuarters.length * 2} className="p-3 pl-8 sticky left-0 max-w-[calc(100vw-3rem)] bg-slate-50/95 z-10 border-b-2 border-slate-300">
+                                <div className="max-w-6xl w-full">
+                                  <NationalActivityInlineTables
+                                    nationalActivityId={row.na.id}
+                                    quarterId={q}
+                                    mode="plan"
+                                  />
+                                </div>
+                              </td>
+                            </tr>
                           )}
-                        </td>
-                        <td className="p-3 text-center">
-                          <button onClick={() => viewLinkMap(row.na.id)} className="p-1 rounded hover:bg-slate-100 text-slate-500 hover:text-ercs-red" title="View details in separate page">
-                            <ArrowUpRight className="w-4 h-4" />
-                          </button>
-                        </td>
-                        {/* Per-quarter Target / Budget columns */}
-                        {visibleQuarters.map(qId => {
-                          const naEntries = filteredEntries.filter(pe => pe.national_activity_id === row.na.id);
-                          const qd = qDataForEntries(naEntries, qId);
-                          return (
-                            <React.Fragment key={qId}>
-                              <td className="p-2 text-right whitespace-nowrap bg-blue-50 border-l text-[11px]">{qd.target.toLocaleString()}</td>
-                              <td className="p-2 text-right whitespace-nowrap bg-blue-50 text-[11px]">{qd.budget.toLocaleString()}</td>
-                            </React.Fragment>
-                          );
-                        })}
-                      </tr>
-                    ))}
+                        </React.Fragment>
+                      );
+                    })}
                     {/* Contributing projects/regions are rendered via NationalActivityDrillDown on the dedicated detail screen (NationalActivityDetailPage) */}
                   </tbody>
                   <tfoot>
                     <tr className="bg-slate-50 font-black border-t-2 border-slate-200">
                       <td className="p-3" colSpan={2}>TOTAL</td>
                       <td className="p-3 text-right text-slate-300">—</td>
-                      <td className="p-3 text-right text-slate-300">—</td>
-                      <td className="p-3 text-right text-slate-300">—</td>
                       <td className="p-3 text-right">{aggregatedTotalBudget.toLocaleString()}</td>
-                      <td className="p-3 text-right">{aggregatedTotalSpent.toLocaleString()}</td>
-                      <td className="p-3 text-right">{aggregatedTotalUtilization.toFixed(1)}%</td>
                       <td className="p-3 text-right">{aggregatedTotalBeneficiaries.toLocaleString()}</td>
-                      <td className="p-3" colSpan={2}></td>
                       {/* Quarter footer — one empty pair per visible quarter */}
                       {visibleQuarters.map(qId => (
                         <React.Fragment key={qId}>

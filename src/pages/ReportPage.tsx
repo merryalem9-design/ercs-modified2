@@ -18,6 +18,7 @@ import {
 } from '../types';
 import { Target, Wallet, Users, TrendingUp, Layers, CheckCircle2, AlertCircle, Info, ChevronDown, ChevronRight, ArrowUpRight, Maximize2, Minimize2 } from 'lucide-react';
 import { NationalActivityDrillDown } from '../components/common/NationalActivityDrillDown';
+import { NationalActivityInlineTables } from '../components/common/NationalActivityInlineTables';
 
 /** Beneficiary % = beneficiaries actually reached vs. beneficiaries planned. */
 const beneficiaryPct = (actualBen: number, totalBen: number): number =>
@@ -82,6 +83,16 @@ export const ReportPage: React.FC = () => {
   const [expandedObjectiveIds, setExpandedObjectiveIds] = useState<Set<string>>(
     () => new Set(strategicObjectives.map(so => so.id))
   );
+  const [expandedActivityIds, setExpandedActivityIds] = useState<Set<string>>(new Set());
+
+  const toggleActivity = (id: string) => {
+    setExpandedActivityIds(prev => {
+      const next = new Set(prev);
+      if (next.has(id)) next.delete(id);
+      else next.add(id);
+      return next;
+    });
+  };
 
   // Keep all expanded on initial load when objectives are loaded
   useEffect(() => {
@@ -818,57 +829,78 @@ export const ReportPage: React.FC = () => {
                               const naTotal = computeGroupForActivities([na], 'total');
                               const naHq = showHqColumns ? computeGroupForActivities([na], 'hq') : null;
                               const naRb = showRbColumns ? computeGroupForActivities([na], 'rb') : null;
+                              const isActivityExpanded = expandedActivityIds.has(na.id);
 
                               return (
-                                <tr
-                                  key={na.id}
-                                  className={`text-xs hover:bg-sky-50 transition-colors group ${
-                                    idx % 2 === 0 ? 'bg-white' : 'bg-slate-50/60'
-                                  }`}
-                                >
-                                  <td
-                                    onClick={() => viewActivityDetail(na.id)}
-                                    className={`p-2.5 pl-8 sticky left-0 z-10 border-r border-slate-200 font-mono font-bold text-slate-700 cursor-pointer group-hover:bg-sky-50 ${
-                                      idx % 2 === 0 ? 'bg-white' : 'bg-slate-50'
+                                <React.Fragment key={na.id}>
+                                  <tr
+                                    onClick={() => toggleActivity(na.id)}
+                                    className={`text-xs hover:bg-sky-50 transition-colors group cursor-pointer ${
+                                      isActivityExpanded ? 'bg-amber-50/40 font-medium' : (idx % 2 === 0 ? 'bg-white' : 'bg-slate-50/60')
                                     }`}
-                                    title="Click to view activity details and contributing projects/regions on details screen"
                                   >
-                                    <button
-                                      type="button"
-                                      onClick={(e) => {
-                                        e.stopPropagation();
-                                        viewActivityDetail(na.id);
-                                      }}
-                                      className="inline-flex items-center gap-1.5 text-ercs-red hover:text-red-700 hover:underline cursor-pointer font-bold text-left"
-                                      title="Click to view activity details and contributing projects/regions on details screen"
+                                    <td
+                                      className={`p-2.5 pl-8 sticky left-0 z-10 border-r border-slate-200 font-mono font-bold text-slate-700 group-hover:bg-sky-50 ${
+                                        isActivityExpanded ? 'bg-amber-50/40' : (idx % 2 === 0 ? 'bg-white' : 'bg-slate-50')
+                                      }`}
+                                      title="Click to toggle contributing projects and regions breakdown"
                                     >
-                                      <span>Activity {na.code}</span>
-                                      <ArrowUpRight className="w-3.5 h-3.5 text-slate-400 group-hover:text-ercs-red shrink-0" />
-                                    </button>
-                                  </td>
-                                  <td
-                                    onClick={() => viewActivityDetail(na.id)}
-                                    className={`p-2.5 sticky left-[130px] z-10 border-r border-slate-200 text-slate-800 cursor-pointer hover:text-ercs-red font-medium group-hover:bg-sky-50 ${
-                                      idx % 2 === 0 ? 'bg-white' : 'bg-slate-50'
-                                    }`}
-                                    title="Click to view activity details and contributing projects/regions on details screen"
-                                  >
-                                    <div className="flex items-center justify-between gap-2">
-                                      <span className="group-hover:underline">{na.description}</span>
-                                      <span className="text-[10px] text-slate-400 font-normal shrink-0">
-                                        {na.uom} · {na.responsibility || 'Both'}
-                                      </span>
-                                    </div>
-                                  </td>
-                                  {renderSubColumns(naTotal)}
-                                  {showHqColumns && naHq && renderSubColumns(naHq)}
-                                  {showRbColumns && naRb && renderSubColumns(naRb)}
-                                  {visibleRegionsForTable.map(reg => (
-                                    <React.Fragment key={reg.id}>
-                                      {renderSubColumns(computeGroupForActivities([na], 'region', reg.id))}
-                                    </React.Fragment>
-                                  ))}
-                                </tr>
+                                      <button
+                                        type="button"
+                                        onClick={(e) => {
+                                          e.stopPropagation();
+                                          toggleActivity(na.id);
+                                        }}
+                                        className="inline-flex items-center gap-1.5 text-ercs-red hover:text-red-700 cursor-pointer font-bold text-left"
+                                        title="Click to toggle contributing projects and regions breakdown"
+                                      >
+                                        {isActivityExpanded ? (
+                                          <ChevronDown className="w-3.5 h-3.5 text-ercs-red shrink-0" />
+                                        ) : (
+                                          <ChevronRight className="w-3.5 h-3.5 text-slate-400 group-hover:text-ercs-red shrink-0" />
+                                        )}
+                                        <span>Activity {na.code}</span>
+                                      </button>
+                                    </td>
+                                    <td
+                                      className={`p-2.5 sticky left-[130px] z-10 border-r border-slate-200 text-slate-800 font-medium group-hover:bg-sky-50 ${
+                                        isActivityExpanded ? 'bg-amber-50/40' : (idx % 2 === 0 ? 'bg-white' : 'bg-slate-50')
+                                      }`}
+                                      title="Click to toggle contributing projects and regions breakdown"
+                                    >
+                                      <div className="flex items-center justify-between gap-2">
+                                        <span className="group-hover:text-ercs-red">{na.description}</span>
+                                        <span className="text-[10px] text-slate-400 font-normal shrink-0">
+                                          {na.uom} · {na.responsibility || 'Both'}
+                                        </span>
+                                      </div>
+                                    </td>
+                                    {renderSubColumns(naTotal)}
+                                    {showHqColumns && naHq && renderSubColumns(naHq)}
+                                    {showRbColumns && naRb && renderSubColumns(naRb)}
+                                    {visibleRegionsForTable.map(reg => (
+                                      <React.Fragment key={reg.id}>
+                                        {renderSubColumns(computeGroupForActivities([na], 'region', reg.id))}
+                                      </React.Fragment>
+                                    ))}
+                                  </tr>
+                                  {isActivityExpanded && (
+                                    <tr className="bg-slate-100/70 border-b-2 border-slate-300">
+                                      <td
+                                        colSpan={2 + 6 + (showHqColumns ? 6 : 0) + (showRbColumns ? 6 : 0) + (visibleRegionsForTable.length * 6)}
+                                        className="p-3 pl-10 sticky left-0 max-w-[calc(100vw-3rem)] bg-slate-50/95 z-10 border-b-2 border-slate-300"
+                                      >
+                                        <div className="max-w-6xl w-full">
+                                          <NationalActivityInlineTables
+                                            nationalActivityId={na.id}
+                                            quarterId={q}
+                                            mode="report"
+                                          />
+                                        </div>
+                                      </td>
+                                    </tr>
+                                  )}
+                                </React.Fragment>
                               );
                             })}
                         </React.Fragment>
@@ -1105,53 +1137,56 @@ export const ReportPage: React.FC = () => {
                           {so ? `${so.code} — ${so.name}` : '—'}
                         </td>
                         <td
-                          onClick={() => na && viewActivityDetail(na.id)}
-                          className={`p-3 font-bold text-ercs-red whitespace-nowrap ${na ? 'cursor-pointer hover:underline' : ''}`}
-                          title={na ? "Click to view activity details, contributing projects/regions, and entered actuals" : undefined}
+                          onClick={() => na && toggleActivity(na.id)}
+                          className={`p-3 font-bold text-ercs-red whitespace-nowrap ${na ? 'cursor-pointer' : ''}`}
+                          title={na ? "Click to toggle contributing projects and regions breakdown" : undefined}
                         >
                           {na ? (
                             <button
                               type="button"
                               onClick={(e) => {
                                 e.stopPropagation();
-                                viewActivityDetail(na.id);
+                                toggleActivity(na.id);
                               }}
-                              className="inline-flex items-center gap-1.5 text-ercs-red hover:text-red-700 hover:underline cursor-pointer text-left font-bold"
-                              title="Click to view activity details, contributing projects/regions, and entered actuals"
+                              className="inline-flex items-center gap-1.5 text-ercs-red hover:text-red-700 cursor-pointer text-left font-bold"
+                              title="Click to toggle contributing projects and regions breakdown"
                             >
+                              {expandedActivityIds.has(na.id) ? (
+                                <ChevronDown className="w-3.5 h-3.5 text-ercs-red shrink-0" />
+                              ) : (
+                                <ChevronRight className="w-3.5 h-3.5 text-slate-400 hover:text-ercs-red shrink-0" />
+                              )}
                               <span>{na.code}</span>
-                              <ArrowUpRight className="w-3.5 h-3.5 text-slate-400 hover:text-ercs-red shrink-0" />
                             </button>
                           ) : (
                             pe.activity_code || '—'
                           )}
                         </td>
                         <td
-                          onClick={() => na && viewActivityDetail(na.id)}
+                          onClick={() => na && toggleActivity(na.id)}
                           className={`p-3 font-bold text-slate-800 ${na ? 'cursor-pointer hover:text-ercs-red' : ''}`}
-                          title={na ? "Click to view activity details, contributing projects/regions, and entered actuals" : undefined}
+                          title={na ? "Click to toggle contributing projects and regions breakdown" : undefined}
                         >
                           <div className={na ? "inline-flex items-center gap-1 hover:underline" : ""}>
                             <span>{pe.activity_name}</span>
-                            {na && <ArrowUpRight className="w-3 h-3 text-slate-400 shrink-0" />}
                           </div>
                           {na && (
                             <div
                               className="text-[10px] text-slate-400 hover:text-ercs-red cursor-pointer font-normal truncate max-w-xs mt-0.5"
                               onClick={(e) => {
                                 e.stopPropagation();
-                                viewActivityDetail(na.id);
+                                toggleActivity(na.id);
                               }}
-                              title="Click to view activity details, contributing projects/regions, and entered actuals"
+                              title="Click to toggle contributing projects and regions breakdown"
                             >
                               Linked: {na.code} — {na.description}
                             </div>
                           )}
                         </td>
                         <td
-                          onClick={() => na && viewActivityDetail(na.id)}
+                          onClick={() => na && toggleActivity(na.id)}
                           className={`p-3 text-slate-500 ${na ? 'cursor-pointer hover:text-slate-800' : ''}`}
-                          title={na ? "Click to view activity details, contributing projects/regions, and entered actuals" : undefined}
+                          title={na ? "Click to toggle contributing projects and regions breakdown" : undefined}
                         >
                           {pe.activity_description}
                         </td>
@@ -1159,11 +1194,15 @@ export const ReportPage: React.FC = () => {
                           {na ? (
                             <button
                               type="button"
-                              onClick={() => viewActivityDetail(na.id)}
+                              onClick={() => toggleActivity(na.id)}
                               className="p-1 rounded hover:bg-slate-100 text-slate-500 hover:text-ercs-red cursor-pointer"
-                              title="View details and contributing projects/regions on details screen"
+                              title="Toggle contributing projects and regions breakdown"
                             >
-                              <ArrowUpRight className="w-4 h-4" />
+                              {expandedActivityIds.has(na.id) ? (
+                                <ChevronDown className="w-4 h-4 text-ercs-red" />
+                              ) : (
+                                <ChevronRight className="w-4 h-4" />
+                              )}
                             </button>
                           ) : (
                             <span className="text-slate-300">—</span>
@@ -1209,7 +1248,19 @@ export const ReportPage: React.FC = () => {
                           );
                         })}
                       </tr>
-                      {/* Contributing projects/regions are rendered via NationalActivityDrillDown on the dedicated detail screen (NationalActivityDetailPage) */}
+                      {na && expandedActivityIds.has(na.id) && (
+                        <tr className="bg-slate-100/70 border-b-2 border-slate-300">
+                          <td colSpan={20 + (visibleQuarters.length * 2)} className="p-3 pl-8 sticky left-0 max-w-[calc(100vw-3rem)] bg-slate-50/95 z-10 border-b-2 border-slate-300">
+                            <div className="max-w-6xl w-full">
+                              <NationalActivityInlineTables
+                                nationalActivityId={na.id}
+                                quarterId={q}
+                                mode="report"
+                              />
+                            </div>
+                          </td>
+                        </tr>
+                      )}
                     </React.Fragment>
                   );
                 })}
