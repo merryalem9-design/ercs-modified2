@@ -10,7 +10,6 @@ import {
 } from '../utils/calculations';
 import { PlanEntry, ScopeType, Project, NationalActivity, RegionActivityLink, NonProgrammaticDepartment } from '../types';
 import { ArrowLeft, ArrowUpRight, Layers, Plus, Save, Trash2, X, ChevronDown, ChevronRight } from 'lucide-react';
-import { NationalActivityDrillDown } from '../components/common/NationalActivityDrillDown';
 import { AnnualPlanContributingRows } from '../components/plan/AnnualPlanContributingRows';
 
 import { PlanEntryWizardModal, type PeWizardFormState } from '../components/plan/PlanEntryWizardModal';

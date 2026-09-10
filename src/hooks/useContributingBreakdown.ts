@@ -210,6 +210,10 @@ export function useContributingBreakdown({
 
       // Zone-level breakdown for this region
       const regionZones = zones.filter(z => z.region_id === reg.id);
+      const relLinks = regionActivityLinks.filter(l => l.region_id === reg.id && l.national_activity_id === na.id);
+      const linkedZoneIds = new Set<string>();
+      relLinks.forEach(l => l.eligible_zone_ids?.forEach(zid => linkedZoneIds.add(zid)));
+
       const contributingZones: ContributingZoneItem[] = regionZones
         .map(z => {
           const zEntries = regEntries.filter(pe => pe.zone_id === z.id);
@@ -228,7 +232,7 @@ export function useContributingBreakdown({
             ach: zAch,
           };
         })
-        .filter((item): item is ContributingZoneItem => item.entries.length > 0);
+        .filter((item): item is ContributingZoneItem => item.entries.length > 0 || linkedZoneIds.has(item.zone.id));
 
       return {
         region: reg,
@@ -325,5 +329,9 @@ export function useContributingBreakdown({
     isRegionalRole,
     isProjectRole,
     effectiveScopeFilter,
+    effectiveRegionId,
+    effectiveProjectId,
+    quarterlyPlans,
+    quarterlyActuals,
   };
 }

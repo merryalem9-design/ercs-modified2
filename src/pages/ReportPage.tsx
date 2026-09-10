@@ -17,7 +17,6 @@ import {
   NationalActivity,
 } from '../types';
 import { Target, Wallet, Users, TrendingUp, Layers, CheckCircle2, AlertCircle, Info, ChevronDown, ChevronRight, ArrowUpRight, Maximize2, Minimize2 } from 'lucide-react';
-import { NationalActivityDrillDown } from '../components/common/NationalActivityDrillDown';
 import { ReportHierarchicalContributingRows } from '../components/report/ReportHierarchicalContributingRows';
 import { ReportFlatContributingRows } from '../components/report/ReportFlatContributingRows';
 
