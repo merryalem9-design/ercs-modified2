@@ -18,7 +18,8 @@ import {
 } from '../types';
 import { Target, Wallet, Users, TrendingUp, Layers, CheckCircle2, AlertCircle, Info, ChevronDown, ChevronRight, ArrowUpRight, Maximize2, Minimize2 } from 'lucide-react';
 import { NationalActivityDrillDown } from '../components/common/NationalActivityDrillDown';
-import { NationalActivityInlineTables } from '../components/common/NationalActivityInlineTables';
+import { ReportHierarchicalContributingRows } from '../components/report/ReportHierarchicalContributingRows';
+import { ReportFlatContributingRows } from '../components/report/ReportFlatContributingRows';
 
 /** Beneficiary % = beneficiaries actually reached vs. beneficiaries planned. */
 const beneficiaryPct = (actualBen: number, totalBen: number): number =>
@@ -885,20 +886,17 @@ export const ReportPage: React.FC = () => {
                                     ))}
                                   </tr>
                                   {isActivityExpanded && (
-                                    <tr className="bg-slate-100/70 border-b-2 border-slate-300">
-                                      <td
-                                        colSpan={2 + 6 + (showHqColumns ? 6 : 0) + (showRbColumns ? 6 : 0) + (visibleRegionsForTable.length * 6)}
-                                        className="p-3 pl-10 sticky left-0 max-w-[calc(100vw-3rem)] bg-slate-50/95 z-10 border-b-2 border-slate-300"
-                                      >
-                                        <div className="max-w-6xl w-full">
-                                          <NationalActivityInlineTables
-                                            nationalActivityId={na.id}
-                                            quarterId={q}
-                                            mode="report"
-                                          />
-                                        </div>
-                                      </td>
-                                    </tr>
+                                    <ReportHierarchicalContributingRows
+                                      nationalActivity={na}
+                                      quarterId={q}
+                                      showHqColumns={showHqColumns}
+                                      showRbColumns={showRbColumns}
+                                      visibleRegionsForTable={visibleRegionsForTable}
+                                      renderSubColumns={renderSubColumns}
+                                      scopeFilter={isRegionalRole ? 'Regional' : isProjectRole ? 'Project' : undefined}
+                                      assignedRegionId={assignedRegion?.id}
+                                      assignedProjectId={assignedProject?.id}
+                                    />
                                   )}
                                 </React.Fragment>
                               );
@@ -1249,17 +1247,15 @@ export const ReportPage: React.FC = () => {
                         })}
                       </tr>
                       {na && expandedActivityIds.has(na.id) && (
-                        <tr className="bg-slate-100/70 border-b-2 border-slate-300">
-                          <td colSpan={20 + (visibleQuarters.length * 2)} className="p-3 pl-8 sticky left-0 max-w-[calc(100vw-3rem)] bg-slate-50/95 z-10 border-b-2 border-slate-300">
-                            <div className="max-w-6xl w-full">
-                              <NationalActivityInlineTables
-                                nationalActivityId={na.id}
-                                quarterId={q}
-                                mode="report"
-                              />
-                            </div>
-                          </td>
-                        </tr>
+                        <ReportFlatContributingRows
+                          nationalActivity={na}
+                          quarterId={q}
+                          visibleQuarters={visibleQuarters}
+                          uomConfigs={uomConfigs}
+                          scopeFilter={isRegionalRole ? 'Regional' : isProjectRole ? 'Project' : undefined}
+                          assignedRegionId={assignedRegion?.id}
+                          assignedProjectId={assignedProject?.id}
+                        />
                       )}
                     </React.Fragment>
                   );

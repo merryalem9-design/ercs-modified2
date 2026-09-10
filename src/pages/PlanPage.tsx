@@ -11,7 +11,7 @@ import {
 import { PlanEntry, ScopeType, Project, NationalActivity, RegionActivityLink, NonProgrammaticDepartment } from '../types';
 import { ArrowLeft, ArrowUpRight, Layers, Plus, Save, Trash2, X, ChevronDown, ChevronRight } from 'lucide-react';
 import { NationalActivityDrillDown } from '../components/common/NationalActivityDrillDown';
-import { NationalActivityInlineTables } from '../components/common/NationalActivityInlineTables';
+import { AnnualPlanContributingRows } from '../components/plan/AnnualPlanContributingRows';
 
 import { PlanEntryWizardModal, type PeWizardFormState } from '../components/plan/PlanEntryWizardModal';
 export { PlanEntryWizardModal, type PeWizardFormState };
@@ -453,20 +453,15 @@ export const PlanPage: React.FC = () => {
                           })}
                         </tr>
                         {isNaExpanded && (
-                          <tr className="bg-slate-100/70 border-b-2 border-slate-300">
-                            <td colSpan={5 + visibleQuarters.length * 2} className="p-3 pl-8 sticky left-0 max-w-[calc(100vw-3rem)] bg-slate-50/95 z-10 border-b-2 border-slate-300">
-                              <div className="max-w-6xl w-full">
-                                <NationalActivityInlineTables
-                                  nationalActivityId={row.na.id}
-                                  quarterId={q}
-                                  mode="plan"
-                                  scopeFilter={isRegionalRole ? 'Regional' : isProjectRole ? 'Project' : undefined}
-                                  assignedRegionId={currentRegion?.id || currentZone?.region_id}
-                                  assignedProjectId={assignedProject?.id}
-                                />
-                              </div>
-                            </td>
-                          </tr>
+                          <AnnualPlanContributingRows
+                            nationalActivity={row.na}
+                            visibleQuarters={visibleQuarters}
+                            quarterId={q}
+                            scopeFilter={isRegionalRole ? 'Regional' : isProjectRole ? 'Project' : undefined}
+                            assignedRegionId={currentRegion?.id || currentZone?.region_id}
+                            assignedProjectId={assignedProject?.id}
+                            uomConfigs={uomConfigs}
+                          />
                         )}
                       </React.Fragment>
                     );

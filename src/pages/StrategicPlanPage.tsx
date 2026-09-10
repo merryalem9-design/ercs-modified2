@@ -1,10 +1,9 @@
-// src/pages/StrategicPlanPage.tsx
 import React, { useState, useMemo } from 'react';
 import { useApp } from '../context/AppContext';
 import { FilterBar } from '../components/common/FilterBar';
 import { ChevronDown, ChevronRight, Compass, Maximize2, Minimize2 } from 'lucide-react';
 import { NationalActivity, StrategicObjective } from '../types';
-import { NationalActivityInlineTables } from '../components/common/NationalActivityInlineTables';
+import { StrategicPlanContributingRows } from '../components/plan/StrategicPlanContributingRows';
 
 export const StrategicPlanPage: React.FC = () => {
   const {
@@ -598,19 +597,17 @@ export const StrategicPlanPage: React.FC = () => {
                                 })}
                               </tr>
                               {isActExpanded && (
-                                <tr className="bg-slate-100/70 border-b-2 border-slate-300">
-                                  <td
-                                    colSpan={totalColSpan}
-                                    className="p-3 pl-8 sticky left-0 max-w-[calc(100vw-3rem)] bg-slate-50/95 z-10 border-b-2 border-slate-300"
-                                  >
-                                    <div className="max-w-6xl w-full">
-                                      <NationalActivityInlineTables
-                                        nationalActivityId={na.id}
-                                        mode="plan"
-                                      />
-                                    </div>
-                                  </td>
-                                </tr>
+                                <StrategicPlanContributingRows
+                                  nationalActivity={na}
+                                  totalColSpan={totalColSpan}
+                                  showHqColumns={showHqColumns}
+                                  showRbColumns={showRbColumns}
+                                  visibleRegions={visibleRegions}
+                                  formatNum={formatNum}
+                                  scopeFilter={isRegionalRole ? 'Regional' : isProjectRole ? 'Project' : undefined}
+                                  assignedRegionId={assignedRegion?.id}
+                                  assignedProjectId={assignedProject?.id}
+                                />
                               )}
                             </React.Fragment>
                           );
